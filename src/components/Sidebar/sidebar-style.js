@@ -13,7 +13,7 @@ const styles = (theme) => createStyles({
         borderRight: '1.5px solid rgba(0,0,0,0.5)',
         paddingRight: '10px',
         height: '98vh',
-        backgroundColor:'green'
+        backgroundColor:'#654321'
     },
     list:{
         margin: '25px 0px 0px 0px',
@@ -26,22 +26,22 @@ const styles = (theme) => createStyles({
         padding: 'auto 5px',
         minHeight: '100px',
         boxShadow: '0 1px 1px 1px rgba(0, 0, 0, 0.2)',
-        color: '#2299ff',
+        color: 'green',
         "&:hover": {
             backgroundColor: 'white',
             // boxShadow: '2px 2px rgba(0, 0, 0, 0.3)',
         }
     },
     selected:{
-        backgroundColor: '#2299fb',
+        backgroundColor: 'green',
         color: 'white',
         "&:hover":{
-            backgroundColor: '#2299fb',
+            backgroundColor: 'green',
             color: 'white',
         }
     },
     listItemText: {
-        color: '#22aafb',
+        color: 'green',
         ...appStyle.defaultFont,
         fontSize: '18px',
 

@@ -8,6 +8,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 import {NavLink} from 'react-router-dom'
 import classNames from 'classnames'
+import logo from './logo.png'
 
 class Sidebar extends React.Component {
     state = {
@@ -27,7 +28,7 @@ class Sidebar extends React.Component {
                         PaperProps={{
                             className:classes.drawerModal
                         }}>
-                    <img src="https://cdn0.iconfinder.com/data/icons/tiny-icons-1/100/tiny-15-512.png" alt="" className={classes.image}/>
+                    <img src={logo} alt="" className={classes.image}/>
                     <Divider className={classes.divider}/>
                     <List className={classes.list}>
                         {
