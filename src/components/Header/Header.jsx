@@ -19,8 +19,8 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import {NavLink} from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
-import styles from './header-style';
-import logo from './logo.png'
+import styles from '../../assets/components/Header/jss/header-style';
+import logo from '../../assets/components/Header/img/logo.png'
 
 class Header extends Component {
     state = {

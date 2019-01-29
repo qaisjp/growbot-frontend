@@ -4,7 +4,7 @@ import Typography from '@material-ui/core/Typography';
 class Dashboard extends Component {
 
     render() {
-        return <div style={{margin: 'auto'}}>
+        return <div>
             <Typography variant="title" gutterBottom>
                 Robot Control
             </Typography>
