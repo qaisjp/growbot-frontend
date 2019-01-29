@@ -1,4 +1,4 @@
-import Dashboard from '../views/Dashboard/Dashboard'
+import Dashboard from '../views/MovementControl/MovementControl'
 import LoremIpsum from '../views/LoremIpsum/LoremIpsum'
 
 /**
@@ -7,7 +7,7 @@ import LoremIpsum from '../views/LoremIpsum/LoremIpsum'
  */
 let routes = [
     {
-        name: "Dashboard",
+        name: "Movement Control",
         path: "/",
         component: Dashboard
     },
