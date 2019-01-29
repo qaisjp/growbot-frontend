@@ -8,16 +8,16 @@ let hist = createBrowserHistory()
 
 class App extends Component {
 
-  render() {
-      const renderLayout = (props) => {
-          return <Layout/>
-      }
-      return (
-          <Router history={hist}>
-              <Route path='/' render={renderLayout}/>
-          </Router>
-      );
-  }
+    render() {
+        const renderLayout = (props) => {
+            return <Layout/>
+        }
+        return (
+            <Router history={hist}>
+                <Route path='/' render={renderLayout}/>
+            </Router>
+        );
+    }
 }
 
 export default App;
