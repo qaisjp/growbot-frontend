@@ -40,6 +40,10 @@ class Layout extends Component {
                         }
                     </Switch>
                 </main>
+
+                <br/>
+                <br/>
+                <center><Typography variant="overline" gutterBottom>Designed by Raees for Team XIV.</Typography></center>
             </div>
         );
     }
