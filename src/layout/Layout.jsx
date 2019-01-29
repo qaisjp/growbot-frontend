@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import {Switch, Route} from 'react-router-dom';
-import Sidebar from '../components/Sidebar/Sidebar';
+import Appbar from '../components/Appbar/Appbar';
 import {withStyles} from '@material-ui/core';
-import style from './layout-style'
 import routes from '../routes/Routes';
 
 
@@ -12,12 +11,12 @@ class Layout extends Component {
         const {classes} = this.props;
         return (
             <div className={classes.appFrame}>
-                <Sidebar routes={routes}/>
+                <Appbar routes={routes}/>
                 <main className={classes.content}>
                     <Switch>
                         {
                             routes.map((prop) => {
-                                return <Route key={prop.name} path={prop.path} render={(props) => <prop.component {...props}/>}/>
+                                return <Route key = {prop.name} exact path={prop.path} render={(props) => <prop.component {...props}/>}/>
                             })
                         }
                     </Switch>
@@ -27,4 +26,4 @@ class Layout extends Component {
     }
 }
 
-export default withStyles(style)(Layout);
+export default withStyles({})(Layout);
