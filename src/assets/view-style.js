@@ -8,6 +8,10 @@ let styles = theme => ({
         color: theme.palette.text.secondary,
         marginLeft: theme.spacing.unit
     },
+    card: {
+        marginLeft: theme.spacing.unit
+
+    },
 });
 
 export default styles;
