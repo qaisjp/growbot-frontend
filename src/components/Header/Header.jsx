@@ -19,10 +19,10 @@ import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
 import {NavLink} from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
-import styles from './appbar-style';
+import styles from './header-style';
 import logo from './logo.png'
 
-class Appbar extends Component {
+class Header extends Component {
     state = {
         open: false,
     };
@@ -47,6 +47,7 @@ class Appbar extends Component {
             <div className={classes.root}>
                 <CssBaseline />
                 <AppBar
+                    style={{ background: '#006600' }}
                     position="fixed"
                     className={classNames(classes.appBar, {
                         [classes.appBarShift]: open,
@@ -109,16 +110,15 @@ class Appbar extends Component {
                         [classes.contentShift]: open,
                     })}
                 >
-                    <div className={classes.drawerHeader} />
                 </main>
             </div>
         );
     }
 }
 
-Appbar.propTypes = {
+Header.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Appbar);
+export default withStyles(styles, { withTheme: true })(Header);

@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import Typography from '@material-ui/core/Typography';
 
 class Dashboard extends Component {
 
     render() {
-        return <div><h1>Hello Team XIV</h1></div>
+        return <div style={{margin: 'auto'}}>
+            <Typography variant="title" gutterBottom>
+                Robot Control
+            </Typography>
+
+        </div>
     }
 
 }
