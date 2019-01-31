@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class LoremIpsum extends Component {
+class VisionMonitor extends Component {
 
     render() {
         return <div><h1>LoremIpsum</h1></div>
@@ -8,4 +8,4 @@ class LoremIpsum extends Component {
 
 }
 
-export default LoremIpsum;
+export default VisionMonitor;

@@ -19,7 +19,6 @@ let variantIcon = {
 
 class CodedSnackbarContents extends Component {
 
-
     render() {
         const { classes, className, message, onClose, variant, ...other } = this.props;
         const Icon = variantIcon[variant];

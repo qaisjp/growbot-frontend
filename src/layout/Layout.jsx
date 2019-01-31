@@ -20,6 +20,24 @@ class Layout extends Component {
         return null;
     }
 
+    static decodeMsg(msg) {
+
+    }
+
+    componentDidMount() {
+        this.webSocket = new WebSocket("ws://localhost:8080/move");
+
+        this.webSocket.onopen = () => {
+            console.log("[Layout jsx]: web-socket opened!");
+        }
+
+        this.webSocket.onmessage = (msg) => {
+            console.log("[Layout.jsx]: received frames from vision system");
+            console.log("[Layout.jsx]: contents of frames: " + msg);
+            Layout.decodeMsg(msg);
+        }
+    }
+
     render() {
         const {classes} = this.props;
         return (

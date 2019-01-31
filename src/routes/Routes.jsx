@@ -1,5 +1,5 @@
 import Dashboard from '../views/MovementControl/MovementControl'
-import LoremIpsum from '../views/LoremIpsum/LoremIpsum'
+import VisionMonitor from '../views/VisionMonitor/VisionMonitor'
 
 /**
  * This array supplies the routing plugin with the handlers that map particular URLs to particular components.
@@ -12,9 +12,9 @@ let routes = [
         component: Dashboard
     },
     {
-        name: "Lorem Ipsum",
-        path: "/lorem",
-        component: LoremIpsum
+        name: "Vision Monitor",
+        path: "/vision",
+        component: VisionMonitor
     }
 ];
 
