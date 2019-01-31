@@ -24,8 +24,15 @@ class Layout extends Component {
 
     }
 
+    handleMovementRequest= (message) => {
+        this.webSocket.send(message);
+        console.log("SENT MESSAGE!")
+    }
+
+
+
     componentDidMount() {
-        this.webSocket = new WebSocket("ws://localhost:8080/move");
+        this.webSocket = new WebSocket("ws://localhost:8080/");
 
         this.webSocket.onopen = () => {
             console.log("[Layout jsx]: web-socket opened!");
@@ -51,7 +58,7 @@ class Layout extends Component {
 
                             routes.map((prop) => {
 
-                                return <Route key = {prop.name} exact path={prop.path} render={(props) => <prop.component {...props}/>}/>
+                                return <Route key = {prop.name} exact path={prop.path} render={(props) => <prop.component {...props} send={this.handleMovementRequest}/>}/>
 
                             })
 

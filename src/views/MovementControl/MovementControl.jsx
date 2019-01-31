@@ -16,6 +16,7 @@ class MovementControl extends Component {
         open: false
     }
 
+    /*
     onMoveNorth = async () => {
         let directionCommand = {
             direction: "north"
@@ -103,7 +104,7 @@ class MovementControl extends Component {
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
         }
-    }
+    }*/
 
     handleClose = () => {
         this.setState({open: false})
@@ -134,9 +135,11 @@ class MovementControl extends Component {
                             Test GrowBot - 1
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Move Growbot North by clicking the Move button.
+                            Move Growbot Up by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveNorth}>Move North</Button>
+                        <Button size="small" onClick={() => {
+                        this.props.send("up")}
+                        }>Move Up</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
@@ -145,9 +148,11 @@ class MovementControl extends Component {
                             Test GrowBot - 2
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Move Growbot South by clicking the Move button.
+                            Move Growbot Down by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveSouth}>Move South</Button>
+                        <Button size="small" onClick={() => {
+                            this.props.send("down")
+                        }}>Move Down</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
@@ -156,9 +161,11 @@ class MovementControl extends Component {
                             Test GrowBot - 3
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Move Growbot East by clicking the Move button.
+                            Move Growbot left by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveEast}>Move East</Button>
+                        <Button size="small" onClick={() => {
+                            this.props.send("left")
+                        }}>Move Left</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
@@ -167,9 +174,11 @@ class MovementControl extends Component {
                             Test GrowBot - 4
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Move Growbot West by clicking the Move button.
+                            Move Growbot right by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveWest}>Move West</Button>
+                        <Button size="small" onClick={() => {
+                            this.props.send("right")
+                        }}>Move Right</Button>
                     </Paper>
                 </Grid>
             </Grid>
