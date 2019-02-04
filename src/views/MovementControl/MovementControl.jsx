@@ -7,6 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
 import styles from '../../assets/view-style';
+import endpoints from '../../endpoints';
 
 class MovementControl extends Component {
 
@@ -23,7 +24,7 @@ class MovementControl extends Component {
             direction: "forward"
         }
 
-        let response = await fetch("http://api.growbot.tardis.ed.ac.uk/move", {
+        let response = await fetch(endpoints.move, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -45,7 +46,7 @@ class MovementControl extends Component {
             direction: "backward"
         }
 
-        let response = await fetch("http://api.growbot.tardis.ed.ac.uk/move", {
+        let response = await fetch(endpoints.move, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -69,7 +70,7 @@ class MovementControl extends Component {
             direction: "right"
         }
 
-        let response = await fetch("http://api.growbot.tardis.ed.ac.uk/move", {
+        let response = await fetch(endpoints.move, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -93,7 +94,7 @@ class MovementControl extends Component {
             direction: "left"
         }
 
-        let response = await fetch("http://api.growbot.tardis.ed.ac.uk/move", {
+        let response = await fetch(endpoints.move, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
