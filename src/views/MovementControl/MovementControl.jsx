@@ -17,10 +17,10 @@ class MovementControl extends Component {
     }
 
 
-    onMoveNorth = async () => {
+    onMoveForward = async () => {
         let directionCommand = {
             id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
-            direction: "north"
+            direction: "forward"
         }
 
         let response = await fetch("http://api.growbot.tardis.ed.ac.uk/move", {
@@ -32,17 +32,17 @@ class MovementControl extends Component {
         });
         console.log(response);
         if(response.status === 200) {
-            this.setState({message: "Successfully moved robot north", open: true, type: "success"})
+            this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
         }
     }
 
 
-    onMoveSouth = async () => {
+    onMoveBackward = async () => {
         let directionCommand = {
             id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
-            direction: "south"
+            direction: "backward"
         }
 
         let response = await fetch("http://api.growbot.tardis.ed.ac.uk/move", {
@@ -56,17 +56,17 @@ class MovementControl extends Component {
         console.log(response);
 
         if(response.status === 200) {
-            this.setState({message: "Successfully moved robot south", open: true, type: "success"})
+            this.setState({message: "Successfully moved robot backward", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
         }
     }
 
 
-    onMoveEast = async () => {
+    onMoveRight = async () => {
         let directionCommand = {
             id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
-            direction: "north"
+            direction: "right"
         }
 
         let response = await fetch("http://api.growbot.tardis.ed.ac.uk/move", {
@@ -80,17 +80,17 @@ class MovementControl extends Component {
         console.log(response);
 
         if(response.status === 200) {
-            this.setState({message: "Successfully moved robot east", open: true, type: "success"})
+            this.setState({message: "Successfully moved robot right", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
         }
     }
 
 
-    onMoveWest = async () => {
+    onMoveLeft = async () => {
         let directionCommand = {
             id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
-            direction: "south"
+            direction: "left"
         }
 
         let response = await fetch("http://api.growbot.tardis.ed.ac.uk/move", {
@@ -104,7 +104,7 @@ class MovementControl extends Component {
         console.log(response);
 
         if(response.status === 200) {
-            this.setState({message: "Successfully moved robot west", open: true, type: "success"})
+            this.setState({message: "Successfully moved robot left", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
         }
@@ -141,7 +141,7 @@ class MovementControl extends Component {
                         <Typography variant="body1" gutterBottom>
                             Move Growbot Up by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveNorth}>Move Up</Button>
+                        <Button size="small" onClick={this.onMoveForward}>Move Up</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
@@ -152,7 +152,7 @@ class MovementControl extends Component {
                         <Typography variant="body1" gutterBottom>
                             Move Growbot Down by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveSouth}>Move Down</Button>
+                        <Button size="small" onClick={this.onMoveBackward}>Move Down</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
@@ -163,7 +163,7 @@ class MovementControl extends Component {
                         <Typography variant="body1" gutterBottom>
                             Move Growbot left by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveEast}>Move Left</Button>
+                        <Button size="small" onClick={this.onMoveRight}>Move Left</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
@@ -174,7 +174,7 @@ class MovementControl extends Component {
                         <Typography variant="body1" gutterBottom>
                             Move Growbot right by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveWest}>Move Right</Button>
+                        <Button size="small" onClick={this.onMoveLeft}>Move Right</Button>
                     </Paper>
                 </Grid>
             </Grid>
