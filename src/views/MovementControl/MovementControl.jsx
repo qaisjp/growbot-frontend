@@ -111,6 +111,29 @@ class MovementControl extends Component {
         }
     }
 
+    onBrake = async () => {
+        let directionCommand = {
+            id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
+            direction: "brake"
+        }
+
+        let response = await fetch(endpoints.move, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(directionCommand)
+        });
+
+        console.log(response);
+
+        if(response.status === 200) {
+            this.setState({message: "Successfully braked", open: true, type: "success"})
+        } else {
+            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
+        }
+    }
+
     handleClose = () => {
         this.setState({open: false})
     }
@@ -176,6 +199,17 @@ class MovementControl extends Component {
                             Move Growbot right by clicking the Move button.
                         </Typography>
                         <Button size="small" onClick={this.onMoveLeft}>Move Right</Button>
+                    </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            Brake
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            Run the brakes on the robot
+                        </Typography>
+                        <Button size="small" onClick={this.onBrake}>Brake</Button>
                     </Paper>
                 </Grid>
             </Grid>
