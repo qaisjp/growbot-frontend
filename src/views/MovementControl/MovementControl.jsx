@@ -179,7 +179,7 @@ class MovementControl extends Component {
                     </Paper>
                 </Grid>
             </Grid>
-        </div>
+            </div>
     }
 }
 

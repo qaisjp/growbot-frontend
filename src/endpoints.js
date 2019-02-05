@@ -1,4 +1,4 @@
-import config from "./config"
+import config from "./config.example"
 
 let base = config.API_HOST;
 if (config.API_SECURE) {
