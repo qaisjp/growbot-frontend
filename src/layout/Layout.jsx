@@ -31,6 +31,7 @@ class Layout extends Component {
 
 
     componentDidMount() {
+        /*
         this.webSocket = new WebSocket("ws://localhost/stream/c14e69bd-a50b-4ab8-8045-f81fcc2bc668");
 
         this.webSocket.onopen = () => {
@@ -41,7 +42,7 @@ class Layout extends Component {
             console.log("[Layout.jsx]: received frames from vision system");
             console.log("[Layout.jsx]: contents of frames: " + msg);
             Layout.decodeMsg(msg);
-        }
+        }*/
     }
 
     render() {
