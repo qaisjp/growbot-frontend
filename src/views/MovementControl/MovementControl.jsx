@@ -5,16 +5,45 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
+import Checkbox from '@material-ui/core/Checkbox';
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import styles from '../../assets/view-style';
 import endpoints from '../../endpoints';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
 
 class MovementControl extends Component {
 
     state = {
+        checkedDetection: false,
         message: "",
         type: "",
         open: false
+    }
+
+    onChangeObjectDetection = async() => {
+        let objectDetectionActive = !this.state.checkedDetection
+        let objectDetectionCommand = {
+            id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
+            "key": "object_avoidance",
+            "value": objectDetectionActive
+        }
+        let response = await fetch(endpoints.settings, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(objectDetectionCommand)
+        });
+        console.log(response);
+        if(response.status === 200) {
+            this.setState({message: "Successfully changed object detection mode", open: true, type: "success"})
+        } else {
+            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
+        }
     }
 
 
@@ -62,7 +91,6 @@ class MovementControl extends Component {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
         }
     }
-
 
     onMoveRight = async () => {
         let directionCommand = {
@@ -210,6 +238,18 @@ class MovementControl extends Component {
                             Run the brakes on the robot
                         </Typography>
                         <Button size="small" onClick={this.onBrake}>Brake</Button>
+                    </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            Miscellaneous
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            Miscellaneous controls for the robot
+                        </Typography>
+                        <FormControlLabel value="checkedDetection" onChange={this.onChangeObjectDetection}control={<Checkbox />} label="Object Avoidance" />
+
                     </Paper>
                 </Grid>
             </Grid>

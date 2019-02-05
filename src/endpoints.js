@@ -8,5 +8,6 @@ if (config.API_SECURE) {
 }
 
 export default {
-    move: `${base}/move`
+    move: `${base}/move`,
+    settings: `${base}/settings`
 }
