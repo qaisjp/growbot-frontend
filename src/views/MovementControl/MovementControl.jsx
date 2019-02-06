@@ -230,29 +230,29 @@ class MovementControl extends Component {
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Test GrowBot - 1
+                            FORWARD
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Move Growbot Up by clicking the Move button.
+                            Move Growbot Forward by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveForward}>Move Up</Button>
+                        <Button size="small" onClick={this.onMoveForward}>Move Forward</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Test GrowBot - 2
+                            BACKWARD
                         </Typography>
                         <Typography variant="body1" gutterBottom>
-                            Move Growbot Down by clicking the Move button.
+                            Move Growbot Backward by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveBackward}>Move Down</Button>
+                        <Button size="small" onClick={this.onMoveBackward}>Move Backward</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Test GrowBot - 3
+                            LEFT
                         </Typography>
                         <Typography variant="body1" gutterBottom>
                             Move Growbot left by clicking the Move button.
@@ -263,7 +263,7 @@ class MovementControl extends Component {
                 <Grid item xs={6}>
                     <Paper className={classes.paper}>
                         <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Test GrowBot - 4
+                            RIGHT
                         </Typography>
                         <Typography variant="body1" gutterBottom>
                             Move Growbot right by clicking the Move button.
