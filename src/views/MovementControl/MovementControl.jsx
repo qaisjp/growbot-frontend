@@ -257,7 +257,7 @@ class MovementControl extends Component {
                         <Typography variant="body1" gutterBottom>
                             Move Growbot left by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveRight}>Move Left</Button>
+                        <Button size="small" onClick={this.onMoveLeft}>Move Left</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
@@ -268,7 +268,7 @@ class MovementControl extends Component {
                         <Typography variant="body1" gutterBottom>
                             Move Growbot right by clicking the Move button.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveLeft}>Move Right</Button>
+                        <Button size="small" onClick={this.onMoveRight}>Move Right</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
