@@ -46,6 +46,48 @@ class MovementControl extends Component {
         }
     }
 
+    onMakeSquare = async () => {
+        let directionCommand = {
+            id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
+            procedure: "square"
+        }
+
+        let response = await fetch(endpoints.start, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(directionCommand)
+        });
+        console.log(response);
+        if(response.status === 200) {
+            this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
+        } else {
+            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
+        }
+    }
+
+    onRandomMove = async () => {
+        let directionCommand = {
+            id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
+            procedure: "random_move"
+        }
+
+        let response = await fetch(endpoints.start, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(directionCommand)
+        });
+        console.log(response);
+        if(response.status === 200) {
+            this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
+        } else {
+            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
+        }
+    }
+
 
     onMoveForward = async () => {
         let directionCommand = {
@@ -227,6 +269,28 @@ class MovementControl extends Component {
                             Move Growbot right by clicking the Move button.
                         </Typography>
                         <Button size="small" onClick={this.onMoveLeft}>Move Right</Button>
+                    </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            Test GrowBot - 5
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            Make Growbot perform a random movement by clicking the button.
+                        </Typography>
+                        <Button size="small" onClick={this.onRandomMove}>Perform random move</Button>
+                    </Paper>
+                </Grid>
+                <Grid item xs={6}>
+                    <Paper className={classes.paper}>
+                        <Typography className={classes.title} color="textSecondary" gutterBottom>
+                            Test GrowBot - 6
+                        </Typography>
+                        <Typography variant="body1" gutterBottom>
+                            Make GrowBot go around in a square by clicking the button.
+                        </Typography>
+                        <Button size="small" onClick={this.onMakeSquare}>Make square</Button>
                     </Paper>
                 </Grid>
                 <Grid item xs={6}>
