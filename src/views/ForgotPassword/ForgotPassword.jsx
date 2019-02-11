@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { Link as RouterLink } from 'react-router-dom'
 import PropTypes from 'prop-types';
+import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import styles from '../../assets/login-style'
+import styles from '../../assets/authentication-style'
 
 class ForgotPassword extends Component {
 
@@ -20,6 +22,9 @@ class ForgotPassword extends Component {
             <main className={classes.main}>
                 <CssBaseline />
                 <Paper className={classes.paper}>
+                    <Avatar className={classes.avatar}>
+                        <LockOutlinedIcon />
+                    </Avatar>
                     <Typography component="h1" variant="h5">
                         Recover Password
                     </Typography>

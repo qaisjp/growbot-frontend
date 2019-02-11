@@ -2,6 +2,7 @@ import Dashboard from '../views/MovementControl/MovementControl'
 import VisionMonitor from '../views/VisionMonitor/VisionMonitor'
 import Login from '../views/Login/Login'
 import ForgotPassword from '../views/ForgotPassword/ForgotPassword'
+import Register from '../views/Register/Register'
 
 /**
  * This array supplies the routing plugin with the handlers that map particular URLs to particular components.
@@ -30,6 +31,12 @@ let routes = [
         name: "Recover Password",
         path: "/recover",
         component: ForgotPassword,
+        visible: false
+    },
+    {
+        name: "Register",
+        path: "/register",
+        component: Register,
         visible: false
     }
 ];
