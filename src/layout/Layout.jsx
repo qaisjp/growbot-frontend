@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Appbar from '../components/Header/Header';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import {withStyles} from '@material-ui/core';
 import routes from '../routes/Routes';
 import Typography from '@material-ui/core/Typography';
 import styles from '../assets/layout-style';
+import colors from '../assets/color-style'
 
 class Layout extends Component {
 
@@ -17,16 +19,6 @@ class Layout extends Component {
         }
 
         return null;
-    }
-
-    static decodeMsg(msg) {
-
-    }
-
-
-    handleMovementRequest= (message) => {
-        this.webSocket.send(message);
-        console.log("SENT MESSAGE!")
     }
 
 
@@ -48,10 +40,10 @@ class Layout extends Component {
     render() {
         const {classes} = this.props;
         return (
+            <MuiThemeProvider theme={colors}>
             <div className={classes.appFrame}>
-                <Appbar routes={routes}/>
+                <Appbar routes={routes.filter(route => route.visible)}/>
                 <div className={classes.contextHeader}><Typography component="h2" variant="display2" color="inherit">{Layout.getPathName(window.location.pathname)}</Typography></div>
-                <br/>
                 <main className={classes.content}>
                     <Switch>
                         {
@@ -69,7 +61,7 @@ class Layout extends Component {
                 <br/>
                 <br/>
                 <center><Typography variant="overline" gutterBottom>Designed by Raees for Team XIV.</Typography></center>
-            </div>
+            </div></MuiThemeProvider>
         );
     }
 }

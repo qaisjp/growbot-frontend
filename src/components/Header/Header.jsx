@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
+import Button from '@material-ui/core/Button';
 import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -17,6 +18,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InboxIcon from '@material-ui/icons/MoveToInbox';
 import MailIcon from '@material-ui/icons/Mail';
+import AccountCircle from '@material-ui/icons/AccountCircle'
 import {NavLink} from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
 import styles from '../../assets/components/Header/jss/header-style';
@@ -25,6 +27,7 @@ import logo from '../../assets/components/Header/img/logo.png'
 class Header extends Component {
     state = {
         open: false,
+        loggedIn: false
     };
 
     isSelectedRoute = (path) => {
@@ -47,7 +50,6 @@ class Header extends Component {
             <div className={classes.root}>
                 <CssBaseline />
                 <AppBar
-                    style={{ background: '#006600' }}
                     position="fixed"
                     className={classNames(classes.appBar, {
                         [classes.appBarShift]: open,
@@ -62,9 +64,17 @@ class Header extends Component {
                         >
                             <MenuIcon />
                         </IconButton>
-                        <Typography variant="h6" color="inherit" noWrap>
+                        <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
                             GrowBot
                         </Typography>
+                        <IconButton
+                            aria-owns={open ? 'menu-appbar' : undefined}
+                            aria-haspopup="true"
+                            onClick={() => {}}
+                            color="inherit"
+                        >
+                            { this.state.loggedIn ?  <AccountCircle /> : <Button color="inherit">Login</Button> }
+                        </IconButton>
                     </Toolbar>
                 </AppBar>
                 <Drawer

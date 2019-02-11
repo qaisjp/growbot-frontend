@@ -7,13 +7,9 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
-import Radio from '@material-ui/core/Radio';
-import RadioGroup from '@material-ui/core/RadioGroup';
-import styles from '../../assets/view-style';
+import styles from '../../assets/movement-control-style';
 import endpoints from '../../endpoints';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormLabel from '@material-ui/core/FormLabel';
 
 class MovementControl extends Component {
 
@@ -211,6 +207,7 @@ class MovementControl extends Component {
     render() {
         let {classes} = this.props;
         return <div className={classes.root}>
+            <br/>
             <Snackbar
                 anchorOrigin={{
                     vertical: 'bottom',
