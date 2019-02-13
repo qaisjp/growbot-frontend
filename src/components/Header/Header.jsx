@@ -13,8 +13,8 @@ import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import AccountCircle from '@material-ui/icons/AccountCircle'
 import styles from '../../assets/components/Header/jss/header-style';
-import Navbar from '../Navbar/Navbar'
-import { openAppbar } from '../../actions/open_appbar'
+import NavigationDrawer from '../Drawer/NavigationDrawer'
+import { openDrawer } from '../../actions/open_drawer'
 
 class Header extends Component {
 
@@ -39,7 +39,7 @@ class Header extends Component {
                         <IconButton
                             color="inherit"
                             aria-label="Open drawer"
-                            onClick={this.props.openNavbar}
+                            onClick={this.props.showDrawer}
                             className={classNames(classes.menuButton, open && classes.hide)}
                         >
                             <MenuIcon />
@@ -58,7 +58,7 @@ class Header extends Component {
                     </Toolbar>
                 </AppBar>
 
-                <Navbar routes={this.props.routes} />
+                <NavigationDrawer routes={this.props.routes} />
 
                 <main
                     className={classNames(classes.content, {
@@ -72,14 +72,13 @@ class Header extends Component {
 }
 
 function mapStateToProps(state) {
-    console.log(state)
     return {
-        open: state.appbar
+        open: state.drawer
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({openNavbar : openAppbar}, dispatch)
+    return bindActionCreators({showDrawer : openDrawer}, dispatch)
 }
 
 Header.propTypes = {

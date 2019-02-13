@@ -5,8 +5,8 @@ import { MuiThemeProvider } from '@material-ui/core/styles';
 import {withStyles} from '@material-ui/core';
 import routes from '../routes/Routes';
 import Typography from '@material-ui/core/Typography';
-import styles from '../assets/layout-style';
-import colors from '../assets/color-style'
+import styles from '../assets/layout/jss/layout-style';
+import colors from '../assets/layout/jss/color-style'
 
 class Layout extends Component {
 

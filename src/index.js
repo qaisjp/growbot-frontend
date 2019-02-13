@@ -6,6 +6,8 @@ import { createStore, applyMiddleware } from 'redux';
 import App from './App';
 import reducers from './reducers';
 
+import * as serviceWorker from './serviceWorker';
+
 const createStoreWithMiddleware = applyMiddleware()(createStore);
 
 ReactDOM.render(
@@ -13,3 +15,5 @@ ReactDOM.render(
         <App />
     </Provider>
     , document.querySelector('.container'));
+
+serviceWorker.register()

@@ -15,9 +15,9 @@ import {NavLink} from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
 import styles from '../../assets/components/Header/jss/header-style';
 import logo from '../../assets/components/Header/img/logo.png'
-import { closeAppbar } from '../../actions/close_appbar'
+import { closeDrawer } from '../../actions/close_drawer'
 
-class Navbar extends Component {
+class NavigationDrawer extends Component {
 
     isSelectedRoute = (path) => {
         return window.location.pathname === path;
@@ -37,7 +37,7 @@ class Navbar extends Component {
             }}
         >
             <div className={classes.drawerHeader}>
-                <IconButton onClick={this.props.closeNavbar}>
+                <IconButton onClick={this.props.hideDrawer}>
                     {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
                 </IconButton>
             </div>
@@ -72,17 +72,17 @@ class Navbar extends Component {
 function mapStateToProps(state) {
 
     return {
-        open: state.appbar
+        open: state.drawer
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({closeNavbar : closeAppbar}, dispatch)
+    return bindActionCreators({hideDrawer : closeDrawer}, dispatch)
 }
 
-Navbar.propTypes = {
+Drawer.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles, { withTheme: true })(Navbar));
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles, { withTheme: true })(NavigationDrawer));

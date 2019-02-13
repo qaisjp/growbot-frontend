@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
-import styles from '../../assets/movement-control-style';
+import styles from '../../assets/views/MovementControl/jss/movement-control-style';
 import endpoints from '../../endpoints';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 

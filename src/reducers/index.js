@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import AppbarReducer from './reducer_appbar'
+import DrawerReducer from './reducer_drawer'
 
 let rootReducer = combineReducers({
-    appbar: AppbarReducer
+    drawer: DrawerReducer
 })
 
 export default rootReducer;

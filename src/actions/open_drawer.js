@@ -1,4 +1,4 @@
-export function openAppbar() {
+export function openDrawer() {
     return {
         type: 'APPBAR_OPEN'
     }
