@@ -13,8 +13,8 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import {NavLink} from 'react-router-dom'
 import Divider from '@material-ui/core/Divider';
-import styles from '../../assets/components/Header/jss/header-style';
-import logo from '../../assets/components/Header/img/logo.png'
+import styles from '../../assets/components/Drawer/jss/navigation-drawer-style';
+import logo from '../../assets/components/Drawer/img/logo.png'
 import { closeDrawer } from '../../actions/close_drawer'
 
 class NavigationDrawer extends Component {

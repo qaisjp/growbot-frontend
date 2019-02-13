@@ -28,19 +28,6 @@ let styles = theme => ({
     hide: {
         display: 'none',
     },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-    },
-    image:{
-        maxWidth: '200px',
-        maxheight: '200px',
-        margin: '20px 15px',
-        padding: '5px'
-    },
-    drawerPaper: {
-        width: drawerWidth,
-    },
     content: {
         flexGrow: 1,
         padding: theme.spacing.unit * 3,

@@ -2,22 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea998258-e7b9-416a-8887-e0ecfecc594a" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/src/assets/components/NavigationDrawer/img/logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/assets/components/NavigationDrawer/jss/navigation-drawer-style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index2.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/close_appbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/close_drawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/actions/open_appbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/actions/open_drawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/color-style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/layout/jss/color-style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/layout-style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/layout/jss/layout-style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/movement-control-style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/views/MovementControl/jss/movement-control-style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Navbar/Navbar.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/layout/Layout.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/layout/Layout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/reducers/reducer_appbar.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/reducers/reducer_drawer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/views/MovementControl/MovementControl.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/MovementControl/MovementControl.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/components/Header/img/logo.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -31,11 +18,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="authentication-style.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/assets/authentication-style.js">
+      <file leaf-file-name="NavigationDrawer.jsx" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="289">
-              <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
+            <state relative-caret-position="240">
+              <caret line="16" column="58" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="58" />
             </state>
           </provider>
         </entry>
@@ -55,6 +42,19 @@
       <find>state</find>
       <find>handleDrawer</find>
       <find>handle</find>
+      <find>grow</find>
+      <find>appbar</find>
+      <find>menubutton</find>
+      <find>hide</find>
+      <find>drawer</find>
+      <find>classes.drawe</find>
+      <find>classes.image</find>
+      <find>classes.drawer</find>
+      <find>classes.</find>
+      <find>classes.hid</find>
+      <find>classes.dr</find>
+      <find>classes.con</find>
+      <find>classes.c</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -78,7 +78,6 @@
         <option value="$PROJECT_DIR$/src/components/Snackbar/CodedSnackbarContents.jsx" />
         <option value="$PROJECT_DIR$/README.md" />
         <option value="$PROJECT_DIR$/src/endpoints.js" />
-        <option value="$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js" />
         <option value="$PROJECT_DIR$/src/assets/app-style.js" />
         <option value="$PROJECT_DIR$/src/assets/color-style.js" />
         <option value="$PROJECT_DIR$/src/assets/layout-style.js" />
@@ -103,6 +102,8 @@
         <option value="$PROJECT_DIR$/src/actions/close_drawer.js" />
         <option value="$PROJECT_DIR$/src/actions/open_drawer.js" />
         <option value="$PROJECT_DIR$/src/layout/Layout.jsx" />
+        <option value="$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js" />
+        <option value="$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx" />
       </list>
     </option>
   </component>
@@ -123,8 +124,8 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="167" />
-    <option name="y" value="97" />
+    <option name="x" value="59" />
+    <option name="y" value="94" />
     <option name="width" value="1078" />
     <option name="height" value="607" />
   </component>
@@ -171,6 +172,14 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Header" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="assets" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
               <item name="Snackbar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
@@ -179,6 +188,33 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
               <item name="layout" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Drawer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Header" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="Snackbar" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
@@ -264,16 +300,15 @@
       <workItem from="1549141677736" duration="6588000" />
       <workItem from="1549907625181" duration="6030000" />
       <workItem from="1549972530478" duration="4494000" />
-      <workItem from="1550072799130" duration="6012000" />
+      <workItem from="1550072799130" duration="6284000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57219000" />
+    <option name="totallyTimeSpent" value="57491000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="167" y="97" width="1078" height="607" extended-state="0" />
-    <editor active="true" />
+    <frame x="59" y="94" width="1078" height="607" extended-state="0" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3140965" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -309,9 +344,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="405">
           <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -538,26 +570,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1233">
-          <caret line="87" column="105" selection-start-line="87" selection-start-column="105" selection-end-line="87" selection-end-column="105" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Header/Header.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1005">
-          <caret line="67" column="23" lean-forward="true" selection-start-line="67" selection-start-column="23" selection-end-line="67" selection-end-column="23" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/actions/close_drawer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -569,13 +581,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
           <caret line="4" column="1" lean-forward="true" selection-start-line="4" selection-start-column="1" selection-end-line="4" selection-end-column="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="6" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
         </state>
       </provider>
     </entry>
@@ -626,15 +631,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/components/NavigationDrawer/jss/navigation-drawer-style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-708" />
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/assets/authentication-style.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="289">
           <caret line="31" column="34" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/components/NavigationDrawer/jss/navigation-drawer-style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Header/Header.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="89">
+          <caret line="63" column="53" selection-start-line="63" selection-start-column="42" selection-end-line="63" selection-end-column="53" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="240">
+          <caret line="16" column="58" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="58" />
         </state>
       </provider>
     </entry>
