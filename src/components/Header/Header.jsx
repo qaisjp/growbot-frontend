@@ -1,47 +1,30 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
-import Drawer from '@material-ui/core/Drawer';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
-import List from '@material-ui/core/List';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import ChevronRightIcon from '@material-ui/icons/ChevronRight';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
 import AccountCircle from '@material-ui/icons/AccountCircle'
-import {NavLink} from 'react-router-dom'
-import Divider from '@material-ui/core/Divider';
 import styles from '../../assets/components/Header/jss/header-style';
-import logo from '../../assets/components/Header/img/logo.png'
+import Navbar from '../Navbar/Navbar'
+import { openAppbar } from '../../actions/open_appbar'
 
 class Header extends Component {
+
     state = {
-        open: false,
         loggedIn: false
-    };
-
-    isSelectedRoute = (path) => {
-        return window.location.pathname === path;
-    };
-
-    handleDrawerOpen = () => {
-        this.setState({ open: true });
-    };
-
-    handleDrawerClose = () => {
-        this.setState({ open: false });
-    };
+    }
 
     render() {
         const { classes, theme } = this.props;
-        const { open } = this.state;
+        const { open } = this.props;
 
         return (
             <div className={classes.root}>
@@ -56,7 +39,7 @@ class Header extends Component {
                         <IconButton
                             color="inherit"
                             aria-label="Open drawer"
-                            onClick={this.handleDrawerOpen}
+                            onClick={this.props.openNavbar}
                             className={classNames(classes.menuButton, open && classes.hide)}
                         >
                             <MenuIcon />
@@ -74,43 +57,9 @@ class Header extends Component {
                         </IconButton>
                     </Toolbar>
                 </AppBar>
-                <Drawer
-                    className={classes.drawer}
-                    variant="persistent"
-                    anchor="left"
-                    open={open}
-                    classes={{
-                        paper: classes.drawerPaper,
-                    }}
-                >
-                    <div className={classes.drawerHeader}>
-                        <IconButton onClick={this.handleDrawerClose}>
-                            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-                        </IconButton>
-                    </div>
-                    <img src={logo} alt="" className={classes.image}/>
-                    <Divider/>
-                    <List>
-                        {this.props.routes.map((prop, index) => {
-                            const isCurrPath = this.isSelectedRoute(prop.path)
-                            return <NavLink to={prop.path} className={classes.links} activeClassName={classes.selected}
-                                            key={prop.name}>
-                                <ListItem button key={prop.name} className={classNames({
-                                    [classes.listItem]: true,
-                                    [classes.selected]: isCurrPath
-                                })}>
-                                    <ListItemText
-                                        primaryTypographyProps={{
-                                            className: isCurrPath ? classes.listItemTextSelected : classes.listItemText
-                                        }}
-                                    >
-                                        {prop.name}
-                                    </ListItemText>
-                                </ListItem>
-                            </NavLink>
-                        })}
-                    </List>
-                </Drawer>
+
+                <Navbar routes={this.props.routes} />
+
                 <main
                     className={classNames(classes.content, {
                         [classes.contentShift]: open,
@@ -122,9 +71,20 @@ class Header extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    console.log(state)
+    return {
+        open: state.appbar
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({openNavbar : openAppbar}, dispatch)
+}
+
 Header.propTypes = {
     classes: PropTypes.object.isRequired,
     theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(Header);
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles, { withTheme: true })(Header));
