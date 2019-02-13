@@ -2,9 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ea998258-e7b9-416a-8887-e0ecfecc594a" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/assets/components/Header/img/logo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/views/ForgotPassword/forgot-password-style.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/views/Login/login-style.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/assets/views/Register/register-style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/assets/authentication-style.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/assets/views/ForgotPassword/forgot-password-style.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/ForgotPassword/ForgotPassword.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/ForgotPassword/ForgotPassword.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/views/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/views/Login/Login.jsx" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,11 +22,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="NavigationDrawer.jsx" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx">
+      <file leaf-file-name="Register.jsx" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/views/Register/Register.jsx">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="58" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="58" />
+            <state relative-caret-position="180">
+              <caret line="12" column="53" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -84,9 +88,7 @@
         <option value="$PROJECT_DIR$/src/views/MovementControl/MovementControl.jsx" />
         <option value="$PROJECT_DIR$/src/assets/login-style.js" />
         <option value="$PROJECT_DIR$/src/routes/Routes.jsx" />
-        <option value="$PROJECT_DIR$/src/views/Login/Login.jsx" />
         <option value="$PROJECT_DIR$/src/views/Register/Register.jsx" />
-        <option value="$PROJECT_DIR$/src/views/ForgotPassword/ForgotPassword.jsx" />
         <option value="$PROJECT_DIR$/src/components/store.js" />
         <option value="$PROJECT_DIR$/src/components/shared_state.js" />
         <option value="$PROJECT_DIR$/src/reducers/reducer_appbar_open.js" />
@@ -104,6 +106,11 @@
         <option value="$PROJECT_DIR$/src/layout/Layout.jsx" />
         <option value="$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js" />
         <option value="$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx" />
+        <option value="$PROJECT_DIR$/src/assets/components/NavigationDrawer/jss/navigation-drawer-style.js" />
+        <option value="$PROJECT_DIR$/src/assets/views/ForgotPassword/forgot-password-style.js" />
+        <option value="$PROJECT_DIR$/src/views/Login/Login.jsx" />
+        <option value="$PROJECT_DIR$/src/views/ForgotPassword/ForgotPassword.jsx" />
+        <option value="$PROJECT_DIR$/src/assets/views/Register/register-style.js" />
       </list>
     </option>
   </component>
@@ -124,8 +131,8 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="59" />
-    <option name="y" value="94" />
+    <option name="x" value="149" />
+    <option name="y" value="96" />
     <option name="width" value="1078" />
     <option name="height" value="607" />
   </component>
@@ -164,57 +171,31 @@
               <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
               <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Header" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="ForgotPassword" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
               <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Snackbar" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="Login" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
               <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="assets" type="462c0819:PsiDirectoryNode" />
-              <item name="layout" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Drawer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Header" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
-              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-              <item name="Snackbar" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="Register" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
@@ -227,6 +208,33 @@
               <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="routes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="ForgotPassword" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="Login" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="sdp-web-client" type="b2602c69:ProjectViewProjectNode" />
+              <item name="sdp-web-client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="views" type="462c0819:PsiDirectoryNode" />
+              <item name="Register" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -253,11 +261,11 @@
       <recent name="$PROJECT_DIR$/src/assets/components/Header" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/assets/views/Register" />
+      <recent name="$PROJECT_DIR$/src/assets/views/ForgotPassword" />
+      <recent name="$PROJECT_DIR$/src/assets/views/Login" />
       <recent name="$PROJECT_DIR$/src/assets/components/NavigationDrawer/jss" />
       <recent name="$PROJECT_DIR$/src/assets/components/NavigationDrawer/img" />
-      <recent name="$PROJECT_DIR$/public" />
-      <recent name="$PROJECT_DIR$/src/views/Register" />
-      <recent name="$PROJECT_DIR$/src/views/ForgotPassword" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -300,15 +308,16 @@
       <workItem from="1549141677736" duration="6588000" />
       <workItem from="1549907625181" duration="6030000" />
       <workItem from="1549972530478" duration="4494000" />
-      <workItem from="1550072799130" duration="6284000" />
+      <workItem from="1550072799130" duration="6939000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="57491000" />
+    <option name="totallyTimeSpent" value="58146000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="59" y="94" width="1078" height="607" extended-state="0" />
+    <frame x="149" y="96" width="1078" height="607" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.3140965" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -340,37 +349,6 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="405">
-          <caret line="27" column="14" selection-start-line="27" selection-start-column="14" selection-end-line="27" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/shared_state.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" column="37" selection-start-line="11" selection-start-column="37" selection-end-line="11" selection-end-column="37" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/components/Header/Header.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" selection-start-line="20" selection-end-line="20" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/authentication-style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="465">
-          <caret line="31" column="34" lean-forward="true" selection-start-line="31" selection-start-column="34" selection-end-line="31" selection-end-column="34" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/assets/app-style.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -466,27 +444,6 @@
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/ForgotPassword/ForgotPassword.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="63" selection-start-line="9" selection-start-column="63" selection-end-line="9" selection-end-column="63" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/Register/Register.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="18" selection-start-line="8" selection-end-line="9" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/views/Login/Login.jsx">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="176">
-          <caret line="59" column="35" selection-start-line="59" selection-start-column="35" selection-end-line="59" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -587,13 +544,6 @@
     <entry file="file://$PROJECT_DIR$/src/assets/app-style.js">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/layout/jss/color-style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="8" column="26" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/assets/layout/jss/layout-style.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="105">
@@ -638,20 +588,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="435">
-          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/assets/components/NavigationDrawer/jss/navigation-drawer-style.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="24" lean-forward="true" selection-start-line="4" selection-start-column="24" selection-end-line="4" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Header/Header.jsx">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="89">
@@ -662,10 +598,76 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/components/Drawer/jss/navigation-drawer-style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="22" lean-forward="true" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/components/Drawer/NavigationDrawer.jsx">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="240">
-          <caret line="16" column="58" selection-start-line="16" selection-start-column="58" selection-end-line="16" selection-end-column="58" />
+        <state relative-caret-position="270">
+          <caret line="18" selection-start-line="18" selection-end-line="18" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/components/Header/jss/header-style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/layout/jss/color-style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="120">
+          <caret line="8" column="26" selection-start-line="8" selection-start-column="19" selection-end-line="8" selection-end-column="26" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/components/Drawer/img/logo.png">
+      <provider selected="true" editor-type-id="images" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/views/Login/login-style.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/views/ForgotPassword/forgot-password-style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-312" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/ForgotPassword/ForgotPassword.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-408">
+          <caret line="14" column="75" selection-start-line="14" selection-start-column="75" selection-end-line="14" selection-end-column="75" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/Login/Login.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="144">
+          <caret line="16" column="57" lean-forward="true" selection-start-line="16" selection-start-column="57" selection-end-line="16" selection-end-column="57" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/assets/views/Register/register-style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="435">
+          <caret line="29" column="5" selection-start-line="29" selection-start-column="5" selection-end-line="29" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/views/Register/Register.jsx">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="180">
+          <caret line="12" column="53" selection-start-line="12" selection-start-column="33" selection-end-line="12" selection-end-column="53" />
         </state>
       </provider>
     </entry>

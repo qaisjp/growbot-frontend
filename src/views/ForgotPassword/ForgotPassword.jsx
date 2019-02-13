@@ -12,7 +12,7 @@ import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
-import styles from '../../assets/authentication-style'
+import styles from '../../assets/views/ForgotPassword/forgot-password-style'
 
 class ForgotPassword extends Component {
 
