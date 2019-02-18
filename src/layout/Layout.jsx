@@ -4,6 +4,8 @@ import Header from '../components/Header/Header';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import {withStyles} from '@material-ui/core';
 import routes from '../routes/Routes';
+import menuRoutes from '../routes/MenuRoutes'
+import menuRouteTypes from '../routes/MenuRouteTypes'
 import Typography from '@material-ui/core/Typography';
 import styles from '../assets/layout/jss/layout-style';
 import colors from '../assets/layout/jss/color-style'
@@ -26,7 +28,7 @@ class Layout extends Component {
         return (
             <MuiThemeProvider theme={colors}>
             <div className={classes.appFrame}>
-                <Header routes={routes.filter(route => route.visible)} />
+                <Header routes={routes.filter(route => route.visible)} menuFunctionRoutes={menuRoutes.filter(menuRoute => menuRoute.type === menuRouteTypes.function)} menuRedirectRoutes={menuRoute => menuRoute.type === menuRouteTypes.redirect}/>
                 <div className={classes.contextHeader}><Typography component="h2" variant="display2" color="inherit">{Layout.getPathName(window.location.pathname)}</Typography></div>
                 <main className={classes.content}>
                     <Switch>

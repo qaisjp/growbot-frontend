@@ -1,0 +1,22 @@
+import routeType from './MenuRouteTypes'
+
+let routes = [
+
+    {
+        name: "Logout",
+        type: routeType.function,
+        func: (component) => {
+            let { anchorEl } = component.state;
+            let menuOpen = Boolean(anchorEl)
+
+            if(menuOpen) {
+                component.setState({ anchorEl: null })
+            }
+
+            component.props.authLogout()
+        }
+    }
+
+]
+
+export default routes;

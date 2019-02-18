@@ -4,10 +4,6 @@ import Login from '../views/Login/Login'
 import ForgotPassword from '../views/ForgotPassword/ForgotPassword'
 import Register from '../views/Register/Register'
 
-/**
- * This array supplies the routing plugin with the handlers that map particular URLs to particular components.
- * @type {*[]}
- */
 let routes = [
     {
         name: "Movement Control",

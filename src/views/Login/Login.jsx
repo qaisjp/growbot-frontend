@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
+import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -14,7 +17,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+
 import styles from '../../assets/views/Login/login-style'
+import { login } from '../../actions/login_auth'
 
 class Login extends Component {
 
@@ -44,11 +49,11 @@ class Login extends Component {
                             label="Remember me"
                         />
                         <Button
-                            type="submit"
                             fullWidth
                             variant="contained"
                             color="primary"
                             className={classes.submit}
+                            onClick={this.props.authLogin}
                         >
                             Sign in
                         </Button>
@@ -69,8 +74,18 @@ class Login extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        loggedIn: state.auth
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({authLogin: login}, dispatch)
+}
+
 Login.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Login);
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Login));
