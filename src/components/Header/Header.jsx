@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { connect } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
-import { bindActionCreators } from 'redux';
 
 import { withStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -20,8 +19,8 @@ import Menu from '@material-ui/core/Menu';
 import NavigationDrawer from '../Drawer/NavigationDrawer'
 import styles from '../../assets/components/Header/jss/header-style';
 import { openDrawer } from '../../actions/open_drawer'
-import { login } from '../../actions/login_auth'
-import { logout } from '../../actions/logout_auth'
+import login from '../../actions/login_auth'
+import logout from '../../actions/logout_auth'
 
 class Header extends Component {
 
@@ -116,12 +115,17 @@ class Header extends Component {
 function mapStateToProps(state) {
     return {
         open: state.drawer,
-        loggedIn: state.auth
+        isLoginPending: state.auth.isLoginPending,
+        loggedIn: state.auth.isLoginSuccess,
+        loginError: state.auth.loginError
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({showDrawer : openDrawer, authLogin: login, authLogout: logout}, dispatch)
+    return {
+        showDrawer: _ => dispatch(openDrawer()),
+        authLogout: (email) => dispatch(logout(email))
+    }
 }
 
 Header.propTypes = {

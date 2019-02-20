@@ -19,9 +19,14 @@ import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
 import styles from '../../assets/views/Login/login-style'
-import { login } from '../../actions/login_auth'
+import login from '../../actions/login_auth'
 
 class Login extends Component {
+
+    state = {
+        email: null,
+        password: null
+    }
 
     render() {
         const { classes } = this.props;
@@ -38,11 +43,11 @@ class Login extends Component {
                     <form className={classes.form}>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="email">Email Address</InputLabel>
-                            <Input id="email" name="email" autoComplete="email" autoFocus />
+                            <Input id="email" name="email" autoComplete="email" onChange={e => this.setState({email: e.target.value})} autoFocus />
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input name="password" type="password" id="password" autoComplete="current-password" />
+                            <Input name="password" type="password" id="password" onChange={e => this.setState({password: e.target.value})} autoComplete="current-password" />
                         </FormControl>
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
@@ -53,7 +58,7 @@ class Login extends Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                            onClick={this.props.authLogin}
+                            onClick={()=>this.props.authLogin(this.state.email, this.state.password)}
                         >
                             Sign in
                         </Button>
@@ -76,12 +81,16 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-        loggedIn: state.auth
+        isLoginPending: state.isLoginPending,
+        isLoginSuccess: state.isLoginSuccess,
+        loginError: state.loginError
     }
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({authLogin: login}, dispatch)
+    return {
+        authLogin: (email, password) => dispatch(login(email, password))
+    }
 }
 
 Login.propTypes = {

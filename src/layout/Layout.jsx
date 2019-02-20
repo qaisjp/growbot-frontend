@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {withRouter, Switch, Route, Redirect} from 'react-router-dom';
 import Header from '../components/Header/Header';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import {withStyles} from '@material-ui/core';
@@ -9,6 +9,7 @@ import menuRouteTypes from '../routes/MenuRouteTypes'
 import Typography from '@material-ui/core/Typography';
 import styles from '../assets/layout/jss/layout-style';
 import colors from '../assets/layout/jss/color-style'
+import {connect} from "react-redux";
 
 class Layout extends Component {
 
@@ -24,7 +25,7 @@ class Layout extends Component {
     }
 
     render() {
-        const {classes} = this.props;
+        const {classes, loggedIn} = this.props;
         return (
             <MuiThemeProvider theme={colors}>
             <div className={classes.appFrame}>
@@ -35,6 +36,10 @@ class Layout extends Component {
                         {
 
                             routes.map((prop) => {
+
+                                if(prop.name === "Account Login" && loggedIn || prop.name === "Register" && loggedIn || prop.name === "Recover Password" && loggedIn) {
+                                    return <Redirect from={prop.path} to={"/"}/>
+                                }
 
                                 return <Route key = {prop.name} exact path={prop.path} render={(props) => <prop.component {...props}/>}/>
 
@@ -52,4 +57,16 @@ class Layout extends Component {
     }
 }
 
-export default withStyles(styles)(Layout);
+function mapStateToProps(state) {
+    return {
+        loggedIn: state.auth.isLoginSuccess
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+
+    }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Layout)));

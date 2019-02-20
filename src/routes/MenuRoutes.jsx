@@ -13,7 +13,7 @@ let routes = [
                 component.setState({ anchorEl: null })
             }
 
-            component.props.authLogout()
+            component.props.authLogout('raees.aamir@ed.ac.uk')
         }
     }
 
