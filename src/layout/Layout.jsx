@@ -29,7 +29,7 @@ class Layout extends Component {
         return (
             <MuiThemeProvider theme={colors}>
             <div className={classes.appFrame}>
-                <Header routes={routes.filter(route => route.visible)} menuFunctionRoutes={menuRoutes.filter(menuRoute => menuRoute.type === menuRouteTypes.function)} menuRedirectRoutes={menuRoute => menuRoute.type === menuRouteTypes.redirect}/>
+                <Header routes={routes.filter(route => route.visible)} menuFunctionRoutes={menuRoutes.filter(menuRoute => menuRoute.type === menuRouteTypes.function)} menuRedirectRoutes={menuRoutes.filter(menuRoute => menuRoute.type === menuRouteTypes.redirect)}/>
                 <div className={classes.contextHeader}><Typography component="h2" variant="display2" color="inherit">{Layout.getPathName(window.location.pathname)}</Typography></div>
                 <main className={classes.content}>
                     <Switch>

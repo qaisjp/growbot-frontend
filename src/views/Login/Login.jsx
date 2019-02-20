@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
 import { Link as RouterLink } from 'react-router-dom'
-import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
 
 import Avatar from '@material-ui/core/Avatar';

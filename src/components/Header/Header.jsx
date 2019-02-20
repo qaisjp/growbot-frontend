@@ -37,7 +37,7 @@ class Header extends Component {
     };
 
     render() {
-        const { classes, open, menuFunctionRoutes, loggedIn } = this.props;
+        const { classes, open, menuFunctionRoutes, menuRedirectRoutes, loggedIn } = this.props;
         const { anchorEl } = this.state;
         const menuOpen = Boolean(anchorEl)
 
@@ -92,6 +92,12 @@ class Header extends Component {
                                             return <MenuItem onClick={()=>menuFunctionRoute.func(this)}>{menuFunctionRoute.name}</MenuItem>
                                         })
 
+                                    }
+
+                                    {
+                                        menuRedirectRoutes.map(menuRedirectRoute => {
+                                            return <MenuItem component={RouterLink} to={menuRedirectRoute.url}>{menuRedirectRoute.name}</MenuItem>
+                                        })
                                     }
                                 </Menu>
                             </div>

@@ -3,6 +3,7 @@ import VisionMonitor from '../views/VisionMonitor/VisionMonitor'
 import Login from '../views/Login/Login'
 import ForgotPassword from '../views/ForgotPassword/ForgotPassword'
 import Register from '../views/Register/Register'
+import Settings from '../views/Settings/Settings'
 
 let routes = [
     {
@@ -33,6 +34,12 @@ let routes = [
         name: "Register",
         path: "/register",
         component: Register,
+        visible: false
+    },
+    {
+        name: "Settings",
+        path: "/settings",
+        component: Settings,
         visible: false
     }
 ];

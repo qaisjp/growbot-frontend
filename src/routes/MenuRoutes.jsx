@@ -15,6 +15,11 @@ let routes = [
 
             component.props.authLogout('raees.aamir@ed.ac.uk')
         }
+    },
+    {
+        name: "Settings",
+        type: routeType.redirect,
+        url: "/settings"
     }
 
 ]
