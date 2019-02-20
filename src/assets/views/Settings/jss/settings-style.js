@@ -10,8 +10,11 @@ let styles = theme => ({
             marginRight: 'auto',
         }
     },
+    typography: {
+        marginTop: theme.spacing.unit * 2
+    },
     card: {
-        marginTop: theme.spacing.unit * 4,
+        marginTop: theme.spacing.unit * 2,
         maxWidth: 500,
     },
     form: {

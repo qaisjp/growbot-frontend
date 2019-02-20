@@ -21,6 +21,9 @@ class Settings extends Component {
         let {classes} = this.props;
         return (
             <main className={classes.main}>
+                <Typography className={classes.typography} variant="subtitle1" gutterBottom>
+                    Password
+                </Typography>
                 <Card className={classes.card}>
                         <CardMedia
                             component="img"
