@@ -21,6 +21,7 @@ class Settings extends Component {
     state = {
         changeNameRobotName: 'default',
         unregisterRobotName: 'default',
+        newRobotSerialKey: '',
         newRobotName: 'Enter New Name'
     }
 
@@ -94,7 +95,7 @@ class Settings extends Component {
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <TextField
-                                    id="standard-name"
+                                    id="newRobotName"
                                     label="New Name"
                                     className={classes.textField}
                                     value={this.state.newRobotName}
@@ -116,7 +117,35 @@ class Settings extends Component {
                 </ExpansionPanel>
                 <ExpansionPanel>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                        <Typography className={classes.heading}>Registrar</Typography>
+                        <Typography className={classes.heading}>Add Robot</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <form>
+                            <FormControl className={classes.selectFormControl} margin="normal">
+                                <TextField
+                                    id="addRobot"
+                                    label="Serial key"
+                                    className={classes.textField}
+                                    value={this.state.newRobotSerialKey}
+                                    onChange={this.handleChange('newRobotSerialKey')}
+                                    margin="normal"
+                                />
+                            </FormControl>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={()=>{}}
+                            >
+                                Register
+                            </Button>
+                        </form>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography className={classes.heading}>Remove Robot</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <form>
