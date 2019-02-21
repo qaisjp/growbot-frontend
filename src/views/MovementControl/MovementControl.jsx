@@ -1,15 +1,23 @@
-import React, { Component } from 'react';
-import {withStyles} from '@material-ui/core';
+import React, {Component} from 'react';
+
+import Card from '@material-ui/core/Card';
+import CardActionArea from '@material-ui/core/CardActionArea';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
-import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
-import styles from '../../assets/views/MovementControl/jss/movement-control-style';
-import endpoints from '../../endpoints';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {withStyles} from '@material-ui/core';
+
+import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
+
+import endpoints from '../../endpoints';
+import styles from '../../assets/views/MovementControl/jss/movement-control-style';
+import controller from '../../assets/views/MovementControl/img/controller.png'
 
 class MovementControl extends Component {
 
@@ -20,7 +28,7 @@ class MovementControl extends Component {
         open: false
     }
 
-    onChangeObjectDetection = async() => {
+    onChangeObjectDetection = async () => {
         let objectDetectionActive = !this.state.checkedDetection
         let objectDetectionCommand = {
             id: "c14e69bd-a50b-4ab8-8045-f81fcc2bc668",
@@ -35,7 +43,7 @@ class MovementControl extends Component {
             body: JSON.stringify(objectDetectionCommand)
         });
         console.log(response);
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.setState({message: "Successfully changed object detection mode", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
@@ -56,7 +64,7 @@ class MovementControl extends Component {
             body: JSON.stringify(directionCommand)
         });
         console.log(response);
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
@@ -77,7 +85,7 @@ class MovementControl extends Component {
             body: JSON.stringify(directionCommand)
         });
         console.log(response);
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
@@ -99,7 +107,7 @@ class MovementControl extends Component {
             body: JSON.stringify(directionCommand)
         });
         console.log(response);
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
@@ -123,7 +131,7 @@ class MovementControl extends Component {
 
         console.log(response);
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.setState({message: "Successfully moved robot backward", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
@@ -146,7 +154,7 @@ class MovementControl extends Component {
 
         console.log(response);
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.setState({message: "Successfully moved robot right", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
@@ -170,7 +178,7 @@ class MovementControl extends Component {
 
         console.log(response);
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.setState({message: "Successfully moved robot left", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
@@ -193,7 +201,7 @@ class MovementControl extends Component {
 
         console.log(response);
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             this.setState({message: "Successfully braked", open: true, type: "success"})
         } else {
             this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
@@ -223,98 +231,46 @@ class MovementControl extends Component {
                     message={this.state.message}
                 />
             </Snackbar>
-            <Grid container xs={12} spacing={24}>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            FORWARD
+            <Card className={classes.card}>
+                <CardActionArea>
+                    <CardMedia
+                        className={classes.media}
+                        image={controller}
+                        title="Controller"
+                    />
+                    <CardContent>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            Controller
                         </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Move Growbot Forward by clicking the Move button.
+                        <Typography component="p">
+                            Move Growbot around by pressing the navigation buttons below the card.
                         </Typography>
-                        <Button size="small" onClick={this.onMoveForward}>Move Forward</Button>
-                    </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            BACKWARD
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Move Growbot Backward by clicking the Move button.
-                        </Typography>
-                        <Button size="small" onClick={this.onMoveBackward}>Move Backward</Button>
-                    </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            LEFT
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Move Growbot left by clicking the Move button.
-                        </Typography>
-                        <Button size="small" onClick={this.onMoveLeft}>Move Left</Button>
-                    </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            RIGHT
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Move Growbot right by clicking the Move button.
-                        </Typography>
-                        <Button size="small" onClick={this.onMoveRight}>Move Right</Button>
-                    </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Test GrowBot - 5
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Make Growbot perform a random movement by clicking the button.
-                        </Typography>
-                        <Button size="small" onClick={this.onRandomMove}>Perform random move</Button>
-                    </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Test GrowBot - 6
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Make GrowBot go around in a square by clicking the button.
-                        </Typography>
-                        <Button size="small" onClick={this.onMakeSquare}>Make square</Button>
-                    </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Brake
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Run the brakes on the robot
-                        </Typography>
-                        <Button size="small" onClick={this.onBrake}>Brake</Button>
-                    </Paper>
-                </Grid>
-                <Grid item xs={6}>
-                    <Paper className={classes.paper}>
-                        <Typography className={classes.title} color="textSecondary" gutterBottom>
-                            Miscellaneous
-                        </Typography>
-                        <Typography variant="body1" gutterBottom>
-                            Miscellaneous controls for the robot
-                        </Typography>
-                        <FormControlLabel value="checkedDetection" onChange={this.onChangeObjectDetection}control={<Checkbox />} label="Object Avoidance" />
-
-                    </Paper>
-                </Grid>
-            </Grid>
-            </div>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <Grid container>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMoveForward}>Forwards</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMoveBackward}>Backwards</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMoveLeft}>Left</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMoveRight}>Right</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onRandomMove}>Random Move</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMakeSquare}>Make Square</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onBrake}>Brake</Button></Grid>
+                        <Grid item>
+                            <FormControlLabel value="checkedDetection" onChange={this.onChangeObjectDetection}
+                                              control={<Checkbox/>}
+                                              label="Object Avoidance"/></Grid>
+                    </Grid>
+                </CardActions>
+            </Card>
+        </div>
     }
 }
 

@@ -2,15 +2,12 @@ let styles = theme => ({
     root: {
         flexGrow: 1,
     },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        textAlign: 'center',
-        color: theme.palette.text.secondary,
-        marginLeft: theme.spacing.unit
-    },
     card: {
-        marginLeft: theme.spacing.unit
-
+        maxWidth: 345,
+        marginLeft: theme.spacing.unit * 2
+    },
+    media: {
+        height: 140,
     },
 });
 
