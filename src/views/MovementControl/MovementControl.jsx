@@ -11,6 +11,11 @@ import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
 import {withStyles} from '@material-ui/core';
 
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
@@ -18,6 +23,8 @@ import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarConte
 import endpoints from '../../endpoints';
 import styles from '../../assets/views/MovementControl/jss/movement-control-style';
 import banner from '../../assets/views/MovementControl/img/banner.jpg'
+import online from '../../assets/views/MovementControl/img/green_circle.png'
+import offline from '../../assets/views/MovementControl/img/red_circle.png'
 
 class MovementControl extends Component {
 
@@ -25,7 +32,8 @@ class MovementControl extends Component {
         checkedDetection: false,
         message: "",
         type: "",
-        open: false
+        open: false,
+        selectedIndex: 0
     }
 
     onChangeObjectDetection = async () => {
@@ -212,9 +220,14 @@ class MovementControl extends Component {
         this.setState({open: false})
     }
 
+    handleListItemClick = (event, index) => {
+        this.setState({selectedIndex: index});
+    };
+
     render() {
         let {classes} = this.props;
         return <div className={classes.root}>
+
             <br/>
             <Snackbar
                 anchorOrigin={{
@@ -231,45 +244,141 @@ class MovementControl extends Component {
                     message={this.state.message}
                 />
             </Snackbar>
-            <Card className={classes.card}>
-                <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={banner}
-                        title="Controller"
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            Controller
-                        </Typography>
-                        <Typography component="p">
-                            Move Growbot around by pressing the navigation buttons below the card.
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
-                <CardActions>
-                    <Grid container>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMoveForward}>Forwards</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMoveBackward}>Backwards</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMoveLeft}>Left</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMoveRight}>Right</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onRandomMove}>Random Move</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMakeSquare}>Make Square</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onBrake}>Brake</Button></Grid>
-                        <Grid item>
-                            <FormControlLabel value="checkedDetection" onChange={this.onChangeObjectDetection}
-                                              control={<Checkbox/>}
-                                              label="Object Avoidance"/></Grid>
-                    </Grid>
-                </CardActions>
-            </Card>
+            <Grid container spacing={12}>
+                <Grid item xs={5}>
+                    <Card className={classes.card}>
+                        <CardActionArea>
+                            <CardMedia
+                                className={classes.media}
+                                image={banner}
+                                title="Robots"
+                                width='100%'
+                            />
+                            <CardContent>
+
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    Robots
+                                </Typography>
+                                <Typography component="p">
+                                    Select the name of a Growbot you would like to control.
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                            <List className={classes.root}>
+                                <ListItem
+                                    alignItems="flex-start"
+                                    button
+                                    selected={this.state.selectedIndex === 0}
+                                    onClick={event => this.handleListItemClick(event, 0)}
+                                >
+                                    <ListItemAvatar>
+                                        <Avatar src={online}/>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary="Robot 1"
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography component="span" className={classes.inline}
+                                                            color="textPrimary">
+                                                    Room: AT-3.06
+                                                </Typography>
+                                                {" — Charge: 100%; Water Volume: 500ml"}
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItem>
+                                <ListItem
+                                    alignItems="flex-start"
+                                    button
+                                    disabled
+                                    selected={this.state.selectedIndex === 1}
+                                    onClick={event => this.handleListItemClick(event, 1)}
+                                >
+                                    <ListItemAvatar>
+                                        <Avatar src={offline}/>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary="Robot 2"
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography component="span" className={classes.inline}
+                                                            color="textPrimary">
+                                                    Room: AT-3.03
+                                                </Typography>
+                                                {" — Charge: 97%; Water Volume: 438ml"}
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItem>
+                                <ListItem
+                                    alignItems="flex-start"
+                                    button
+                                    selected={this.state.selectedIndex === 2}
+                                    onClick={event => this.handleListItemClick(event, 2)}
+                                >
+                                    <ListItemAvatar>
+                                        <Avatar src={online}/>
+                                    </ListItemAvatar>
+                                    <ListItemText
+                                        primary="Robot 3"
+                                        secondary={
+                                            <React.Fragment>
+                                                <Typography component="span" className={classes.inline}
+                                                            color="textPrimary">
+                                                    Room: AT-3.01
+                                                </Typography>
+                                                {" — Charge: 4%; Water Volume: 23ml"}
+                                            </React.Fragment>
+                                        }
+                                    />
+                                </ListItem>
+                            </List>
+                        </CardActions>
+                    </Card></Grid>
+                <Grid item xs={5}>
+                    <Card className={classes.card}>
+                        <CardActionArea>
+                            <CardMedia
+                                className={classes.media}
+                                image={banner}
+                                title="Controller"
+                                width='100%'
+                            />
+                            <CardContent>
+
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    Controller
+                                </Typography>
+                                <Typography component="p">
+                                    Move Growbot around by pressing the navigation buttons below the card.
+                                </Typography>
+                            </CardContent>
+                        </CardActionArea>
+                        <CardActions>
+                            <Grid container>
+                                <Grid item>
+                                    <Button size="small" onClick={this.onMoveForward}>Forwards</Button></Grid>
+                                <Grid item>
+                                    <Button size="small" onClick={this.onMoveBackward}>Backwards</Button></Grid>
+                                <Grid item>
+                                    <Button size="small" onClick={this.onMoveLeft}>Left</Button></Grid>
+                                <Grid item>
+                                    <Button size="small" onClick={this.onMoveRight}>Right</Button></Grid>
+                                <Grid item>
+                                    <Button size="small" onClick={this.onRandomMove}>Random Move</Button></Grid>
+                                <Grid item>
+                                    <Button size="small" onClick={this.onMakeSquare}>Make Square</Button></Grid>
+                                <Grid item>
+                                    <Button size="small" onClick={this.onBrake}>Brake</Button></Grid>
+                                <Grid item>
+                                    <FormControlLabel value="checkedDetection" onChange={this.onChangeObjectDetection}
+                                                      control={<Checkbox/>}
+                                                      label="Object Avoidance"/></Grid>
+                            </Grid>
+                        </CardActions>
+                    </Card></Grid>
+            </Grid>
         </div>
     }
 }
