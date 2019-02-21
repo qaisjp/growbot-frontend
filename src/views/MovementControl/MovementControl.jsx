@@ -17,7 +17,7 @@ import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarConte
 
 import endpoints from '../../endpoints';
 import styles from '../../assets/views/MovementControl/jss/movement-control-style';
-import controller from '../../assets/views/MovementControl/img/controller.png'
+import banner from '../../assets/views/MovementControl/img/banner.jpg'
 
 class MovementControl extends Component {
 
@@ -235,7 +235,7 @@ class MovementControl extends Component {
                 <CardActionArea>
                     <CardMedia
                         className={classes.media}
-                        image={controller}
+                        image={banner}
                         title="Controller"
                     />
                     <CardContent>
