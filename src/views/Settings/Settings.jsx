@@ -1,46 +1,45 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 
-import {withStyles} from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
+import ExpansionPanel from '@material-ui/core/ExpansionPanel';
+import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
+import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
+import Typography from '@material-ui/core/Typography';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
-
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import Select from '@material-ui/core/Select';
+import TextField from '@material-ui/core/TextField';
+import {withStyles} from '@material-ui/core/styles';
 
 import styles from '../../assets/views/Settings/jss/settings-style'
-import banner from '../../assets/views/Settings/img/forgot-password-banner.jpg'
 
 class Settings extends Component {
 
+    state = {
+        changeNameRobotName: 'default',
+        unregisterRobotName: 'default',
+        newRobotName: 'Enter New Name'
+    }
+
+    handleChange = name => event => {
+     this.setState({[name] : event.target.value});
+    }
+
     render() {
         let {classes} = this.props;
-        return (
-            <main className={classes.main}>
+        return (    <div className={classes.root}>
                 <Typography className={classes.typography} variant="subtitle1" gutterBottom>
-                    Password
+                    Authentication
                 </Typography>
-                <Card className={classes.card}>
-                        <CardMedia
-                            component="img"
-                            alt="Forgotten Password"
-                            className={classes.media}
-                            height="140"
-                            image={banner}
-                            title="Forgotten Password"
-                        />
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Change Password
-                            </Typography>
-                            <Typography component="p">
-                                Reset your password by filling in the form.
-                            </Typography>
-                        <form className={classes.form}>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography className={classes.heading}>Change Password</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <form>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="currentPassword">Current Password</InputLabel>
                                 <Input name="currentPassword" type="password" id="currentPassword" />
@@ -64,8 +63,93 @@ class Settings extends Component {
                                 Submit
                             </Button>
                         </form>
-                        </CardContent>
-                </Card></main>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+
+                <Typography className={classes.typography} variant="subtitle1" gutterBottom>
+                    Robot
+                </Typography>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography className={classes.heading}>Change Names</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <form>
+                            <FormControl className={classes.selectFormControl} margin="normal">
+                                <InputLabel htmlFor="robot">Robot</InputLabel>
+                                <Select
+                                    native
+                                    value={this.state.changeNameRobotName}
+                                    onChange={this.handleChange('changeNameRobotName')}
+                                    inputProps={{
+                                        name: 'robot',
+                                        id: 'robot',
+                                    }}
+                                >
+                                    <option value="default">Select Robot</option>
+                                    <option value={10}>Robot 1</option>
+                                    <option value={20}>Robot 2</option>
+                                    <option value={30}>Robot 3</option>
+                                </Select>
+                            </FormControl>
+                            <FormControl margin="normal" required fullWidth>
+                                <TextField
+                                    id="standard-name"
+                                    label="New Name"
+                                    className={classes.textField}
+                                    value={this.state.newRobotName}
+                                    onChange={this.handleChange('newRobotName')}
+                                    margin="normal"
+                                />
+                            </FormControl>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={()=>{}}
+                            >
+                                Submit
+                            </Button>
+                        </form>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+                <ExpansionPanel>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                        <Typography className={classes.heading}>Registrar</Typography>
+                    </ExpansionPanelSummary>
+                    <ExpansionPanelDetails>
+                        <form>
+                            <FormControl className={classes.selectFormControl} margin="normal">
+                                <InputLabel htmlFor="robot">Robot</InputLabel>
+                                <Select
+                                    native
+                                    value={this.state.unregisterRobotName}
+                                    onChange={this.handleChange('unregisterRobotName')}
+                                    inputProps={{
+                                        name: 'robot',
+                                        id: 'robot',
+                                    }}
+                                >
+                                    <option value="default">Select Robot</option>
+                                    <option value={10}>Robot 1</option>
+                                    <option value={20}>Robot 2</option>
+                                    <option value={30}>Robot 3</option>
+                                </Select>
+                            </FormControl>
+                            <Button
+                                fullWidth
+                                variant="contained"
+                                color="primary"
+                                className={classes.submit}
+                                onClick={()=>{}}
+                            >
+                                Unregister
+                            </Button>
+                        </form>
+                    </ExpansionPanelDetails>
+                </ExpansionPanel>
+            </div>
         );
     }
 

@@ -1,33 +1,31 @@
-let styles = theme => ({
-    main: {
-        width: 'auto',
-        display: 'block', // Fix IE 11 issue.
-        marginLeft: theme.spacing.unit * 3,
-        marginRight: theme.spacing.unit * 3,
-        [theme.breakpoints.up(400 + theme.spacing.unit * 3 * 2)]: {
-            width: 400,
-            marginLeft: 'auto',
-            marginRight: 'auto',
-        }
-    },
-    typography: {
-        marginTop: theme.spacing.unit * 2
-    },
-    card: {
+const styles = theme => ({
+    root: {
+        margin: '0 auto',
         marginTop: theme.spacing.unit * 2,
-        maxWidth: 500,
+        width: '70%',
     },
-    form: {
-        padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme.spacing.unit * 3}px`,
+    heading: {
+        fontSize: theme.typography.pxToRem(15),
+        fontWeight: theme.typography.fontWeightRegular,
     },
     submit: {
         marginTop: theme.spacing.unit * 3,
     },
-    media: {
-        // ⚠️ object-fit is not supported by IE 11.
-        // IE 11 is for wankers.
-        objectFit: 'cover',
+    typography: {
+        marginTop: theme.spacing.unit * 2
     },
-})
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
+    },
+    select: {
+        display: 'flex',
+        flexDirection: 'column-reverse'
+    },
+    selectFormControl: {
+        marginLeft: theme.spacing.unit
+    }
+});
 
 export default styles;
