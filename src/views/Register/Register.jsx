@@ -110,12 +110,12 @@ class Register extends Component {
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input name="password" type="password" id="password"
+                            <Input name="password" type="password" id="password" autoComplete="new-password"
                                    onChange={e => this.setState({password: e.target.value})}/>
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="confirm_password">Confirm Password</InputLabel>
-                            <Input name="confirm_password" type="password" id="confirm_password"
+                            <Input name="confirm_password" type="password" id="confirm_password" autoComplete="new-password"
                                    onChange={e => this.setState({confirmPassword: e.target.value})}/>
                         </FormControl>
                         <Button
