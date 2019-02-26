@@ -39,6 +39,16 @@ class Login extends Component {
         this.props.resetLoginError()
     }
 
+    onLogin = () => {
+        this.props.authLogin(this.state.email, this.state.password)
+    }
+
+    onKeyPress = (e) => {
+        if (e.key === "Enter") {
+            this.onLogin();
+        }
+    }
+
     render() {
         let { classes, loginError } = this.props;
 
@@ -74,7 +84,11 @@ class Login extends Component {
                         </FormControl>
                         <FormControl margin="normal" required fullWidth>
                             <InputLabel htmlFor="password">Password</InputLabel>
-                            <Input name="password" type="password" id="password" onChange={e => this.setState({password: e.target.value})} autoComplete="current-password" />
+                            <Input
+                                name="password" type="password" id="password"
+                                onChange={e => this.setState({password: e.target.value})} autoComplete="current-password"
+                                onKeyPress={this.onKeyPress.bind(this)}
+                            />
                         </FormControl>
                         <FormControlLabel
                             control={<Checkbox value="remember" color="primary" />}
@@ -85,7 +99,7 @@ class Login extends Component {
                             variant="contained"
                             color="primary"
                             className={classes.submit}
-                            onClick={()=>this.props.authLogin(this.state.email, this.state.password)}
+                            onClick={this.onLogin.bind(this)}
                         >
                             Sign in
                         </Button>
