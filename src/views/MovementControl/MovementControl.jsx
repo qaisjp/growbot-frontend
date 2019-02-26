@@ -27,8 +27,6 @@ import online from '../../assets/views/MovementControl/img/green_circle.png'
 import offline from '../../assets/views/MovementControl/img/red_circle.png'
 import {connect} from "react-redux";
 
-const robot_uuid = "c14e69bd-a50b-4ab8-8045-f81fcc2bc668";
-
 class MovementControl extends Component {
 
     state = {
@@ -46,9 +44,10 @@ class MovementControl extends Component {
             "key": "object_avoidance",
             "value": objectDetectionActive
         }
-        let response = await fetch(endpoints.robot_settings(robot_uuid), {
+        let response = await fetch(endpoints.robot_settings(this.state.selectedRobot), {
             method: "PATCH",
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(objectDetectionCommand)
@@ -66,9 +65,10 @@ class MovementControl extends Component {
             procedure: "square"
         }
 
-        let response = await fetch(endpoints.robot_startDemo(robot_uuid), {
+        let response = await fetch(endpoints.robot_startDemo(this.state.selectedRobot), {
             method: "POST",
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(directionCommand)
@@ -86,9 +86,10 @@ class MovementControl extends Component {
             procedure: "random_move"
         }
 
-        let response = await fetch(endpoints.robot_startDemo(robot_uuid), {
+        let response = await fetch(endpoints.robot_startDemo(this.state.selectedRobot), {
             method: "POST",
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(directionCommand)
@@ -107,9 +108,10 @@ class MovementControl extends Component {
             direction: "forward"
         }
 
-        let response = await fetch(endpoints.robot_move(robot_uuid), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
             method: "POST",
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(directionCommand)
@@ -128,9 +130,10 @@ class MovementControl extends Component {
             direction: "backward"
         }
 
-        let response = await fetch(endpoints.robot_move(robot_uuid), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
             method: "POST",
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(directionCommand)
@@ -150,9 +153,10 @@ class MovementControl extends Component {
             direction: "right"
         }
 
-        let response = await fetch(endpoints.robot_move(robot_uuid), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
             method: "POST",
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(directionCommand)
@@ -173,9 +177,10 @@ class MovementControl extends Component {
             direction: "left"
         }
 
-        let response = await fetch(endpoints.robot_move(robot_uuid), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
             method: "POST",
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json"
             },
             body: JSON.stringify(directionCommand)
@@ -195,9 +200,10 @@ class MovementControl extends Component {
             direction: "brake"
         }
 
-        let response = await fetch(endpoints.robot_move(robot_uuid), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
             method: "POST",
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json",
             },
             body: JSON.stringify(directionCommand)
@@ -224,6 +230,7 @@ class MovementControl extends Component {
         console.log(this.props.loginToken)
         let response = await fetch(endpoints.robots_list, {
             headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json",
                 "Authorization": "Bearer " + this.props.loginToken
             },
