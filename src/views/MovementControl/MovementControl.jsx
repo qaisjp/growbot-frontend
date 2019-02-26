@@ -5,6 +5,11 @@ import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
@@ -16,6 +21,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import Avatar from '@material-ui/core/Avatar';
+import TextField from '@material-ui/core/TextField';
 import {withStyles} from '@material-ui/core';
 
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
@@ -34,8 +40,11 @@ class MovementControl extends Component {
         message: "",
         type: "",
         open: false,
-        selectedRobot: "",
-        robots: []
+        dialogOpen: false,
+        selectedRobotId: null,
+        robots: [],
+        newRobotSerialKey: "",
+        dialogType: ""
     }
 
     onChangeObjectDetection = async () => {
@@ -44,7 +53,7 @@ class MovementControl extends Component {
             "key": "object_avoidance",
             "value": objectDetectionActive
         }
-        let response = await fetch(endpoints.robot_settings(this.state.selectedRobot), {
+        let response = await fetch(endpoints.robot_settings(this.state.selectedRobotId), {
             method: "PATCH",
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -65,7 +74,7 @@ class MovementControl extends Component {
             procedure: "square"
         }
 
-        let response = await fetch(endpoints.robot_startDemo(this.state.selectedRobot), {
+        let response = await fetch(endpoints.robot_startDemo(this.state.selectedRobotId), {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -86,7 +95,7 @@ class MovementControl extends Component {
             procedure: "random_move"
         }
 
-        let response = await fetch(endpoints.robot_startDemo(this.state.selectedRobot), {
+        let response = await fetch(endpoints.robot_startDemo(this.state.selectedRobotId), {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -108,7 +117,7 @@ class MovementControl extends Component {
             direction: "forward"
         }
 
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -130,7 +139,7 @@ class MovementControl extends Component {
             direction: "backward"
         }
 
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -153,7 +162,7 @@ class MovementControl extends Component {
             direction: "right"
         }
 
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -177,7 +186,7 @@ class MovementControl extends Component {
             direction: "left"
         }
 
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -200,7 +209,7 @@ class MovementControl extends Component {
             direction: "brake"
         }
 
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobot), {
+        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
             method: "POST",
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -223,21 +232,21 @@ class MovementControl extends Component {
     }
 
     handleListItemClick = (event, uuid) => {
-        this.setState({selectedRobot: uuid});
+        this.setState({selectedRobotId: uuid});
     };
 
     robotsApi = async () => {
-        console.log(this.props.loginToken)
+        console.log(this.props.isLoginSuccess);
+        console.log(this.props.loginToken);
         let response = await fetch(endpoints.robots_list, {
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
                 "Content-Type": "application/json",
-                "Authorization": "Bearer " + this.props.loginToken
             },
         });
         let body = await response.text();
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             let data = JSON.parse(body);
             return data;
         }
@@ -250,7 +259,7 @@ class MovementControl extends Component {
 
             result = await this.robotsApi();
 
-            if(result instanceof Error) {
+            if (result instanceof Error) {
                 console.log(result.message)
                 this.setState({robots: []})
             } else {
@@ -261,7 +270,7 @@ class MovementControl extends Component {
 
             console.log(this.state.robots)
 
-        } catch(e) {
+        } catch (e) {
             //set lorem ipsum robots here
         }
     }
@@ -270,11 +279,139 @@ class MovementControl extends Component {
         return robot.seen_at !== null
     }
 
+    handleDialogClose = () => {
+        this.setState({dialogOpen: false})
+    }
+
+    handleDialogOpenAdd = () => {
+        this.setState({dialogOpen: true, dialogType: "add"})
+    }
+
+    handleDialogOpenRemove = () => {
+        this.setState({dialogOpen: true, dialogType: "remove"})
+    }
+
+    handleChange = name => event => {
+        this.setState({[name]: event.target.value});
+    }
+
+    onAddRobot = async () => {
+        let addRobotRequest = {
+            robot_id: this.state.newRobotSerialKey,
+            title: "Robot 1"
+        }
+
+        console.log("[TOKEN] " + this.props.loginToken)
+        let response = await fetch(endpoints.robots_register, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.props.loginToken
+            },
+            body: JSON.stringify(addRobotRequest)
+        });
+
+        if (response.status === 200) {
+            console.log('200')
+
+            let result = await this.robotsApi();
+
+            if (result instanceof Error) {
+                console.log(result.message)
+                this.setState({robots: []})
+            } else {
+                console.log("NOT NULL")
+                console.log(result.robots)
+                this.setState({robots: result.robots})
+            }
+        } else {
+            console.log('not 200')
+            response.text().then(x => console.log(x))
+        }
+    }
+
+    onRemoveRobot = async () => {
+        console.log(this.state.selectedRobotId)
+        let response = await fetch(endpoints.robot_delete(this.state.selectedRobotId), {
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + this.props.loginToken
+            },
+        });
+
+        console.log("response status " + response.status)
+
+        if(response.status === 200) {
+
+            let result = await this.robotsApi();
+
+            if (result instanceof Error) {
+                console.log(result.message)
+                this.setState({robots: []})
+            } else {
+                console.log("NOT NULL")
+                console.log(result.robots)
+                this.setState({robots: result.robots})
+            }
+        } else {
+
+        }
+    }
+
+    getSelectedRobot = () => {
+        for(let robot in this.state.robots) {
+            if(robot.id === this.state.selectedRobotId) {
+                return robot;
+            }
+        }
+
+        return null;
+    }
+
     render() {
         let {classes} = this.props;
         return <div className={classes.root}>
-
             <br/>
+            <Dialog
+                open={this.state.dialogOpen}
+                onClose={this.handleDialogClose}
+                aria-labelledby="form-dialog-title"
+            >
+                <DialogTitle id="form-dialog-title">
+                    {
+                        this.state.dialogType === "add" ? "Add Robot" : "Remove Robot"
+                    }
+                </DialogTitle>
+                {
+                    this.state.dialogType === "add" ? <DialogContent>
+                        <DialogContentText>
+                            To add a robot please fill in the serial key below
+                        </DialogContentText>
+                        <TextField
+                            id="addRobot"
+                            label="Serial key"
+                            className={classes.textField}
+                            value={this.state.newRobotSerialKey}
+                            onChange={this.handleChange('newRobotSerialKey')}
+                            margin="normal"
+                        />
+                    </DialogContent> : <DialogContentText>Are you sure you want to delete the robot ?</DialogContentText>
+                }
+
+                <DialogActions>
+                    <Button onClick={this.handleDialogClose} color="primary">
+                        Cancel
+                    </Button>
+                    {
+                        this.state.dialogType === "add" ? <Button onClick={this.onAddRobot} color="primary">
+                            Add
+                        </Button> : <Button onClick={this.onRemoveRobot} color="primary">
+                            Remove
+                        </Button>
+                    }
+
+                </DialogActions>
+            </Dialog>
             <Snackbar
                 anchorOrigin={{
                     vertical: 'bottom',
@@ -319,7 +456,7 @@ class MovementControl extends Component {
                                             key={robot.id}
                                             alignItems="flex-start"
                                             button
-                                            selected={this.state.selectedRobot === robot.id}
+                                            selected={this.state.selectedRobotId === robot.id}
                                             onClick={event => this.handleListItemClick(event, robot.id)}
                                         >
                                             <ListItemAvatar>
@@ -328,16 +465,23 @@ class MovementControl extends Component {
                                             <ListItemText
                                                 primary={robot.title}
                                                 secondary={
-                                                    robot.seen_at === null ? <React.Fragment>Please start this growbot</React.Fragment> :
-                                                    <React.Fragment>
-                                                        {`Charge: ${robot.battery_level}%; Water Volume: ${robot.water_level}ml`}
-                                                    </React.Fragment>
+                                                    robot.seen_at === null ?
+                                                        <React.Fragment>Please start this growbot</React.Fragment> :
+                                                        <React.Fragment>
+                                                            {`Charge: ${robot.battery_level}%; Water Volume: ${robot.water_level}ml`}
+                                                        </React.Fragment>
                                                 }
                                             />
                                         </ListItem>
                                     ))
                                 }
                             </List>
+                            <Button size="small" color="primary" onClick={this.handleDialogOpenAdd}>
+                                Add Robot
+                            </Button>
+                            <Button size="small" color="primary" onClick={this.handleDialogOpenRemove}>
+                                Remove Robot
+                            </Button>
                         </CardActions>
                     </Card></Grid>
                 <Grid item xs={5}>
@@ -398,8 +542,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-    }
+    return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(MovementControl));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MovementControl));

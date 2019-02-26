@@ -59,7 +59,8 @@ class Layout extends Component {
 
 function mapStateToProps(state) {
     return {
-        loggedIn: state.auth.isLoginSuccess
+        loggedIn: state.auth.isLoginSuccess,
+        loginToken: state.auth.loginToken
     }
 }
 
