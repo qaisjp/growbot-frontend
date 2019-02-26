@@ -39,7 +39,7 @@ class Settings extends Component {
         }
 
         console.log("[TOKEN] " + this.props.loginToken)
-        let response = await fetch(endpoints.addRobot, {
+        let response = await fetch(endpoints.robots_register, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

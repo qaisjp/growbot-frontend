@@ -11,8 +11,15 @@ export default {
     move: `${base}/move`,
     settings: `${base}/settings`,
     start: `${base}/demo/start`,
-    register: `${base}/auth/register`,
-    login: `${base}/auth/login`,
-    robots: `${base}/robots`,
-    addRobot: `${base}/robots/register`
+
+    auth_register: `${base}/auth/register`,
+    auth_login: `${base}/auth/login`,
+    robots_list: `${base}/robots`,
+    robots_register: `${base}/robots/register`,
+
+    robot_status: uuid => `${base}/robot/${uuid}`,
+    robot_delete: uuid => `${base}/robot/${uuid}`,
+    robot_move: uuid => `${base}/robot/${uuid}/move`,
+    robot_startDemo: uuid => `${base}/robot/${uuid}/startDemo`,
+    robot_settings: uuid => `${base}/robot/${uuid}/settings`,
 }

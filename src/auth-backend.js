@@ -5,7 +5,7 @@ export async function callLoginApi (email, password, callback) {
         email,
         password
     }
-    let response = await fetch(endpoints.login, {
+    let response = await fetch(endpoints.auth_login, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

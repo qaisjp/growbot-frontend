@@ -43,7 +43,7 @@ class Register extends Component {
             surname: this.state.surname
         }
         if (this.state.password === this.state.confirmPassword) {
-            let response = await fetch(endpoints.register, {
+            let response = await fetch(endpoints.auth_register, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
