@@ -42,23 +42,28 @@ class Register extends Component {
             forename: this.state.forename,
             surname: this.state.surname
         }
-        if (this.state.password === this.state.confirmPassword) {
-            let response = await fetch(endpoints.auth_register, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(registrationRequest)
-            });
-            if (response.status === 200) {
-                this.props.authLogin(this.state.email, this.state.password);
-                //this.setState({message: "Successfully Registered", open: true, type: "success"})
-            } else {
-                this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
-            }
-        } else {
+
+        if (this.state.password !== this.state.confirmPassword) {
             this.setState({message: "Please check the passwords match!", open: true, type: "error"})
+            return;
         }
+
+        let response = await fetch(endpoints.auth_register, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(registrationRequest)
+        });
+
+        if (response.status === 200) {
+            this.props.authLogin(this.state.email, this.state.password);
+            //this.setState({message: "Successfully Registered", open: true, type: "success"})
+            return;
+        }
+
+        const body = await response.json();
+        this.setState({message: body.message, open: true, type: "error"})
     }
 
     handleClose = () => {
