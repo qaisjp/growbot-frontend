@@ -27,13 +27,13 @@ import {withStyles} from '@material-ui/core';
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
 
 import endpoints from '../../endpoints';
-import styles from '../../assets/views/MovementControl/jss/movement-control-style';
-import banner from '../../assets/views/MovementControl/img/banner.jpg'
-import online from '../../assets/views/MovementControl/img/green_circle.png'
-import offline from '../../assets/views/MovementControl/img/red_circle.png'
+import styles from '../../assets/views/Dashboard/jss/dashboard-style';
+import banner from '../../assets/views/Dashboard/img/banner.jpg'
+import online from '../../assets/views/Dashboard/img/green_circle.png'
+import offline from '../../assets/views/Dashboard/img/red_circle.png'
 import {connect} from "react-redux";
 
-class MovementControl extends Component {
+class Dashboard extends Component {
 
     state = {
         checkedDetection: false,
@@ -545,4 +545,4 @@ function mapDispatchToProps(dispatch) {
     return {}
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(MovementControl));
+export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Dashboard));
