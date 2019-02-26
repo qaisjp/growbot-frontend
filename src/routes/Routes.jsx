@@ -13,12 +13,6 @@ let routes = [
         visible: true
     },
     {
-        name: "Vision Monitor",
-        path: "/vision",
-        component: VisionMonitor,
-        visible: true
-    },
-    {
         name: "Account Login",
         path: "/login",
         component: Login,
