@@ -37,7 +37,7 @@ class Layout extends Component {
 
                             routes.map((prop) => {
 
-                                if(prop.name === "Account Login" && loggedIn || prop.name === "Register" && loggedIn || prop.name === "Recover Password" && loggedIn) {
+                                if((prop.name === "Account Login" && loggedIn) || (prop.name === "Register" && loggedIn) || (prop.name === "Recover Password" && loggedIn)) {
                                     return <Redirect from={prop.path} to={"/"}/>
                                 }
 
