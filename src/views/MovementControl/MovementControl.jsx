@@ -428,7 +428,7 @@ class MovementControl extends Component {
                 />
             </Snackbar>
             <Grid container spacing={12}>
-                <Grid item xs={5}>
+                <Grid item xs={12} sm={6} md={6}>
                     <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia
@@ -443,7 +443,7 @@ class MovementControl extends Component {
                                     Robots
                                 </Typography>
                                 <Typography component="p">
-                                    Select the name of a Growbot you would like to control.
+                                    { this.state.robots.length === 0 ? "Please add some robots to your account" : "Select the name of a Growbot you would like to control" }
                                 </Typography>
                             </CardContent>
                         </CardActionArea>
@@ -484,7 +484,7 @@ class MovementControl extends Component {
                             </Button>
                         </CardActions>
                     </Card></Grid>
-                <Grid item xs={5}>
+                <Grid item xs={12} sm={6} md={6}>
                     <Card className={classes.card}>
                         <CardActionArea>
                             <CardMedia

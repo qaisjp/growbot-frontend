@@ -15,6 +15,7 @@ export default {
     auth_register: `${base}/auth/register`,
     auth_login: `${base}/auth/login`,
     auth_refresh: `${base}/auth/refresh`,
+    auth_chgpass: `${base}/auth/chgpass`,
 
     robots_list: `${base}/robots`,
     robots_register: `${base}/robots/register`,
