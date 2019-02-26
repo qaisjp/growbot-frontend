@@ -321,6 +321,7 @@ class MovementControl extends Component {
                                             <ListItemText
                                                 primary={robot.title}
                                                 secondary={
+                                                    robot.seen_at === null ? <React.Fragment>Please start this growbot</React.Fragment> :
                                                     <React.Fragment>
                                                         {`Charge: ${robot.battery_level}%; Water Volume: ${robot.water_level}ml`}
                                                     </React.Fragment>
