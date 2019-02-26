@@ -15,9 +15,11 @@ export default function(email, password) {
             console.log(error)
 
             if (!error) {
+                localStorage.setItem("loginToken", attribute);
                 dispatch(setLoginToken(attribute));
                 dispatch(setLoginSuccess(true));
             } else {
+                localStorage.removeItem("loginToken");
                 dispatch(setLoginError(attribute));
             }
         });

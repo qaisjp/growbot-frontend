@@ -14,6 +14,8 @@ export default {
 
     auth_register: `${base}/auth/register`,
     auth_login: `${base}/auth/login`,
+    auth_refresh: `${base}/auth/refresh`,
+
     robots_list: `${base}/robots`,
     robots_register: `${base}/robots/register`,
 
