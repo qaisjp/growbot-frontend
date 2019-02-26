@@ -309,6 +309,7 @@ class MovementControl extends Component {
                                 {
                                     this.state.robots.map(robot => (
                                         <ListItem
+                                            key={robot.id}
                                             alignItems="flex-start"
                                             button
                                             selected={this.state.selectedIndex === 0}
