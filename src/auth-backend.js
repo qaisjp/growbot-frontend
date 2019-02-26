@@ -13,10 +13,13 @@ export async function callLoginApi (email, password, callback) {
         body: JSON.stringify(loginRequest)
     });
     if (response.status === 200) {
-        callback(null);
+        response.json().then(body => {
+            console.log(body)
+            callback(body.token);
+        })
     } else {
         response.text().then(msg => {
-            callback(msg)
+            callback("Error: " + msg)
         })
     }
 }

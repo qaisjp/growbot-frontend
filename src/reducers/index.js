@@ -4,7 +4,7 @@ import AuthReducer from './reducer_auth'
 
 let rootReducer = combineReducers({
     drawer: DrawerReducer,
-    auth: AuthReducer
+    auth: AuthReducer,
 })
 
 export default rootReducer;

@@ -1,9 +1,10 @@
-import { SET_LOGIN_ERROR, SET_LOGIN_SUCCESS, SET_LOGIN_PENDING } from "../auth-constants";
+import { SET_LOGIN_ERROR, SET_LOGIN_SUCCESS, SET_LOGIN_PENDING, SET_LOGIN_TOKEN } from "../auth-constants";
 
 export default function (state = {
     isLoginSuccess: false,
     isLoginPending: false,
-    loginError: null
+    loginError: null,
+    loginToken: null
 }, action) {
     switch (action.type) {
         case SET_LOGIN_PENDING:
@@ -19,7 +20,10 @@ export default function (state = {
             return Object.assign({}, state, {
                 loginError: action.loginError
             });
-
+        case SET_LOGIN_TOKEN:
+            return Object.assign({}, state, {
+                loginToken: action.loginToken
+            });
         default:
             return state;
     }

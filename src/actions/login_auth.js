@@ -1,4 +1,4 @@
-import {setLoginError, setLoginPending, setLoginSuccess } from "../auth-mutators";
+import { setLoginError, setLoginPending, setLoginSuccess, setLoginToken } from "../auth-mutators";
 import { callLoginApi } from '../auth-backend'
 
 export default function(email, password) {
@@ -6,13 +6,19 @@ export default function(email, password) {
         dispatch(setLoginPending(true));
         dispatch(setLoginSuccess(false));
         dispatch(setLoginError(null));
+        dispatch(setLoginToken(null));
 
-        callLoginApi(email, password, error => {
+        callLoginApi(email, password, attribute => {
             dispatch(setLoginPending(false));
+
+            let error = attribute.startsWith("Error");
+            console.log(error)
+
             if (!error) {
                 dispatch(setLoginSuccess(true));
+                dispatch(setLoginToken(attribute));
             } else {
-                dispatch(setLoginError(error));
+                dispatch(setLoginError(attribute));
             }
         });
     }

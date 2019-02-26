@@ -202,7 +202,7 @@ class MovementControl extends Component {
         let response = await fetch(endpoints.move, {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
             },
             body: JSON.stringify(directionCommand)
         });
@@ -223,6 +223,31 @@ class MovementControl extends Component {
     handleListItemClick = (event, index) => {
         this.setState({selectedIndex: index});
     };
+
+    robotsApi = async () => {
+        let response = await fetch(endpoints.robots);
+        let body = await response.text();
+
+        if(response.status === 200) {
+            let data = JSON.parse(body);
+            return data;
+        }
+
+        return new Error(body);
+    }
+
+    componentDidMount = async () => {
+        let robots = []
+
+        try {
+
+            robots = await this.robotsApi();
+            console.log(robots)
+
+        } catch(e) {
+            //set lorem ipsum robots here
+        }
+    }
 
     render() {
         let {classes} = this.props;

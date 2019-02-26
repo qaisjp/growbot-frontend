@@ -13,5 +13,6 @@ export default {
     start: `${base}/demo/start`,
     register: `${base}/auth/register`,
     login: `${base}/auth/login`,
-    robots: `${base}/robots`
+    robots: `${base}/robots`,
+    addRobot: `${base}/robots/register`
 }

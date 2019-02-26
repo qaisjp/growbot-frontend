@@ -1,0 +1,2 @@
+export let ADD_ROBOT = 'ADD_ROBOT'
+export let REMOVE_ROBOT = 'REMOVE_ROBOT'

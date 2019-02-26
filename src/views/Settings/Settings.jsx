@@ -15,6 +15,9 @@ import TextField from '@material-ui/core/TextField';
 import {withStyles} from '@material-ui/core/styles';
 
 import styles from '../../assets/views/Settings/jss/settings-style'
+import endpoints from "../../endpoints";
+import login from "../../actions/login_auth";
+import {connect} from "react-redux";
 
 class Settings extends Component {
 
@@ -27,6 +30,50 @@ class Settings extends Component {
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
+    }
+
+    onAddRobot = async () => {
+        let addRobotRequest = {
+            robot_id: this.state.newRobotSerialKey
+        }
+
+        console.log("[TOKEN] " + this.props.loginToken)
+        let response = await fetch(endpoints.addRobot, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.props.loginToken
+            },
+            body: JSON.stringify(addRobotRequest)
+        });
+
+        if(response.status === 200) {
+            console.log('200')
+        } else {
+            console.log('not 200')
+            console.log(response)
+        }
+    }
+
+    onRemoveRobot = async () => {
+        let removeRobotRequest = {
+
+        }
+
+        let response = await fetch("", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Token": this.props.loginToken
+            },
+            body: JSON.stringify(removeRobotRequest)
+        });
+
+        if(response.status === 200) {
+
+        } else {
+
+        }
     }
 
     render() {
@@ -138,8 +185,7 @@ class Settings extends Component {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                onClick={() => {
-                                }}
+                                onClick={this.onAddRobot}
                             >
                                 Register
                             </Button>
@@ -188,8 +234,22 @@ class Settings extends Component {
 
 }
 
+function mapStateToProps(state) {
+    return {
+        isLoginPending: state.auth.isLoginPending,
+        isLoginSuccess: state.auth.isLoginSuccess,
+        loginError: state.auth.loginError,
+        loginToken: state.auth.loginToken
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+    }
+}
+
 Settings.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Settings);
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Settings));
