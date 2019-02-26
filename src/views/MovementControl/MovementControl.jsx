@@ -36,7 +36,7 @@ class MovementControl extends Component {
         message: "",
         type: "",
         open: false,
-        selectedIndex: 0,
+        selectedRobot: "",
         robots: []
     }
 
@@ -216,8 +216,8 @@ class MovementControl extends Component {
         this.setState({open: false})
     }
 
-    handleListItemClick = (event, index) => {
-        this.setState({selectedIndex: index});
+    handleListItemClick = (event, uuid) => {
+        this.setState({selectedRobot: uuid});
     };
 
     robotsApi = async () => {
@@ -312,8 +312,8 @@ class MovementControl extends Component {
                                             key={robot.id}
                                             alignItems="flex-start"
                                             button
-                                            selected={this.state.selectedIndex === 0}
-                                            onClick={event => this.handleListItemClick(event, 0)}
+                                            selected={this.state.selectedRobot === robot.id}
+                                            onClick={event => this.handleListItemClick(event, robot.id)}
                                         >
                                             <ListItemAvatar>
                                                 <Avatar src={this.isRobotOnline(robot) ? online : offline}/>
