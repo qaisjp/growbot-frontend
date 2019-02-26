@@ -25,6 +25,7 @@ import styles from '../../assets/views/MovementControl/jss/movement-control-styl
 import banner from '../../assets/views/MovementControl/img/banner.jpg'
 import online from '../../assets/views/MovementControl/img/green_circle.png'
 import offline from '../../assets/views/MovementControl/img/red_circle.png'
+import {connect} from "react-redux";
 
 class MovementControl extends Component {
 
@@ -33,7 +34,8 @@ class MovementControl extends Component {
         message: "",
         type: "",
         open: false,
-        selectedIndex: 0
+        selectedIndex: 0,
+        robots: []
     }
 
     onChangeObjectDetection = async () => {
@@ -225,28 +227,46 @@ class MovementControl extends Component {
     };
 
     robotsApi = async () => {
-        let response = await fetch(endpoints.robots);
+        console.log(this.props.loginToken)
+        let response = await fetch(endpoints.robots, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.props.loginToken
+            },
+        });
         let body = await response.text();
 
         if(response.status === 200) {
             let data = JSON.parse(body);
             return data;
         }
-
         return new Error(body);
     }
 
     componentDidMount = async () => {
-        let robots = []
-
+        let result = []
         try {
 
-            robots = await this.robotsApi();
-            console.log(robots)
+            result = await this.robotsApi();
+
+            if(result instanceof Error) {
+                console.log(result.message)
+                this.setState({robots: []})
+            } else {
+                console.log("NOT NULL")
+                console.log(result.robots)
+                this.setState({robots: result.robots})
+            }
+
+            console.log(this.state.robots)
 
         } catch(e) {
             //set lorem ipsum robots here
         }
+    }
+
+    isRobotOnline = (robot) => {
+        return robot.seen_at !== null
     }
 
     render() {
@@ -291,61 +311,29 @@ class MovementControl extends Component {
                         </CardActionArea>
                         <CardActions>
                             <List className={classes.root}>
-                                <ListItem
-                                    alignItems="flex-start"
-                                    button
-                                    selected={this.state.selectedIndex === 0}
-                                    onClick={event => this.handleListItemClick(event, 0)}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar src={online}/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={"AT-3.06"}
-                                        secondary={
-                                            <React.Fragment>
-                                                {"Charge: 100%; Water Volume: 500ml"}
-                                            </React.Fragment>
-                                        }
-                                    />
-                                </ListItem>
-                                <ListItem
-                                    alignItems="flex-start"
-                                    button
-                                    disabled
-                                    selected={this.state.selectedIndex === 1}
-                                    onClick={event => this.handleListItemClick(event, 1)}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar src={offline}/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={"AT-3.03"}
-                                        secondary={
-                                            <React.Fragment>
-                                                {"Please start up this GrowBot"}
-                                            </React.Fragment>
-                                        }
-                                    />
-                                </ListItem>
-                                <ListItem
-                                    alignItems="flex-start"
-                                    button
-                                    selected={this.state.selectedIndex === 2}
-                                    onClick={event => this.handleListItemClick(event, 2)}
-                                >
-                                    <ListItemAvatar>
-                                        <Avatar src={online}/>
-                                    </ListItemAvatar>
-                                    <ListItemText
-                                        primary={"AT-3.01"}
-                                        secondary={
-                                            <React.Fragment>
-                                                {"Charge: 4%; Water Volume: 23ml"}
-                                            </React.Fragment>
-                                        }
-                                    />
-                                </ListItem>
+
+                                {
+                                    this.state.robots.map(robot => (
+                                        <ListItem
+                                            alignItems="flex-start"
+                                            button
+                                            selected={this.state.selectedIndex === 0}
+                                            onClick={event => this.handleListItemClick(event, 0)}
+                                        >
+                                            <ListItemAvatar>
+                                                <Avatar src={this.isRobotOnline(robot) ? online : offline}/>
+                                            </ListItemAvatar>
+                                            <ListItemText
+                                                primary={robot.title}
+                                                secondary={
+                                                    <React.Fragment>
+                                                        {`Charge: ${robot.battery_level}%; Water Volume: ${robot.water_level}ml`}
+                                                    </React.Fragment>
+                                                }
+                                            />
+                                        </ListItem>
+                                    ))
+                                }
                             </List>
                         </CardActions>
                     </Card></Grid>
@@ -397,4 +385,18 @@ class MovementControl extends Component {
     }
 }
 
-export default withStyles(styles)(MovementControl);
+function mapStateToProps(state) {
+    return {
+        isLoginPending: state.auth.isLoginPending,
+        isLoginSuccess: state.auth.isLoginSuccess,
+        loginError: state.auth.loginError,
+        loginToken: state.auth.loginToken
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(MovementControl));

@@ -34,7 +34,8 @@ class Settings extends Component {
 
     onAddRobot = async () => {
         let addRobotRequest = {
-            robot_id: this.state.newRobotSerialKey
+            robot_id: this.state.newRobotSerialKey,
+            title: "Robot 1"
         }
 
         console.log("[TOKEN] " + this.props.loginToken)
@@ -51,7 +52,7 @@ class Settings extends Component {
             console.log('200')
         } else {
             console.log('not 200')
-            console.log(response)
+            response.text().then(x =>console.log(x))
         }
     }
 
