@@ -1,4 +1,4 @@
-import Dashboard from '../views/MovementControl/MovementControl'
+import Dashboard from '../views/Dashboard/Dashboard'
 import Login from '../views/Login/Login'
 import ForgotPassword from '../views/ForgotPassword/ForgotPassword'
 import Register from '../views/Register/Register'
@@ -6,7 +6,7 @@ import Settings from '../views/Settings/Settings'
 
 let routes = [
     {
-        name: "Movement Control",
+        name: "Dashboard",
         path: "/",
         component: Dashboard,
         visible: true

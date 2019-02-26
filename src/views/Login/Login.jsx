@@ -22,7 +22,6 @@ import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarConte
 
 import styles from '../../assets/views/Login/login-style'
 import login from '../../actions/login_auth'
-import refreshToken from '../../actions/refresh_auth'
 import nullifyLoginError from '../../actions/close_dialog'
 
 class Login extends Component {
@@ -30,13 +29,6 @@ class Login extends Component {
     state = {
         email: null,
         password: null
-    }
-
-    componentDidMount = () => {
-        const token = localStorage.getItem("loginToken");
-        if (token !== null) {
-            this.props.authRefresh(token);
-        }
     }
 
     isLoginErroneous = (loginError) => {
@@ -138,7 +130,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        authRefresh: token => dispatch(refreshToken(token)),
         authLogin: (email, password) => dispatch(login(email, password)),
         resetLoginError: _ => dispatch(nullifyLoginError())
     }
