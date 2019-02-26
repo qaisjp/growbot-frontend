@@ -12,5 +12,7 @@ export default function(state = {
         case REMOVE_ROBOT:
             robots.remove(action.robot)
             return robots
+        default:
+            return state
     }
 }
