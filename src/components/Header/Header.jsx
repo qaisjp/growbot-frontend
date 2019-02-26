@@ -133,7 +133,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         showDrawer: _ => dispatch(openDrawer()),
-        authLogout: (email) => dispatch(logout(email))
+        authLogout: (email) => dispatch(logout())
     }
 }
 

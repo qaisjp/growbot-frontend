@@ -41,9 +41,3 @@ export async function callLoginApi (email, password, callback) {
         })
     }
 }
-
-export function callLogoutApi(email, callback) {
-    setTimeout(() => {
-        return callback(null)
-    }, 1000)
-}
