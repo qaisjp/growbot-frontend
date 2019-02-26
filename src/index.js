@@ -9,7 +9,7 @@ import reducers from './reducers';
 
 import * as serviceWorker from './serviceWorker';
 
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
+let createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
 
 ReactDOM.render(
     <Provider store={createStoreWithMiddleware(reducers)}>

@@ -377,7 +377,8 @@ class MovementControl extends Component {
                                                       label="Object Avoidance"/></Grid>
                             </Grid>
                         </CardActions>
-                    </Card></Grid>
+                    </Card>
+                </Grid>
             </Grid>
         </div>
     }

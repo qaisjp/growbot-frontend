@@ -1,5 +1,5 @@
 import {setLoginError, setLoginPending, setLoginSuccess } from "../auth-mutators";
-import { callLoginApi } from '../fake-auth-backend'
+import { callLoginApi } from '../auth-backend'
 
 export default function(email, password) {
     return dispatch => {

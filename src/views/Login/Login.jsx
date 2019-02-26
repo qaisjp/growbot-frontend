@@ -6,6 +6,7 @@ import PropTypes from 'prop-types';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Snackbar from '@material-ui/core/Snackbar';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -17,6 +18,8 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
 
+import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
+
 import styles from '../../assets/views/Login/login-style'
 import login from '../../actions/login_auth'
 
@@ -24,13 +27,38 @@ class Login extends Component {
 
     state = {
         email: null,
-        password: null
+        password: null,
+        type: null,
+        message: null,
+        open: false
     }
 
     render() {
-        const { classes } = this.props;
+        const { classes, loginError } = this.props;
+
+        if(loginError && !this.state.open) {
+            console.log(loginError);
+            let errorObj = JSON.parse(loginError);
+            this.setState({open: true, message: errorObj.message, type: "error"});
+        }
+
         return (
             <main className={classes.main}>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                >
+                    <SnackbarContentWrapper
+                        onClose={this.handleClose}
+                        variant={this.state.type}
+                        message={this.state.message}
+                    />
+                </Snackbar>
                 <CssBaseline />
                 <Paper className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -80,9 +108,9 @@ class Login extends Component {
 
 function mapStateToProps(state) {
     return {
-        isLoginPending: state.isLoginPending,
-        isLoginSuccess: state.isLoginSuccess,
-        loginError: state.loginError
+        isLoginPending: state.auth.isLoginPending,
+        isLoginSuccess: state.auth.isLoginSuccess,
+        loginError: state.auth.loginError
     }
 }
 

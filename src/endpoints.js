@@ -10,5 +10,7 @@ if (config.API_SECURE) {
 export default {
     move: `${base}/move`,
     settings: `${base}/settings`,
-    start: `${base}/demo/start`
+    start: `${base}/demo/start`,
+    register: `${base}/auth/register`,
+    login: `${base}/auth/login`
 }
