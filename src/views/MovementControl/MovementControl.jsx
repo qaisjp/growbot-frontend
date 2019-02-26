@@ -298,7 +298,7 @@ class MovementControl extends Component {
                                         primary={"AT-3.03"}
                                         secondary={
                                             <React.Fragment>
-                                                {"Charge: 97%; Water Volume: 438ml"}
+                                                {"Please start up this GrowBot"}
                                             </React.Fragment>
                                         }
                                     />
