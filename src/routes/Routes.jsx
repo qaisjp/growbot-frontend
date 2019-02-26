@@ -1,5 +1,4 @@
 import Dashboard from '../views/MovementControl/MovementControl'
-import VisionMonitor from '../views/VisionMonitor/VisionMonitor'
 import Login from '../views/Login/Login'
 import ForgotPassword from '../views/ForgotPassword/ForgotPassword'
 import Register from '../views/Register/Register'
