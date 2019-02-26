@@ -15,8 +15,8 @@ export default function(email, password) {
             console.log(error)
 
             if (!error) {
-                dispatch(setLoginSuccess(true));
                 dispatch(setLoginToken(attribute));
+                dispatch(setLoginSuccess(true));
             } else {
                 dispatch(setLoginError(attribute));
             }
