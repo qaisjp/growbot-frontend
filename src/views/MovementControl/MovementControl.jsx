@@ -276,14 +276,10 @@ class MovementControl extends Component {
                                         <Avatar src={online}/>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary="Robot 1"
+                                        primary={"AT-3.06"}
                                         secondary={
                                             <React.Fragment>
-                                                <Typography component="span" className={classes.inline}
-                                                            color="textPrimary">
-                                                    Room: AT-3.06
-                                                </Typography>
-                                                {" — Charge: 100%; Water Volume: 500ml"}
+                                                {"Charge: 100%; Water Volume: 500ml"}
                                             </React.Fragment>
                                         }
                                     />
@@ -299,14 +295,10 @@ class MovementControl extends Component {
                                         <Avatar src={offline}/>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary="Robot 2"
+                                        primary={"AT-3.03"}
                                         secondary={
                                             <React.Fragment>
-                                                <Typography component="span" className={classes.inline}
-                                                            color="textPrimary">
-                                                    Room: AT-3.03
-                                                </Typography>
-                                                {" — Charge: 97%; Water Volume: 438ml"}
+                                                {"Charge: 97%; Water Volume: 438ml"}
                                             </React.Fragment>
                                         }
                                     />
@@ -321,14 +313,10 @@ class MovementControl extends Component {
                                         <Avatar src={online}/>
                                     </ListItemAvatar>
                                     <ListItemText
-                                        primary="Robot 3"
+                                        primary={"AT-3.01"}
                                         secondary={
                                             <React.Fragment>
-                                                <Typography component="span" className={classes.inline}
-                                                            color="textPrimary">
-                                                    Room: AT-3.01
-                                                </Typography>
-                                                {" — Charge: 4%; Water Volume: 23ml"}
+                                                {"Charge: 4%; Water Volume: 23ml"}
                                             </React.Fragment>
                                         }
                                     />
