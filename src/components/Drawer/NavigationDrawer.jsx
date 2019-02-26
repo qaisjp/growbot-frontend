@@ -24,8 +24,8 @@ class NavigationDrawer extends Component {
     };
 
     render() {
-        const { classes, theme } = this.props;
-        const { open } = this.props;
+        let { classes, theme } = this.props;
+        let { open } = this.props;
         return (
         <Drawer
             className={classes.drawer}

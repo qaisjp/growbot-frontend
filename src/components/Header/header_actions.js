@@ -1,4 +1,4 @@
-import routeType from './MenuRouteTypes'
+import routeType from './header_action_types'
 
 let routes = [
 

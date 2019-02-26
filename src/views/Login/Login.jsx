@@ -22,7 +22,7 @@ import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarConte
 
 import styles from '../../assets/views/Login/login-style'
 import login from '../../actions/login_auth'
-import nullifyLoginError from '../../actions/nullify_login_error'
+import nullifyLoginError from '../../actions/close_dialog'
 
 class Login extends Component {
 
@@ -40,7 +40,7 @@ class Login extends Component {
     }
 
     render() {
-        const { classes, loginError } = this.props;
+        let { classes, loginError } = this.props;
 
         return (
             <main className={classes.main}>

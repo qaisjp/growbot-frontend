@@ -19,7 +19,6 @@ import Menu from '@material-ui/core/Menu';
 import NavigationDrawer from '../Drawer/NavigationDrawer'
 import styles from '../../assets/components/Header/jss/header-style';
 import { openDrawer } from '../../actions/open_drawer'
-import login from '../../actions/login_auth'
 import logout from '../../actions/logout_auth'
 
 class Header extends Component {
@@ -37,9 +36,9 @@ class Header extends Component {
     };
 
     render() {
-        const { classes, open, menuFunctionRoutes, menuRedirectRoutes, loggedIn } = this.props;
-        const { anchorEl } = this.state;
-        const menuOpen = Boolean(anchorEl)
+        let { classes, open, menuFunctionRoutes, menuRedirectRoutes, loggedIn } = this.props;
+        let { anchorEl } = this.state;
+        let menuOpen = Boolean(anchorEl)
 
         return (
             <div className={classes.root}>

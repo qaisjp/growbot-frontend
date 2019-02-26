@@ -4,8 +4,8 @@ import Header from '../components/Header/Header';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import {withStyles} from '@material-ui/core';
 import routes from '../routes/Routes';
-import menuRoutes from '../routes/MenuRoutes'
-import menuRouteTypes from '../routes/MenuRouteTypes'
+import menuRoutes from '../components/Header/header_actions'
+import menuRouteTypes from '../components/Header/header_action_types'
 import Typography from '@material-ui/core/Typography';
 import styles from '../assets/layout/jss/layout-style';
 import colors from '../assets/layout/jss/color-style'
@@ -25,7 +25,7 @@ class Layout extends Component {
     }
 
     render() {
-        const {classes, loggedIn} = this.props;
+        let {classes, loggedIn} = this.props;
         return (
             <MuiThemeProvider theme={colors}>
             <div className={classes.appFrame}>

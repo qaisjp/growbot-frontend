@@ -8,10 +8,10 @@ export default function(state = {
     switch(action.type) {
         case ADD_ROBOT:
             robots.push(action.robot)
-            return robots
+            return state
         case REMOVE_ROBOT:
             robots.remove(action.robot)
-            return robots
+            return state
         default:
             return state
     }

@@ -17,7 +17,7 @@ import styles from '../../assets/views/ForgotPassword/forgot-password-style'
 class ForgotPassword extends Component {
 
     render() {
-        const { classes } = this.props;
+        let { classes } = this.props;
         return (
             <main className={classes.main}>
                 <CssBaseline />

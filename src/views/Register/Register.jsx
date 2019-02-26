@@ -66,7 +66,7 @@ class Register extends Component {
     }
 
     render() {
-        const {classes} = this.props;
+        let {classes} = this.props;
         return (
             <main className={classes.main}>
                 <Snackbar
