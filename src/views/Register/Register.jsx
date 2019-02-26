@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
+import Snackbar from '@material-ui/core/Snackbar';
 import FormControl from '@material-ui/core/FormControl';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -10,17 +12,27 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import withStyles from '@material-ui/core/styles/withStyles';
+
+import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
+
 import styles from '../../assets/views/Register/register-style'
+
+
 import endpoints from "../../endpoints";
+import login from "../../actions/login_auth";
+import {connect} from "react-redux";
 
 class Register extends Component {
 
     state = {
-        forename: "",
-        surname: "",
-        email: "",
-        password: "",
-        confirmPassword: "",
+        forename: null,
+        surname: null,
+        email: null,
+        password: null,
+        confirmPassword: null,
+        message: null,
+        open: false,
+        type: null
     }
 
     onRegister = async () => {
@@ -39,21 +51,39 @@ class Register extends Component {
                 body: JSON.stringify(registrationRequest)
             });
             if (response.status === 200) {
-                console.log("200")
-                this.setState({message: "Successfully Registered", open: true, type: "success"})
+                this.props.authLogin(this.state.email, this.state.password);
+                //this.setState({message: "Successfully Registered", open: true, type: "success"})
             } else {
-                console.log("not 200")
                 this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
             }
         } else {
-            //throw error
+            this.setState({message: "Please check the passwords match!", open: true, type: "error"})
         }
+    }
+
+    handleClose = () => {
+        this.setState({open: false})
     }
 
     render() {
         const {classes} = this.props;
         return (
             <main className={classes.main}>
+                <Snackbar
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'left',
+                    }}
+                    open={this.state.open}
+                    autoHideDuration={6000}
+                    onClose={this.handleClose}
+                >
+                    <SnackbarContentWrapper
+                        onClose={this.handleClose}
+                        variant={this.state.type}
+                        message={this.state.message}
+                    />
+                </Snackbar>
                 <CssBaseline/>
                 <Paper className={classes.paper}>
                     <Avatar className={classes.avatar}>
@@ -104,8 +134,22 @@ class Register extends Component {
     }
 }
 
+function mapStateToProps(state) {
+    return {
+        isLoginPending: state.auth.isLoginPending,
+        isLoginSuccess: state.auth.isLoginSuccess,
+        loginError: state.auth.loginError
+    }
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        authLogin: (email, password) => dispatch(login(email, password)),
+    }
+}
+
 Register.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Register);
+export default connect(mapStateToProps, mapDispatchToProps) (withStyles(styles)(Register));

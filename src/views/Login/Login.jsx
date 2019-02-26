@@ -22,25 +22,25 @@ import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarConte
 
 import styles from '../../assets/views/Login/login-style'
 import login from '../../actions/login_auth'
+import nullifyLoginError from '../../actions/nullify_login_error'
 
 class Login extends Component {
 
     state = {
         email: null,
-        password: null,
-        type: null,
-        message: null,
-        open: false
+        password: null
+    }
+
+    isLoginErroneous = (loginError) => {
+        return loginError !== null
+    }
+
+    handleClose = () => {
+        this.props.resetLoginError()
     }
 
     render() {
         const { classes, loginError } = this.props;
-
-        if(loginError && !this.state.open) {
-            console.log(loginError);
-            let errorObj = JSON.parse(loginError);
-            this.setState({open: true, message: errorObj.message, type: "error"});
-        }
 
         return (
             <main className={classes.main}>
@@ -49,14 +49,14 @@ class Login extends Component {
                         vertical: 'bottom',
                         horizontal: 'left',
                     }}
-                    open={this.state.open}
+                    open={this.isLoginErroneous(loginError)}
                     autoHideDuration={6000}
                     onClose={this.handleClose}
                 >
                     <SnackbarContentWrapper
                         onClose={this.handleClose}
-                        variant={this.state.type}
-                        message={this.state.message}
+                        variant={"error"}
+                        message={loginError}
                     />
                 </Snackbar>
                 <CssBaseline />
@@ -116,7 +116,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        authLogin: (email, password) => dispatch(login(email, password))
+        authLogin: (email, password) => dispatch(login(email, password)),
+        resetLoginError: _ => dispatch(nullifyLoginError())
     }
 }
 

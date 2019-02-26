@@ -12,5 +12,6 @@ export default {
     settings: `${base}/settings`,
     start: `${base}/demo/start`,
     register: `${base}/auth/register`,
-    login: `${base}/auth/login`
+    login: `${base}/auth/login`,
+    robots: `${base}/robots`
 }

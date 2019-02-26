@@ -26,32 +26,32 @@ class Settings extends Component {
     }
 
     handleChange = name => event => {
-     this.setState({[name] : event.target.value});
+        this.setState({[name]: event.target.value});
     }
 
     render() {
         let {classes} = this.props;
-        return (    <div className={classes.root}>
+        return (<div className={classes.root}>
                 <Typography className={classes.typography} variant="subtitle1" gutterBottom>
                     Authentication
                 </Typography>
                 <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>Change Password</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <form>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="currentPassword">Current Password</InputLabel>
-                                <Input name="currentPassword" type="password" id="currentPassword" />
+                                <Input name="currentPassword" type="password" id="currentPassword"/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="newPassword">New Password</InputLabel>
-                                <Input name="newPassword" type="password" id="newPassword" />
+                                <Input name="newPassword" type="password" id="newPassword"/>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="confirmNewPassword">Confirm New Password</InputLabel>
-                                <Input name="confirmNewPassword" type="password" id="confirmNewPassword" />
+                                <Input name="confirmNewPassword" type="password" id="confirmNewPassword"/>
                             </FormControl>
 
                             <Button
@@ -59,7 +59,8 @@ class Settings extends Component {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                onClick={()=>{}}
+                                onClick={() => {
+                                }}
                             >
                                 Submit
                             </Button>
@@ -71,7 +72,7 @@ class Settings extends Component {
                     Robot
                 </Typography>
                 <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>Change Names</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -108,7 +109,8 @@ class Settings extends Component {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                onClick={()=>{}}
+                                onClick={() => {
+                                }}
                             >
                                 Submit
                             </Button>
@@ -116,7 +118,7 @@ class Settings extends Component {
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>Add Robot</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -136,7 +138,8 @@ class Settings extends Component {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                onClick={()=>{}}
+                                onClick={() => {
+                                }}
                             >
                                 Register
                             </Button>
@@ -144,7 +147,7 @@ class Settings extends Component {
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>Remove Robot</Typography>
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
@@ -171,7 +174,8 @@ class Settings extends Component {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                onClick={()=>{}}
+                                onClick={() => {
+                                }}
                             >
                                 Unregister
                             </Button>
