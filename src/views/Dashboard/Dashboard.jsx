@@ -366,7 +366,7 @@ class Dashboard extends Component {
                     <div style={style} id="main-wrapper">
                         <div id="arm-control-wrapper">
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armup")}>
+                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armup")}>
                                     <img src={tup} className="arrow-image arrow-vert"></img>
                                 </Fab>
                             </div>
@@ -374,7 +374,7 @@ class Dashboard extends Component {
                                 <img src={roboticArm} id="robotic-arm-icon"></img>
                             </div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armdown")}>
+                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armdown")}>
                                     <img src={tdown} className="arrow-image arrow-vert"></img>
                                 </Fab>
                             </div>
@@ -382,30 +382,30 @@ class Dashboard extends Component {
                         <div id="directional-wrapper">
                             <div className="grid-item"></div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "forward")}>
+                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "forward")}>
                                     <img src={tup} className="arrow-image arrow-vert"></img>
                                 </Fab>
 
                             </div>
                             <div className="grid-item"></div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "left")}>
+                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "left")}>
                                     <img src={tleft} className="arrow-image arrow-hor"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "brake")}>
+                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "brake")}>
                                     <img src={indication} className="circle-centre"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "right")}>
+                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "right")}>
                                     <img src={tright} className="arrow-image arrow-hor"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item"></div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "backward")}>
+                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "backward")}>
                                     <img src={tdown} className="arrow-image arrow-vert"></img>
                                 </Fab>
 
