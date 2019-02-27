@@ -386,13 +386,20 @@ class Dashboard extends Component {
                         width='100%'
                     />
                     <CardContent>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <div>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {this.state.selectedRobot.title}
+                                </Typography>
+                                <Typography component="p">
+                                    Move Growbot around by pressing the navigation buttons below the card.
+                                </Typography>
+                            </div>
 
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {this.state.selectedRobot.title}
-                        </Typography>
-                        <Typography component="p">
-                            Move Growbot around by pressing the navigation buttons below the card.
-                        </Typography>
+                            <Button size="small" color="primary" onClick={this.handleDialogOpenRemove}>
+                                Remove Robot
+                            </Button>
+                        </div>
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
@@ -521,13 +528,19 @@ class Dashboard extends Component {
                                 width='100%'
                             />
                             <CardContent>
-
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    Robots
-                                </Typography>
-                                <Typography component="p">
-                                    { this.state.robots.length === 0 ? "Please add some robots to your account" : "Select the name of a Growbot you would like to control" }
-                                </Typography>
+                                <div style={{display: "flex", justifyContent: "space-between"}}>
+                                    <div>
+                                        <Typography gutterBottom variant="h5" component="h2">
+                                            Robots
+                                        </Typography>
+                                        <Typography component="p">
+                                            { this.state.robots.length === 0 ? "Please add some robots to your account" : "Select the name of a Growbot you would like to control" }
+                                        </Typography>
+                                    </div>
+                                    <Button size="small" color="primary" onClick={this.handleDialogOpenAdd}>
+                                        Add Robot
+                                    </Button>
+                                </div>
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
@@ -559,12 +572,6 @@ class Dashboard extends Component {
                                     ))
                                 }
                             </List>
-                            <Button size="small" color="primary" onClick={this.handleDialogOpenAdd}>
-                                Add Robot
-                            </Button>
-                            <Button size="small" color="primary" onClick={this.handleDialogOpenRemove}>
-                                Remove Robot
-                            </Button>
                         </CardActions>
                     </Card></Grid>
 
