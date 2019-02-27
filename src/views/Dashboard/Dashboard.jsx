@@ -295,9 +295,11 @@ class Dashboard extends Component {
                 console.log(result.message)
                 this.setState({robots: []})
             } else {
-                console.log("NOT NULL")
-                console.log(result.robots)
+                console.log("componentDidMount", result.robots)
                 this.setState({robots: result.robots})
+                if (result.robots.length > 0) {
+                    this.handleListItemClick(null, result.robots[0]);
+                }
             }
 
             console.log(this.state.robots)
