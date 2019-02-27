@@ -40,6 +40,50 @@ class Header extends Component {
         let { anchorEl } = this.state;
         let menuOpen = Boolean(anchorEl)
 
+        let loginContent = <Button component={RouterLink} to="/login" color="inherit">Login</Button>;
+        if (loggedIn) {
+            loginContent = (
+                <div>
+                    <IconButton
+                        aria-owns={menuOpen ? 'menu-appbar' : undefined}
+                        aria-haspopup="true"
+                        onClick={this.handleMenu}
+                        color="inherit"
+                    >
+                        <AccountCircle />
+                    </IconButton>
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorEl}
+                        anchorOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'right',
+                        }}
+                        open={menuOpen}
+                        onClose={this.handleClose}
+                    >
+                        {
+
+                            menuFunctionRoutes.map(menuFunctionRoute => {
+                                return <MenuItem onClick={()=>menuFunctionRoute.func(this)}>{menuFunctionRoute.name}</MenuItem>
+                            })
+
+                        }
+
+                        {
+                            menuRedirectRoutes.map(menuRedirectRoute => {
+                                return <MenuItem component={RouterLink} to={menuRedirectRoute.url}>{menuRedirectRoute.name}</MenuItem>
+                            })
+                        }
+                    </Menu>
+                </div>
+            )
+        }
+
         return (
             <div className={classes.root}>
                 <CssBaseline />
@@ -65,46 +109,7 @@ class Header extends Component {
 
                         <Button target="_blank" href="https://goo.gl/forms/IGczlsR2sYve5YNq2" color="inherit">Survey</Button>
 
-                        {!loggedIn ? <Button component={RouterLink} to="/login" color="inherit">Login</Button> : (
-                            <div>
-                                <IconButton
-                                    aria-owns={menuOpen ? 'menu-appbar' : undefined}
-                                    aria-haspopup="true"
-                                    onClick={this.handleMenu}
-                                    color="inherit"
-                                >
-                                    <AccountCircle />
-                                </IconButton>
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorEl}
-                                    anchorOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'right',
-                                    }}
-                                    open={menuOpen}
-                                    onClose={this.handleClose}
-                                >
-                                    {
-
-                                        menuFunctionRoutes.map(menuFunctionRoute => {
-                                            return <MenuItem onClick={()=>menuFunctionRoute.func(this)}>{menuFunctionRoute.name}</MenuItem>
-                                        })
-
-                                    }
-
-                                    {
-                                        menuRedirectRoutes.map(menuRedirectRoute => {
-                                            return <MenuItem component={RouterLink} to={menuRedirectRoute.url}>{menuRedirectRoute.name}</MenuItem>
-                                        })
-                                    }
-                                </Menu>
-                            </div>
-                        )}
+                        {loginContent}
                     </Toolbar>
                 </AppBar>
 
