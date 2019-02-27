@@ -28,7 +28,7 @@ class Layout extends Component {
         let {classes, loggedIn} = this.props;
 
         let redirectLogin = null;
-        if (!loggedIn && this.props.path !== "/login") {
+        if (!loggedIn && this.props.location.pathname !== "/login") {
             redirectLogin = <Redirect to={"/login"}/>
         }
 
