@@ -21,6 +21,7 @@ export default function (state = {
                 loginError: action.loginError
             });
         case SET_LOGIN_TOKEN:
+            console.log("Reducer received loginToken", action.loginToken)
             return Object.assign({}, state, {
                 loginToken: action.loginToken
             });

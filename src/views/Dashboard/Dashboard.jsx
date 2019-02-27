@@ -93,7 +93,7 @@ class Dashboard extends Component {
             },
             body: JSON.stringify(objectDetectionCommand)
         });
-        console.log(response);
+
         if (response.status === 200) {
             this.setState({message: "Successfully changed object detection mode", open: true, type: "success"})
         } else {
@@ -114,7 +114,7 @@ class Dashboard extends Component {
             },
             body: JSON.stringify(directionCommand)
         });
-        console.log(response);
+
         if (response.status === 200) {
             this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
         } else {
@@ -135,7 +135,7 @@ class Dashboard extends Component {
             },
             body: JSON.stringify(directionCommand)
         });
-        console.log(response);
+
         if (response.status === 200) {
             this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
         } else {
@@ -157,7 +157,7 @@ class Dashboard extends Component {
             },
             body: JSON.stringify(directionCommand)
         });
-        console.log(response);
+
         if (response.status === 200) {
             this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
         } else {
@@ -180,8 +180,6 @@ class Dashboard extends Component {
             body: JSON.stringify(directionCommand)
         });
 
-        console.log(response);
-
         if (response.status === 200) {
             this.setState({message: "Successfully moved robot backward", open: true, type: "success"})
         } else {
@@ -202,8 +200,6 @@ class Dashboard extends Component {
             },
             body: JSON.stringify(directionCommand)
         });
-
-        console.log(response);
 
         if (response.status === 200) {
             this.setState({message: "Successfully moved robot right", open: true, type: "success"})
@@ -227,8 +223,6 @@ class Dashboard extends Component {
             body: JSON.stringify(directionCommand)
         });
 
-        console.log(response);
-
         if (response.status === 200) {
             this.setState({message: "Successfully moved robot left", open: true, type: "success"})
         } else {
@@ -250,8 +244,6 @@ class Dashboard extends Component {
             body: JSON.stringify(directionCommand)
         });
 
-        console.log(response);
-
         if (response.status === 200) {
             this.setState({message: "Successfully braked", open: true, type: "success"})
         } else {
@@ -268,8 +260,8 @@ class Dashboard extends Component {
     };
 
     robotsApi = async () => {
-        console.log(this.props.isLoginSuccess);
-        console.log(this.props.loginToken);
+        console.log("Current isLoginSuccess", this.props.isLoginSuccess);
+        console.log("Current props.loginToken", this.props.loginToken);
         let response = await fetch(endpoints.robots_list, {
             headers: {
                 "Authorization": "Bearer " + this.props.loginToken,
@@ -292,7 +284,7 @@ class Dashboard extends Component {
             result = await this.robotsApi();
 
             if (result instanceof Error) {
-                console.log(result.message)
+                console.log("componentDidMount error", result.message)
                 this.setState({robots: []})
             } else {
                 console.log("componentDidMount", result.robots)
@@ -302,7 +294,7 @@ class Dashboard extends Component {
                 }
             }
 
-            console.log(this.state.robots)
+            console.log("Robots: ", this.state.robots)
 
         } catch (e) {
             //set lorem ipsum robots here
@@ -346,16 +338,11 @@ class Dashboard extends Component {
         });
 
         if (response.status === 200) {
-            console.log('200')
-
             let result = await this.robotsApi();
 
             if (result instanceof Error) {
-                console.log(result.message)
                 this.setState({robots: []})
             } else {
-                console.log("NOT NULL")
-                console.log(result.robots)
                 this.handleDialogClose()
                 this.setState({robots: result.robots})
 
@@ -365,13 +352,11 @@ class Dashboard extends Component {
                 }
             }
         } else {
-            console.log('not 200')
             response.text().then(x => console.log(x))
         }
     }
 
     onRemoveRobot = async () => {
-        console.log(this.state.selectedRobotId)
         let response = await fetch(endpoints.robot_delete(this.state.selectedRobotId), {
             method: "DELETE",
             headers: {
@@ -379,18 +364,13 @@ class Dashboard extends Component {
             },
         });
 
-        console.log("response status " + response.status)
-
         if(response.status === 200) {
 
             let result = await this.robotsApi();
 
             if (result instanceof Error) {
-                console.log(result.message)
                 this.setState({robots: []})
             } else {
-                console.log("NOT NULL")
-                console.log(result.robots)
                 this.setState({robots: result.robots})
             }
         } else {

@@ -32,7 +32,6 @@ export async function callLoginApi (email, password, callback) {
     });
     if (response.status === 200) {
         response.json().then(body => {
-            console.log(body)
             callback(body.token);
         })
     } else {
