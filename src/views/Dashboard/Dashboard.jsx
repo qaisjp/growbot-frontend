@@ -401,7 +401,7 @@ class Dashboard extends Component {
                         </Button>
                     </div>
                 </CardContent>
-                <CardActions>
+                <CardActions style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
                     <div style={style} id="main-wrapper">
                         <div id="arm-control-wrapper">
                             <div className="grid-item">
@@ -452,8 +452,8 @@ class Dashboard extends Component {
                             <div className="grid-item"></div>
                         </div>
                     </div>
+                    <img alt="Video stream" src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)} ></img>
                 </CardActions>
-                <img alt="Video stream" src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)} ></img>
             </Card>
         </Grid>)
         }
