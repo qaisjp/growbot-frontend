@@ -291,6 +291,42 @@ class Dashboard extends Component {
         }
     }
 
+    handleDialogOpenRename = async () => {
+        const newTitle = prompt("Rename this robot", this.state.selectedRobot.title);
+        if (newTitle === "" || newTitle === this.state.selectedRobot.title) {
+            alert("Robot not renamed");
+            return;
+        }
+
+        let response = await fetch(endpoints.robot_settings(this.state.selectedRobot.id), {
+            method: "PATCH",
+            headers: {
+                "Authorization": "Bearer " + this.props.loginToken
+            },
+            body: JSON.stringify({
+                "key": "title",
+                "value": newTitle,
+            })
+        });
+
+        if(response.status === 200) {
+            let result = await this.robotsApi();
+
+            if (result instanceof Error) {
+                this.setState({robots: []})
+            } else {
+                const thisID = this.state.selectedRobot.id;
+                this.setState({robots: result.robots, message: (await response.json()).message, open: true, type: "success" })
+                const found = result.robots.filter(r => r.id === thisID)
+                if (found.length === 1) {
+                    this.handleListItemClick(null, found[0]);
+                }
+            }
+        } else {
+            this.setState({message: (await response.json()).message, open: true, type: "error"})
+        }
+    }
+
     render() {
         let {classes} = this.props;
 
@@ -317,7 +353,7 @@ class Dashboard extends Component {
                         </div>
 
                         <div>
-                            <Button size="small" color="secondary" onClick={alert.bind(null, "todo")}>
+                            <Button size="small" color="secondary" onClick={this.handleDialogOpenRename}>
                                 Rename
                             </Button>
                             <Button size="small" color="secondary" onClick={this.handleDialogOpenRemove}>
