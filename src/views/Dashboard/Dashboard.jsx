@@ -354,7 +354,13 @@ class Dashboard extends Component {
             } else {
                 console.log("NOT NULL")
                 console.log(result.robots)
+                this.handleDialogClose()
                 this.setState({robots: result.robots})
+
+                const found = result.robots.filter(r => r.id === addRobotRequest.robot_id)
+                if (found.length === 1) {
+                    this.handleListItemClick(null, found[0]);
+                }
             }
         } else {
             console.log('not 200')
