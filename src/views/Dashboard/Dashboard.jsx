@@ -42,6 +42,7 @@ class Dashboard extends Component {
         open: false,
         dialogOpen: false,
         selectedRobotId: null,
+        selectedRobot: null,
         robots: [],
         newRobotSerialKey: "",
         dialogType: ""
@@ -231,8 +232,8 @@ class Dashboard extends Component {
         this.setState({open: false})
     }
 
-    handleListItemClick = (event, uuid) => {
-        this.setState({selectedRobotId: uuid});
+    handleListItemClick = (event, robot) => {
+        this.setState({selectedRobotId: robot.id, selectedRobot: robot});
     };
 
     robotsApi = async () => {
@@ -358,18 +359,58 @@ class Dashboard extends Component {
         }
     }
 
-    getSelectedRobot = () => {
-        for(let robot in this.state.robots) {
-            if(robot.id === this.state.selectedRobotId) {
-                return robot;
-            }
-        }
-
-        return null;
-    }
-
     render() {
         let {classes} = this.props;
+
+        let controller = null;
+        if (this.state.selectedRobotId !== null) {
+            controller = (<Grid item xs={12} sm={6} md={6}>
+            <Card className={classes.card}>
+                <CardActionArea>
+                    <CardMedia
+                        className={classes.media}
+                        image={banner}
+                        title="Controller"
+                        width='100%'
+                    />
+                    <CardContent>
+
+                        <Typography gutterBottom variant="h5" component="h2">
+                            {this.state.selectedRobot.title}
+                        </Typography>
+                        <Typography component="p">
+                            Move Growbot around by pressing the navigation buttons below the card.
+                        </Typography>
+                    </CardContent>
+                </CardActionArea>
+                <CardActions>
+                    <Grid container>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMoveForward}>Forwards</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMoveBackward}>Backwards</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMoveLeft}>Left</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMoveRight}>Right</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onRandomMove}>Random Move</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onMakeSquare}>Make Square</Button></Grid>
+                        <Grid item>
+                            <Button size="small" onClick={this.onBrake}>Brake</Button></Grid>
+                        <Grid item>
+                            <FormControlLabel value="checkedDetection" onChange={this.onChangeObjectDetection}
+                                              control={<Checkbox/>}
+                                              label="Object Avoidance"/></Grid>
+                    </Grid>
+                </CardActions>
+                <img alt="Video stream" src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)} ></img>
+            </Card>
+        </Grid>)
+        }
+
+
         return <div className={classes.root}>
             <br/>
             <Dialog
@@ -457,7 +498,7 @@ class Dashboard extends Component {
                                             alignItems="flex-start"
                                             button
                                             selected={this.state.selectedRobotId === robot.id}
-                                            onClick={event => this.handleListItemClick(event, robot.id)}
+                                            onClick={event => this.handleListItemClick(event, robot)}
                                         >
                                             <ListItemAvatar>
                                                 <Avatar src={this.isRobotOnline(robot) ? online : offline}/>
@@ -484,49 +525,8 @@ class Dashboard extends Component {
                             </Button>
                         </CardActions>
                     </Card></Grid>
-                <Grid item xs={12} sm={6} md={6}>
-                    <Card className={classes.card}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image={banner}
-                                title="Controller"
-                                width='100%'
-                            />
-                            <CardContent>
 
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    Controller
-                                </Typography>
-                                <Typography component="p">
-                                    Move Growbot around by pressing the navigation buttons below the card.
-                                </Typography>
-                            </CardContent>
-                        </CardActionArea>
-                        <CardActions>
-                            <Grid container>
-                                <Grid item>
-                                    <Button size="small" onClick={this.onMoveForward}>Forwards</Button></Grid>
-                                <Grid item>
-                                    <Button size="small" onClick={this.onMoveBackward}>Backwards</Button></Grid>
-                                <Grid item>
-                                    <Button size="small" onClick={this.onMoveLeft}>Left</Button></Grid>
-                                <Grid item>
-                                    <Button size="small" onClick={this.onMoveRight}>Right</Button></Grid>
-                                <Grid item>
-                                    <Button size="small" onClick={this.onRandomMove}>Random Move</Button></Grid>
-                                <Grid item>
-                                    <Button size="small" onClick={this.onMakeSquare}>Make Square</Button></Grid>
-                                <Grid item>
-                                    <Button size="small" onClick={this.onBrake}>Brake</Button></Grid>
-                                <Grid item>
-                                    <FormControlLabel value="checkedDetection" onChange={this.onChangeObjectDetection}
-                                                      control={<Checkbox/>}
-                                                      label="Object Avoidance"/></Grid>
-                            </Grid>
-                        </CardActions>
-                    </Card>
-                </Grid>
+                    {controller}
             </Grid>
         </div>
     }

@@ -25,4 +25,5 @@ export default {
     robot_move: uuid => `${base}/robot/${uuid}/move`,
     robot_startDemo: uuid => `${base}/robot/${uuid}/startDemo`,
     robot_settings: uuid => `${base}/robot/${uuid}/settings`,
+    robot_video: (uuid, token) => `${base}/robot/${uuid}/video?token=${token}`
 }
