@@ -58,8 +58,10 @@ class Dashboard extends Component {
         selectedRobotId: null,
         selectedRobot: null,
         robots: [],
-        newRobotSerialKey: "",
         dialogType: "",
+
+        newRobotSerialKey: "",
+        newRobotTitle: "",
 
         qrDelay: 300,
     }
@@ -328,7 +330,7 @@ class Dashboard extends Component {
     onAddRobot = async () => {
         let addRobotRequest = {
             robot_id: this.state.newRobotSerialKey,
-            title: "Robot 1"
+            title: this.state.newRobotTitle,
         }
 
         console.log("[TOKEN] " + this.props.loginToken)
@@ -496,7 +498,7 @@ class Dashboard extends Component {
                 {
                     this.state.dialogType === "add" ? <DialogContent>
                         <DialogContentText>
-                            To add a robot please fill in the serial key below
+                            Please scan the robot serial and name your robot.
                         </DialogContentText>
                         <QrReader
                             delay={this.state.qrDelay}
@@ -504,14 +506,25 @@ class Dashboard extends Component {
                             onScan={this.qrHandleScan.bind(this)}
                             style={{ width: "100%" }}
                         />
-                        <TextField
-                            id="addRobot"
-                            label="Serial key"
-                            className={classes.textField}
-                            value={this.state.newRobotSerialKey}
-                            onChange={this.handleChange('newRobotSerialKey')}
-                            margin="normal"
-                        />
+                        <div style={{display:"flex", flexDirection:"column"}}>
+                            <TextField
+                                id="addRobot"
+                                label="Serial key"
+                                className={classes.textField}
+                                value={this.state.newRobotSerialKey}
+                                onChange={this.handleChange('newRobotSerialKey')}
+                                margin="normal"
+                            />
+                            <TextField
+                                id="addRobotTitke"
+                                label="Title"
+                                className={classes.textField}
+                                required={true}
+                                value={this.state.newRobotTitle}
+                                onChange={this.handleChange('newRobotTitle')}
+                                margin="normal"
+                            />
+                        </div>
                     </DialogContent> : <DialogContentText>Are you sure you want to delete the robot ?</DialogContentText>
                 }
 
