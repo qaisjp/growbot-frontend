@@ -138,7 +138,7 @@ class Settings extends Component {
                 <Typography className={classes.typography} variant="subtitle1" gutterBottom>
                     Authentication
                 </Typography>
-                <ExpansionPanel>
+                <ExpansionPanel expanded={true}>
                     <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
                         <Typography className={classes.heading}>Change Password</Typography>
                     </ExpansionPanelSummary>
