@@ -332,7 +332,7 @@ class Dashboard extends Component {
 
         let controller = null;
         if (this.state.selectedRobotId !== null) {
-            controller = (<Grid item xs={12} md={6}>
+            controller = [<Grid item xs={12} md={4}>
             <Card className={classes.card}>
                 <CardMedia
                     className={classes.media}
@@ -413,10 +413,35 @@ class Dashboard extends Component {
                             <div className="grid-item"></div>
                         </div>
                     </div>
-                    <img alt="Video stream" src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)} ></img>
                 </CardActions>
             </Card>
-        </Grid>)
+        </Grid>,
+        <Grid item xs={12} sm={4}>
+            <Card className={classes.card}>
+                <CardMedia
+                    className={classes.media}
+                    image={banner}
+                    title="Video"
+                    width='100%'
+                />
+
+                <CardContent>
+                    <div>
+                        <Typography gutterBottom variant="h5" component="h2">
+                            Video
+                        </Typography>
+                        <Typography component="p">
+                            Live stream from {this.state.selectedRobot.title}
+                        </Typography>
+                    </div>
+
+                    <div style={{display: "flex", justifyContent: "center"}}>
+                        <img alt="Video stream" src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)} ></img>
+                    </div>
+                </CardContent>
+            </Card>
+        </Grid>
+            ]
         }
 
 
@@ -495,7 +520,7 @@ class Dashboard extends Component {
                 />
             </Snackbar>
             <Grid container spacing={12}>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={4}>
                     <Card className={classes.card}>
                         <CardMedia
                             className={classes.media}
