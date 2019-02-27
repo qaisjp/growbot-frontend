@@ -143,10 +143,9 @@ class Dashboard extends Component {
         }
     }
 
-
-    onMoveForward = async () => {
+    onMove = async (direction) => {
         let directionCommand = {
-            direction: "forward"
+            direction: direction
         }
 
         let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
@@ -159,95 +158,9 @@ class Dashboard extends Component {
         });
 
         if (response.status === 200) {
-            this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
+            this.setState({message: "Successfully moved robot", open: true, type: "success"})
         } else {
-            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
-        }
-    }
-
-
-    onMoveBackward = async () => {
-        let directionCommand = {
-            direction: "backward"
-        }
-
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(directionCommand)
-        });
-
-        if (response.status === 200) {
-            this.setState({message: "Successfully moved robot backward", open: true, type: "success"})
-        } else {
-            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
-        }
-    }
-
-    onMoveRight = async () => {
-        let directionCommand = {
-            direction: "right"
-        }
-
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(directionCommand)
-        });
-
-        if (response.status === 200) {
-            this.setState({message: "Successfully moved robot right", open: true, type: "success"})
-        } else {
-            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
-        }
-    }
-
-
-    onMoveLeft = async () => {
-        let directionCommand = {
-            direction: "left"
-        }
-
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(directionCommand)
-        });
-
-        if (response.status === 200) {
-            this.setState({message: "Successfully moved robot left", open: true, type: "success"})
-        } else {
-            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
-        }
-    }
-
-    onBrake = async () => {
-        let directionCommand = {
-            direction: "brake"
-        }
-
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(directionCommand)
-        });
-
-        if (response.status === 200) {
-            this.setState({message: "Successfully braked", open: true, type: "success"})
-        } else {
-            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
+            this.setState({message: (await response.json()).message, open: true, type: "error"})
         }
     }
 
@@ -433,30 +346,30 @@ class Dashboard extends Component {
                         <div id="directional-wrapper">
                             <div className="grid-item"></div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMoveForward}>
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "forward")}>
                                     <img src={tup} className="arrow-image arrow-vert"></img>
                                 </Fab>
 
                             </div>
                             <div className="grid-item"></div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMoveLeft}>
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "left")}>
                                     <img src={tleft} className="arrow-image arrow-hor"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onBrake}>
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "brake")}>
                                     <img src={indication} className="circle-centre"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMoveRight}>
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "right")}>
                                     <img src={tright} className="arrow-image arrow-hor"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item"></div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMoveBackward}>
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "backward")}>
                                     <img src={tdown} className="arrow-image arrow-vert"></img>
                                 </Fab>
 
