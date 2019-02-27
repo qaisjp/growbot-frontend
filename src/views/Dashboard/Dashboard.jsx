@@ -277,9 +277,9 @@ class Dashboard extends Component {
             let result = await this.robotsApi();
 
             if (result instanceof Error) {
-                this.setState({robots: []})
+                this.setState({robots: [], dialogOpen: false})
             } else {
-                this.setState({robots: result.robots})
+                this.setState({robots: result.robots, dialogOpen: false})
             }
         } else {
 
