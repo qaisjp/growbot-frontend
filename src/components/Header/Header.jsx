@@ -49,15 +49,15 @@ class Header extends Component {
                         [classes.appBarShift]: open,
                     })}
                 >
-                    <Toolbar disableGutters={!open}>
-                        <IconButton
+                    <Toolbar>
+                        {/* <IconButton
                             color="inherit"
                             aria-label="Open drawer"
                             onClick={this.props.showDrawer}
                             className={classNames(classes.menuButton, open && classes.hide)}
                         >
                             <MenuIcon />
-                        </IconButton>
+                        </IconButton> */}
 
                         <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
                             GrowBot
