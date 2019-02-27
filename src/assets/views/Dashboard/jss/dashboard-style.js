@@ -20,7 +20,10 @@ let styles = theme => ({
     },
     inline: {
         display: 'inline',
-    }
+    },
+    paper: {
+        padding: theme.spacing.unit * 2,
+    },
 });
 
 export default styles;

@@ -519,7 +519,7 @@ class Dashboard extends Component {
                     message={this.state.message}
                 />
             </Snackbar>
-            <Grid container spacing={12}>
+            <Grid container spacing={24}>
                 <Grid item xs={12} md={4}>
                     <Card className={classes.card}>
                         <CardMedia
