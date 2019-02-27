@@ -396,9 +396,14 @@ class Dashboard extends Component {
                             </Typography>
                         </div>
 
-                        <Button size="small" color="primary" onClick={this.handleDialogOpenRemove}>
-                            Remove Robot
-                        </Button>
+                        <div>
+                            <Button size="small" color="secondary" onClick={alert.bind(null, "todo")}>
+                                Rename
+                            </Button>
+                            <Button size="small" color="secondary" onClick={this.handleDialogOpenRemove}>
+                                Remove
+                            </Button>
+                        </div>
                     </div>
                 </CardContent>
                 <CardActions style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
