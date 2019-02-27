@@ -44,7 +44,9 @@ class Header extends Component {
         if (loggedIn) {
             loginContent = (
                 <div>
-                    <IconButton
+                    <Button component={RouterLink} to="/settings" color="inherit">Settings</Button>
+                    <Button onClick={this.props.authLogout.bind(this)} color="inherit">Logout</Button>
+                    {/* <IconButton
                         aria-owns={menuOpen ? 'menu-appbar' : undefined}
                         aria-haspopup="true"
                         onClick={this.handleMenu}
@@ -79,7 +81,7 @@ class Header extends Component {
                                 return <MenuItem component={RouterLink} to={menuRedirectRoute.url}>{menuRedirectRoute.name}</MenuItem>
                             })
                         }
-                    </Menu>
+                    </Menu> */}
                 </div>
             )
         }
