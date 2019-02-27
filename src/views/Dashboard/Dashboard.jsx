@@ -332,7 +332,7 @@ class Dashboard extends Component {
 
         let controller = null;
         if (this.state.selectedRobotId !== null) {
-            controller = (<Grid item xs={12} sm={6} md={6}>
+            controller = (<Grid item xs={12} md={6}>
             <Card className={classes.card}>
                 <CardMedia
                     className={classes.media}
@@ -495,7 +495,7 @@ class Dashboard extends Component {
                 />
             </Snackbar>
             <Grid container spacing={12}>
-                <Grid item xs={12} sm={6} md={6}>
+                <Grid item xs={12} md={6}>
                     <Card className={classes.card}>
                         <CardMedia
                             className={classes.media}
