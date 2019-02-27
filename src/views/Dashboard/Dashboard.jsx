@@ -378,30 +378,29 @@ class Dashboard extends Component {
         if (this.state.selectedRobotId !== null) {
             controller = (<Grid item xs={12} sm={6} md={6}>
             <Card className={classes.card}>
-                <CardActionArea>
-                    <CardMedia
-                        className={classes.media}
-                        image={banner}
-                        title="Controller"
-                        width='100%'
-                    />
-                    <CardContent>
-                        <div style={{display: "flex", justifyContent: "space-between"}}>
-                            <div>
-                                <Typography gutterBottom variant="h5" component="h2">
-                                    {this.state.selectedRobot.title}
-                                </Typography>
-                                <Typography component="p">
-                                    Move Growbot around by pressing the navigation buttons below the card.
-                                </Typography>
-                            </div>
+                <CardMedia
+                    className={classes.media}
+                    image={banner}
+                    title="Controller"
+                    width='100%'
+                />
 
-                            <Button size="small" color="primary" onClick={this.handleDialogOpenRemove}>
-                                Remove Robot
-                            </Button>
+                <CardContent>
+                    <div style={{display: "flex", justifyContent: "space-between"}}>
+                        <div>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                {this.state.selectedRobot.title}
+                            </Typography>
+                            <Typography component="p">
+                                Move Growbot around by pressing the navigation buttons below the card.
+                            </Typography>
                         </div>
-                    </CardContent>
-                </CardActionArea>
+
+                        <Button size="small" color="primary" onClick={this.handleDialogOpenRemove}>
+                            Remove Robot
+                        </Button>
+                    </div>
+                </CardContent>
                 <CardActions>
                     <div style={style} id="main-wrapper">
                         <div id="arm-control-wrapper">
@@ -520,29 +519,29 @@ class Dashboard extends Component {
             <Grid container spacing={12}>
                 <Grid item xs={12} sm={6} md={6}>
                     <Card className={classes.card}>
-                        <CardActionArea>
-                            <CardMedia
-                                className={classes.media}
-                                image={banner}
-                                title="Robots"
-                                width='100%'
-                            />
-                            <CardContent>
-                                <div style={{display: "flex", justifyContent: "space-between"}}>
-                                    <div>
-                                        <Typography gutterBottom variant="h5" component="h2">
-                                            Robots
-                                        </Typography>
-                                        <Typography component="p">
-                                            { this.state.robots.length === 0 ? "Please add some robots to your account" : "Select the name of a Growbot you would like to control" }
-                                        </Typography>
-                                    </div>
-                                    <Button size="small" color="primary" onClick={this.handleDialogOpenAdd}>
-                                        Add Robot
-                                    </Button>
+                        <CardMedia
+                            className={classes.media}
+                            image={banner}
+                            title="Robots"
+                            width='100%'
+                        />
+
+                        <CardContent>
+                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                                <div>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        Robots
+                                    </Typography>
+                                    <Typography component="p">
+                                        { this.state.robots.length === 0 ? "Please add some GrowBots to your account" : "Select the GrowBot you would like to control" }
+                                    </Typography>
                                 </div>
-                            </CardContent>
-                        </CardActionArea>
+                                <Button size="small" color="primary" onClick={this.handleDialogOpenAdd}>
+                                    Add Robot
+                                </Button>
+                            </div>
+                        </CardContent>
+
                         <CardActions>
                             <List className={classes.root}>
 
