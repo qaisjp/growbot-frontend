@@ -1,0 +1,51 @@
+#main-wrapper {
+    width: 60%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+#arm-control-wrapper {
+    height: 300px;
+    margin: auto;
+    text-align: center;
+    display: grid;
+    grid-template-rows: calc(100% / 3) calc(100% / 3) calc(100% / 3);
+}
+
+#directional-wrapper {
+    text-align: center;
+    margin: auto;
+    width: 250px;
+    height: 250px;
+    display: grid;
+    grid-template-columns: calc(100% / 3) calc(100% / 3) calc(100% / 3);
+    grid-template-rows: calc(100% / 3) calc(100% / 3) calc(100% / 3);
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.grid-item {
+    display: inline;
+    text-align: center;
+    margin: auto;
+    vertical-align: middle;
+}
+
+.arrow-hor {
+    width: 20%;
+    height: 50%;
+}
+
+.arrow-vert {
+    width: 20%;
+    height: 50%;
+}
+
+.circle-centre {
+    width: 35%;
+}
+
+#robotic-arm-icon {
+    width: 25%;
+}

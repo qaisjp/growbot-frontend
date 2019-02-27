@@ -31,6 +31,18 @@ import styles from '../../assets/views/Dashboard/jss/dashboard-style';
 import banner from '../../assets/views/Dashboard/img/banner.jpg'
 import online from '../../assets/views/Dashboard/img/green_circle.png'
 import offline from '../../assets/views/Dashboard/img/red_circle.png'
+import style from '../../assets/views/Dashboard/css/style.css'
+import roboticArm from '../../assets/views/Dashboard/img/robotic-arm.svg'
+import tdown from '../../assets/views/Dashboard/img/TriangleArrow-Down.svg'
+import tup from '../../assets/views/Dashboard/img/TriangleArrow-Up.svg'
+import tleft from '../../assets/views/Dashboard/img/TriangleArrow-Left.svg'
+import tright from '../../assets/views/Dashboard/img/TriangleArrow-Right.svg'
+import indication from '../../assets/views/Dashboard/img/Parking_brake-indication.svg'
+
+import Fab from '@material-ui/core/Fab';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+
 import {connect} from "react-redux";
 
 class Dashboard extends Component {
@@ -384,26 +396,56 @@ class Dashboard extends Component {
                     </CardContent>
                 </CardActionArea>
                 <CardActions>
-                    <Grid container>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMoveForward}>Forwards</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMoveBackward}>Backwards</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMoveLeft}>Left</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMoveRight}>Right</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onRandomMove}>Random Move</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onMakeSquare}>Make Square</Button></Grid>
-                        <Grid item>
-                            <Button size="small" onClick={this.onBrake}>Brake</Button></Grid>
-                        <Grid item>
-                            <FormControlLabel value="checkedDetection" onChange={this.onChangeObjectDetection}
-                                              control={<Checkbox/>}
-                                              label="Object Avoidance"/></Grid>
-                    </Grid>
+                    <div style={style} id="main-wrapper">
+                        <div id="arm-control-wrapper">
+                            <div className="grid-item">
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={()=>{}}>
+                                    <img src={tup} className="arrow-image arrow-vert"></img>
+                                </Fab>
+                            </div>
+                            <div className="grid-item">
+                                <img src={roboticArm} id="robotic-arm-icon"></img>
+                            </div>
+                            <div className="grid-item">
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={()=>{}}>
+                                    <img src={tdown} className="arrow-image arrow-vert"></img>
+                                </Fab>
+                            </div>
+                        </div>
+                        <div id="directional-wrapper">
+                            <div className="grid-item"></div>
+                            <div className="grid-item">
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMoveForward}>
+                                    <img src={tup} className="arrow-image arrow-vert"></img>
+                                </Fab>
+
+                            </div>
+                            <div className="grid-item"></div>
+                            <div className="grid-item">
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMoveLeft}>
+                                    <img src={tleft} className="arrow-image arrow-hor"></img>
+                                </Fab>
+                            </div>
+                            <div className="grid-item">
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onBrake}>
+                                    <img src={indication} className="circle-centre"></img>
+                                </Fab>
+                            </div>
+                            <div className="grid-item">
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMoveRight}>
+                                    <img src={tright} className="arrow-image arrow-hor"></img>
+                                </Fab>
+                            </div>
+                            <div className="grid-item"></div>
+                            <div className="grid-item">
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMoveBackward}>
+                                    <img src={tdown} className="arrow-image arrow-vert"></img>
+                                </Fab>
+
+                            </div>
+                            <div className="grid-item"></div>
+                        </div>
+                    </div>
                 </CardActions>
                 <img alt="Video stream" src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)} ></img>
             </Card>
