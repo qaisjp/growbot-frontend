@@ -10,7 +10,6 @@ import Typography from '@material-ui/core/Typography';
 import styles from '../assets/layout/jss/layout-style';
 import colors from '../assets/layout/jss/color-style'
 import {connect} from "react-redux";
-import refreshToken from '../actions/refresh_auth'
 
 class Layout extends Component {
 
@@ -23,13 +22,6 @@ class Layout extends Component {
         }
 
         return null;
-    }
-
-    componentDidMount = () => {
-        const token = localStorage.getItem("loginToken");
-        if (token !== null) {
-            this.props.authRefresh(token);
-        }
     }
 
     render() {
@@ -74,7 +66,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        authRefresh: token => dispatch(refreshToken(token)),
+
     }
 }
 
