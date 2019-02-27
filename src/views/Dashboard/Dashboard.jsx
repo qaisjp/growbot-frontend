@@ -45,6 +45,8 @@ import AddIcon from '@material-ui/icons/Add';
 
 import {connect} from "react-redux";
 
+import QrReader from "react-qr-reader";
+
 class Dashboard extends Component {
 
     state = {
@@ -57,7 +59,22 @@ class Dashboard extends Component {
         selectedRobot: null,
         robots: [],
         newRobotSerialKey: "",
-        dialogType: ""
+        dialogType: "",
+
+        qrDelay: 300,
+    }
+
+    qrHandleScan(data) {
+        const prefix = "growbot:";
+        if (data && data.startsWith(prefix)) {
+            this.setState({
+                newRobotSerialKey: data.slice(prefix.length)
+            });
+        }
+    }
+
+    qrHandleError(err) {
+        alert(err);
     }
 
     onChangeObjectDetection = async () => {
@@ -481,6 +498,12 @@ class Dashboard extends Component {
                         <DialogContentText>
                             To add a robot please fill in the serial key below
                         </DialogContentText>
+                        <QrReader
+                            delay={this.state.qrDelay}
+                            onError={this.qrHandleError.bind(this)}
+                            onScan={this.qrHandleScan.bind(this)}
+                            style={{ width: "100%" }}
+                        />
                         <TextField
                             id="addRobot"
                             label="Serial key"
