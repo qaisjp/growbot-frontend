@@ -113,33 +113,6 @@ class Settings extends Component {
         }
     }
 
-    onChangeRobotName = async () => {
-        let robotNameChangeRequest = {
-            key: "title",
-            value: this.state.newRobotName
-        }
-
-        let response = await fetch(endpoints.settings, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + this.props.loginToken
-            },
-            body: JSON.stringify(robotNameChangeRequest)
-        });
-
-        console.log("[CHANGENAMESTATUS] " + response.status);
-
-        if (response.status === 200) {
-            this.setState({message: "Successfully changed robot name", open: true, type: "success"})
-        } else {
-            console.log(response)
-            const body = await response.json();
-            console.log(body)
-            this.setState({message: "Failed: " + body.message, open: true, type: "error"})
-        }
-    }
-
     handleClose = () => {
         this.setState({open: false})
     }
@@ -190,58 +163,6 @@ class Settings extends Component {
                                 color="primary"
                                 className={classes.submit}
                                 onClick={this.onChangePassword}
-                            >
-                                Submit
-                            </Button>
-                        </form>
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
-
-                <Typography className={classes.typography} variant="subtitle1" gutterBottom>
-                    Robot
-                </Typography>
-                <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon/>}>
-                        <Typography className={classes.heading}>Change Names</Typography>
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <form>
-                            <FormControl className={classes.selectFormControl} margin="normal">
-                                <InputLabel htmlFor="robot">Robot</InputLabel>
-                                <Select
-                                    native
-                                    value={this.state.changeNameRobotId}
-                                    onChange={this.handleChange('changeNameRobotId')}
-                                    inputProps={{
-                                        name: 'robot',
-                                        id: 'robot',
-                                    }}
-                                >
-                                    <option value="default">Select Robot</option>
-
-                                    {
-                                        this.state.robots.map(robot => (
-                                            <option value={robot.id}>{robot.title}</option>
-                                        ))
-                                    }
-                                </Select>
-                            </FormControl>
-                            <FormControl margin="normal" required fullWidth>
-                                <TextField
-                                    id="newRobotName"
-                                    label="New Name"
-                                    className={classes.textField}
-                                    value={this.state.newRobotName}
-                                    onChange={this.handleChange('newRobotName')}
-                                    margin="normal"
-                                />
-                            </FormControl>
-                            <Button
-                                fullWidth
-                                variant="contained"
-                                color="primary"
-                                className={classes.submit}
-                                onClick={this.onChangeRobotName}
                             >
                                 Submit
                             </Button>
