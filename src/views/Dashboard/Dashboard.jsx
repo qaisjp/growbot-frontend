@@ -330,7 +330,7 @@ class Dashboard extends Component {
                     <div style={style} id="main-wrapper">
                         <div id="arm-control-wrapper">
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={()=>{}}>
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armup")}>
                                     <img src={tup} className="arrow-image arrow-vert"></img>
                                 </Fab>
                             </div>
@@ -338,7 +338,7 @@ class Dashboard extends Component {
                                 <img src={roboticArm} id="robotic-arm-icon"></img>
                             </div>
                             <div className="grid-item">
-                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={()=>{}}>
+                                <Fab size="small" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armdown")}>
                                     <img src={tdown} className="arrow-image arrow-vert"></img>
                                 </Fab>
                             </div>
