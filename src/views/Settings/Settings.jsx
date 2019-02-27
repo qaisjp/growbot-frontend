@@ -27,15 +27,56 @@ class Settings extends Component {
         message: "",
         type: "",
         open: false,
-        changeNameRobotName: 'default',
+        changeNameRobotId: 'default',
         newRobotName: 'Enter New Name',
         currentPassword: null,
         newPassword: null,
-        confirmNewPassword: null
+        confirmNewPassword: null,
+        robots: []
     }
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
+    }
+
+    robotsApi = async () => {
+        console.log(this.props.isLoginSuccess);
+        console.log(this.props.loginToken);
+        let response = await fetch(endpoints.robots_list, {
+            headers: {
+                "Authorization": "Bearer " + this.props.loginToken,
+                "Content-Type": "application/json",
+            },
+        });
+        let body = await response.text();
+
+        if (response.status === 200) {
+            let data = JSON.parse(body);
+            return data;
+        }
+        return new Error(body);
+    }
+
+    componentDidMount = async () => {
+        let result = []
+        try {
+
+            result = await this.robotsApi();
+
+            if (result instanceof Error) {
+                console.log(result.message)
+                this.setState({robots: []})
+            } else {
+                console.log("NOT NULL")
+                console.log(result.robots)
+                this.setState({robots: result.robots})
+            }
+
+            console.log(this.state.robots)
+
+        } catch (e) {
+            //set lorem ipsum robots here
+        }
     }
 
     onChangePassword = async () => {
@@ -69,6 +110,33 @@ class Settings extends Component {
 
         } else {
 
+        }
+    }
+
+    onChangeRobotName = async () => {
+        let robotNameChangeRequest = {
+            key: "title",
+            value: this.state.newRobotName
+        }
+
+        let response = await fetch(endpoints.settings, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + this.props.loginToken
+            },
+            body: JSON.stringify(robotNameChangeRequest)
+        });
+
+        console.log("[CHANGENAMESTATUS] " + response.status);
+
+        if (response.status === 200) {
+            this.setState({message: "Successfully changed robot name", open: true, type: "success"})
+        } else {
+            console.log(response)
+            const body = await response.json();
+            console.log(body)
+            this.setState({message: "Failed: " + body.message, open: true, type: "error"})
         }
     }
 
@@ -142,17 +210,20 @@ class Settings extends Component {
                                 <InputLabel htmlFor="robot">Robot</InputLabel>
                                 <Select
                                     native
-                                    value={this.state.changeNameRobotName}
-                                    onChange={this.handleChange('changeNameRobotName')}
+                                    value={this.state.changeNameRobotId}
+                                    onChange={this.handleChange('changeNameRobotId')}
                                     inputProps={{
                                         name: 'robot',
                                         id: 'robot',
                                     }}
                                 >
                                     <option value="default">Select Robot</option>
-                                    <option value={10}>Robot 1</option>
-                                    <option value={20}>Robot 2</option>
-                                    <option value={30}>Robot 3</option>
+
+                                    {
+                                        this.state.robots.map(robot => (
+                                            <option value={robot.id}>{robot.title}</option>
+                                        ))
+                                    }
                                 </Select>
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
@@ -170,8 +241,7 @@ class Settings extends Component {
                                 variant="contained"
                                 color="primary"
                                 className={classes.submit}
-                                onClick={() => {
-                                }}
+                                onClick={this.onChangeRobotName}
                             >
                                 Submit
                             </Button>
