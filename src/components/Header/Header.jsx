@@ -60,7 +60,7 @@ class Header extends Component {
                         </IconButton> */}
 
                         <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
-                            GrowBot
+                            <Button component={RouterLink} to="/" color="inherit">GrowBot</Button>
                         </Typography>
 
                         <Button target="_blank" href="https://goo.gl/forms/IGczlsR2sYve5YNq2" color="inherit">Survey</Button>
