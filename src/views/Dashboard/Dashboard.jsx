@@ -347,11 +347,11 @@ class Dashboard extends Component {
                             </Typography>
                         </div>
 
-                        <div>
-                            <Button size="small" color="secondary" onClick={this.handleDialogOpenRename}>
+                        <div style={{display: "flex", flexDirection: "column"}}>
+                            <Button size="medium" color="secondary" onClick={this.handleDialogOpenRename}>
                                 Rename
                             </Button>
-                            <Button size="small" color="secondary" onClick={this.handleDialogOpenRemove}>
+                            <Button size="medium" color="secondary" onClick={this.handleDialogOpenRemove}>
                                 Remove
                             </Button>
                         </div>
