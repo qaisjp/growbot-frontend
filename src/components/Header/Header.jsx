@@ -10,11 +10,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Button from '@material-ui/core/Button'
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-import AccountCircle from '@material-ui/icons/AccountCircle'
-import MenuItem from '@material-ui/core/MenuItem';
-import Menu from '@material-ui/core/Menu';
 
 import NavigationDrawer from '../Drawer/NavigationDrawer'
 import styles from '../../assets/components/Header/jss/header-style';
@@ -36,9 +31,7 @@ class Header extends Component {
     };
 
     render() {
-        let { classes, open, menuFunctionRoutes, menuRedirectRoutes, loggedIn } = this.props;
-        let { anchorEl } = this.state;
-        let menuOpen = Boolean(anchorEl)
+        let { classes, open, loggedIn } = this.props;
 
         let loginContent = <Button component={RouterLink} to="/login" color="inherit">Login</Button>;
         if (loggedIn) {

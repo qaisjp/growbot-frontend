@@ -1,5 +1,4 @@
 import {setLoginError, setLoginPending, setLoginSuccess, setLoginToken } from "../auth-mutators";
-import { callLogoutApi } from "../auth-backend";
 
 export default function() {
     return dispatch => {

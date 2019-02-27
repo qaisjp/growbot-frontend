@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {RouteComponentProps} from 'react-router'
 import {Router, Route} from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import Layout from './layout/Layout'

@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 
 import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
@@ -14,8 +13,6 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -40,8 +37,6 @@ import tright from '../../assets/views/Dashboard/img/TriangleArrow-Right.svg'
 import indication from '../../assets/views/Dashboard/img/Parking_brake-indication.svg'
 
 import Fab from '@material-ui/core/Fab';
-import IconButton from '@material-ui/core/IconButton';
-import AddIcon from '@material-ui/icons/Add';
 
 import {connect} from "react-redux";
 
@@ -367,15 +362,15 @@ class Dashboard extends Component {
                         <div id="arm-control-wrapper">
                             <div className="grid-item">
                                 <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armup")}>
-                                    <img src={tup} className="arrow-image arrow-vert"></img>
+                                    <img src={tup} className="arrow-image arrow-vert" alt="Move arm up"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item">
-                                <img src={roboticArm} id="robotic-arm-icon"></img>
+                                <img src={roboticArm} id="robotic-arm-icon" alt=""></img>
                             </div>
                             <div className="grid-item">
                                 <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armdown")}>
-                                    <img src={tdown} className="arrow-image arrow-vert"></img>
+                                    <img src={tdown} className="arrow-image arrow-vert" alt="Move arm down"></img>
                                 </Fab>
                             </div>
                         </div>
@@ -383,30 +378,30 @@ class Dashboard extends Component {
                             <div className="grid-item"></div>
                             <div className="grid-item">
                                 <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "forward")}>
-                                    <img src={tup} className="arrow-image arrow-vert"></img>
+                                    <img src={tup} className="arrow-image arrow-vert" alt="Move bot forward"></img>
                                 </Fab>
 
                             </div>
                             <div className="grid-item"></div>
                             <div className="grid-item">
                                 <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "left")}>
-                                    <img src={tleft} className="arrow-image arrow-hor"></img>
+                                    <img src={tleft} className="arrow-image arrow-hor" alt='Move bot left'></img>
                                 </Fab>
                             </div>
                             <div className="grid-item">
                                 <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "brake")}>
-                                    <img src={indication} className="circle-centre"></img>
+                                    <img src={indication} className="circle-centre" alt="Brake bot"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item">
                                 <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "right")}>
-                                    <img src={tright} className="arrow-image arrow-hor"></img>
+                                    <img src={tright} className="arrow-image arrow-hor" alt="Move bot right"></img>
                                 </Fab>
                             </div>
                             <div className="grid-item"></div>
                             <div className="grid-item">
                                 <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "backward")}>
-                                    <img src={tdown} className="arrow-image arrow-vert"></img>
+                                    <img src={tdown} className="arrow-image arrow-vert" alt="Move bot backward"></img>
                                 </Fab>
 
                             </div>
