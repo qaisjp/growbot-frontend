@@ -26,12 +26,19 @@ class Layout extends Component {
 
     render() {
         let {classes, loggedIn} = this.props;
+
+        let redirectLogin = null;
+        if (!loggedIn && this.props.path !== "/login") {
+            redirectLogin = <Redirect to={"/login"}/>
+        }
+
         return (
             <MuiThemeProvider theme={colors}>
             <div className={classes.appFrame}>
                 <Header routes={routes.filter(route => route.visible)} menuFunctionRoutes={menuRoutes.filter(menuRoute => menuRoute.type === menuRouteTypes.function)} menuRedirectRoutes={menuRoutes.filter(menuRoute => menuRoute.type === menuRouteTypes.redirect)}/>
                 <div className={classes.contextHeader}><Typography component="h2" variant="h2" color="inherit">{Layout.getPathName(window.location.pathname)}</Typography></div>
                 <main className={classes.content}>
+                    {redirectLogin}
                     <Switch>
                         {
 
