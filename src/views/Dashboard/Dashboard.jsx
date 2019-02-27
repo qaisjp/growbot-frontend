@@ -289,7 +289,7 @@ class Dashboard extends Component {
     handleDialogOpenRename = async () => {
         const newTitle = prompt("Rename this robot", this.state.selectedRobot.title);
         if (newTitle === null || newTitle === "" || newTitle === this.state.selectedRobot.title) {
-            alert("Robot not renamed");
+            this.setState({message: "Robot not renamed", open: true, type: "info"})
             return;
         }
 
