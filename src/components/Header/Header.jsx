@@ -56,7 +56,7 @@ class Header extends Component {
                         </IconButton>
 
                         <Typography variant="h6" color="inherit" className={classes.grow} noWrap>
-                            GrowBot
+                            <Button component={RouterLink} to="/" color="inherit">GrowBot</Button>
                         </Typography>
 
                         {!loggedIn ? <Button component={RouterLink} to="/login" color="inherit">Login</Button> : (
