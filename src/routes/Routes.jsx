@@ -9,38 +9,32 @@ let routes = [
     {
         name: "Dashboard",
         path: "/",
-        component: Dashboard,
-        visible: true
+        component: Dashboard
     },
     {
         name: "Scheduler",
         path: "/scheduler",
-        component: Scheduler,
-        visible: true
+        component: Scheduler
     },
     {
         name: "Account Login",
         path: "/login",
-        component: Login,
-        visible: false
+        component: Login
     },
     {
         name: "Recover Password",
         path: "/recover",
-        component: ForgotPassword,
-        visible: false
+        component: ForgotPassword
     },
     {
         name: "Register",
         path: "/register",
-        component: Register,
-        visible: false
+        component: Register
     },
     {
         name: "Settings",
         path: "/settings",
-        component: Settings,
-        visible: false
+        component: Settings
     }
 ];
 

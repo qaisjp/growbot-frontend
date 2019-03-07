@@ -16,9 +16,7 @@ import AccountCircle from '@material-ui/icons/AccountCircle'
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
-import NavigationDrawer from '../Drawer/NavigationDrawer'
 import styles from '../../assets/components/Header/jss/header-style';
-import { openDrawer } from '../../actions/open_drawer'
 import logout from '../../actions/logout_auth'
 
 class Header extends Component {
@@ -36,7 +34,7 @@ class Header extends Component {
     };
 
     render() {
-        let { classes, open, menuFunctionRoutes, menuRedirectRoutes, loggedIn } = this.props;
+        let { classes, menuFunctionRoutes, menuRedirectRoutes, loggedIn } = this.props;
         let { anchorEl } = this.state;
         let menuOpen = Boolean(anchorEl)
 
@@ -45,16 +43,14 @@ class Header extends Component {
                 <CssBaseline />
                 <AppBar
                     position="fixed"
-                    className={classNames(classes.appBar, {
-                        [classes.appBarShift]: open,
-                    })}
+                    className={classes.appBar}
                 >
-                    <Toolbar disableGutters={!open}>
+                    <Toolbar>
                         <IconButton
                             color="inherit"
                             aria-label="Open drawer"
                             onClick={this.props.showDrawer}
-                            className={classNames(classes.menuButton, open && classes.hide)}
+                            className={classNames(classes.menuButton, classes.hide)}
                         >
                             <MenuIcon />
                         </IconButton>
@@ -105,15 +101,6 @@ class Header extends Component {
                         )}
                     </Toolbar>
                 </AppBar>
-
-                <NavigationDrawer routes={this.props.routes} />
-
-                <main
-                    className={classNames(classes.content, {
-                        [classes.contentShift]: open,
-                    })}
-                >
-                </main>
             </div>
         );
     }
@@ -121,7 +108,6 @@ class Header extends Component {
 
 function mapStateToProps(state) {
     return {
-        open: state.drawer,
         isLoginPending: state.auth.isLoginPending,
         loggedIn: state.auth.isLoginSuccess,
         loginError: state.auth.loginError
@@ -130,7 +116,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        showDrawer: _ => dispatch(openDrawer()),
         authLogout: (email) => dispatch(logout())
     }
 }
