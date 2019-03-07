@@ -25,7 +25,13 @@ import EditIcon from '@material-ui/icons/Edit';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import FormControl from '@material-ui/core/FormControl';
+import Select from '@material-ui/core/Select';
 import {withStyles} from '@material-ui/core';
+
+import DateTimePicker from 'react-datetime-picker';
 
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
 
@@ -51,6 +57,7 @@ import QrReader from "react-qr-reader";
 class Dashboard extends Component {
 
     state = {
+        action: "",
         checkedDetection: false,
         message: "",
         type: "",
@@ -63,7 +70,7 @@ class Dashboard extends Component {
         searchFilter: null,
         newRobotSerialKey: "",
         newRobotTitle: "",
-
+        date: new Date(),
         qrDelay: 300,
     }
 
@@ -484,7 +491,9 @@ class Dashboard extends Component {
                                     />
                                 </div>
                                 <div style={{display: "flex", flexDirection: "column"}}>
-                                    <IconButton aria-label="Add">
+                                    <IconButton aria-label="Add" onClick={_ => {
+                                        this.setState({dialogOpen: true, dialogType: "schedule_add"})
+                                    }}>
                                         <AddIcon/>
                                     </IconButton>
                                 </div>
@@ -543,7 +552,8 @@ class Dashboard extends Component {
             >
                 <DialogTitle id="form-dialog-title">
                     {
-                        this.state.dialogType === "add" ? "Add Robot" : "Remove Robot"
+                        this.state.dialogType === "add" ? "Add Robot" : this.state.dialogType === "schedule_add" ? "Schedule Task" :
+                            "Remove Robot"
                     }
                 </DialogTitle>
                 {
@@ -576,8 +586,43 @@ class Dashboard extends Component {
                                     margin="normal"
                                 />
                             </div>
+                        </DialogContent> : this.state.dialogType === "schedule_add" ? <DialogContent>
+                        <form className={classes.root} autoComplete="off">
+                            <Grid container spacing={12}>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.formControl}>
+                                        <InputLabel htmlFor="action">Action</InputLabel>
+                                        <Select
+                                            value={this.state.action}
+                                            onChange={event => this.setState({action: event.target.value})}
+                                            inputProps={{
+                                                name: 'action',
+                                                id: 'action',
+                                            }}
+                                        >
+                                            <MenuItem value="">
+                                                <em>None</em>
+                                            </MenuItem>
+                                            <MenuItem value="water">Water</MenuItem>
+                                            <MenuItem value="picture">Picture</MenuItem>
+                                        </Select>
+                                    </FormControl>
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <FormControl className={classes.formControl}>
+                                        <DateTimePicker
+                                            className={classes.dateTimePicker}
+                                            onChange={date => this.setState({date})}
+                                            value={this.state.date}
+                                        />
+                                    </FormControl>
+                                </Grid>
+                            </Grid>
+                        </form>
                         </DialogContent> :
-                        <DialogContentText>Are you sure you want to delete the robot ?</DialogContentText>
+
+
+                        <DialogContent><DialogContentText>Are you sure you want to delete the robot ?</DialogContentText></DialogContent>
                 }
 
                 <DialogActions>
@@ -587,7 +632,7 @@ class Dashboard extends Component {
                     {
                         this.state.dialogType === "add" ? <Button onClick={this.onAddRobot} color="primary">
                             Add
-                        </Button> : <Button onClick={this.onRemoveRobot} color="primary">
+                        </Button> : this.state.dialogType === "schedule_add" ? <Button color="primary">Schedule</Button> : <Button onClick={this.onRemoveRobot} color="primary">
                             Remove
                         </Button>
                     }

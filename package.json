@@ -9,6 +9,7 @@
     "history": "^4.7.2",
     "prop-types": "^15.7.2",
     "react": "^16.7.0",
+    "react-datetime-picker": "^2.2.1",
     "react-dom": "^16.7.0",
     "react-qr-reader": "^2.2.0",
     "react-redux": "^6.0.0",

@@ -28,6 +28,12 @@ let styles = theme => ({
         marginLeft: theme.spacing.unit,
         marginRight: theme.spacing.unit,
         width: 200,
+    },
+    dateTimePicker: {
+        marginTop: theme.spacing.unit * 2,
+        marginLeft: theme.spacing.unit * 2,
+        marginRight: theme.spacing.unit * 4,
+        marginBottom: theme.spacing.unit * 30
     }
 });
 
