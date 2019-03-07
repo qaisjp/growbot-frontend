@@ -435,7 +435,25 @@ class Dashboard extends Component {
                     </div>
                 </CardContent>
             </Card>
-        </Grid>
+        </Grid>,
+                <Grid item xs={12} sm={4}>
+                    <Card className={classes.card}>
+                        <CardMedia
+                            className={classes.media}
+                            image={banner}
+                            title="Video"
+                            width='100%'
+                        />
+
+                        <CardContent>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                Schedule
+                            </Typography>
+                        </CardContent>
+                        <CardActions>
+                        </CardActions>
+                    </Card>
+                </Grid>
             ]
         }
 

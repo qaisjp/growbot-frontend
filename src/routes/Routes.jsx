@@ -2,7 +2,6 @@ import Dashboard from '../views/Dashboard/Dashboard'
 import Login from '../views/Login/Login'
 import ForgotPassword from '../views/ForgotPassword/ForgotPassword'
 import Register from '../views/Register/Register'
-import Scheduler from '../views/Scheduler/Scheduler'
 import Settings from '../views/Settings/Settings'
 
 let routes = [
@@ -10,11 +9,6 @@ let routes = [
         name: "Dashboard",
         path: "/",
         component: Dashboard
-    },
-    {
-        name: "Scheduler",
-        path: "/scheduler",
-        component: Scheduler
     },
     {
         name: "Account Login",
