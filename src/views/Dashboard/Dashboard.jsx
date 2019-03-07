@@ -20,6 +20,7 @@ import ListItemAvatar from '@material-ui/core/ListItemAvatar';
 import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
 import EditIcon from '@material-ui/icons/Edit';
 import RemoveIcon from '@material-ui/icons/Remove';
 import Avatar from '@material-ui/core/Avatar';
@@ -277,7 +278,7 @@ class Dashboard extends Component {
             },
         });
 
-        if(response.status === 200) {
+        if (response.status === 200) {
 
             let result = await this.robotsApi();
 
@@ -309,14 +310,19 @@ class Dashboard extends Component {
             })
         });
 
-        if(response.status === 200) {
+        if (response.status === 200) {
             let result = await this.robotsApi();
 
             if (result instanceof Error) {
                 this.setState({robots: []})
             } else {
                 const thisID = this.state.selectedRobot.id;
-                this.setState({robots: result.robots, message: (await response.json()).message, open: true, type: "success" })
+                this.setState({
+                    robots: result.robots,
+                    message: (await response.json()).message,
+                    open: true,
+                    type: "success"
+                })
                 const found = result.robots.filter(r => r.id === thisID)
                 if (found.length === 1) {
                     this.handleListItemClick(null, found[0]);
@@ -333,114 +339,97 @@ class Dashboard extends Component {
         let controller = null;
         if (this.state.selectedRobotId !== null) {
             controller = [<Grid item xs={12} md={4}>
-            <Card className={classes.card}>
-                <CardMedia
-                    className={classes.media}
-                    image={banner}
-                    title="Controller"
-                    width='100%'
-                />
+                <Card className={classes.card}>
+                    <CardMedia
+                        className={classes.media}
+                        image={banner}
+                        title="Controller"
+                        width='100%'
+                    />
 
-                <CardContent>
-                    <div style={{display: "flex", justifyContent: "space-between"}}>
-                        <div>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                {this.state.selectedRobot.title}
-                            </Typography>
-                            <Typography component="p">
-                                Move Growbot around by pressing the navigation buttons below the card.
-                            </Typography>
-                        </div>
+                    <CardContent>
+                        <div style={{display: "flex", justifyContent: "space-between"}}>
+                            <div>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    {this.state.selectedRobot.title}
+                                </Typography>
+                                <Typography component="p">
+                                    Move Growbot around by pressing the navigation buttons below the card.
+                                </Typography>
+                            </div>
 
-                        <div style={{display: "flex", flexDirection: "column"}}>
-                            <Button size="medium" color="secondary" onClick={this.handleDialogOpenRename}>
-                                Rename
-                            </Button>
-                            <Button size="medium" color="secondary" onClick={this.handleDialogOpenRemove}>
-                                Remove
-                            </Button>
-                        </div>
-                    </div>
-                </CardContent>
-                <CardActions style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                    <div style={style} id="main-wrapper">
-                        <div id="arm-control-wrapper">
-                            <div className="grid-item">
-                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armup")}>
-                                    <img src={tup} className="arrow-image arrow-vert" alt="Move arm up"></img>
-                                </Fab>
-                            </div>
-                            <div className="grid-item">
-                                <img src={roboticArm} id="robotic-arm-icon" alt=""></img>
-                            </div>
-                            <div className="grid-item">
-                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "armdown")}>
-                                    <img src={tdown} className="arrow-image arrow-vert" alt="Move arm down"></img>
-                                </Fab>
+                            <div style={{display: "flex", flexDirection: "column"}}>
+                                <Button size="medium" color="secondary" onClick={this.handleDialogOpenRename}>
+                                    Rename
+                                </Button>
+                                <Button size="medium" color="secondary" onClick={this.handleDialogOpenRemove}>
+                                    Remove
+                                </Button>
                             </div>
                         </div>
-                        <div id="directional-wrapper">
-                            <div className="grid-item"></div>
-                            <div className="grid-item">
-                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "forward")}>
-                                    <img src={tup} className="arrow-image arrow-vert" alt="Move bot forward"></img>
-                                </Fab>
+                    </CardContent>
+                    <CardActions style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
+                        <div style={style} id="main-wrapper">
+                            <div id="arm-control-wrapper">
+                                <div className="grid-item">
+                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
+                                         onClick={this.onMove.bind(this, "armup")}>
+                                        <img src={tup} className="arrow-image arrow-vert" alt="Move arm up"></img>
+                                    </Fab>
+                                </div>
+                                <div className="grid-item">
+                                    <img src={roboticArm} id="robotic-arm-icon" alt=""></img>
+                                </div>
+                                <div className="grid-item">
+                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
+                                         onClick={this.onMove.bind(this, "armdown")}>
+                                        <img src={tdown} className="arrow-image arrow-vert" alt="Move arm down"></img>
+                                    </Fab>
+                                </div>
+                            </div>
+                            <div id="directional-wrapper">
+                                <div className="grid-item"></div>
+                                <div className="grid-item">
+                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
+                                         onClick={this.onMove.bind(this, "forward")}>
+                                        <img src={tup} className="arrow-image arrow-vert" alt="Move bot forward"></img>
+                                    </Fab>
 
-                            </div>
-                            <div className="grid-item"></div>
-                            <div className="grid-item">
-                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "left")}>
-                                    <img src={tleft} className="arrow-image arrow-hor" alt='Move bot left'></img>
-                                </Fab>
-                            </div>
-                            <div className="grid-item">
-                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "brake")}>
-                                    <img src={indication} className="circle-centre" alt="Brake bot"></img>
-                                </Fab>
-                            </div>
-                            <div className="grid-item">
-                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "right")}>
-                                    <img src={tright} className="arrow-image arrow-hor" alt="Move bot right"></img>
-                                </Fab>
-                            </div>
-                            <div className="grid-item"></div>
-                            <div className="grid-item">
-                                <Fab size="large" color="secondary" aria-label="Add" className={classes.margin} onClick={this.onMove.bind(this, "backward")}>
-                                    <img src={tdown} className="arrow-image arrow-vert" alt="Move bot backward"></img>
-                                </Fab>
+                                </div>
+                                <div className="grid-item"></div>
+                                <div className="grid-item">
+                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
+                                         onClick={this.onMove.bind(this, "left")}>
+                                        <img src={tleft} className="arrow-image arrow-hor" alt='Move bot left'></img>
+                                    </Fab>
+                                </div>
+                                <div className="grid-item">
+                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
+                                         onClick={this.onMove.bind(this, "brake")}>
+                                        <img src={indication} className="circle-centre" alt="Brake bot"></img>
+                                    </Fab>
+                                </div>
+                                <div className="grid-item">
+                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
+                                         onClick={this.onMove.bind(this, "right")}>
+                                        <img src={tright} className="arrow-image arrow-hor" alt="Move bot right"></img>
+                                    </Fab>
+                                </div>
+                                <div className="grid-item"></div>
+                                <div className="grid-item">
+                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
+                                         onClick={this.onMove.bind(this, "backward")}>
+                                        <img src={tdown} className="arrow-image arrow-vert"
+                                             alt="Move bot backward"></img>
+                                    </Fab>
 
+                                </div>
+                                <div className="grid-item"></div>
                             </div>
-                            <div className="grid-item"></div>
                         </div>
-                    </div>
-                </CardActions>
-            </Card>
-        </Grid>,
-        <Grid item xs={12} sm={4}>
-            <Card className={classes.card}>
-                <CardMedia
-                    className={classes.media}
-                    image={banner}
-                    title="Video"
-                    width='100%'
-                />
-
-                <CardContent>
-                    <div>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            Video
-                        </Typography>
-                        <Typography component="p">
-                            Live stream from {this.state.selectedRobot.title}
-                        </Typography>
-                    </div>
-
-                    <div style={{display: "flex", justifyContent: "center"}}>
-                        <img alt="Video stream" src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)} ></img>
-                    </div>
-                </CardContent>
-            </Card>
-        </Grid>,
+                    </CardActions>
+                </Card>
+            </Grid>,
                 <Grid item xs={12} sm={4}>
                     <Card className={classes.card}>
                         <CardMedia
@@ -451,61 +440,94 @@ class Dashboard extends Component {
                         />
 
                         <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Scheduler
-                            </Typography>
-                            <Typography component="p">
-                               Assign tasks to Growbot.
-                            </Typography>
-                            <TextField
-                                id="search-criteria"
-                                label="Filter"
-                                className={classes.textField}
-                                value={this.state.searchFilter}
-                                onChange={this.handleChange('searchFilter')}
-                                margin="normal"
-                            />
+                            <div>
+                                <Typography gutterBottom variant="h5" component="h2">
+                                    Video
+                                </Typography>
+                                <Typography component="p">
+                                    Live stream from {this.state.selectedRobot.title}
+                                </Typography>
+                            </div>
+
+                            <div style={{display: "flex", justifyContent: "center"}}>
+                                <img alt="Video stream"
+                                     src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)}></img>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </Grid>,
+                <Grid item xs={12} sm={4}>
+                    <Card className={classes.card}>
+                        <CardMedia
+                            className={classes.media}
+                            image={banner}
+                            title="Scheduler"
+                            width='100%'
+                        />
+
+                        <CardContent>
+                            <div style={{display: "flex", justifyContent: "space-between"}}>
+                                <div>
+                                    <Typography gutterBottom variant="h5" component="h2">
+                                        Scheduler
+                                    </Typography>
+                                    <Typography component="p">
+                                        Assign tasks to Growbot.
+                                    </Typography>
+                                    <TextField
+                                        id="search-criteria"
+                                        label="Filter"
+                                        className={classes.textField}
+                                        value={this.state.searchFilter}
+                                        onChange={this.handleChange('searchFilter')}
+                                        margin="normal"
+                                    />
+                                </div>
+                                <div style={{display: "flex", flexDirection: "column"}}>
+                                    <IconButton aria-label="Add">
+                                        <AddIcon/>
+                                    </IconButton>
+                                </div>
+                            </div>
                             <List
                                 className={classes.root}
                                 subheader={<ListSubheader component="div">Tasks</ListSubheader>}
                             >
                                 <ListItem key="1">
-                                    <ListItemText primary="Water Plant A every 3 hours" />
+                                    <ListItemText primary="Water Plant A every 3 hours"/>
                                     <ListItemSecondaryAction>
                                         <IconButton aria-label="Edit">
-                                            <EditIcon />
+                                            <EditIcon/>
                                         </IconButton>
                                         <IconButton aria-label="Remove">
-                                            <RemoveIcon />
+                                            <RemoveIcon/>
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
                                 <ListItem key="2">
-                                    <ListItemText primary="Water Plant B every 6 hours" />
+                                    <ListItemText primary="Water Plant B every 6 hours"/>
                                     <ListItemSecondaryAction>
                                         <IconButton aria-label="Edit">
-                                            <EditIcon />
+                                            <EditIcon/>
                                         </IconButton>
                                         <IconButton aria-label="Remove">
-                                            <RemoveIcon />
+                                            <RemoveIcon/>
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
                                 <ListItem key="1">
-                                    <ListItemText primary="Take Picture of Plant A every 3 hours" />
+                                    <ListItemText primary="Take Picture of Plant A every 3 hours"/>
                                     <ListItemSecondaryAction>
                                         <IconButton aria-label="Edit">
-                                            <EditIcon />
+                                            <EditIcon/>
                                         </IconButton>
                                         <IconButton aria-label="Remove">
-                                            <RemoveIcon />
+                                            <RemoveIcon/>
                                         </IconButton>
                                     </ListItemSecondaryAction>
                                 </ListItem>
                             </List>
                         </CardContent>
-                        <CardActions>
-                        </CardActions>
                     </Card>
                 </Grid>
             ]
@@ -526,35 +548,36 @@ class Dashboard extends Component {
                 </DialogTitle>
                 {
                     this.state.dialogType === "add" ? <DialogContent>
-                        <DialogContentText>
-                            Please scan the robot serial and name your robot.
-                        </DialogContentText>
-                        <QrReader
-                            delay={this.state.qrDelay}
-                            onError={this.qrHandleError.bind(this)}
-                            onScan={this.qrHandleScan.bind(this)}
-                            style={{ width: "100%" }}
-                        />
-                        <div style={{display:"flex", flexDirection:"column"}}>
-                            <TextField
-                                id="addRobot"
-                                label="Serial key"
-                                className={classes.textField}
-                                value={this.state.newRobotSerialKey}
-                                onChange={this.handleChange('newRobotSerialKey')}
-                                margin="normal"
+                            <DialogContentText>
+                                Please scan the robot serial and name your robot.
+                            </DialogContentText>
+                            <QrReader
+                                delay={this.state.qrDelay}
+                                onError={this.qrHandleError.bind(this)}
+                                onScan={this.qrHandleScan.bind(this)}
+                                style={{width: "100%"}}
                             />
-                            <TextField
-                                id="addRobotTitke"
-                                label="Title"
-                                className={classes.textField}
-                                required={true}
-                                value={this.state.newRobotTitle}
-                                onChange={this.handleChange('newRobotTitle')}
-                                margin="normal"
-                            />
-                        </div>
-                    </DialogContent> : <DialogContentText>Are you sure you want to delete the robot ?</DialogContentText>
+                            <div style={{display: "flex", flexDirection: "column"}}>
+                                <TextField
+                                    id="addRobot"
+                                    label="Serial key"
+                                    className={classes.textField}
+                                    value={this.state.newRobotSerialKey}
+                                    onChange={this.handleChange('newRobotSerialKey')}
+                                    margin="normal"
+                                />
+                                <TextField
+                                    id="addRobotTitke"
+                                    label="Title"
+                                    className={classes.textField}
+                                    required={true}
+                                    value={this.state.newRobotTitle}
+                                    onChange={this.handleChange('newRobotTitle')}
+                                    margin="normal"
+                                />
+                            </div>
+                        </DialogContent> :
+                        <DialogContentText>Are you sure you want to delete the robot ?</DialogContentText>
                 }
 
                 <DialogActions>
@@ -603,7 +626,7 @@ class Dashboard extends Component {
                                         Robots
                                     </Typography>
                                     <Typography component="p">
-                                        { this.state.robots.length === 0 ? "Please add some GrowBots to your account" : "Select the GrowBot you would like to control" }
+                                        {this.state.robots.length === 0 ? "Please add some GrowBots to your account" : "Select the GrowBot you would like to control"}
                                     </Typography>
                                 </div>
                                 <Button size="small" color="primary" onClick={this.handleDialogOpenAdd}>
@@ -644,7 +667,7 @@ class Dashboard extends Component {
                         </CardActions>
                     </Card></Grid>
 
-                    {controller}
+                {controller}
             </Grid>
         </div>
     }
