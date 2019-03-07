@@ -17,6 +17,11 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
+import ListSubheader from '@material-ui/core/ListSubheader';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import RemoveIcon from '@material-ui/icons/Remove';
 import Avatar from '@material-ui/core/Avatar';
 import TextField from '@material-ui/core/TextField';
 import {withStyles} from '@material-ui/core';
@@ -54,7 +59,7 @@ class Dashboard extends Component {
         selectedRobot: null,
         robots: [],
         dialogType: "",
-
+        searchFilter: null,
         newRobotSerialKey: "",
         newRobotTitle: "",
 
@@ -450,8 +455,54 @@ class Dashboard extends Component {
                                 Scheduler
                             </Typography>
                             <Typography component="p">
-                               Assign tasks to Growbot by adding them in the list.
+                               Assign tasks to Growbot.
                             </Typography>
+                            <TextField
+                                id="search-criteria"
+                                label="Filter"
+                                className={classes.textField}
+                                value={this.state.searchFilter}
+                                onChange={this.handleChange('searchFilter')}
+                                margin="normal"
+                            />
+                            <List
+                                className={classes.root}
+                                subheader={<ListSubheader component="div">Tasks</ListSubheader>}
+                            >
+                                <ListItem key="1">
+                                    <ListItemText primary="Water Plant A every 3 hours" />
+                                    <ListItemSecondaryAction>
+                                        <IconButton aria-label="Edit">
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="Remove">
+                                            <RemoveIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                                <ListItem key="2">
+                                    <ListItemText primary="Water Plant B every 6 hours" />
+                                    <ListItemSecondaryAction>
+                                        <IconButton aria-label="Edit">
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="Remove">
+                                            <RemoveIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                                <ListItem key="1">
+                                    <ListItemText primary="Take Picture of Plant A every 3 hours" />
+                                    <ListItemSecondaryAction>
+                                        <IconButton aria-label="Edit">
+                                            <EditIcon />
+                                        </IconButton>
+                                        <IconButton aria-label="Remove">
+                                            <RemoveIcon />
+                                        </IconButton>
+                                    </ListItemSecondaryAction>
+                                </ListItem>
+                            </List>
                         </CardContent>
                         <CardActions>
                         </CardActions>

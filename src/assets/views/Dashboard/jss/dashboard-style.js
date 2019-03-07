@@ -24,6 +24,11 @@ let styles = theme => ({
     paper: {
         padding: theme.spacing.unit * 2,
     },
+    textField: {
+        marginLeft: theme.spacing.unit,
+        marginRight: theme.spacing.unit,
+        width: 200,
+    }
 });
 
 export default styles;
