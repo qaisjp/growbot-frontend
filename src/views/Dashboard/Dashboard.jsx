@@ -447,7 +447,10 @@ class Dashboard extends Component {
 
                         <CardContent>
                             <Typography gutterBottom variant="h5" component="h2">
-                                Schedule
+                                Scheduler
+                            </Typography>
+                            <Typography component="p">
+                               Assign tasks to Growbot by adding them in the list.
                             </Typography>
                         </CardContent>
                         <CardActions>

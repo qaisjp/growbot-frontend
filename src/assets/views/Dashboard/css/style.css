@@ -2,7 +2,7 @@
     width: 60%;
     margin: auto;
     display: grid;
-    grid-template-columns: 30% 70%;
+    grid-template-columns: 20% 80%;
 }
 
 #arm-control-wrapper {
