@@ -45,16 +45,8 @@ import styles from '../../assets/views/Dashboard/jss/dashboard-style';
 import banner from '../../assets/views/Dashboard/img/banner.jpg'
 import online from '../../assets/views/Dashboard/img/green_circle.png'
 import offline from '../../assets/views/Dashboard/img/red_circle.png'
-import style from '../../assets/views/Dashboard/css/style.css'
-import roboticArm from '../../assets/views/Dashboard/img/robotic-arm.svg'
-import tdown from '../../assets/views/Dashboard/img/TriangleArrow-Down.svg'
-import tup from '../../assets/views/Dashboard/img/TriangleArrow-Up.svg'
-import tleft from '../../assets/views/Dashboard/img/TriangleArrow-Left.svg'
-import tright from '../../assets/views/Dashboard/img/TriangleArrow-Right.svg'
-import indication from '../../assets/views/Dashboard/img/Parking_brake-indication.svg'
 
-import Fab from '@material-ui/core/Fab';
-
+import Gamepad from '../../components/Gamepad/Gamepad'
 import LetterIcon from '../../components/LetterIcon/LetterIcon'
 
 import {connect} from "react-redux";
@@ -293,64 +285,7 @@ class Dashboard extends Component {
                         </div>
                     </CardContent>
                     <CardActions style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                        <div style={style} id="main-wrapper">
-                            <div id="arm-control-wrapper">
-                                <div className="grid-item">
-                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
-                                         onClick={this.onMove.bind(this, "armup")}>
-                                        <img src={tup} className="arrow-image arrow-vert" alt="Move arm up"></img>
-                                    </Fab>
-                                </div>
-                                <div className="grid-item">
-                                    <img src={roboticArm} id="robotic-arm-icon" alt=""></img>
-                                </div>
-                                <div className="grid-item">
-                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
-                                         onClick={this.onMove.bind(this, "armdown")}>
-                                        <img src={tdown} className="arrow-image arrow-vert" alt="Move arm down"></img>
-                                    </Fab>
-                                </div>
-                            </div>
-                            <div id="directional-wrapper">
-                                <div className="grid-item"></div>
-                                <div className="grid-item">
-                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
-                                         onClick={this.onMove.bind(this, "forward")}>
-                                        <img src={tup} className="arrow-image arrow-vert" alt="Move bot forward"></img>
-                                    </Fab>
-
-                                </div>
-                                <div className="grid-item"></div>
-                                <div className="grid-item">
-                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
-                                         onClick={this.onMove.bind(this, "left")}>
-                                        <img src={tleft} className="arrow-image arrow-hor" alt='Move bot left'></img>
-                                    </Fab>
-                                </div>
-                                <div className="grid-item">
-                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
-                                         onClick={this.onMove.bind(this, "brake")}>
-                                        <img src={indication} className="circle-centre" alt="Brake bot"></img>
-                                    </Fab>
-                                </div>
-                                <div className="grid-item">
-                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
-                                         onClick={this.onMove.bind(this, "right")}>
-                                        <img src={tright} className="arrow-image arrow-hor" alt="Move bot right"></img>
-                                    </Fab>
-                                </div>
-                                <div className="grid-item"></div>
-                                <div className="grid-item">
-                                    <Fab size="large" color="secondary" aria-label="Add" className={classes.margin}
-                                         onClick={this.onMove.bind(this, "backward")}>
-                                        <img src={tdown} className="arrow-image arrow-vert"
-                                             alt="Move bot backward"></img>
-                                    </Fab>
-
-                                </div>
-                                <div className="grid-item"></div>
-                            </div>
-                        </div>
+                        <Gamepad forward={this.onMove.bind(this, "forward")} backward={this.onMove.bind(this, "backward")} armdown={this.onMove.bind(this, "armdown")} armup={this.onMove.bind(this, "armup")} left={this.onMove.bind(this, "left")} right={this.onMove.bind(this, "right")} brake={this.onMove.bind(this, "brake")} />
                     </CardActions>
                 </Card>
             </Grid>,
