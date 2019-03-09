@@ -1,7 +1,7 @@
 import endpoints from "../endpoints";
 
 export default async function(token) {
-    let response = await fetch(endpoints.auth_refresh, {
+    const response = await fetch(endpoints.auth_refresh, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",

@@ -10,7 +10,7 @@ export default function(email, password) {
         callLoginApi(email, password, attribute => {
             dispatch(setLoginPending(false));
 
-            let error = attribute.startsWith("Error");
+            const error = attribute.startsWith("Error");
 
             if (!error) {
                 localStorage.setItem("loginToken", attribute);

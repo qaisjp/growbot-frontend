@@ -3,7 +3,7 @@ import {Router} from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 import Layout from './layout/Layout'
 
-let hist = createBrowserHistory()
+const hist = createBrowserHistory()
 
 class App extends Component {
 

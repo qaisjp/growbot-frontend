@@ -34,9 +34,9 @@ class Header extends Component {
     };
 
     render() {
-        let { classes, menuFunctionRoutes, menuRedirectRoutes, loggedIn } = this.props;
-        let { anchorEl } = this.state;
-        let menuOpen = Boolean(anchorEl)
+        const { classes, menuFunctionRoutes, menuRedirectRoutes, loggedIn } = this.props;
+        const { anchorEl } = this.state;
+        const menuOpen = Boolean(anchorEl)
 
         return (
             <div className={classes.root}>

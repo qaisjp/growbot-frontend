@@ -1,6 +1,6 @@
 let drawerWidth = 240;
 
-let styles = theme => ({
+const styles = theme => ({
     root: {
         display: 'flex',
     },

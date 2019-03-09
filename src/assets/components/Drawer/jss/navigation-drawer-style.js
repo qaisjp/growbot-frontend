@@ -1,6 +1,6 @@
 let drawerWidth = 240;
 
-let styles = _ => ({
+const styles = _ => ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,

@@ -1,4 +1,4 @@
-let routeType = Object.freeze({
+const routeType = Object.freeze({
     "redirect" : 0,
     "function" : 1
 })

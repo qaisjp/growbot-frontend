@@ -1,4 +1,4 @@
-let styles = theme => ({
+const styles = theme => ({
     contextHeader: {
         marginTop: theme.spacing.unit * 6,
         padding: theme.spacing.unit * 7,

@@ -1,6 +1,6 @@
 import {createMuiTheme} from "@material-ui/core/styles/index";
 
-let styles = createMuiTheme({
+const styles = createMuiTheme({
     typography: {
         useNextVariants: true,
     },
