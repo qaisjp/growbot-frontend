@@ -1,12 +1,9 @@
 import { setLoginError, setLoginPending, setLoginSuccess, setLoginToken } from "../auth-mutators";
-import { refreshToken } from '../auth-backend'
+import refreshToken from '../http/refresh_token'
 
 export default function(token) {
     return dispatch => {
         dispatch(setLoginPending(true));
-        // dispatch(setLoginSuccess(false));
-        // dispatch(setLoginError(null));
-        // dispatch(setLoginToken(null));
 
         refreshToken(token).then(result => {
             dispatch(setLoginPending(false));

@@ -260,7 +260,7 @@ class Dashboard extends Component {
     }
 
     handleCheck = name => event => {
-        this.setState({ [name]: event.target.checked });
+        this.setState({[name]: event.target.checked});
     };
 
     onAddRobot = async () => {
@@ -580,35 +580,35 @@ class Dashboard extends Component {
                 </DialogTitle>
                 {
                     this.state.dialogType === "add" ? <DialogContent>
-                            <DialogContentText>
-                                Please scan the robot serial and name your robot.
-                            </DialogContentText>
-                            <QrReader
-                                delay={this.state.qrDelay}
-                                onError={this.qrHandleError.bind(this)}
-                                onScan={this.qrHandleScan.bind(this)}
-                                style={{width: "100%"}}
+                        <DialogContentText>
+                            Please scan the robot serial and name your robot.
+                        </DialogContentText>
+                        <QrReader
+                            delay={this.state.qrDelay}
+                            onError={this.qrHandleError.bind(this)}
+                            onScan={this.qrHandleScan.bind(this)}
+                            style={{width: "100%"}}
+                        />
+                        <div style={{display: "flex", flexDirection: "column"}}>
+                            <TextField
+                                id="addRobot"
+                                label="Serial key"
+                                className={classes.textField}
+                                value={this.state.newRobotSerialKey}
+                                onChange={this.handleChange('newRobotSerialKey')}
+                                margin="normal"
                             />
-                            <div style={{display: "flex", flexDirection: "column"}}>
-                                <TextField
-                                    id="addRobot"
-                                    label="Serial key"
-                                    className={classes.textField}
-                                    value={this.state.newRobotSerialKey}
-                                    onChange={this.handleChange('newRobotSerialKey')}
-                                    margin="normal"
-                                />
-                                <TextField
-                                    id="addRobotTitke"
-                                    label="Title"
-                                    className={classes.textField}
-                                    required={true}
-                                    value={this.state.newRobotTitle}
-                                    onChange={this.handleChange('newRobotTitle')}
-                                    margin="normal"
-                                />
-                            </div>
-                        </DialogContent> : this.state.dialogType === "schedule_add" ? <DialogContent>
+                            <TextField
+                                id="addRobotTitke"
+                                label="Title"
+                                className={classes.textField}
+                                required={true}
+                                value={this.state.newRobotTitle}
+                                onChange={this.handleChange('newRobotTitle')}
+                                margin="normal"
+                            />
+                        </div>
+                    </DialogContent> : this.state.dialogType === "schedule_add" ? <DialogContent>
 
                             <Grid container>
                                 <Grid item>
@@ -732,61 +732,62 @@ class Dashboard extends Component {
                                     value={this.state.repetitionEnd}
                                     onChange={x => this.setState({repetitionEnd: x.target.value})}
                                 >
-                                    <FormControlLabel value="never" control={<Radio />} label="Never" />
-                                    <FormControlLabel value="on" control={<Radio />} label="On" />
+                                    <FormControlLabel value="never" control={<Radio/>} label="Never"/>
+                                    <FormControlLabel value="on" control={<Radio/>} label="On"/>
                                     <DateTimePicker
-                                                onChange={date => this.setState({date})}
-                                                value={this.state.date}
-                                            />
-                                    <FormControlLabel value="after" control={<Radio />} label="After" />
+                                        onChange={date => this.setState({date})}
+                                        value={this.state.date}
+                                    />
+                                    <FormControlLabel value="after" control={<Radio/>} label="After"/>
 
-                                            <Select
-                                                value={this.state.repetitionUnit}
-                                                onChange={event => this.setState({repetitionUnit: event.target.value})}
-                                                inputProps={{
-                                                    name: 'repetition_unit',
-                                                    id: 'repetition_unit',
-                                                }}
-                                            >
-                                                <MenuItem value="">
-                                                    <em>None</em>
-                                                </MenuItem>
-                                                {
-                                                    ["Week"].map(unit => (
-                                                        <MenuItem value={unit}>{unit}</MenuItem>
-                                                    ))
-                                                }
+                                    <Select
+                                        value={this.state.repetitionUnit}
+                                        onChange={event => this.setState({repetitionUnit: event.target.value})}
+                                        inputProps={{
+                                            name: 'repetition_unit',
+                                            id: 'repetition_unit',
+                                        }}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        {
+                                            ["Week"].map(unit => (
+                                                <MenuItem value={unit}>{unit}</MenuItem>
+                                            ))
+                                        }
 
-                                            </Select>
+                                    </Select>
                                 </RadioGroup>
                             </FormControl>
-                        <Grid container>
-                            <Grid item>
-                                <InputLabel htmlFor="action">Action</InputLabel>
+                            <Grid container>
+                                <Grid item>
+                                    <InputLabel htmlFor="action">Action</InputLabel>
+                                </Grid>
+                                <Grid item>
+                                    <Select
+                                        value={this.state.action}
+                                        onChange={event => this.setState({action: event.target.value})}
+                                        inputProps={{
+                                            name: 'action',
+                                            id: 'action',
+                                        }}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        <MenuItem value="water">Water</MenuItem>
+                                        <MenuItem value="picture">Picture</MenuItem>
+                                    </Select>
+                                </Grid>
                             </Grid>
-                            <Grid item>
-                                <Select
-                                    value={this.state.action}
-                                    onChange={event => this.setState({action: event.target.value})}
-                                    inputProps={{
-                                        name: 'action',
-                                        id: 'action',
-                                    }}
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    <MenuItem value="water">Water</MenuItem>
-                                    <MenuItem value="picture">Picture</MenuItem>
-                                </Select>
-                            </Grid>
-                        </Grid>
 
 
                         </DialogContent> :
 
 
-                        <DialogContent><DialogContentText>Are you sure you want to delete the robot ?</DialogContentText></DialogContent>
+                        <DialogContent><DialogContentText>Are you sure you want to delete the robot
+                            ?</DialogContentText></DialogContent>
                 }
 
                 <DialogActions>
@@ -796,9 +797,11 @@ class Dashboard extends Component {
                     {
                         this.state.dialogType === "add" ? <Button onClick={this.onAddRobot} color="primary">
                             Add
-                        </Button> : this.state.dialogType === "schedule_add" ? <Button color="primary">Schedule</Button> : <Button onClick={this.onRemoveRobot} color="primary">
-                            Remove
-                        </Button>
+                        </Button> : this.state.dialogType === "schedule_add" ?
+                            <Button color="primary">Schedule</Button> :
+                            <Button onClick={this.onRemoveRobot} color="primary">
+                                Remove
+                            </Button>
                     }
 
                 </DialogActions>

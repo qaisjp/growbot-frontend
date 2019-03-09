@@ -21,8 +21,8 @@ import withStyles from '@material-ui/core/styles/withStyles';
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
 
 import styles from '../../assets/views/Login/login-style'
-import login from '../../actions/login_auth'
-import refreshToken from '../../actions/refresh_auth'
+import login from '../../actions/login'
+import refreshToken from '../../actions/refresh_token'
 import nullifyLoginError from '../../actions/close_dialog'
 
 class Login extends Component {

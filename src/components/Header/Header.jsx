@@ -17,7 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 
 import styles from '../../assets/components/Header/jss/header-style';
-import logout from '../../actions/logout_auth'
+import logout from '../../actions/logout'
 
 class Header extends Component {
 

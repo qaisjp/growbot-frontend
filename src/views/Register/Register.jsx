@@ -19,7 +19,7 @@ import styles from '../../assets/views/Register/register-style'
 
 
 import endpoints from "../../endpoints";
-import login from "../../actions/login_auth";
+import login from "../../actions/login";
 import {connect} from "react-redux";
 
 class Register extends Component {
