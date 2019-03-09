@@ -116,7 +116,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        authLogout: (email) => dispatch(logout())
+        logout: _ => dispatch(logout())
     }
 }
 

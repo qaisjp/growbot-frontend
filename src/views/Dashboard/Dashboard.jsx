@@ -61,6 +61,11 @@ import {connect} from "react-redux";
 
 import QrReader from "react-qr-reader";
 
+import fetchRobots from '../../http/fetch_robots';
+import moveRobot from '../../http/move_robot';
+import addRobot from '../../http/add_robot'
+import removeRobot from '../../http/remove_robot'
+
 class Dashboard extends Component {
 
     state = {
@@ -104,88 +109,16 @@ class Dashboard extends Component {
         alert(err);
     }
 
-    onChangeObjectDetection = async () => {
-        let objectDetectionActive = !this.state.checkedDetection
-        let objectDetectionCommand = {
-            "key": "object_avoidance",
-            "value": objectDetectionActive
-        }
-        let response = await fetch(endpoints.robot_settings(this.state.selectedRobotId), {
-            method: "PATCH",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(objectDetectionCommand)
-        });
-
-        if (response.status === 200) {
-            this.setState({message: "Successfully changed object detection mode", open: true, type: "success"})
-        } else {
-            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
-        }
-    }
-
-    onMakeSquare = async () => {
-        let directionCommand = {
-            procedure: "square"
-        }
-
-        let response = await fetch(endpoints.robot_startDemo(this.state.selectedRobotId), {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(directionCommand)
-        });
-
-        if (response.status === 200) {
-            this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
-        } else {
-            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
-        }
-    }
-
-    onRandomMove = async () => {
-        let directionCommand = {
-            procedure: "random_move"
-        }
-
-        let response = await fetch(endpoints.robot_startDemo(this.state.selectedRobotId), {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(directionCommand)
-        });
-
-        if (response.status === 200) {
-            this.setState({message: "Successfully moved robot forward", open: true, type: "success"})
-        } else {
-            this.setState({message: "Failed with error code " + response.status, open: true, type: "error"})
-        }
-    }
-
     onMove = async (direction) => {
-        let directionCommand = {
-            direction: direction
-        }
-
-        let response = await fetch(endpoints.robot_move(this.state.selectedRobotId), {
-            method: "POST",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(directionCommand)
-        });
+        const {loginToken} = this.props;
+        const {selectedRobotId} = this.state;
+        const response = await moveRobot(loginToken, direction, selectedRobotId);
 
         if (response.status === 200) {
             this.setState({message: "Successfully moved robot", open: true, type: "success"})
         } else {
-            this.setState({message: (await response.json()).message, open: true, type: "error"})
+            const body = await response.json();
+            this.setState({message: body.message, open: true, type: "error"})
         }
     }
 
@@ -197,45 +130,18 @@ class Dashboard extends Component {
         this.setState({selectedRobotId: robot.id, selectedRobot: robot});
     };
 
-    robotsApi = async () => {
-        console.log("Current isLoginSuccess", this.props.isLoginSuccess);
-        console.log("Current props.loginToken", this.props.loginToken);
-        let response = await fetch(endpoints.robots_list, {
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json",
-            },
-        });
-        let body = await response.text();
-
-        if (response.status === 200) {
-            let data = JSON.parse(body);
-            return data;
-        }
-        return new Error(body);
-    }
-
     componentDidMount = async () => {
-        let result = []
-        try {
+        const {loginToken} = this.props;
+        const result = await fetchRobots(loginToken);
 
-            result = await this.robotsApi();
-
-            if (result instanceof Error) {
-                console.log("componentDidMount error", result.message)
-                this.setState({robots: []})
-            } else {
-                console.log("componentDidMount", result.robots)
-                this.setState({robots: result.robots})
-                if (result.robots.length > 0) {
-                    this.handleListItemClick(null, result.robots[0]);
-                }
+        if (result instanceof Error) {
+            this.setState({robots: []})
+        } else {
+            const {robots} = result;
+            this.setState({robots})
+            if (robots.length > 0) {
+                this.handleListItemClick(null, result.robots[0]);
             }
-
-            console.log("Robots: ", this.state.robots)
-
-        } catch (e) {
-            //set lorem ipsum robots here
         }
     }
 
@@ -264,23 +170,12 @@ class Dashboard extends Component {
     };
 
     onAddRobot = async () => {
-        let addRobotRequest = {
-            robot_id: this.state.newRobotSerialKey,
-            title: this.state.newRobotTitle,
-        }
-
-        console.log("[TOKEN] " + this.props.loginToken)
-        let response = await fetch(endpoints.robots_register, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + this.props.loginToken
-            },
-            body: JSON.stringify(addRobotRequest)
-        });
+        const {loginToken} = this.props;
+        const {newRobotSerialKey, newRobotTitle} = this.state;
+        const response = await addRobot(loginToken, newRobotSerialKey, newRobotTitle);
 
         if (response.status === 200) {
-            let result = await this.robotsApi();
+            const result = await fetchRobots(loginToken);
 
             if (result instanceof Error) {
                 this.setState({robots: []})
@@ -288,27 +183,26 @@ class Dashboard extends Component {
                 this.handleDialogClose()
                 this.setState({robots: result.robots})
 
-                const found = result.robots.filter(r => r.id === addRobotRequest.robot_id)
+                const found = result.robots.filter(r => r.id === newRobotSerialKey)
                 if (found.length === 1) {
                     this.handleListItemClick(null, found[0]);
                 }
             }
         } else {
-            response.text().then(x => console.log(x))
+            const body = await response.json();
+            this.setState({message: body.message, open: true, type: "error"})
         }
     }
 
     onRemoveRobot = async () => {
-        let response = await fetch(endpoints.robot_delete(this.state.selectedRobotId), {
-            method: "DELETE",
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken
-            },
-        });
+        const {loginToken} = this.props;
+        const {selectedRobotId} = this.state;
+
+        const response = await removeRobot(loginToken, selectedRobotId);
 
         if (response.status === 200) {
 
-            let result = await this.robotsApi();
+            let result = await fetchRobots(loginToken);
 
             if (result instanceof Error) {
                 this.setState({robots: [], dialogOpen: false})
@@ -316,7 +210,8 @@ class Dashboard extends Component {
                 this.setState({robots: result.robots, dialogOpen: false})
             }
         } else {
-
+            const body = await response.json();
+            this.setState({message: body.message, open: true, type: "error"})
         }
     }
 
@@ -339,7 +234,7 @@ class Dashboard extends Component {
         });
 
         if (response.status === 200) {
-            let result = await this.robotsApi();
+            let result = await fetchRobots(this.props.loginToken);
 
             if (result instanceof Error) {
                 this.setState({robots: []})
