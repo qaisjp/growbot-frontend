@@ -11,15 +11,14 @@ import Snackbar from '@material-ui/core/Snackbar';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import TextField from '@material-ui/core/TextField';
 import {withStyles} from '@material-ui/core/styles';
 
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents"
 
 import styles from '../../assets/views/Settings/jss/settings-style'
 import {connect} from "react-redux";
-import endpoints from "../../endpoints";
+
+import changePassword from '../../http/change_password';
 
 class Settings extends Component {
 
@@ -27,89 +26,31 @@ class Settings extends Component {
         message: "",
         type: "",
         open: false,
-        changeNameRobotId: 'default',
-        newRobotName: 'Enter New Name',
         currentPassword: null,
         newPassword: null,
         confirmNewPassword: null,
-        robots: []
     }
 
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
     }
 
-    robotsApi = async () => {
-        console.log(this.props.isLoginSuccess);
-        console.log(this.props.loginToken);
-        let response = await fetch(endpoints.robots_list, {
-            headers: {
-                "Authorization": "Bearer " + this.props.loginToken,
-                "Content-Type": "application/json",
-            },
-        });
-        let body = await response.text();
-
-        if (response.status === 200) {
-            let data = JSON.parse(body);
-            return data;
-        }
-        return new Error(body);
-    }
-
-    componentDidMount = async () => {
-        let result = []
-        try {
-
-            result = await this.robotsApi();
-
-            if (result instanceof Error) {
-                console.log(result.message)
-                this.setState({robots: []})
-            } else {
-                console.log("NOT NULL")
-                console.log(result.robots)
-                this.setState({robots: result.robots})
-            }
-
-            console.log(this.state.robots)
-
-        } catch (e) {
-            //set lorem ipsum robots here
-        }
-    }
-
     onChangePassword = async () => {
-        let {currentPassword, confirmNewPassword, newPassword} = this.state;
-
-        console.log(this.props.loginToken)
+        const {loginToken} = this.props;
+        const {currentPassword, confirmNewPassword, newPassword} = this.state;
 
         if(confirmNewPassword === newPassword) {
-            let changePasswordRequest = {
-                old: currentPassword,
-                new: newPassword
-            }
-
-            let response = await fetch(endpoints.auth_chgpass, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": "Bearer " + this.props.loginToken
-                },
-                body: JSON.stringify(changePasswordRequest)
-            });
+            const response = await changePassword(loginToken, currentPassword, newPassword);
 
             if (response.status === 200) {
                 this.setState({message: "Successfully changed password", open: true, type: "success"})
             } else {
-                console.log(response)
                 const body = await response.json();
-                console.log(response.status)
                 this.setState({message: "Failed: " + body.message, open: true, type: "error"})
             }
 
         } else {
-
+            this.setState({message: "Please make sure the confirm password matches the new password", open: true, type: "error"})
         }
     }
 
@@ -185,8 +126,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return {
-    }
+    return {}
 }
 
 Settings.propTypes = {
