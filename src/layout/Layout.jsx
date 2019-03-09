@@ -15,7 +15,7 @@ class Layout extends Component {
 
     static getPathName(url) {
         for(let i = 0; i < routes.length; i++) {
-            let route = routes[i];
+            const route = routes[i];
             if(route.path === url) {
                 return route.name;
             }

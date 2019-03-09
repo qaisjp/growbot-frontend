@@ -4,7 +4,7 @@ import ForgotPassword from '../views/ForgotPassword/ForgotPassword'
 import Register from '../views/Register/Register'
 import Settings from '../views/Settings/Settings'
 
-let routes = [
+const routes = [
     {
         name: "Dashboard",
         path: "/",

@@ -59,7 +59,7 @@ class Settings extends Component {
     }
 
     render() {
-        let {classes} = this.props;
+        const {classes} = this.props;
         return (<div className={classes.root}>
                 <Snackbar
                     anchorOrigin={{
