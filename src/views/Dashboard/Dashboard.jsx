@@ -73,7 +73,7 @@ class Dashboard extends Component {
         checkedSunday: false,
         repetitionQuantity: null,
         repetitionUnit: null,
-        repetitionEnd: null,
+        repetitionEnd: 'never',
         action: "",
         checkedDetection: false,
         message: "",
@@ -730,25 +730,16 @@ class Dashboard extends Component {
                                     name="ends"
                                     className={classes.group}
                                     value={this.state.repetitionEnd}
-                                    onChange={this.handleChange}
+                                    onChange={x => this.setState({repetitionEnd: x.target.value})}
                                 >
                                     <FormControlLabel value="never" control={<Radio />} label="Never" />
-                                    <Grid container>
-                                        <Grid item>
-                                            <FormControlLabel value="on" control={<Radio />} label="On" />
-                                        </Grid>
-                                        <Grid item>
-                                            <DateTimePicker
+                                    <FormControlLabel value="on" control={<Radio />} label="On" />
+                                    <DateTimePicker
                                                 onChange={date => this.setState({date})}
                                                 value={this.state.date}
                                             />
-                                        </Grid>
-                                    </Grid>
-                                    <Grid container>
-                                        <Grid item>
-                                            <FormControlLabel value="after" control={<Radio />} label="After" />
-                                        </Grid>
-                                        <Grid item>
+                                    <FormControlLabel value="after" control={<Radio />} label="After" />
+
                                             <Select
                                                 value={this.state.repetitionUnit}
                                                 onChange={event => this.setState({repetitionUnit: event.target.value})}
@@ -767,8 +758,6 @@ class Dashboard extends Component {
                                                 }
 
                                             </Select>
-                                        </Grid>
-                                    </Grid>
                                 </RadioGroup>
                             </FormControl>
                         <Grid container>
