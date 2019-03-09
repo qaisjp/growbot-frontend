@@ -18,7 +18,7 @@ function LetterIcon(props) {
 
     return (
         <SvgIcon {...props}>
-            <path fill="#ff0000" d={letterPath} />
+            <path d={letterPath} />
         </SvgIcon>
     )
 

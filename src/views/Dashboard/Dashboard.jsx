@@ -649,8 +649,8 @@ class Dashboard extends Component {
                             </FormControl>
                             <FormControl className={classes.formControl}>
                                 <Checkbox
-                                    icon={<LetterIcon letter="M" color="error"/>}
-                                    checkedIcon={<LetterIcon letter="M" color="primary"/>}
+                                    icon={<LetterIcon letter="M" color="#000000"/>}
+                                    checkedIcon={<LetterIcon letter="M" color="#006600"/>}
                                     checked={this.state.checkedMonday}
                                     onChange={this.handleCheckboxChange('checkedMonday')}
                                     value="checkedMonday"
