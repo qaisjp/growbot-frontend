@@ -22,8 +22,8 @@ import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarConte
 
 import styles from '../../assets/views/Login/login-style'
 import login from '../../actions/login'
-import refreshToken from '../../actions/refresh_token'
-import nullifyLoginError from '../../actions/close_dialog'
+import refreshLoginToken from '../../actions/refresh_token'
+import closeDialog from '../../actions/close_dialog'
 
 class Login extends Component {
 
@@ -33,9 +33,10 @@ class Login extends Component {
     }
 
     componentDidMount = () => {
+        const {refreshLoginToken} = this.props;
         const token = localStorage.getItem("loginToken");
         if (token !== null) {
-            this.props.authRefresh(token);
+            refreshLoginToken(token);
         }
     }
 
@@ -44,11 +45,14 @@ class Login extends Component {
     }
 
     handleClose = () => {
-        this.props.resetLoginError()
+        const {resetLoginError} = this.props;
+        resetLoginError()
     }
 
     onLogin = () => {
-        this.props.authLogin(this.state.email, this.state.password)
+        const {login} = this.props;
+        const {email, password} = this.state;
+        login(email, password)
     }
 
     onKeyPress = (e) => {
@@ -58,7 +62,7 @@ class Login extends Component {
     }
 
     render() {
-        let { classes, loginError } = this.props;
+        const { classes, loginError } = this.props;
 
         return (
             <main className={classes.main}>
@@ -138,9 +142,9 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return {
-        authRefresh: token => dispatch(refreshToken(token)),
-        authLogin: (email, password) => dispatch(login(email, password)),
-        resetLoginError: _ => dispatch(nullifyLoginError())
+        refreshLoginToken: token => dispatch(refreshLoginToken(token)),
+        login: (email, password) => dispatch(login(email, password)),
+        resetLoginError: _ => dispatch(closeDialog())
     }
 }
 
