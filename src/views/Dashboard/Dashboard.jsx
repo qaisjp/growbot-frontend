@@ -4,6 +4,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
+import Checkbox from '@material-ui/core/Checkbox';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -57,6 +58,15 @@ import QrReader from "react-qr-reader";
 class Dashboard extends Component {
 
     state = {
+        checkedMonday: false,
+        checkedTuesday: false,
+        checkedWednesday: false,
+        checkedThursday: false,
+        checkedFriday: false,
+        checkedSaturday: false,
+        checkedSunday: false,
+        repetitionQuantity: null,
+        repetitionUnit: null,
         action: "",
         checkedDetection: false,
         message: "",
@@ -587,6 +597,58 @@ class Dashboard extends Component {
                                 />
                             </div>
                         </DialogContent> : this.state.dialogType === "schedule_add" ? <DialogContent>
+
+                        <form className={classes.root} autoComplete="off">
+                            <InputLabel htmlFor="repetition_quantity">Repeat every</InputLabel>
+                            <FormControl className={classes.formControl}>
+                                <Select
+                                    value={this.state.repetitionQuantity}
+                                    onChange={event => this.setState({repetitionQuantity: event.target.value})}
+                                    inputProps={{
+                                        name: 'repetition_quantity',
+                                        id: 'repetition_quantity',
+                                    }}
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {
+                                        [1, 2, 3, 4, 5, 6, 7].map(quantity => (
+                                            <MenuItem value={quantity}>{quantity}</MenuItem>
+                                        ))
+                                    }
+
+                                </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <Select
+                                    value={this.state.repetitionUnit}
+                                    onChange={event => this.setState({repetitionUnit: event.target.value})}
+                                    inputProps={{
+                                        name: 'repetition_unit',
+                                        id: 'repetition_unit',
+                                    }}
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    {
+                                        ["Week"].map(unit => (
+                                            <MenuItem value={unit}>{unit}</MenuItem>
+                                        ))
+                                    }
+
+                                </Select>
+                            </FormControl>
+                            <FormControl className={classes.formControl}>
+                                <Checkbox
+                                    checked={this.state.checkedA}
+                                    onChange={this.handleChange('checkedA')}
+                                    value="checkedA"
+                                />
+                            </FormControl>
+
+                        </form>
                         <form className={classes.root} autoComplete="off">
                             <Grid container spacing={12}>
                                 <Grid item xs={12}>
