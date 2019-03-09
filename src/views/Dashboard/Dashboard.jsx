@@ -29,6 +29,10 @@ import TextField from '@material-ui/core/TextField';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import Select from '@material-ui/core/Select';
 import {withStyles} from '@material-ui/core';
 
@@ -69,6 +73,7 @@ class Dashboard extends Component {
         checkedSunday: false,
         repetitionQuantity: null,
         repetitionUnit: null,
+        repetitionEnd: null,
         action: "",
         checkedDetection: false,
         message: "",
@@ -605,49 +610,55 @@ class Dashboard extends Component {
                             </div>
                         </DialogContent> : this.state.dialogType === "schedule_add" ? <DialogContent>
 
-                        <form className={classes.root} autoComplete="off">
-                            <InputLabel htmlFor="repetition_quantity">Repeat every</InputLabel>
-                            <FormControl className={classes.formControl}>
-                                <Select
-                                    value={this.state.repetitionQuantity}
-                                    onChange={event => this.setState({repetitionQuantity: event.target.value})}
-                                    inputProps={{
-                                        name: 'repetition_quantity',
-                                        id: 'repetition_quantity',
-                                    }}
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    {
-                                        [1, 2, 3, 4, 5, 6, 7].map(quantity => (
-                                            <MenuItem value={quantity}>{quantity}</MenuItem>
-                                        ))
-                                    }
-
-                                </Select>
-                            </FormControl>
-                            <FormControl className={classes.formControl}>
-                                <Select
-                                    value={this.state.repetitionUnit}
-                                    onChange={event => this.setState({repetitionUnit: event.target.checked})}
-                                    inputProps={{
-                                        name: 'repetition_unit',
-                                        id: 'repetition_unit',
-                                    }}
-                                >
-                                    <MenuItem value="">
-                                        <em>None</em>
-                                    </MenuItem>
-                                    {
-                                        ["Week"].map(unit => (
-                                            <MenuItem value={unit}>{unit}</MenuItem>
-                                        ))
-                                    }
-
-                                </Select>
-                            </FormControl>
                             <Grid container>
+                                <Grid item>
+                                    <InputLabel>Repeat every</InputLabel>
+                                </Grid>
+                                <Grid item>
+                                    <Select
+                                        value={this.state.repetitionQuantity}
+                                        onChange={event => this.setState({repetitionQuantity: event.target.value})}
+                                        inputProps={{
+                                            name: 'repetition_quantity',
+                                            id: 'repetition_quantity',
+                                        }}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        {
+                                            [1, 2, 3, 4, 5, 6, 7].map(quantity => (
+                                                <MenuItem value={quantity}>{quantity}</MenuItem>
+                                            ))
+                                        }
+
+                                    </Select>
+                                </Grid>
+                                <Grid item>
+                                    <Select
+                                        value={this.state.repetitionUnit}
+                                        onChange={event => this.setState({repetitionUnit: event.target.value})}
+                                        inputProps={{
+                                            name: 'repetition_unit',
+                                            id: 'repetition_unit',
+                                        }}
+                                    >
+                                        <MenuItem value="">
+                                            <em>None</em>
+                                        </MenuItem>
+                                        {
+                                            ["Week"].map(unit => (
+                                                <MenuItem value={unit}>{unit}</MenuItem>
+                                            ))
+                                        }
+
+                                    </Select>
+                                </Grid>
+                            </Grid>
+                            <Grid container>
+                                <Grid item>
+                                    <InputLabel>Repeat on</InputLabel>
+                                </Grid>
                                 <Grid item>
                                     <Checkbox
                                         icon={<LetterIcon letter="M" color="#000000"/>}
@@ -712,41 +723,77 @@ class Dashboard extends Component {
                                     />
                                 </Grid>
                             </Grid>
+                            <FormControl component="fieldset" className={classes.formControl}>
+                                <FormLabel component="legend">Ends</FormLabel>
+                                <RadioGroup
+                                    aria-label="Ends"
+                                    name="ends"
+                                    className={classes.group}
+                                    value={this.state.repetitionEnd}
+                                    onChange={this.handleChange}
+                                >
+                                    <FormControlLabel value="never" control={<Radio />} label="Never" />
+                                    <Grid container>
+                                        <Grid item>
+                                            <FormControlLabel value="on" control={<Radio />} label="On" />
+                                        </Grid>
+                                        <Grid item>
+                                            <DateTimePicker
+                                                onChange={date => this.setState({date})}
+                                                value={this.state.date}
+                                            />
+                                        </Grid>
+                                    </Grid>
+                                    <Grid container>
+                                        <Grid item>
+                                            <FormControlLabel value="after" control={<Radio />} label="After" />
+                                        </Grid>
+                                        <Grid item>
+                                            <Select
+                                                value={this.state.repetitionUnit}
+                                                onChange={event => this.setState({repetitionUnit: event.target.value})}
+                                                inputProps={{
+                                                    name: 'repetition_unit',
+                                                    id: 'repetition_unit',
+                                                }}
+                                            >
+                                                <MenuItem value="">
+                                                    <em>None</em>
+                                                </MenuItem>
+                                                {
+                                                    ["Week"].map(unit => (
+                                                        <MenuItem value={unit}>{unit}</MenuItem>
+                                                    ))
+                                                }
 
-
-                        </form>
-                        <form className={classes.root} autoComplete="off">
-                            <Grid container spacing={12}>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel htmlFor="action">Action</InputLabel>
-                                        <Select
-                                            value={this.state.action}
-                                            onChange={event => this.setState({action: event.target.value})}
-                                            inputProps={{
-                                                name: 'action',
-                                                id: 'action',
-                                            }}
-                                        >
-                                            <MenuItem value="">
-                                                <em>None</em>
-                                            </MenuItem>
-                                            <MenuItem value="water">Water</MenuItem>
-                                            <MenuItem value="picture">Picture</MenuItem>
-                                        </Select>
-                                    </FormControl>
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormControl className={classes.formControl}>
-                                        <DateTimePicker
-                                            className={classes.dateTimePicker}
-                                            onChange={date => this.setState({date})}
-                                            value={this.state.date}
-                                        />
-                                    </FormControl>
-                                </Grid>
+                                            </Select>
+                                        </Grid>
+                                    </Grid>
+                                </RadioGroup>
+                            </FormControl>
+                        <Grid container>
+                            <Grid item>
+                                <InputLabel htmlFor="action">Action</InputLabel>
                             </Grid>
-                        </form>
+                            <Grid item>
+                                <Select
+                                    value={this.state.action}
+                                    onChange={event => this.setState({action: event.target.value})}
+                                    inputProps={{
+                                        name: 'action',
+                                        id: 'action',
+                                    }}
+                                >
+                                    <MenuItem value="">
+                                        <em>None</em>
+                                    </MenuItem>
+                                    <MenuItem value="water">Water</MenuItem>
+                                    <MenuItem value="picture">Picture</MenuItem>
+                                </Select>
+                            </Grid>
+                        </Grid>
+
+
                         </DialogContent> :
 
 
