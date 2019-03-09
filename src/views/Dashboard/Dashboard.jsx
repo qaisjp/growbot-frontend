@@ -51,6 +51,8 @@ import indication from '../../assets/views/Dashboard/img/Parking_brake-indicatio
 
 import Fab from '@material-ui/core/Fab';
 
+import LetterIcon from '../../components/LetterIcon/LetterIcon'
+
 import {connect} from "react-redux";
 
 import QrReader from "react-qr-reader";
@@ -252,6 +254,10 @@ class Dashboard extends Component {
         this.setState({[name]: event.target.value});
     }
 
+    handleCheckboxChange = name => event => {
+        this.setState({ [name]: event.target.checked });
+    };
+
     onAddRobot = async () => {
         let addRobotRequest = {
             robot_id: this.state.newRobotSerialKey,
@@ -354,6 +360,7 @@ class Dashboard extends Component {
         let {classes} = this.props;
 
         let controller = null;
+        console.log("CHECKED-MON" + this.state.checkedMonday);
         if (this.state.selectedRobotId !== null) {
             controller = [<Grid item xs={12} md={4}>
                 <Card className={classes.card}>
@@ -623,7 +630,7 @@ class Dashboard extends Component {
                             <FormControl className={classes.formControl}>
                                 <Select
                                     value={this.state.repetitionUnit}
-                                    onChange={event => this.setState({repetitionUnit: event.target.value})}
+                                    onChange={event => this.setState({repetitionUnit: event.target.checked})}
                                     inputProps={{
                                         name: 'repetition_unit',
                                         id: 'repetition_unit',
@@ -642,9 +649,11 @@ class Dashboard extends Component {
                             </FormControl>
                             <FormControl className={classes.formControl}>
                                 <Checkbox
-                                    checked={this.state.checkedA}
-                                    onChange={this.handleChange('checkedA')}
-                                    value="checkedA"
+                                    icon={<LetterIcon letter="M" color="error"/>}
+                                    checkedIcon={<LetterIcon letter="M" color="primary"/>}
+                                    checked={this.state.checkedMonday}
+                                    onChange={this.handleCheckboxChange('checkedMonday')}
+                                    value="checkedMonday"
                                 />
                             </FormControl>
 
