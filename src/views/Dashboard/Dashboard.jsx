@@ -254,7 +254,7 @@ class Dashboard extends Component {
         this.setState({[name]: event.target.value});
     }
 
-    handleCheckboxChange = name => event => {
+    handleCheck = name => event => {
         this.setState({ [name]: event.target.checked });
     };
 
@@ -647,15 +647,72 @@ class Dashboard extends Component {
 
                                 </Select>
                             </FormControl>
-                            <FormControl className={classes.formControl}>
-                                <Checkbox
-                                    icon={<LetterIcon letter="M" color="#000000"/>}
-                                    checkedIcon={<LetterIcon letter="M" color="#006600"/>}
-                                    checked={this.state.checkedMonday}
-                                    onChange={this.handleCheckboxChange('checkedMonday')}
-                                    value="checkedMonday"
-                                />
-                            </FormControl>
+                            <Grid container>
+                                <Grid item>
+                                    <Checkbox
+                                        icon={<LetterIcon letter="M" color="#000000"/>}
+                                        checkedIcon={<LetterIcon letter="M" color="#006600"/>}
+                                        checked={this.state.checkedMonday}
+                                        onChange={this.handleCheck('checkedMonday')}
+                                        value="checkedMonday"
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Checkbox
+                                        icon={<LetterIcon letter="T" color="#000000"/>}
+                                        checkedIcon={<LetterIcon letter="T" color="#006600"/>}
+                                        checked={this.state.checkedTuesday}
+                                        onChange={this.handleCheck('checkedTuesday')}
+                                        value="checkedTuesday"
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Checkbox
+                                        icon={<LetterIcon letter="W" color="#000000"/>}
+                                        checkedIcon={<LetterIcon letter="W" color="#006600"/>}
+                                        checked={this.state.checkedWednesday}
+                                        onChange={this.handleCheck('checkedWednesday')}
+                                        value="checkedWednesday"
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Checkbox
+                                        icon={<LetterIcon letter="T" color="#000000"/>}
+                                        checkedIcon={<LetterIcon letter="T" color="#006600"/>}
+                                        checked={this.state.checkedThursday}
+                                        onChange={this.handleCheck('checkedThursday')}
+                                        value="checkedThursday"
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Checkbox
+                                        icon={<LetterIcon letter="F" color="#000000"/>}
+                                        checkedIcon={<LetterIcon letter="F" color="#006600"/>}
+                                        checked={this.state.checkedFriday}
+                                        onChange={this.handleCheck('checkedFriday')}
+                                        value="checkedFriday"
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Checkbox
+                                        icon={<LetterIcon letter="S" color="#000000"/>}
+                                        checkedIcon={<LetterIcon letter="S" color="#006600"/>}
+                                        checked={this.state.checkedSaturday}
+                                        onChange={this.handleCheck('checkedSaturday')}
+                                        value="checkedSaturday"
+                                    />
+                                </Grid>
+                                <Grid item>
+                                    <Checkbox
+                                        icon={<LetterIcon letter="S" color="#000000"/>}
+                                        checkedIcon={<LetterIcon letter="S" color="#006600"/>}
+                                        checked={this.state.checkedSunday}
+                                        onChange={this.handleCheck('checkedSunday')}
+                                        value="checkedSunday"
+                                    />
+                                </Grid>
+                            </Grid>
+
 
                         </form>
                         <form className={classes.root} autoComplete="off">
