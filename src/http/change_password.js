@@ -10,7 +10,7 @@ export default async function(token, currentPassword, newPassword) {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
-            "Authorization": "Bearer " + this.props.loginToken
+            "Authorization": "Bearer " + token
         },
         body: JSON.stringify(changePasswordRequest)
     });

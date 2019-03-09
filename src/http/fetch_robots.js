@@ -3,7 +3,7 @@ import endpoints from "../endpoints";
 export default async function(token) {
     const response = await fetch(endpoints.robots_list, {
         headers: {
-            "Authorization": "Bearer " + this.props.loginToken,
+            "Authorization": "Bearer " + token,
             "Content-Type": "application/json",
         },
     });
