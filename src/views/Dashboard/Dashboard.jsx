@@ -626,6 +626,59 @@ class Dashboard extends Component {
         <Grid item>
           <Card className={classes.card}>
             {cardHeader}
+            <CardContent>
+              <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Scheduler
+                  </Typography>
+                  <Typography component="p">
+                    Assign tasks to Growbot.
+                  </Typography>
+                  {robotSearchCriteria}
+                </div>
+                <div style={{ display: "flex", flexDirection: "column" }}>
+                  <IconButton
+                    aria-label="Add"
+                    onClick={() => {
+                      this.handleOpenDialogue("scheduleRobotDialogue");
+                    }}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </div>
+              </div>
+
+              {schedulingList}
+            </CardContent>
+          </Card>
+        </Grid>,
+        <Grid item>
+          <Card className={classes.card}>
+            {cardHeader}
+
+            <CardContent>
+              <div>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Video
+                </Typography>
+                <Typography component="p">
+                  Live stream from {selectedRobot.title}
+                </Typography>
+              </div>
+
+              <div style={{ display: "flex", justifyContent: "center" }}>
+                <img
+                  alt="Video stream"
+                  src={endpoints.robot_video(selectedRobot.id, loginToken)}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </Grid>,
+        <Grid item>
+          <Card className={classes.card}>
+            {cardHeader}
 
             <CardContent>
               <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -661,60 +714,6 @@ class Dashboard extends Component {
             <CardActions>
               {gamepad}
             </CardActions>
-          </Card>
-        </Grid>,
-        <Grid item>
-          <Card className={classes.card}>
-            {cardHeader}
-
-            <CardContent>
-              <div>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Video
-                </Typography>
-                <Typography component="p">
-                  Live stream from {selectedRobot.title}
-                </Typography>
-              </div>
-
-              <div style={{ display: "flex", justifyContent: "center" }}>
-                <img
-                  alt="Video stream"
-                  src={endpoints.robot_video(selectedRobot.id, loginToken)}
-                />
-              </div>
-            </CardContent>
-          </Card>
-        </Grid>,
-        <Grid item>
-          <Card className={classes.card}>
-            {cardHeader}
-
-            <CardContent>
-              <div style={{ display: "flex", justifyContent: "space-between" }}>
-                <div>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Scheduler
-                  </Typography>
-                  <Typography component="p">
-                    Assign tasks to Growbot.
-                  </Typography>
-                  {robotSearchCriteria}
-                </div>
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <IconButton
-                    aria-label="Add"
-                    onClick={() => {
-                      this.handleOpenDialogue("scheduleRobotDialogue");
-                    }}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </div>
-              </div>
-
-              {schedulingList}
-            </CardContent>
           </Card>
         </Grid>
       ];
