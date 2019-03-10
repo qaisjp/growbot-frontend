@@ -233,7 +233,7 @@ class Dashboard extends Component {
                 icon={<LetterIcon letter={letter} color="#000000"/>}
                 checkedIcon={<LetterIcon letter={letter} color="#006600"/>}
                 checked={state}
-                onChange={this.handleCheck}
+                onChange={this.handleChecked(value)}
                 value={value}
             />)
     }
@@ -246,7 +246,7 @@ class Dashboard extends Component {
             <React.Fragment>
                 <QrReader
                     delay={this.state.qrDelay}
-                    onError={this.qrHandleError.bind(this)}
+                    onError={Dashboard.qrHandleError}
                     onScan={this.qrHandleScan.bind(this)}
                     style={{width: "100%"}}
                 />
@@ -289,16 +289,28 @@ class Dashboard extends Component {
     createScheduleRobotDialogueContent = () => {
         const {classes} = this.props;
 
-        const {repetitionQuantity, repetitionUnit, action} = this.state;
+        const {checkedMonday, checkedTuesday, checkedWednesday, checkedThursday, checkedFriday, checkedSaturday, checkedSunday, repetitionQuantity, repetitionUnit, action} = this.state;
         const repetitionQuantityItems = [1, 2, 3, 4, 5, 6, 7].map(quantity => (
             <MenuItem value={quantity}>{quantity}</MenuItem>
         ))
         const repetitionUnitItems = ["Week"].map(unit => (
             <MenuItem value={unit}>{unit}</MenuItem>
         ))
-        const checkboxes = ["M", "T", "W", "T", "F", "S", "S"].map(letter => (
+        const checkboxes = [{letter: "M", state: checkedMonday, value: "checkedMonday"}, {
+            letter: "T",
+            state: checkedTuesday,
+            value: "checkedTuesday"
+        }, {letter: "W", state: checkedWednesday, value: "checkedWednesday"}, {
+            letter: "T",
+            state: checkedThursday,
+            value: "checkedThursday"
+        }, {letter: "F", state: checkedFriday, value: "checkedFriday"}, {
+            letter: "S",
+            state: checkedSaturday,
+            value: "checkedSaturday"
+        }, {letter: "S", state: checkedSunday, value: "checkedSunday"}].map(day => (
             <Grid item>
-                {this.createLetterCheckbox(letter, this.state.checkedSunday, "checkedSunday")}
+                {this.createLetterCheckbox(day.letter, day.state, day.value)}
             </Grid>
         ))
         const actions = ["Water", "Take Picture"].map(action => (
@@ -442,12 +454,12 @@ class Dashboard extends Component {
 
     createGamepad = () => {
         return (<Gamepad forward={this.onMove.bind(this, "forward")}
-                 backward={this.onMove.bind(this, "backward")}
-                 armdown={this.onMove.bind(this, "armdown")} armup={this.onMove.bind(this, "armup")}
-                 left={this.onMove.bind(this, "left")} right={this.onMove.bind(this, "right")}
-                 brake={this.onMove.bind(this, "brake")}/>)
+                         backward={this.onMove.bind(this, "backward")}
+                         armdown={this.onMove.bind(this, "armdown")} armup={this.onMove.bind(this, "armup")}
+                         left={this.onMove.bind(this, "left")} right={this.onMove.bind(this, "right")}
+                         brake={this.onMove.bind(this, "brake")}/>)
     }
-    
+
     createCardHeader = () => {
         const {classes} = this.props;
         return (
@@ -469,7 +481,7 @@ class Dashboard extends Component {
         }
     }
 
-    qrHandleError(err) {
+    static qrHandleError(err) {
         alert(err);
     }
 

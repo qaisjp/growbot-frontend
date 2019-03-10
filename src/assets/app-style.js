@@ -1,8 +1,8 @@
 import 'typeface-roboto';
 
-let drawerWidth = 260;
+const drawerWidth = 260;
 
-let appStyle = _ => ({
+const appStyle = _ => ({
     defaultFont: {
         font: 'typeface-roboto',
         fontFamily: '"Roboto", sans-serif',
