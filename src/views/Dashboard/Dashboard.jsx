@@ -72,9 +72,9 @@ class Dashboard extends Component {
         message: "",
         type: "",
         open: false,
-        addRobotDialogOpen: false,
-        removeRobotDialogOpen: false,
-        scheduleRobotDialogOpen: false,
+        addRobotDialogue: false,
+        removeRobotDialogue: false,
+        scheduleRobotDialogue: false,
         selectedRobotId: null,
         selectedRobot: null,
         robots: [],
@@ -99,11 +99,11 @@ class Dashboard extends Component {
     handleClose = () => {
         this.setState({open: false})
     }
-    handleOpenDialogue = (dialogueOpen) => {
-        this.setState({[dialogueOpen]: true});
+    handleOpenDialogue = (dialogue) => {
+        this.setState({[dialogue]: true});
     }
-    handleCloseDialogue = (dialogueOpen) => {
-        this.setState({[dialogueOpen]: false});
+    handleCloseDialogue = (dialogue) => {
+        this.setState({[dialogue]: false});
     }
     handleListItemClick = (event, robot) => {
         this.setState({selectedRobotId: robot.id, selectedRobot: robot});
@@ -260,7 +260,7 @@ class Dashboard extends Component {
     createAddRobotDialogueActions = () => {
         return (
             <React.Fragment>
-                <Button onClick={_ => this.handleCloseDialogue('addRobotDialogOpen')}>Close</Button>
+                <Button onClick={_ => this.handleCloseDialogue('addRobotDialogue')}>Close</Button>
                 <Button onClick={this.onAddRobot}>Add</Button>
             </React.Fragment>
         )
@@ -268,7 +268,7 @@ class Dashboard extends Component {
     createRemoveRobotDialogueActions = () => {
         return (
             <React.Fragment>
-                <Button onClick={_ => this.handleCloseDialogue('removeRobotDialogOpen')}>Close</Button>
+                <Button onClick={_ => this.handleCloseDialogue('removeRobotDialogue')}>Close</Button>
                 <Button onClick={this.onRemoveRobot}>Rebot</Button>
             </React.Fragment>
         )
@@ -281,7 +281,7 @@ class Dashboard extends Component {
     createScheduleRobotDialogueActions = () => {
         return (
             <React.Fragment>
-                <Button onClick={_ => this.handleCloseDialogue('scheduleRobotDialogOpen')}>Close</Button>
+                <Button onClick={_ => this.handleCloseDialogue('scheduleRobotDialogue')}>Close</Button>
                 <Button>Schedule</Button>
             </React.Fragment>
         )
@@ -375,7 +375,7 @@ class Dashboard extends Component {
 
     render() {
         const {classes, loginToken} = this.props;
-        const {robots, type, message, open, searchFilter, selectedRobot, selectedRobotId, addRobotDialogOpen, removeRobotDialogOpen, scheduleRobotDialogOpen} = this.state;
+        const {robots, type, message, open, searchFilter, selectedRobot, selectedRobotId, addRobotDialogue, removeRobotDialogue, scheduleRobotDialogue} = this.state;
         const robotSearchCriteria = this.createTextField("search-criteria", "Filter", searchFilter, this.handleChange('searchFilter'));
         let controller = null;
         if (selectedRobotId !== null) {
@@ -405,7 +405,7 @@ class Dashboard extends Component {
                                     Rename
                                 </Button>
                                 <Button size="medium" color="secondary"
-                                        onClick={_ => this.handleOpenDialogue('removeRobotDialogOpen')}>
+                                        onClick={_ => this.handleOpenDialogue('removeRobotDialogue')}>
                                     Remove
                                 </Button>
                             </div>
@@ -468,7 +468,7 @@ class Dashboard extends Component {
                                 </div>
                                 <div style={{display: "flex", flexDirection: "column"}}>
                                     <IconButton aria-label="Add" onClick={_ => {
-                                        this.handleOpenDialogue('scheduleRobotDialogOpen')
+                                        this.handleOpenDialogue('scheduleRobotDialogue')
                                     }}>
                                         <AddIcon/>
                                     </IconButton>
@@ -521,15 +521,15 @@ class Dashboard extends Component {
 
         return <div className={classes.root}>
             <br/>
-            <Dialogue open={addRobotDialogOpen} close={_ => this.handleCloseDialogue('addRobotDialogOpen')}
+            <Dialogue open={addRobotDialogue} close={_ => this.handleCloseDialogue('addRobotDialogue')}
                       title="Add Robot"
                       contentText="Please scan the robot serial and name your robot."
                       content={this.createAddRobotDialogueContent()} actions={this.createAddRobotDialogueActions()}/>
-            <Dialogue open={removeRobotDialogOpen} close={_ => this.handleCloseDialogue('removeRobotDialogOpen')}
+            <Dialogue open={removeRobotDialogue} close={_ => this.handleCloseDialogue('removeRobotDialogue')}
                       title="Remove Robot" contentText="Please confirm you wish to remove the robot."
                       content={this.createRemoveRobotDialogueContent()}
                       actions={this.createRemoveRobotDialogueActions()}/>
-            <Dialogue open={scheduleRobotDialogOpen} close={_ => this.handleCloseDialogue('scheduleRobotDialogOpen')}
+            <Dialogue open={scheduleRobotDialogue} close={_ => this.handleCloseDialogue('scheduleRobotDialogue')}
                       title="Schedule Action" contentText="Please fill in the form to schedule an action."
                       content={this.createScheduleRobotDialogueContent()}
                       actions={this.createScheduleRobotDialogueActions()}/>
@@ -570,7 +570,7 @@ class Dashboard extends Component {
                                     </Typography>
                                 </div>
                                 <Button size="small" color="primary"
-                                        onClick={_ => this.handleOpenDialogue('addRobotDialogOpen')}>
+                                        onClick={_ => this.handleOpenDialogue('addRobotDialogue')}>
                                     Add Robot
                                 </Button>
                             </div>
