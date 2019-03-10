@@ -53,6 +53,7 @@ import fetchRobots from "../../http/fetch_robots";
 import moveRobot from "../../http/move_robot";
 import addRobot from "../../http/add_robot";
 import removeRobot from "../../http/remove_robot";
+import renameRobot from '../../http/rename_robot';
 
 class Dashboard extends Component {
   state = {
@@ -74,12 +75,14 @@ class Dashboard extends Component {
     addRobotDialogue: false,
     removeRobotDialogue: false,
     scheduleRobotDialogue: false,
+    renameRobotDialogue: false,
     selectedRobotId: null,
     selectedRobot: null,
     robots: [],
     searchFilter: null,
     newRobotSerialKey: "",
     newRobotTitle: "",
+    renameRobotTitle: "",
     date: new Date(),
     qrDelay: 300
   };
@@ -181,41 +184,19 @@ class Dashboard extends Component {
       this.setState({ message: body.message, open: true, type: "error" });
     }
   };
-  handleDialogOpenRename = async () => {
-    const newTitle = prompt(
-      "Rename this robot",
-      this.state.selectedRobot.title
-    );
-    if (
-      newTitle === null ||
-      newTitle === "" ||
-      newTitle === this.state.selectedRobot.title
-    ) {
-      this.setState({ message: "Robot not renamed", open: true, type: "info" });
-      return;
-    }
+  onRenameRobot = async () => {
+    const { loginToken } = this.props;
+    const { selectedRobot, selectedRobotId, renameRobotTitle } = this.state;
 
-    let response = await fetch(
-      endpoints.robot_settings(this.state.selectedRobot.id),
-      {
-        method: "PATCH",
-        headers: {
-          Authorization: "Bearer " + this.props.loginToken
-        },
-        body: JSON.stringify({
-          key: "title",
-          value: newTitle
-        })
-      }
-    );
+    const response = await renameRobot(loginToken, selectedRobotId, renameRobotTitle);
 
     if (response.status === 200) {
-      let result = await fetchRobots(this.props.loginToken);
+      const result = await fetchRobots(loginToken);
 
       if (result instanceof Error) {
         this.setState({ robots: [] });
       } else {
-        const thisID = this.state.selectedRobot.id;
+        const thisID = selectedRobot.id;
         this.setState({
           robots: result.robots,
           message: (await response.json()).message,
@@ -305,12 +286,38 @@ class Dashboard extends Component {
         <Button onClick={() => this.handleCloseDialogue("removeRobotDialogue")}>
           Close
         </Button>
-        <Button onClick={this.onRemoveRobot}>Rebot</Button>
+        <Button onClick={this.onRemoveRobot}>Remove</Button>
       </React.Fragment>
     );
   };
   createRemoveRobotDialogueContent = () => {
     return <React.Fragment />;
+  };
+  createRenameRobotDialogueActions = () => {
+    return (
+      <React.Fragment>
+        <Button onClick={() => this.handleCloseDialogue("renameRobotDialogue")}>
+          Close
+        </Button>
+        <Button onClick={this.onRenameRobot}>Rename</Button>
+      </React.Fragment>
+    );
+  };
+  createRenameRobotDialogueContent = () => {
+    const { renameRobotTitle } = this.state;
+
+    const renameRobot = this.createTextField(
+      "renameRobotTitle",
+      "New Name",
+      renameRobotTitle,
+      "renameRobotTitle"
+    );
+
+    return (
+      <React.Fragment>
+        {renameRobot}
+      </React.Fragment>
+    );
   };
   createScheduleRobotDialogueActions = () => {
     return (
@@ -540,7 +547,7 @@ class Dashboard extends Component {
                 >
                   <RemoveIcon />
                 </IconButton>
-                <IconButton onClick={() => this.handleOpenDialogue("rename")}>
+                <IconButton onClick={() => this.handleOpenDialogue("renameRobotDialogue")}>
                   <EditIcon />
                 </IconButton>
               </React.Fragment>
@@ -601,13 +608,14 @@ class Dashboard extends Component {
       selectedRobotId,
       addRobotDialogue,
       removeRobotDialogue,
-      scheduleRobotDialogue
+      scheduleRobotDialogue,
+      renameRobotDialogue
     } = this.state;
     const robotSearchCriteria = this.createTextField(
       "search-criteria",
       "Filter",
       searchFilter,
-      this.handleChange("searchFilter")
+      "searchFilter"
     );
     const schedulingList = this.createSchedulingList();
     const robotList = this.createRobotList();
@@ -718,7 +726,14 @@ class Dashboard extends Component {
           content={this.createScheduleRobotDialogueContent()}
           actions={this.createScheduleRobotDialogueActions()}
         />
-
+        <Dialogue
+          open={renameRobotDialogue}
+          close={() => this.handleCloseDialogue("renameRobotDialogue")}
+          title="Rename Robot"
+          contentText="Rename your robot."
+          content={this.createRenameRobotDialogueContent()}
+          actions={this.createRenameRobotDialogueActions()}
+        />
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",
