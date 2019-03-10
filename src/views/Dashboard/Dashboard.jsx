@@ -623,7 +623,7 @@ class Dashboard extends Component {
 
     if (selectedRobotId !== null) {
       controller = [
-        <Grid item xs={12} md={4}>
+        <Grid item>
           <Card className={classes.card}>
             {cardHeader}
 
@@ -634,8 +634,7 @@ class Dashboard extends Component {
                     {selectedRobot.title}
                   </Typography>
                   <Typography component="p">
-                    Move Growbot around by pressing the navigation buttons below
-                    the card.
+                    Move Growbot around.
                   </Typography>
                 </div>
 
@@ -659,18 +658,12 @@ class Dashboard extends Component {
                 </div>
               </div>
             </CardContent>
-            <CardActions
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center"
-              }}
-            >
+            <CardActions>
               {gamepad}
             </CardActions>
           </Card>
         </Grid>,
-        <Grid item xs={12} sm={4}>
+        <Grid item>
           <Card className={classes.card}>
             {cardHeader}
 
@@ -693,7 +686,7 @@ class Dashboard extends Component {
             </CardContent>
           </Card>
         </Grid>,
-        <Grid item xs={12} sm={4}>
+        <Grid item>
           <Card className={classes.card}>
             {cardHeader}
 
@@ -770,8 +763,27 @@ class Dashboard extends Component {
             message={message}
           />
         </Snackbar>
+        <Grid container>
+          <Grid item>
+            <Card className={classes.card}>
+              {cardHeader}
+              <CardContent>
+                <div>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Plants
+                  </Typography>
+                  <Typography component="p">
+                    Your plants
+                  </Typography>
+                </div>
+
+                {plantList}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
         <Grid container spacing={24}>
-          <Grid item xs={12} md={4}>
+          <Grid item>
             <Card className={classes.card}>
               {cardHeader}
 
@@ -785,38 +797,20 @@ class Dashboard extends Component {
                     </Typography>
                     <Typography component="p">
                       {this.state.robots.length === 0
-                        ? "Please add some GrowBots to your account"
-                        : "Select the GrowBot you would like to control"}
+                        ? "Please add some GrowBots"
+                        : "Select a GrowBot"}
                     </Typography>
                   </div>
-                  <Button
-                    size="small"
-                    color="primary"
+                  <IconButton
+                    aria-label="Add-Robot"
                     onClick={() => this.handleOpenDialogue("addRobotDialogue")}
                   >
-                    Add Robot
-                  </Button>
+                    <AddIcon />
+                  </IconButton>
                 </div>
               </CardContent>
 
               <CardActions>{robotList}</CardActions>
-            </Card>
-          </Grid>
-          <Grid item xs={12} md={4}>
-            <Card className={classes.card}>
-              {cardHeader}
-              <CardContent>
-                <div>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Plants
-                  </Typography>
-                  <Typography component="p">
-                    The plants associated with your account
-                  </Typography>
-                </div>
-
-                {plantList}
-              </CardContent>
             </Card>
           </Grid>
 
