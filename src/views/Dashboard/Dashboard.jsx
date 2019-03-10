@@ -40,7 +40,7 @@ import banner from '../../assets/views/Dashboard/img/banner.jpg'
 import online from '../../assets/views/Dashboard/img/green_circle.png'
 import offline from '../../assets/views/Dashboard/img/red_circle.png'
 
-import Dialogue from '../../components/Dialog/Dialogue'
+import Dialogue from '../../components/Dialogue/Dialogue'
 import Gamepad from '../../components/Gamepad/Gamepad'
 import LetterIcon from '../../components/Icon/LetterIcon'
 import Select from '../../components/Select/Select'
@@ -142,7 +142,7 @@ class Dashboard extends Component {
             if (result instanceof Error) {
                 this.setState({robots: []})
             } else {
-                this.handleDialogClose()
+                //this.handleDialogClose()
                 this.setState({robots: result.robots})
 
                 const found = result.robots.filter(r => r.id === newRobotSerialKey)
@@ -360,6 +360,106 @@ class Dashboard extends Component {
         )
     }
 
+    createSchedulingList = () => {
+        const {classes} = this.props;
+
+        return (
+            <List
+                className={classes.root}
+                subheader={<ListSubheader component="div">Tasks</ListSubheader>}
+            >
+                <ListItem key="1">
+                    <ListItemText primary="Water Plant A every 3 hours"/>
+                    <ListItemSecondaryAction>
+                        <IconButton aria-label="Edit">
+                            <EditIcon/>
+                        </IconButton>
+                        <IconButton aria-label="Remove">
+                            <RemoveIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem key="2">
+                    <ListItemText primary="Water Plant B every 6 hours"/>
+                    <ListItemSecondaryAction>
+                        <IconButton aria-label="Edit">
+                            <EditIcon/>
+                        </IconButton>
+                        <IconButton aria-label="Remove">
+                            <RemoveIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+                <ListItem key="1">
+                    <ListItemText primary="Take Picture of Plant A every 3 hours"/>
+                    <ListItemSecondaryAction>
+                        <IconButton aria-label="Edit">
+                            <EditIcon/>
+                        </IconButton>
+                        <IconButton aria-label="Remove">
+                            <RemoveIcon/>
+                        </IconButton>
+                    </ListItemSecondaryAction>
+                </ListItem>
+            </List>
+        )
+    }
+
+    createRobotList = () => {
+        const {classes} = this.props;
+        const {robots, selectedRobotId} = this.state;
+        return (
+            <List className={classes.root}>
+
+                {
+                    robots.map(robot => (
+                        <ListItem
+                            key={robot.id}
+                            alignItems="flex-start"
+                            button
+                            selected={selectedRobotId === robot.id}
+                            onClick={event => this.handleListItemClick(event, robot)}
+                        >
+                            <ListItemAvatar>
+                                <Avatar src={this.isRobotOnline(robot) ? online : offline}/>
+                            </ListItemAvatar>
+                            <ListItemText
+                                primary={robot.title}
+                                secondary={
+                                    robot.seen_at === null ?
+                                        <React.Fragment>Please start this growbot</React.Fragment> :
+                                        <React.Fragment>
+                                            {`Charge: ${robot.battery_level}%; Water Volume: ${robot.water_level}ml`}
+                                        </React.Fragment>
+                                }
+                            />
+                        </ListItem>
+                    ))
+                }
+            </List>
+        )
+    }
+
+    createGamepad = () => {
+        return (<Gamepad forward={this.onMove.bind(this, "forward")}
+                 backward={this.onMove.bind(this, "backward")}
+                 armdown={this.onMove.bind(this, "armdown")} armup={this.onMove.bind(this, "armup")}
+                 left={this.onMove.bind(this, "left")} right={this.onMove.bind(this, "right")}
+                 brake={this.onMove.bind(this, "brake")}/>)
+    }
+    
+    createCardHeader = () => {
+        const {classes} = this.props;
+        return (
+            <CardMedia
+                className={classes.media}
+                image={banner}
+                title="Controller"
+                width='100%'
+            />
+        )
+    }
+
     qrHandleScan(data) {
         const prefix = "growbot:";
         if (data && data.startsWith(prefix)) {
@@ -375,18 +475,18 @@ class Dashboard extends Component {
 
     render() {
         const {classes, loginToken} = this.props;
-        const {robots, type, message, open, searchFilter, selectedRobot, selectedRobotId, addRobotDialogue, removeRobotDialogue, scheduleRobotDialogue} = this.state;
+        const {type, message, open, searchFilter, selectedRobot, selectedRobotId, addRobotDialogue, removeRobotDialogue, scheduleRobotDialogue} = this.state;
         const robotSearchCriteria = this.createTextField("search-criteria", "Filter", searchFilter, this.handleChange('searchFilter'));
+        const schedulingList = this.createSchedulingList();
+        const robotList = this.createRobotList();
+        const gamepad = this.createGamepad();
+        const cardHeader = this.createCardHeader();
         let controller = null;
+
         if (selectedRobotId !== null) {
             controller = [<Grid item xs={12} md={4}>
                 <Card className={classes.card}>
-                    <CardMedia
-                        className={classes.media}
-                        image={banner}
-                        title="Controller"
-                        width='100%'
-                    />
+                    {cardHeader}
 
                     <CardContent>
                         <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -412,22 +512,13 @@ class Dashboard extends Component {
                         </div>
                     </CardContent>
                     <CardActions style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                        <Gamepad forward={this.onMove.bind(this, "forward")}
-                                 backward={this.onMove.bind(this, "backward")}
-                                 armdown={this.onMove.bind(this, "armdown")} armup={this.onMove.bind(this, "armup")}
-                                 left={this.onMove.bind(this, "left")} right={this.onMove.bind(this, "right")}
-                                 brake={this.onMove.bind(this, "brake")}/>
+                        {gamepad}
                     </CardActions>
                 </Card>
             </Grid>,
                 <Grid item xs={12} sm={4}>
                     <Card className={classes.card}>
-                        <CardMedia
-                            className={classes.media}
-                            image={banner}
-                            title="Video"
-                            width='100%'
-                        />
+                        {cardHeader}
 
                         <CardContent>
                             <div>
@@ -448,12 +539,7 @@ class Dashboard extends Component {
                 </Grid>,
                 <Grid item xs={12} sm={4}>
                     <Card className={classes.card}>
-                        <CardMedia
-                            className={classes.media}
-                            image={banner}
-                            title="Scheduler"
-                            width='100%'
-                        />
+                        {cardHeader}
 
                         <CardContent>
                             <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -474,44 +560,9 @@ class Dashboard extends Component {
                                     </IconButton>
                                 </div>
                             </div>
-                            <List
-                                className={classes.root}
-                                subheader={<ListSubheader component="div">Tasks</ListSubheader>}
-                            >
-                                <ListItem key="1">
-                                    <ListItemText primary="Water Plant A every 3 hours"/>
-                                    <ListItemSecondaryAction>
-                                        <IconButton aria-label="Edit">
-                                            <EditIcon/>
-                                        </IconButton>
-                                        <IconButton aria-label="Remove">
-                                            <RemoveIcon/>
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                                <ListItem key="2">
-                                    <ListItemText primary="Water Plant B every 6 hours"/>
-                                    <ListItemSecondaryAction>
-                                        <IconButton aria-label="Edit">
-                                            <EditIcon/>
-                                        </IconButton>
-                                        <IconButton aria-label="Remove">
-                                            <RemoveIcon/>
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                                <ListItem key="1">
-                                    <ListItemText primary="Take Picture of Plant A every 3 hours"/>
-                                    <ListItemSecondaryAction>
-                                        <IconButton aria-label="Edit">
-                                            <EditIcon/>
-                                        </IconButton>
-                                        <IconButton aria-label="Remove">
-                                            <RemoveIcon/>
-                                        </IconButton>
-                                    </ListItemSecondaryAction>
-                                </ListItem>
-                            </List>
+
+                            {schedulingList}
+
                         </CardContent>
                     </Card>
                 </Grid>
@@ -552,12 +603,7 @@ class Dashboard extends Component {
             <Grid container spacing={24}>
                 <Grid item xs={12} md={4}>
                     <Card className={classes.card}>
-                        <CardMedia
-                            className={classes.media}
-                            image={banner}
-                            title="Robots"
-                            width='100%'
-                        />
+                        {cardHeader}
 
                         <CardContent>
                             <div style={{display: "flex", justifyContent: "space-between"}}>
@@ -577,34 +623,7 @@ class Dashboard extends Component {
                         </CardContent>
 
                         <CardActions>
-                            <List className={classes.root}>
-
-                                {
-                                    robots.map(robot => (
-                                        <ListItem
-                                            key={robot.id}
-                                            alignItems="flex-start"
-                                            button
-                                            selected={selectedRobotId === robot.id}
-                                            onClick={event => this.handleListItemClick(event, robot)}
-                                        >
-                                            <ListItemAvatar>
-                                                <Avatar src={this.isRobotOnline(robot) ? online : offline}/>
-                                            </ListItemAvatar>
-                                            <ListItemText
-                                                primary={robot.title}
-                                                secondary={
-                                                    robot.seen_at === null ?
-                                                        <React.Fragment>Please start this growbot</React.Fragment> :
-                                                        <React.Fragment>
-                                                            {`Charge: ${robot.battery_level}%; Water Volume: ${robot.water_level}ml`}
-                                                        </React.Fragment>
-                                                }
-                                            />
-                                        </ListItem>
-                                    ))
-                                }
-                            </List>
+                            {robotList}
                         </CardActions>
                     </Card></Grid>
 
