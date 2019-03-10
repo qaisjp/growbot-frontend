@@ -1,4 +1,4 @@
 export default {
-    API_HOST: "localhost:8080",
-    API_SECURE: false,
-}
+  API_HOST: "localhost:8080",
+  API_SECURE: false
+};
