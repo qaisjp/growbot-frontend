@@ -2,8 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import Dialog from "@material-ui/core/Dialog";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -31,12 +29,12 @@ function FullScreenDialogue(props) {
             <IconButton color="inherit" onClick={close} aria-label="Close">
               <CloseIcon />
             </IconButton>
-            <Typography variant="h6" color="inherit" className={classes.flex}>
-              <DialogTitle>{title}</DialogTitle>
+            <Typography variant="h6" color="inherit" lassName={classes.flex}>
+              {title}
             </Typography>
           </Toolbar>
         </AppBar>
-        <DialogContent>{content}</DialogContent>
+        {content}>
       </Dialog>
     </div>
   );
