@@ -42,7 +42,7 @@ import offline from '../../assets/views/Dashboard/img/red_circle.png'
 
 import Dialogue from '../../components/Dialog/Dialogue'
 import Gamepad from '../../components/Gamepad/Gamepad'
-import LetterIcon from '../../components/LetterIcon/LetterIcon'
+import LetterIcon from '../../components/Icon/LetterIcon'
 import Select from '../../components/Select/Select'
 
 import {connect} from "react-redux";
@@ -84,20 +84,6 @@ class Dashboard extends Component {
         date: new Date(),
         qrDelay: 300,
     }
-
-    qrHandleScan(data) {
-        const prefix = "growbot:";
-        if (data && data.startsWith(prefix)) {
-            this.setState({
-                newRobotSerialKey: data.slice(prefix.length)
-            });
-        }
-    }
-
-    qrHandleError(err) {
-        alert(err);
-    }
-
     onMove = async (direction) => {
         const {loginToken} = this.props;
         const {selectedRobotId} = this.state;
@@ -110,23 +96,18 @@ class Dashboard extends Component {
             this.setState({message: body.message, open: true, type: "error"})
         }
     }
-
     handleClose = () => {
         this.setState({open: false})
     }
-
     handleOpenDialogue = (dialogueOpen) => {
         this.setState({[dialogueOpen]: true});
     }
-
     handleCloseDialogue = (dialogueOpen) => {
         this.setState({[dialogueOpen]: false});
     }
-
     handleListItemClick = (event, robot) => {
         this.setState({selectedRobotId: robot.id, selectedRobot: robot});
     };
-
     componentDidMount = async () => {
         const {loginToken} = this.props;
         const result = await fetchRobots(loginToken);
@@ -141,19 +122,15 @@ class Dashboard extends Component {
             }
         }
     }
-
     isRobotOnline = (robot) => {
         return robot.seen_at !== null
     }
-
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
     }
-
     handleChecked = name => event => {
         this.setState({[name]: event.target.checked});
     }
-
     onAddRobot = async () => {
         const {loginToken} = this.props;
         const {newRobotSerialKey, newRobotTitle} = this.state;
@@ -178,7 +155,6 @@ class Dashboard extends Component {
             this.setState({message: body.message, open: true, type: "error"})
         }
     }
-
     onRemoveRobot = async () => {
         const {loginToken} = this.props;
         const {selectedRobotId} = this.state;
@@ -199,7 +175,6 @@ class Dashboard extends Component {
             this.setState({message: body.message, open: true, type: "error"})
         }
     }
-
     handleDialogOpenRename = async () => {
         const newTitle = prompt("Rename this robot", this.state.selectedRobot.title);
         if (newTitle === null || newTitle === "" || newTitle === this.state.selectedRobot.title) {
@@ -240,7 +215,6 @@ class Dashboard extends Component {
             this.setState({message: (await response.json()).message, open: true, type: "error"})
         }
     }
-
     createTextField = (id, label, value, valueName) => {
         const {classes} = this.props;
         return (<TextField
@@ -252,7 +226,6 @@ class Dashboard extends Component {
             margin="normal"
         />)
     }
-
     createLetterCheckbox = (letter, state, value) => {
 
         return (
@@ -264,7 +237,6 @@ class Dashboard extends Component {
                 value={value}
             />)
     }
-
     createAddRobotDialogueContent = () => {
         const {newRobotSerialKey, newRobotTitle} = this.state;
         const addRobotSerialKeyTextField = this.createTextField("addRobot", "Serial key", newRobotSerialKey, 'newRobotSerialKey');
@@ -285,7 +257,6 @@ class Dashboard extends Component {
             </React.Fragment>
         )
     }
-
     createAddRobotDialogueActions = () => {
         return (
             <React.Fragment>
@@ -294,7 +265,6 @@ class Dashboard extends Component {
             </React.Fragment>
         )
     }
-
     createRemoveRobotDialogueActions = () => {
         return (
             <React.Fragment>
@@ -303,13 +273,11 @@ class Dashboard extends Component {
             </React.Fragment>
         )
     }
-
     createRemoveRobotDialogueContent = () => {
         return (
             <React.Fragment/>
         )
     }
-
     createScheduleRobotDialogueActions = () => {
         return (
             <React.Fragment>
@@ -318,7 +286,6 @@ class Dashboard extends Component {
             </React.Fragment>
         )
     }
-
     createScheduleRobotDialogueContent = () => {
         const {classes} = this.props;
 
@@ -393,13 +360,25 @@ class Dashboard extends Component {
         )
     }
 
+    qrHandleScan(data) {
+        const prefix = "growbot:";
+        if (data && data.startsWith(prefix)) {
+            this.setState({
+                newRobotSerialKey: data.slice(prefix.length)
+            });
+        }
+    }
+
+    qrHandleError(err) {
+        alert(err);
+    }
 
     render() {
-        const {classes} = this.props;
-        const {addRobotDialogOpen, removeRobotDialogOpen, scheduleRobotDialogOpen} = this.state;
-
+        const {classes, loginToken} = this.props;
+        const {robots, type, message, open, searchFilter, selectedRobot, selectedRobotId, addRobotDialogOpen, removeRobotDialogOpen, scheduleRobotDialogOpen} = this.state;
+        const robotSearchCriteria = this.createTextField("search-criteria", "Filter", searchFilter, this.handleChange('searchFilter'));
         let controller = null;
-        if (this.state.selectedRobotId !== null) {
+        if (selectedRobotId !== null) {
             controller = [<Grid item xs={12} md={4}>
                 <Card className={classes.card}>
                     <CardMedia
@@ -413,7 +392,7 @@ class Dashboard extends Component {
                         <div style={{display: "flex", justifyContent: "space-between"}}>
                             <div>
                                 <Typography gutterBottom variant="h5" component="h2">
-                                    {this.state.selectedRobot.title}
+                                    {selectedRobot.title}
                                 </Typography>
                                 <Typography component="p">
                                     Move Growbot around by pressing the navigation buttons below the card.
@@ -421,10 +400,12 @@ class Dashboard extends Component {
                             </div>
 
                             <div style={{display: "flex", flexDirection: "column"}}>
-                                <Button size="medium" color="secondary" onClick={_=>this.handleOpenDialogue('rename')}>
+                                <Button size="medium" color="secondary"
+                                        onClick={_ => this.handleOpenDialogue('rename')}>
                                     Rename
                                 </Button>
-                                <Button size="medium" color="secondary" onClick={_=>this.handleOpenDialogue('removeRobotDialogOpen')}>
+                                <Button size="medium" color="secondary"
+                                        onClick={_ => this.handleOpenDialogue('removeRobotDialogOpen')}>
                                     Remove
                                 </Button>
                             </div>
@@ -454,13 +435,13 @@ class Dashboard extends Component {
                                     Video
                                 </Typography>
                                 <Typography component="p">
-                                    Live stream from {this.state.selectedRobot.title}
+                                    Live stream from {selectedRobot.title}
                                 </Typography>
                             </div>
 
                             <div style={{display: "flex", justifyContent: "center"}}>
                                 <img alt="Video stream"
-                                     src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)}/>
+                                     src={endpoints.robot_video(selectedRobot.id, loginToken)}/>
                             </div>
                         </CardContent>
                     </Card>
@@ -483,14 +464,7 @@ class Dashboard extends Component {
                                     <Typography component="p">
                                         Assign tasks to Growbot.
                                     </Typography>
-                                    <TextField
-                                        id="search-criteria"
-                                        label="Filter"
-                                        className={classes.textField}
-                                        value={this.state.searchFilter}
-                                        onChange={this.handleChange('searchFilter')}
-                                        margin="normal"
-                                    />
+                                    {robotSearchCriteria}
                                 </div>
                                 <div style={{display: "flex", flexDirection: "column"}}>
                                     <IconButton aria-label="Add" onClick={_ => {
@@ -547,14 +521,15 @@ class Dashboard extends Component {
 
         return <div className={classes.root}>
             <br/>
-            <Dialogue open={addRobotDialogOpen} close={_=>this.handleCloseDialogue('addRobotDialogOpen')} title="Add Robot"
+            <Dialogue open={addRobotDialogOpen} close={_ => this.handleCloseDialogue('addRobotDialogOpen')}
+                      title="Add Robot"
                       contentText="Please scan the robot serial and name your robot."
                       content={this.createAddRobotDialogueContent()} actions={this.createAddRobotDialogueActions()}/>
-            <Dialogue open={removeRobotDialogOpen} close={_=>this.handleCloseDialogue('removeRobotDialogOpen')}
+            <Dialogue open={removeRobotDialogOpen} close={_ => this.handleCloseDialogue('removeRobotDialogOpen')}
                       title="Remove Robot" contentText="Please confirm you wish to remove the robot."
                       content={this.createRemoveRobotDialogueContent()}
                       actions={this.createRemoveRobotDialogueActions()}/>
-            <Dialogue open={scheduleRobotDialogOpen} close={_=>this.handleCloseDialogue('scheduleRobotDialogOpen')}
+            <Dialogue open={scheduleRobotDialogOpen} close={_ => this.handleCloseDialogue('scheduleRobotDialogOpen')}
                       title="Schedule Action" contentText="Please fill in the form to schedule an action."
                       content={this.createScheduleRobotDialogueContent()}
                       actions={this.createScheduleRobotDialogueActions()}/>
@@ -564,14 +539,14 @@ class Dashboard extends Component {
                     vertical: 'bottom',
                     horizontal: 'left',
                 }}
-                open={this.state.open}
+                open={open}
                 autoHideDuration={6000}
                 onClose={this.handleClose}
             >
                 <SnackbarContentWrapper
                     onClose={this.handleClose}
-                    variant={this.state.type}
-                    message={this.state.message}
+                    variant={type}
+                    message={message}
                 />
             </Snackbar>
             <Grid container spacing={24}>
@@ -594,7 +569,8 @@ class Dashboard extends Component {
                                         {this.state.robots.length === 0 ? "Please add some GrowBots to your account" : "Select the GrowBot you would like to control"}
                                     </Typography>
                                 </div>
-                                <Button size="small" color="primary" onClick={_=>this.handleOpenDialogue('addRobotDialogOpen')}>
+                                <Button size="small" color="primary"
+                                        onClick={_ => this.handleOpenDialogue('addRobotDialogOpen')}>
                                     Add Robot
                                 </Button>
                             </div>
@@ -604,12 +580,12 @@ class Dashboard extends Component {
                             <List className={classes.root}>
 
                                 {
-                                    this.state.robots.map(robot => (
+                                    robots.map(robot => (
                                         <ListItem
                                             key={robot.id}
                                             alignItems="flex-start"
                                             button
-                                            selected={this.state.selectedRobotId === robot.id}
+                                            selected={selectedRobotId === robot.id}
                                             onClick={event => this.handleListItemClick(event, robot)}
                                         >
                                             <ListItemAvatar>
