@@ -78,6 +78,7 @@ class Dashboard extends Component {
     removeRobotDialogue: false,
     scheduleRobotDialogue: false,
     renameRobotDialogue: false,
+    photoDialogue: false,
     selectedRobotId: null,
     selectedRobot: null,
     robots: [],
@@ -779,7 +780,7 @@ class Dashboard extends Component {
                 <Typography gutterBottom variant="h5" component="h2">
                   Pictures
                 </Typography>
-                <ImageGridList tiles={data}/>
+                <ImageGridList tiles={data} click={() => console.log('ayy lmao')}/>
               </CardContent>
             </Card>
           </Grid>
