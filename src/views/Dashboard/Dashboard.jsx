@@ -32,18 +32,20 @@ import { withStyles } from "@material-ui/core";
 
 import DateTimePicker from "react-datetime-picker";
 
-import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents";
-
 import endpoints from "../../endpoints";
 import styles from "../../assets/views/Dashboard/jss/dashboard-style";
 import banner from "../../assets/views/Dashboard/img/banner.jpg";
 import online from "../../assets/views/Dashboard/img/green_circle.png";
 import offline from "../../assets/views/Dashboard/img/red_circle.png";
 
+import data from '../../assets/components/Grid/data';
+
 import Dialogue from "../../components/Dialogue/Dialogue";
 import Gamepad from "../../components/Gamepad/Gamepad";
+import ImageGridList from "../../components/Grid/ImageGridList";
 import LetterIcon from "../../components/Icon/LetterIcon";
 import Select from "../../components/Select/Select";
+import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents";
 
 import { connect } from "react-redux";
 
@@ -53,7 +55,7 @@ import fetchRobots from "../../http/fetch_robots";
 import moveRobot from "../../http/move_robot";
 import addRobot from "../../http/add_robot";
 import removeRobot from "../../http/remove_robot";
-import renameRobot from '../../http/rename_robot';
+import renameRobot from "../../http/rename_robot";
 
 class Dashboard extends Component {
   state = {
@@ -188,7 +190,11 @@ class Dashboard extends Component {
     const { loginToken } = this.props;
     const { selectedRobot, selectedRobotId, renameRobotTitle } = this.state;
 
-    const response = await renameRobot(loginToken, selectedRobotId, renameRobotTitle);
+    const response = await renameRobot(
+      loginToken,
+      selectedRobotId,
+      renameRobotTitle
+    );
 
     if (response.status === 200) {
       const result = await fetchRobots(loginToken);
@@ -313,11 +319,7 @@ class Dashboard extends Component {
       "renameRobotTitle"
     );
 
-    return (
-      <React.Fragment>
-        {renameRobot}
-      </React.Fragment>
-    );
+    return <React.Fragment>{renameRobot}</React.Fragment>;
   };
   createScheduleRobotDialogueActions = () => {
     return (
@@ -547,7 +549,9 @@ class Dashboard extends Component {
                 >
                   <RemoveIcon />
                 </IconButton>
-                <IconButton onClick={() => this.handleOpenDialogue("renameRobotDialogue")}>
+                <IconButton
+                  onClick={() => this.handleOpenDialogue("renameRobotDialogue")}
+                >
                   <EditIcon />
                 </IconButton>
               </React.Fragment>
@@ -762,6 +766,17 @@ class Dashboard extends Component {
                 </div>
 
                 {plantList}
+              </CardContent>
+            </Card>
+          </Grid>
+          <Grid item>
+            <Card className={classes.card}>
+              {cardHeader}
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Pictures
+                </Typography>
+                <ImageGridList tiles={data}/>
               </CardContent>
             </Card>
           </Grid>
