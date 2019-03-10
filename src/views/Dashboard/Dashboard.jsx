@@ -489,6 +489,37 @@ class Dashboard extends Component {
     );
   };
 
+  createPlantList = () => {
+    const { classes } = this.props;
+    return (
+      <List
+        className={classes.root}>
+        <ListItem
+          key="a"
+          alignItems="flex-start"
+          button
+          selected={true}
+        >
+          <ListItemText
+            primary="Sunflower"
+            secondary="Sunflower"
+            />
+        </ListItem>
+        <ListItem
+          key="b"
+          alignItems="flex-start"
+          button
+          selected={false}
+        >
+          <ListItemText
+            primary="Rose"
+            secondary="Rose"
+          />
+        </ListItem>
+      </List>
+    );
+  };
+
   createRobotList = () => {
     const { classes } = this.props;
     const { robots, selectedRobotId } = this.state;
@@ -587,6 +618,7 @@ class Dashboard extends Component {
     const robotList = this.createRobotList();
     const gamepad = this.createGamepad();
     const cardHeader = this.createCardHeader();
+    const plantList = this.createPlantList();
     let controller = null;
 
     if (selectedRobotId !== null) {
@@ -768,6 +800,23 @@ class Dashboard extends Component {
               </CardContent>
 
               <CardActions>{robotList}</CardActions>
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card className={classes.card}>
+              {cardHeader}
+              <CardContent>
+                <div>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Plants
+                  </Typography>
+                  <Typography component="p">
+                    The plants associated with your account
+                  </Typography>
+                </div>
+
+                {plantList}
+              </CardContent>
             </Card>
           </Grid>
 
