@@ -7,8 +7,8 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.paper,
   },
   gridList: {
-    width: 500,
-    height: 450,
+    width: 1000,
+    height: 225,
   },
 });
 
