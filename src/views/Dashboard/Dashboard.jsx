@@ -5,11 +5,6 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Checkbox from '@material-ui/core/Checkbox';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import Typography from '@material-ui/core/Typography';
@@ -33,7 +28,6 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
-import Select from '@material-ui/core/Select';
 import {withStyles} from '@material-ui/core';
 
 import DateTimePicker from 'react-datetime-picker';
@@ -46,8 +40,10 @@ import banner from '../../assets/views/Dashboard/img/banner.jpg'
 import online from '../../assets/views/Dashboard/img/green_circle.png'
 import offline from '../../assets/views/Dashboard/img/red_circle.png'
 
+import Dialogue from '../../components/Dialog/Dialogue'
 import Gamepad from '../../components/Gamepad/Gamepad'
 import LetterIcon from '../../components/LetterIcon/LetterIcon'
+import Select from '../../components/Select/Select'
 
 import {connect} from "react-redux";
 
@@ -76,11 +72,12 @@ class Dashboard extends Component {
         message: "",
         type: "",
         open: false,
-        dialogOpen: false,
+        addRobotDialogOpen: false,
+        removeRobotDialogOpen: false,
+        scheduleRobotDialogOpen: false,
         selectedRobotId: null,
         selectedRobot: null,
         robots: [],
-        dialogType: "",
         searchFilter: null,
         newRobotSerialKey: "",
         newRobotTitle: "",
@@ -118,6 +115,14 @@ class Dashboard extends Component {
         this.setState({open: false})
     }
 
+    handleOpenDialogue = (dialogueOpen) => {
+        this.setState({[dialogueOpen]: true});
+    }
+
+    handleCloseDialogue = (dialogueOpen) => {
+        this.setState({[dialogueOpen]: false});
+    }
+
     handleListItemClick = (event, robot) => {
         this.setState({selectedRobotId: robot.id, selectedRobot: robot});
     };
@@ -141,25 +146,13 @@ class Dashboard extends Component {
         return robot.seen_at !== null
     }
 
-    handleDialogClose = () => {
-        this.setState({dialogOpen: false})
-    }
-
-    handleDialogOpenAdd = () => {
-        this.setState({dialogOpen: true, dialogType: "add"})
-    }
-
-    handleDialogOpenRemove = () => {
-        this.setState({dialogOpen: true, dialogType: "remove"})
-    }
-
     handleChange = name => event => {
         this.setState({[name]: event.target.value});
     }
 
-    handleCheck = name => event => {
+    handleChecked = name => event => {
         this.setState({[name]: event.target.checked});
-    };
+    }
 
     onAddRobot = async () => {
         const {loginToken} = this.props;
@@ -248,11 +241,164 @@ class Dashboard extends Component {
         }
     }
 
+    createTextField = (id, label, value, valueName) => {
+        const {classes} = this.props;
+        return (<TextField
+            id={id}
+            label={label}
+            className={classes.textField}
+            value={value}
+            onChange={this.handleChange(valueName)}
+            margin="normal"
+        />)
+    }
+
+    createLetterCheckbox = (letter, state, value) => {
+
+        return (
+            <Checkbox
+                icon={<LetterIcon letter={letter} color="#000000"/>}
+                checkedIcon={<LetterIcon letter={letter} color="#006600"/>}
+                checked={state}
+                onChange={this.handleCheck}
+                value={value}
+            />)
+    }
+
+    createAddRobotDialogueContent = () => {
+        const {newRobotSerialKey, newRobotTitle} = this.state;
+        const addRobotSerialKeyTextField = this.createTextField("addRobot", "Serial key", newRobotSerialKey, 'newRobotSerialKey');
+        const addRobotTitleTextField = this.createTextField("addRobotTitle", "Title", newRobotTitle, 'newRobotTitle')
+
+        return (
+            <React.Fragment>
+                <QrReader
+                    delay={this.state.qrDelay}
+                    onError={this.qrHandleError.bind(this)}
+                    onScan={this.qrHandleScan.bind(this)}
+                    style={{width: "100%"}}
+                />
+                <div style={{display: "flex", flexDirection: "column"}}>
+                    {addRobotSerialKeyTextField}
+                    {addRobotTitleTextField}
+                </div>
+            </React.Fragment>
+        )
+    }
+
+    createAddRobotDialogueActions = () => {
+        return (
+            <React.Fragment>
+                <Button onClick={_ => this.handleCloseDialogue('addRobotDialogOpen')}>Close</Button>
+                <Button onClick={this.onAddRobot}>Add</Button>
+            </React.Fragment>
+        )
+    }
+
+    createRemoveRobotDialogueActions = () => {
+        return (
+            <React.Fragment>
+                <Button onClick={_ => this.handleCloseDialogue('removeRobotDialogOpen')}>Close</Button>
+                <Button onClick={this.onRemoveRobot}>Rebot</Button>
+            </React.Fragment>
+        )
+    }
+
+    createRemoveRobotDialogueContent = () => {
+        return (
+            <React.Fragment/>
+        )
+    }
+
+    createScheduleRobotDialogueActions = () => {
+        return (
+            <React.Fragment>
+                <Button onClick={_ => this.handleCloseDialogue('scheduleRobotDialogOpen')}>Close</Button>
+                <Button>Schedule</Button>
+            </React.Fragment>
+        )
+    }
+
+    createScheduleRobotDialogueContent = () => {
+        const {classes} = this.props;
+
+        const {repetitionQuantity, repetitionUnit, action} = this.state;
+        const repetitionQuantityItems = [1, 2, 3, 4, 5, 6, 7].map(quantity => (
+            <MenuItem value={quantity}>{quantity}</MenuItem>
+        ))
+        const repetitionUnitItems = ["Week"].map(unit => (
+            <MenuItem value={unit}>{unit}</MenuItem>
+        ))
+        const checkboxes = ["M", "T", "W", "T", "F", "S", "S"].map(letter => (
+            <Grid item>
+                {this.createLetterCheckbox(letter, this.state.checkedSunday, "checkedSunday")}
+            </Grid>
+        ))
+        const actions = ["Water", "Take Picture"].map(action => (
+            <MenuItem value={action}>{action}</MenuItem>
+        ))
+        return (
+            <React.Fragment>
+
+                <Grid container>
+                    <Grid item>
+                        <InputLabel>Repeat every</InputLabel>
+                    </Grid>
+                    <Grid item>
+                        <Select value={repetitionQuantity}
+                                onChange={event => this.setState({repetitionQuantity: event.target.value})}
+                                name='repetition_quantity' id='repetition_quantity' items={repetitionQuantityItems}/>
+                    </Grid>
+                    <Grid item>
+                        <Select value={repetitionUnit}
+                                onChange={event => this.setState({repetitionUnit: event.target.value})}
+                                name='repetition_unit' id='repetition_unit' items={repetitionUnitItems}/>
+                    </Grid>
+                </Grid>
+                <Grid container>
+                    <Grid item>
+                        <InputLabel>Repeat on</InputLabel>
+                    </Grid>
+                    {checkboxes}
+                </Grid>
+                <FormControl component="fieldset" className={classes.formControl}>
+                    <FormLabel component="legend">Ends</FormLabel>
+                    <RadioGroup
+                        aria-label="Ends"
+                        name="ends"
+                        className={classes.group}
+                        value={this.state.repetitionEnd}
+                        onChange={x => this.setState({repetitionEnd: x.target.value})}
+                    >
+                        <FormControlLabel value="never" control={<Radio/>} label="Never"/>
+                        <FormControlLabel value="on" control={<Radio/>} label="On"/>
+                        <DateTimePicker
+                            onChange={date => this.setState({date})}
+                            value={this.state.date}
+                        />
+                        <FormControlLabel value="after" control={<Radio/>} label="After"/>
+
+                    </RadioGroup>
+                </FormControl>
+                <Grid container>
+                    <Grid item>
+                        <InputLabel htmlFor="action">Action</InputLabel>
+                    </Grid>
+                    <Grid item>
+                        <Select value={action} onChange={event => this.setState({action: event.target.value})}
+                                name='action' id='action' items={actions}/>
+                    </Grid>
+                </Grid>
+            </React.Fragment>
+        )
+    }
+
+
     render() {
-        let {classes} = this.props;
+        const {classes} = this.props;
+        const {addRobotDialogOpen, removeRobotDialogOpen, scheduleRobotDialogOpen} = this.state;
 
         let controller = null;
-        console.log("CHECKED-MON" + this.state.checkedMonday);
         if (this.state.selectedRobotId !== null) {
             controller = [<Grid item xs={12} md={4}>
                 <Card className={classes.card}>
@@ -275,17 +421,21 @@ class Dashboard extends Component {
                             </div>
 
                             <div style={{display: "flex", flexDirection: "column"}}>
-                                <Button size="medium" color="secondary" onClick={this.handleDialogOpenRename}>
+                                <Button size="medium" color="secondary" onClick={_=>this.handleOpenDialogue('rename')}>
                                     Rename
                                 </Button>
-                                <Button size="medium" color="secondary" onClick={this.handleDialogOpenRemove}>
+                                <Button size="medium" color="secondary" onClick={_=>this.handleOpenDialogue('removeRobotDialogOpen')}>
                                     Remove
                                 </Button>
                             </div>
                         </div>
                     </CardContent>
                     <CardActions style={{display: "flex", flexDirection: "column", justifyContent: "center"}}>
-                        <Gamepad forward={this.onMove.bind(this, "forward")} backward={this.onMove.bind(this, "backward")} armdown={this.onMove.bind(this, "armdown")} armup={this.onMove.bind(this, "armup")} left={this.onMove.bind(this, "left")} right={this.onMove.bind(this, "right")} brake={this.onMove.bind(this, "brake")} />
+                        <Gamepad forward={this.onMove.bind(this, "forward")}
+                                 backward={this.onMove.bind(this, "backward")}
+                                 armdown={this.onMove.bind(this, "armdown")} armup={this.onMove.bind(this, "armup")}
+                                 left={this.onMove.bind(this, "left")} right={this.onMove.bind(this, "right")}
+                                 brake={this.onMove.bind(this, "brake")}/>
                     </CardActions>
                 </Card>
             </Grid>,
@@ -310,7 +460,7 @@ class Dashboard extends Component {
 
                             <div style={{display: "flex", justifyContent: "center"}}>
                                 <img alt="Video stream"
-                                     src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)}></img>
+                                     src={endpoints.robot_video(this.state.selectedRobot.id, this.props.loginToken)}/>
                             </div>
                         </CardContent>
                     </Card>
@@ -344,7 +494,7 @@ class Dashboard extends Component {
                                 </div>
                                 <div style={{display: "flex", flexDirection: "column"}}>
                                     <IconButton aria-label="Add" onClick={_ => {
-                                        this.setState({dialogOpen: true, dialogType: "schedule_add"})
+                                        this.handleOpenDialogue('scheduleRobotDialogOpen')
                                     }}>
                                         <AddIcon/>
                                     </IconButton>
@@ -397,245 +547,18 @@ class Dashboard extends Component {
 
         return <div className={classes.root}>
             <br/>
-            <Dialog
-                open={this.state.dialogOpen}
-                onClose={this.handleDialogClose}
-                aria-labelledby="form-dialog-title"
-            >
-                <DialogTitle id="form-dialog-title">
-                    {
-                        this.state.dialogType === "add" ? "Add Robot" : this.state.dialogType === "schedule_add" ? "Schedule Task" :
-                            "Remove Robot"
-                    }
-                </DialogTitle>
-                {
-                    this.state.dialogType === "add" ? <DialogContent>
-                        <DialogContentText>
-                            Please scan the robot serial and name your robot.
-                        </DialogContentText>
-                        <QrReader
-                            delay={this.state.qrDelay}
-                            onError={this.qrHandleError.bind(this)}
-                            onScan={this.qrHandleScan.bind(this)}
-                            style={{width: "100%"}}
-                        />
-                        <div style={{display: "flex", flexDirection: "column"}}>
-                            <TextField
-                                id="addRobot"
-                                label="Serial key"
-                                className={classes.textField}
-                                value={this.state.newRobotSerialKey}
-                                onChange={this.handleChange('newRobotSerialKey')}
-                                margin="normal"
-                            />
-                            <TextField
-                                id="addRobotTitke"
-                                label="Title"
-                                className={classes.textField}
-                                required={true}
-                                value={this.state.newRobotTitle}
-                                onChange={this.handleChange('newRobotTitle')}
-                                margin="normal"
-                            />
-                        </div>
-                    </DialogContent> : this.state.dialogType === "schedule_add" ? <DialogContent>
+            <Dialogue open={addRobotDialogOpen} close={_=>this.handleCloseDialogue('addRobotDialogOpen')} title="Add Robot"
+                      contentText="Please scan the robot serial and name your robot."
+                      content={this.createAddRobotDialogueContent()} actions={this.createAddRobotDialogueActions()}/>
+            <Dialogue open={removeRobotDialogOpen} close={_=>this.handleCloseDialogue('removeRobotDialogOpen')}
+                      title="Remove Robot" contentText="Please confirm you wish to remove the robot."
+                      content={this.createRemoveRobotDialogueContent()}
+                      actions={this.createRemoveRobotDialogueActions()}/>
+            <Dialogue open={scheduleRobotDialogOpen} close={_=>this.handleCloseDialogue('scheduleRobotDialogOpen')}
+                      title="Schedule Action" contentText="Please fill in the form to schedule an action."
+                      content={this.createScheduleRobotDialogueContent()}
+                      actions={this.createScheduleRobotDialogueActions()}/>
 
-                            <Grid container>
-                                <Grid item>
-                                    <InputLabel>Repeat every</InputLabel>
-                                </Grid>
-                                <Grid item>
-                                    <Select
-                                        value={this.state.repetitionQuantity}
-                                        onChange={event => this.setState({repetitionQuantity: event.target.value})}
-                                        inputProps={{
-                                            name: 'repetition_quantity',
-                                            id: 'repetition_quantity',
-                                        }}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        {
-                                            [1, 2, 3, 4, 5, 6, 7].map(quantity => (
-                                                <MenuItem value={quantity}>{quantity}</MenuItem>
-                                            ))
-                                        }
-
-                                    </Select>
-                                </Grid>
-                                <Grid item>
-                                    <Select
-                                        value={this.state.repetitionUnit}
-                                        onChange={event => this.setState({repetitionUnit: event.target.value})}
-                                        inputProps={{
-                                            name: 'repetition_unit',
-                                            id: 'repetition_unit',
-                                        }}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        {
-                                            ["Week"].map(unit => (
-                                                <MenuItem value={unit}>{unit}</MenuItem>
-                                            ))
-                                        }
-
-                                    </Select>
-                                </Grid>
-                            </Grid>
-                            <Grid container>
-                                <Grid item>
-                                    <InputLabel>Repeat on</InputLabel>
-                                </Grid>
-                                <Grid item>
-                                    <Checkbox
-                                        icon={<LetterIcon letter="M" color="#000000"/>}
-                                        checkedIcon={<LetterIcon letter="M" color="#006600"/>}
-                                        checked={this.state.checkedMonday}
-                                        onChange={this.handleCheck('checkedMonday')}
-                                        value="checkedMonday"
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Checkbox
-                                        icon={<LetterIcon letter="T" color="#000000"/>}
-                                        checkedIcon={<LetterIcon letter="T" color="#006600"/>}
-                                        checked={this.state.checkedTuesday}
-                                        onChange={this.handleCheck('checkedTuesday')}
-                                        value="checkedTuesday"
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Checkbox
-                                        icon={<LetterIcon letter="W" color="#000000"/>}
-                                        checkedIcon={<LetterIcon letter="W" color="#006600"/>}
-                                        checked={this.state.checkedWednesday}
-                                        onChange={this.handleCheck('checkedWednesday')}
-                                        value="checkedWednesday"
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Checkbox
-                                        icon={<LetterIcon letter="T" color="#000000"/>}
-                                        checkedIcon={<LetterIcon letter="T" color="#006600"/>}
-                                        checked={this.state.checkedThursday}
-                                        onChange={this.handleCheck('checkedThursday')}
-                                        value="checkedThursday"
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Checkbox
-                                        icon={<LetterIcon letter="F" color="#000000"/>}
-                                        checkedIcon={<LetterIcon letter="F" color="#006600"/>}
-                                        checked={this.state.checkedFriday}
-                                        onChange={this.handleCheck('checkedFriday')}
-                                        value="checkedFriday"
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Checkbox
-                                        icon={<LetterIcon letter="S" color="#000000"/>}
-                                        checkedIcon={<LetterIcon letter="S" color="#006600"/>}
-                                        checked={this.state.checkedSaturday}
-                                        onChange={this.handleCheck('checkedSaturday')}
-                                        value="checkedSaturday"
-                                    />
-                                </Grid>
-                                <Grid item>
-                                    <Checkbox
-                                        icon={<LetterIcon letter="S" color="#000000"/>}
-                                        checkedIcon={<LetterIcon letter="S" color="#006600"/>}
-                                        checked={this.state.checkedSunday}
-                                        onChange={this.handleCheck('checkedSunday')}
-                                        value="checkedSunday"
-                                    />
-                                </Grid>
-                            </Grid>
-                            <FormControl component="fieldset" className={classes.formControl}>
-                                <FormLabel component="legend">Ends</FormLabel>
-                                <RadioGroup
-                                    aria-label="Ends"
-                                    name="ends"
-                                    className={classes.group}
-                                    value={this.state.repetitionEnd}
-                                    onChange={x => this.setState({repetitionEnd: x.target.value})}
-                                >
-                                    <FormControlLabel value="never" control={<Radio/>} label="Never"/>
-                                    <FormControlLabel value="on" control={<Radio/>} label="On"/>
-                                    <DateTimePicker
-                                        onChange={date => this.setState({date})}
-                                        value={this.state.date}
-                                    />
-                                    <FormControlLabel value="after" control={<Radio/>} label="After"/>
-
-                                    <Select
-                                        value={this.state.repetitionUnit}
-                                        onChange={event => this.setState({repetitionUnit: event.target.value})}
-                                        inputProps={{
-                                            name: 'repetition_unit',
-                                            id: 'repetition_unit',
-                                        }}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        {
-                                            ["Week"].map(unit => (
-                                                <MenuItem value={unit}>{unit}</MenuItem>
-                                            ))
-                                        }
-
-                                    </Select>
-                                </RadioGroup>
-                            </FormControl>
-                            <Grid container>
-                                <Grid item>
-                                    <InputLabel htmlFor="action">Action</InputLabel>
-                                </Grid>
-                                <Grid item>
-                                    <Select
-                                        value={this.state.action}
-                                        onChange={event => this.setState({action: event.target.value})}
-                                        inputProps={{
-                                            name: 'action',
-                                            id: 'action',
-                                        }}
-                                    >
-                                        <MenuItem value="">
-                                            <em>None</em>
-                                        </MenuItem>
-                                        <MenuItem value="water">Water</MenuItem>
-                                        <MenuItem value="picture">Picture</MenuItem>
-                                    </Select>
-                                </Grid>
-                            </Grid>
-
-
-                        </DialogContent> :
-
-
-                        <DialogContent><DialogContentText>Are you sure you want to delete the robot
-                            ?</DialogContentText></DialogContent>
-                }
-
-                <DialogActions>
-                    <Button onClick={this.handleDialogClose} color="primary">
-                        Cancel
-                    </Button>
-                    {
-                        this.state.dialogType === "add" ? <Button onClick={this.onAddRobot} color="primary">
-                            Add
-                        </Button> : this.state.dialogType === "schedule_add" ?
-                            <Button color="primary">Schedule</Button> :
-                            <Button onClick={this.onRemoveRobot} color="primary">
-                                Remove
-                            </Button>
-                    }
-
-                </DialogActions>
-            </Dialog>
             <Snackbar
                 anchorOrigin={{
                     vertical: 'bottom',
@@ -671,7 +594,7 @@ class Dashboard extends Component {
                                         {this.state.robots.length === 0 ? "Please add some GrowBots to your account" : "Select the GrowBot you would like to control"}
                                     </Typography>
                                 </div>
-                                <Button size="small" color="primary" onClick={this.handleDialogOpenAdd}>
+                                <Button size="small" color="primary" onClick={_=>this.handleOpenDialogue('addRobotDialogOpen')}>
                                     Add Robot
                                 </Button>
                             </div>
