@@ -1,10 +1,10 @@
-import vegetables from "./img/vegetables.jpg"
-import bike from "./img/bike.jpg"
-import honey from "./img/honey.jpg"
-import olive from "./img/olive.jpg"
-import plant from "./img/plant.jpg"
-import star from "./img/star.jpg"
-import mushroom from "./img/mushroom.jpg"
+import vegetables from "./img/vegetables.jpg";
+import bike from "./img/bike.jpg";
+import honey from "./img/honey.jpg";
+import olive from "./img/olive.jpg";
+import plant from "./img/plant.jpg";
+import star from "./img/star.jpg";
+import mushroom from "./img/mushroom.jpg";
 
 const titleData = [
   {
@@ -42,6 +42,6 @@ const titleData = [
     title: "mushroom",
     author: "Raees"
   }
-]
+];
 
 export default titleData;

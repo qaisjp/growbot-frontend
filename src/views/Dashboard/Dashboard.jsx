@@ -37,10 +37,12 @@ import styles from "../../assets/views/Dashboard/jss/dashboard-style";
 import banner from "../../assets/views/Dashboard/img/banner.jpg";
 import online from "../../assets/views/Dashboard/img/green_circle.png";
 import offline from "../../assets/views/Dashboard/img/red_circle.png";
+import vegetables from "../../assets/components/Grid/img/vegetables.jpg";
 
-import data from '../../assets/components/Grid/data';
+import data from "../../assets/components/Grid/data";
 
 import Dialogue from "../../components/Dialogue/Dialogue";
+import FullScreenDialogue from "../../components/Dialogue/FullScreenDialogue";
 import Gamepad from "../../components/Gamepad/Gamepad";
 import ImageGridList from "../../components/Grid/ImageGridList";
 import LetterIcon from "../../components/Icon/LetterIcon";
@@ -87,7 +89,12 @@ class Dashboard extends Component {
     newRobotTitle: "",
     renameRobotTitle: "",
     date: new Date(),
-    qrDelay: 300
+    qrDelay: 300,
+    tile: {
+      img: vegetables,
+      title: "Vegetables",
+      author: "Raees"
+    }
   };
   onMove = async direction => {
     const { loginToken } = this.props;
@@ -453,7 +460,10 @@ class Dashboard extends Component {
       </React.Fragment>
     );
   };
-
+  createPhotoDialogueContent = () => {
+    const { tile } = this.state;
+    return <img src={tile.img} alt={tile.title}/>;
+  };
   createSchedulingList = () => {
     const { classes } = this.props;
 
@@ -617,7 +627,9 @@ class Dashboard extends Component {
       addRobotDialogue,
       removeRobotDialogue,
       scheduleRobotDialogue,
-      renameRobotDialogue
+      renameRobotDialogue,
+      photoDialogue,
+      tile
     } = this.state;
     const robotSearchCriteria = this.createTextField(
       "search-criteria",
@@ -742,6 +754,12 @@ class Dashboard extends Component {
           content={this.createRenameRobotDialogueContent()}
           actions={this.createRenameRobotDialogueActions()}
         />
+        <FullScreenDialogue
+          open={photoDialogue}
+          close={() => this.handleCloseDialogue("photoDialogue")}
+          title={tile.title}
+          content={this.createPhotoDialogueContent()}
+        />
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",
@@ -780,7 +798,10 @@ class Dashboard extends Component {
                 <Typography gutterBottom variant="h5" component="h2">
                   Pictures
                 </Typography>
-                <ImageGridList tiles={data} click={() => console.log('ayy lmao')}/>
+                <ImageGridList
+                  tiles={data}
+                  click={tile => this.setState({ tile, photoDialogue: true })}
+                />
               </CardContent>
             </Card>
           </Grid>
