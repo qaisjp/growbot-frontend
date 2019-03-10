@@ -492,29 +492,12 @@ class Dashboard extends Component {
   createPlantList = () => {
     const { classes } = this.props;
     return (
-      <List
-        className={classes.root}>
-        <ListItem
-          key="a"
-          alignItems="flex-start"
-          button
-          selected={true}
-        >
-          <ListItemText
-            primary="Sunflower"
-            secondary="Sunflower"
-            />
+      <List className={classes.root}>
+        <ListItem key="a" alignItems="flex-start" button selected={true}>
+          <ListItemText primary="Sunflower" secondary="Sunflower" />
         </ListItem>
-        <ListItem
-          key="b"
-          alignItems="flex-start"
-          button
-          selected={false}
-        >
-          <ListItemText
-            primary="Rose"
-            secondary="Rose"
-          />
+        <ListItem key="b" alignItems="flex-start" button selected={false}>
+          <ListItemText primary="Rose" secondary="Rose" />
         </ListItem>
       </List>
     );
@@ -550,6 +533,18 @@ class Dashboard extends Component {
                 )
               }
             />
+            {selectedRobotId === robot.id && (
+              <React.Fragment>
+                <IconButton
+                  onClick={() => this.handleOpenDialogue("removeRobotDialogue")}
+                >
+                  <RemoveIcon />
+                </IconButton>
+                <IconButton onClick={() => this.handleOpenDialogue("rename")}>
+                  <EditIcon />
+                </IconButton>
+              </React.Fragment>
+            )}
           </ListItem>
         ))}
       </List>
@@ -686,34 +681,11 @@ class Dashboard extends Component {
                   <Typography gutterBottom variant="h5" component="h2">
                     {selectedRobot.title}
                   </Typography>
-                  <Typography component="p">
-                    Move Growbot around.
-                  </Typography>
-                </div>
-
-                <div style={{ display: "flex", flexDirection: "column" }}>
-                  <Button
-                    size="medium"
-                    color="secondary"
-                    onClick={() => this.handleOpenDialogue("rename")}
-                  >
-                    Rename
-                  </Button>
-                  <Button
-                    size="medium"
-                    color="secondary"
-                    onClick={() =>
-                      this.handleOpenDialogue("removeRobotDialogue")
-                    }
-                  >
-                    Remove
-                  </Button>
+                  <Typography component="p">Move Growbot around.</Typography>
                 </div>
               </div>
             </CardContent>
-            <CardActions>
-              {gamepad}
-            </CardActions>
+            <CardActions>{gamepad}</CardActions>
           </Card>
         </Grid>
       ];
@@ -771,9 +743,7 @@ class Dashboard extends Component {
                   <Typography gutterBottom variant="h5" component="h2">
                     Plants
                   </Typography>
-                  <Typography component="p">
-                    Your plants
-                  </Typography>
+                  <Typography component="p">Your plants</Typography>
                 </div>
 
                 {plantList}
@@ -797,7 +767,7 @@ class Dashboard extends Component {
                     <Typography component="p">
                       {this.state.robots.length === 0
                         ? "Please add some GrowBots"
-                        : "Select a GrowBot"}
+                        : "Select a Growbot"}
                     </Typography>
                   </div>
                   <IconButton
