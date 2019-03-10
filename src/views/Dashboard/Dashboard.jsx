@@ -508,6 +508,9 @@ class Dashboard extends Component {
         <ListItem key="b" alignItems="flex-start" button selected={false}>
           <ListItemText primary="Rose" secondary="Rose" />
         </ListItem>
+        <ListItem key="c" alignItems="flex-start" button selected={false}>
+          <ListItemText primary="Lily" secondary="Lily" />
+        </ListItem>
       </List>
     );
   };
