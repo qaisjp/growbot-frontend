@@ -19,7 +19,7 @@ function ImageGridList(props) {
             <img src={tile.img} alt={tile.title} />
             <GridListTileBar
               title={tile.title}
-              subtitle={<span>by: {tile.author}</span>}
+              subtitle={<span>by: {author}</span>}
               actionIcon={
                 <IconButton
                   className={classes.icon}

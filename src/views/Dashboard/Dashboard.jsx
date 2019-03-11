@@ -39,8 +39,6 @@ import online from "../../assets/views/Dashboard/img/green_circle.png";
 import offline from "../../assets/views/Dashboard/img/red_circle.png";
 import vegetables from "../../assets/components/Grid/img/vegetables.jpg";
 
-import data from "../../assets/components/Grid/data";
-
 import Dialogue from "../../components/Dialogue/Dialogue";
 import FullScreenDialogue from "../../components/Dialogue/FullScreenDialogue";
 import Gamepad from "../../components/Gamepad/Gamepad";
@@ -58,6 +56,8 @@ import moveRobot from "../../http/move_robot";
 import addRobot from "../../http/add_robot";
 import removeRobot from "../../http/remove_robot";
 import renameRobot from "../../http/rename_robot";
+import fetchPhotos from "../../http/fetch_photos";
+import getPhoto from "../../http/get_photo";
 
 class Dashboard extends Component {
   state = {
@@ -84,6 +84,7 @@ class Dashboard extends Component {
     selectedRobotId: null,
     selectedRobot: null,
     robots: [],
+    photos: [],
     searchFilter: null,
     newRobotSerialKey: "",
     newRobotTitle: "",
@@ -124,19 +125,52 @@ class Dashboard extends Component {
   handleListItemClick = (event, robot) => {
     this.setState({ selectedRobotId: robot.id, selectedRobot: robot });
   };
-  componentDidMount = async () => {
+  fetchRobots = async() => {
     const { loginToken } = this.props;
-    const result = await fetchRobots(loginToken);
+    const fetchRobotsResult = await fetchRobots(loginToken);
 
-    if (result instanceof Error) {
+    if (fetchRobotsResult instanceof Error) {
       this.setState({ robots: [] });
     } else {
-      const { robots } = result;
+      const { robots } = fetchRobotsResult;
       this.setState({ robots });
       if (robots.length > 0) {
-        this.handleListItemClick(null, result.robots[0]);
+        this.handleListItemClick(null, fetchRobotsResult.robots[0]);
       }
     }
+  };
+  fetchPhotos = async() => {
+    const { loginToken } = this.props;
+    const fetchPhotosResult = await fetchPhotos(loginToken);
+
+    if(fetchPhotosResult instanceof Error) {
+      console.log(fetchPhotosResult);
+      console.log(loginToken);
+      this.setState({ photos: [] })
+    } else {
+      const { photos } = fetchPhotosResult;
+
+      console.log(photos);
+
+      const photosMapped = [];
+
+      photos.forEach(async photo => {
+        const getPhotoResult = await getPhoto(loginToken, photo);
+
+        const photosObj = {
+          title: photo.id,
+          img: getPhotoResult
+        };
+
+        photosMapped.push(photosObj);
+      });
+
+      this.setState({ photos });
+    }
+  };
+  componentDidMount = async () => {
+    this.fetchRobots();
+    this.fetchPhotos();
   };
   isRobotOnline = robot => {
     return robot.seen_at !== null;
@@ -629,7 +663,8 @@ class Dashboard extends Component {
       scheduleRobotDialogue,
       renameRobotDialogue,
       photoDialogue,
-      tile
+      tile,
+      photos
     } = this.state;
     const robotSearchCriteria = this.createTextField(
       "search-criteria",
@@ -799,8 +834,9 @@ class Dashboard extends Component {
                   Pictures
                 </Typography>
                 <ImageGridList
-                  tiles={data}
+                  tiles={photos}
                   click={tile => this.setState({ tile, photoDialogue: true })}
+                  author="Raees"
                 />
               </CardContent>
             </Card>
