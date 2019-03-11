@@ -31,6 +31,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import { withStyles } from "@material-ui/core";
 
 import DateTimePicker from "react-datetime-picker";
+import { RRule, RRuleSet, rrulestr } from 'rrule'
 
 import endpoints from "../../endpoints";
 import styles from "../../assets/views/Dashboard/jss/dashboard-style";
@@ -58,6 +59,7 @@ import removeRobot from "../../http/remove_robot";
 import renameRobot from "../../http/rename_robot";
 import fetchPhotos from "../../http/fetch_photos";
 import getPhoto from "../../http/get_photo";
+import scheduleAction from "../../http/schedule_action";
 
 class Dashboard extends Component {
   state = {
@@ -75,6 +77,7 @@ class Dashboard extends Component {
     checkedDetection: false,
     message: "",
     type: "",
+    plantId: "",
     open: false,
     addRobotDialogue: false,
     removeRobotDialogue: false,
@@ -182,6 +185,110 @@ class Dashboard extends Component {
   handleChecked = name => event => {
     this.setState({ [name]: event.target.checked });
   };
+  getAction = () => {
+    const { action, plantId } = this.state;
+    if(action==="Water") {
+      return {
+        name: "PLANT_WATER",
+        plant_id: plantId,
+        data: []
+      }
+    }
+    return {
+      name: "TAKE_PICTURE",
+      plant_id: plantId,
+      data: []
+    }
+  }
+  getRRule = () => {
+    const { repetitionQuantity, repetitionUnit, repetitionEnd, date, occurances, checkedMonday, checkedTuesday, checkedWednesday, checkedThursday, checkedFriday, checkedSaturday, checkedSunday } = this.state;
+
+    let freq = null;
+    if(repetitionUnit === "Second") {
+      freq = RRule.SECONDLY;
+    } else if(repetitionUnit === "Minute") {
+      freq = RRule.MINUTELY;
+    } else if(repetitionUnit === "Hour") {
+      freq = RRule.HOURLY;
+    } else if(repetitionUnit === "Day") {
+      freq = RRule.DAILY;
+    } else if(repetitionUnit === "Week") {
+      freq = RRule.WEEKLY;
+    } else if(repetitionUnit === "Month") {
+      freq = RRule.MONTHLY;
+    } else {
+      freq = RRule.YEARLY;
+    }
+
+    const interval = repetitionQuantity;
+    const dtend = date;
+    const count = occurances;
+
+    const byweekdays = [];
+    if(checkedMonday) {
+      byweekdays.push(RRule.MO);
+    }
+    if(checkedTuesday) {
+      byweekdays.push(RRule.TU);
+    }
+    if(checkedWednesday) {
+      byweekdays.push(RRule.WE);
+    }
+    if(checkedThursday) {
+      byweekdays.push(RRule.TH);
+    }
+    if(checkedFriday) {
+      byweekdays.push(RRule.FR);
+    }
+    if(checkedSaturday) {
+      byweekdays.push(RRule.SA);
+    }
+    if(checkedSunday) {
+      byweekdays.push(RRule.SU);
+    }
+
+    if(repetitionEnd==="never") {
+      return {
+        freq: freq,
+        interval: interval,
+        byweekday: byweekdays,
+        dtstart: new Date()
+      }
+    } else if(repetitionEnd==="on") {
+      return {
+        freq: freq,
+        interval: interval,
+        byweekday: byweekdays,
+        dtstart: new Date(),
+        until: dtend
+      }
+    }
+    return {
+      freq: freq,
+      interval: interval,
+      count: count,
+      byweekday: byweekdays,
+      dtstart: new Date(),
+      until: dtend
+    }
+  }
+  onSchedule = async () => {
+    const { loginToken } = this.props;
+
+    const rruleObj = this.getRRule();
+    console.log(rruleObj);
+    const recurrences = new RRule(rruleObj).all();
+    const actions = this.getAction();
+
+    const response = await scheduleAction(loginToken, recurrences, actions);
+
+    if(response.status === 200) {
+      this.setState({ message: "Successfully scheduled actions!", open: true, type: "success" });
+    } else {
+      const body = await response.json();
+      this.setState({ message: body.message, open: true, type: "error" });
+    }
+  }
   onAddRobot = async () => {
     const { loginToken } = this.props;
     const { newRobotSerialKey, newRobotTitle } = this.state;
@@ -374,7 +481,7 @@ class Dashboard extends Component {
         >
           Close
         </Button>
-        <Button>Schedule</Button>
+        <Button onClick={this.onSchedule}>Schedule</Button>
       </React.Fragment>
     );
   };
@@ -466,6 +573,10 @@ class Dashboard extends Component {
         </Grid>
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Ends</FormLabel>
+          <DateTimePicker
+            onChange={date => this.setState({ date })}
+            value={this.state.date}
+          />
           <RadioGroup
             aria-label="Ends"
             name="ends"
@@ -475,10 +586,6 @@ class Dashboard extends Component {
           >
             <FormControlLabel value="never" control={<Radio />} label="Never" />
             <FormControlLabel value="on" control={<Radio/>} label="On" />
-            <DateTimePicker
-              onChange={date => this.setState({ date })}
-              value={this.state.date}
-            />
             <FormControlLabel value="after" control={<Radio />} label="After" />
             {occurancesField}
           </RadioGroup>
