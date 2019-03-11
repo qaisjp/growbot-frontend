@@ -9,7 +9,7 @@ import SvgIcon from "@material-ui/core/SvgIcon";
 import styles from "../../assets/components/Grid/jss/grid-list-style";
 
 function ImageGridList(props) {
-  const { classes, tiles, click } = props;
+  const { classes, tiles, click, author } = props;
 
   return (
     <div className={classes.root}>
@@ -41,7 +41,8 @@ function ImageGridList(props) {
 ImageGridList.propTypes = {
   classes: PropTypes.object.isRequired,
   tiles: PropTypes.array.isRequired,
-  click: PropTypes.func.isRequired
+  click: PropTypes.func.isRequired,
+  author: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ImageGridList);

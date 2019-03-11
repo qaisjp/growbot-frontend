@@ -20,6 +20,8 @@ export default {
   robots_list: `${base}/robots`,
   robots_register: `${base}/robots/register`,
 
+  photos: `${base}/photos`,
+
   robot_delete: uuid => `${base}/robot/${uuid}`,
   robot_move: uuid => `${base}/robot/${uuid}/move`,
   robot_settings: uuid => `${base}/robot/${uuid}/settings`,
