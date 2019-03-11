@@ -58,7 +58,6 @@ import addRobot from "../../http/add_robot";
 import removeRobot from "../../http/remove_robot";
 import renameRobot from "../../http/rename_robot";
 import fetchPhotos from "../../http/fetch_photos";
-import getPhoto from "../../http/get_photo";
 import scheduleAction from "../../http/schedule_action";
 
 class Dashboard extends Component {
@@ -77,7 +76,7 @@ class Dashboard extends Component {
     checkedDetection: false,
     message: "",
     type: "",
-    plantId: "",
+    plantId: "11967a3a-4433-11e9-b210-d663bd873d93",
     open: false,
     addRobotDialogue: false,
     removeRobotDialogue: false,
@@ -158,18 +157,18 @@ class Dashboard extends Component {
 
       const photosMapped = [];
 
-      photos.forEach(async photo => {
-        const getPhotoResult = await getPhoto(loginToken, photo);
+      photos.forEach(photo => {
+        const photoUrl = endpoints.photos + '/' + photo.id + '?token=' + loginToken;
 
         const photosObj = {
           title: photo.id,
-          img: getPhotoResult
+          img: photoUrl
         };
 
         photosMapped.push(photosObj);
       });
 
-      this.setState({ photos });
+      this.setState({ photos: photosMapped });
     }
   };
   componentDidMount = async () => {
@@ -277,8 +276,8 @@ class Dashboard extends Component {
 
     const rruleObj = this.getRRule();
     console.log(rruleObj);
-    const recurrences = new RRule(rruleObj).all();
-    const actions = this.getAction();
+    const recurrences = [new RRule(rruleObj).toString()];
+    const actions = [this.getAction()];
 
     const response = await scheduleAction(loginToken, recurrences, actions);
 
@@ -573,10 +572,6 @@ class Dashboard extends Component {
         </Grid>
         <FormControl component="fieldset" className={classes.formControl}>
           <FormLabel component="legend">Ends</FormLabel>
-          <DateTimePicker
-            onChange={date => this.setState({ date })}
-            value={this.state.date}
-          />
           <RadioGroup
             aria-label="Ends"
             name="ends"
@@ -589,6 +584,10 @@ class Dashboard extends Component {
             <FormControlLabel value="after" control={<Radio />} label="After" />
             {occurancesField}
           </RadioGroup>
+          <DateTimePicker
+            onChange={date => this.setState({ date })}
+            value={this.state.date}
+          />
         </FormControl>
         <Grid container>
           <Grid item>

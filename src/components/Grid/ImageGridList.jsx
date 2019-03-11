@@ -11,12 +11,14 @@ import styles from "../../assets/components/Grid/jss/grid-list-style";
 function ImageGridList(props) {
   const { classes, tiles, click, author } = props;
 
+  tiles.forEach(tile => console.log(tile.img));
+
   return (
     <div className={classes.root}>
       <GridList cellHeight={160} className={classes.gridList}>
         {tiles.map(tile => (
           <GridListTile key={tile.img} cols={tile.cols || 1}>
-            <img src={tile.img} alt={tile.title} />
+            <img src={tile.img} alt={tile.id} />
             <GridListTileBar
               title={tile.title}
               subtitle={<span>by: {author}</span>}

@@ -7,7 +7,7 @@ export default async function(token, recurrences, actions) {
 
   console.log(scheduleRequest);
 
-  return await fetch(endpoints.robots_register, {
+  return await fetch(endpoints.events, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
