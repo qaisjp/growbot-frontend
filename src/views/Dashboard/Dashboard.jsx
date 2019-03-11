@@ -513,7 +513,7 @@ class Dashboard extends Component {
         subheader={<ListSubheader component="div">Tasks</ListSubheader>}
       >
         <ListItem key="1">
-          <ListItemText primary="Water Plant A every 3 hours" />
+          <ListItemText className={classes.listItem} primary={<span>Water Plant A every 3 hours</span>} />
           <ListItemSecondaryAction>
             <IconButton aria-label="Edit">
               <EditIcon />
@@ -524,7 +524,7 @@ class Dashboard extends Component {
           </ListItemSecondaryAction>
         </ListItem>
         <ListItem key="2">
-          <ListItemText primary="Water Plant B every 6 hours" />
+          <ListItemText className={classes.listItem} primary={<span>Water Plant B every 6 hours</span>} />
           <ListItemSecondaryAction>
             <IconButton aria-label="Edit">
               <EditIcon />
@@ -535,7 +535,7 @@ class Dashboard extends Component {
           </ListItemSecondaryAction>
         </ListItem>
         <ListItem key="1">
-          <ListItemText primary="Take Picture of Plant A every 3 hours" />
+          <ListItemText className={classes.listItem} primary={<span>Photo Plant A every 3 hours</span>} />
           <ListItemSecondaryAction>
             <IconButton aria-label="Edit">
               <EditIcon />

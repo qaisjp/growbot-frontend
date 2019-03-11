@@ -37,6 +37,9 @@ const styles = theme => ({
     marginLeft: theme.spacing.unit * 2,
     marginRight: theme.spacing.unit * 4,
     marginBottom: theme.spacing.unit * 30
+  },
+  listItem: {
+    marginRight: theme.spacing.unit * 10
   }
 });
 
