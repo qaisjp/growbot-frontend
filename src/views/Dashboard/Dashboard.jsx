@@ -86,6 +86,7 @@ class Dashboard extends Component {
     robots: [],
     photos: [],
     searchFilter: null,
+    occurances: null,
     newRobotSerialKey: "",
     newRobotTitle: "",
     renameRobotTitle: "",
@@ -264,13 +265,15 @@ class Dashboard extends Component {
       });
     }
   };
-  createTextField = (id, label, value, valueName) => {
+  createTextField = (id, label, value, valueName) => this.createTextFieldWithType(id, label, "string", value, valueName);
+  createTextFieldWithType = (id, label, type, value, valueName) => {
     const { classes } = this.props;
     return (
       <TextField
         id={id}
         label={label}
-        className={classes.textField}
+        type={type}
+        className={type === 'number' ? classes.numberTextField : classes.textField}
         value={value}
         onChange={this.handleChange(valueName)}
         margin="normal"
@@ -388,12 +391,13 @@ class Dashboard extends Component {
       checkedSunday,
       repetitionQuantity,
       repetitionUnit,
-      action
+      action,
+      occurances
     } = this.state;
     const repetitionQuantityItems = [1, 2, 3, 4, 5, 6, 7].map(quantity => (
       <MenuItem value={quantity}>{quantity}</MenuItem>
     ));
-    const repetitionUnitItems = ["Week", "Day", "Month"].map(unit => (
+    const repetitionUnitItems = ["Second", "Minute", "Hour", "Day", "Week", "Month", "Year"].map(unit => (
       <MenuItem value={unit}>{unit}</MenuItem>
     ));
     const checkboxes = [
@@ -424,6 +428,7 @@ class Dashboard extends Component {
     const actions = ["Water", "Take Picture"].map(action => (
       <MenuItem value={action}>{action}</MenuItem>
     ));
+    const occurancesField = this.createTextFieldWithType("Occurances", "Occurances", "number", occurances, "occurances");
     return (
       <React.Fragment>
         <Grid container>
@@ -469,17 +474,18 @@ class Dashboard extends Component {
             onChange={x => this.setState({ repetitionEnd: x.target.value })}
           >
             <FormControlLabel value="never" control={<Radio />} label="Never" />
-            <FormControlLabel value="on" control={<Radio />} label="On" />
+            <FormControlLabel value="on" control={<Radio/>} label="On" />
             <DateTimePicker
               onChange={date => this.setState({ date })}
               value={this.state.date}
             />
             <FormControlLabel value="after" control={<Radio />} label="After" />
+            {occurancesField}
           </RadioGroup>
         </FormControl>
         <Grid container>
           <Grid item>
-            <InputLabel htmlFor="action">Action</InputLabel>
+            <InputLabel className={classes.label} htmlFor="action">Action</InputLabel>
           </Grid>
           <Grid item>
             <Select

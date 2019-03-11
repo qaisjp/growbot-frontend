@@ -29,6 +29,9 @@ const styles = theme => ({
     marginRight: theme.spacing.unit,
     width: 200
   },
+  numberTextField: {
+    marginTop:-3*theme.spacing.unit
+  },
   dateTimePicker: {
     marginTop: theme.spacing.unit * 2,
     marginLeft: theme.spacing.unit * 2,
