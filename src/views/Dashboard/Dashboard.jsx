@@ -393,7 +393,7 @@ class Dashboard extends Component {
     const repetitionQuantityItems = [1, 2, 3, 4, 5, 6, 7].map(quantity => (
       <MenuItem value={quantity}>{quantity}</MenuItem>
     ));
-    const repetitionUnitItems = ["Week"].map(unit => (
+    const repetitionUnitItems = ["Week", "Day", "Month"].map(unit => (
       <MenuItem value={unit}>{unit}</MenuItem>
     ));
     const checkboxes = [
