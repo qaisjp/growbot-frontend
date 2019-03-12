@@ -20,7 +20,7 @@ import logo from "../../assets/components/Drawer/img/logo.png";
 import { closeDrawer } from "../../actions/close_drawer";
 
 function NavigationDrawer(props) {
-  const { classes, theme, open } = props;
+  const { classes, theme, open, hideDrawer,routes } = props;
   return (
     <Drawer
       className={classes.drawer}
@@ -32,7 +32,7 @@ function NavigationDrawer(props) {
       }}
     >
       <div className={classes.drawerHeader}>
-        <IconButton onClick={this.props.hideDrawer}>
+        <IconButton onClick={hideDrawer}>
           {theme.direction === "ltr" ? (
             <ChevronLeftIcon />
           ) : (
@@ -43,7 +43,7 @@ function NavigationDrawer(props) {
       <img src={logo} alt="growbot-logo" className={classes.image} />
       <Divider />
       <List>
-        {this.props.routes.map((prop, index) => {
+        {routes.map((prop, index) => {
           const isCurrPath = window.location.pathname === prop.path;
           return (
             <Link
