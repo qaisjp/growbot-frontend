@@ -37,7 +37,7 @@ class Home extends Component {
   componentDidMount = async () => {
     this.fetchRobots();
   }
-  
+
   isRobotOnline = robot => {
     return robot.seen_at !== null;
   };
@@ -55,29 +55,32 @@ class Home extends Component {
   };
 
   fetchRobots = async() => {
-    const { loginToken, reduxAddRobot } = this.props;
+    const { loginToken, reduxAddRobot, reduxRobots } = this.props;
     const fetchRobotsResult = await fetchRobots(loginToken);
 
     if (fetchRobotsResult instanceof Error) {
       //this.setState({ robots: [] });
     } else {
       const { robots } = fetchRobotsResult;
+      const reduxRobotIds = reduxRobots.map(robot => robot.id);
       robots.forEach(robot => {
-        reduxAddRobot(robot);
+        console.log(reduxRobots.indexOf(robot));
+
+        if(reduxRobotIds.indexOf(robot.id) < 0) {
+          reduxAddRobot(robot);
+        }
+
+        console.log(reduxRobots);
       });
-      //this.setState({ robots });
-      //if (robots.length > 0) {
-        //this.handleListItemClick(null, fetchRobotsResult.robots[0]);
-      //}
     }
   };
 
   createRobotList = () => {
-    const { classes, robots } = this.props;
+    const { classes, reduxRobots } = this.props;
     const { selectedRobotId } = this.state;
     return (
       <List className={classes.root}>
-        {robots.map(robot => (
+        {reduxRobots.map(robot => (
           <ListItem
             key={robot.id}
             alignItems="flex-start"
@@ -121,7 +124,7 @@ class Home extends Component {
   };
 
   render() {
-    const { classes, robots } = this.props;
+    const { classes, reduxRobots } = this.props;
     const cardHeader = this.createCardHeader();
     const robotsList = this.createRobotList();
     return (
@@ -137,7 +140,7 @@ class Home extends Component {
                 Robots
               </Typography>
               <Typography component="p">
-                {robots.length === 0
+                {reduxRobots.length === 0
                   ? "Please add some GrowBots"
                   : "Select a Growbot"}
               </Typography>
@@ -161,11 +164,11 @@ const mapStateToProps = (props) => {
   const { robots } = props.robotState;
   const { loginToken } = props.auth;
   return {
-    robots, loginToken
+    reduxRobots: robots, loginToken
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {
     reduxAddRobot: robot => dispatch(addRobot(robot)),
     reduxRemoveRobot: robot => dispatch(removeRobot(robot)),
