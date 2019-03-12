@@ -9,32 +9,38 @@ const routes = [
   {
     name: "Dashboard",
     path: "/",
-    component: Dashboard
+    component: Dashboard,
+    visible: true
   },
   {
     name: "Account Login",
     path: "/login",
-    component: Login
+    component: Login,
+    visible: false
   },
   {
     name: "Recover Password",
     path: "/recover",
-    component: ForgotPassword
+    component: ForgotPassword,
+    visible: false
   },
   {
     name: "Register",
     path: "/register",
-    component: Register
+    component: Register,
+    visible: false
   },
   {
     name: "Settings",
     path: "/settings",
-    component: Settings
+    component: Settings,
+    visible: false
   },
   {
     name: "Home",
     path: "/home",
-    component: Home
+    component: Home,
+    visible: true
   }
 ];
 

@@ -7,6 +7,7 @@ import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import CardMedia from "@material-ui/core/CardMedia";
 import EditIcon from "@material-ui/icons/Edit";
+import Grid from "@material-ui/core/Grid";
 import RemoveIcon from "@material-ui/icons/Remove";
 import IconButton from "@material-ui/core/IconButton";
 import List from "@material-ui/core/List";
@@ -18,7 +19,7 @@ import { withStyles } from "@material-ui/core";
 
 import { connect } from "react-redux";
 
-import banner from "../../assets/views/Home/img/banner.jpg";
+import banner from "../../assets/views/Dashboard/img/banner.jpg";
 import offline from "../../assets/views/Home/img/red_circle.png";
 import online from "../../assets/views/Home/img/green_circle.png";
 import styles from '../../assets/views/Home/jss/home-styles'
@@ -128,34 +129,41 @@ class Home extends Component {
     const cardHeader = this.createCardHeader();
     const robotsList = this.createRobotList();
     return (
-      <Card className={classes.card}>
-        {cardHeader}
+      <div className={classes.root}>
+        <br/>
+        <Grid container>
+          <Grid item>
+            <Card className={classes.card}>
+              {cardHeader}
 
-        <CardContent>
-          <div
-            style={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <div>
-              <Typography gutterBottom variant="h5" component="h2">
-                Robots
-              </Typography>
-              <Typography component="p">
-                {reduxRobots.length === 0
-                  ? "Please add some GrowBots"
-                  : "Select a Growbot"}
-              </Typography>
-            </div>
-            <IconButton
-              aria-label="Add-Robot"
-              onClick={() => this.handleOpenDialogue("addRobotDialogue")}
-            >
-              <AddIcon />
-            </IconButton>
-          </div>
-        </CardContent>
+              <CardContent>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
+                  <div>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Robots
+                    </Typography>
+                    <Typography component="p">
+                      {reduxRobots.length === 0
+                        ? "Please add some GrowBots"
+                        : "Select a Growbot"}
+                    </Typography>
+                  </div>
+                  <IconButton
+                    aria-label="Add-Robot"
+                    onClick={() => this.handleOpenDialogue("addRobotDialogue")}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </div>
+              </CardContent>
 
-        <CardActions>{robotsList}</CardActions>
-      </Card>
+              <CardActions>{robotsList}</CardActions>
+            </Card>
+          </Grid>
+        </Grid>
+      </div>
     );
   }
 }

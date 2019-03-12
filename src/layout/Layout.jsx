@@ -24,13 +24,13 @@ class Layout extends Component {
   }
 
   render() {
-    const { classes, loggedIn, location } = this.props;
+    const { classes } = this.props;
 
     return (
       <MuiThemeProvider theme={colors}>
         <div className={classes.appFrame}>
           <Header
-            routes={routes}
+            routes={routes.filter(route => route.visible)}
             menuFunctionRoutes={menuRoutes.filter(
               menuRoute => menuRoute.type === menuRouteTypes.function
             )}

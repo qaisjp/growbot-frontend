@@ -10,11 +10,13 @@ export default function(state = {
 
   switch(action.type) {
     case ADD_ROBOT:
-      robots.push(action.robot)
-      return state
+      return Object.assign({}, state, {
+        robots: [...robots, action.robot]
+      });
     case REMOVE_ROBOT:
-      robots.remove(action.robot);
-      return state
+      let newState = Object.assign({}, state);
+      delete newState.robots[action.robot.id];
+      return newState;
     default:
       return state
   }
