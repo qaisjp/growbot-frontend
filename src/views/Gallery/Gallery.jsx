@@ -46,9 +46,7 @@ class Gallery extends Component {
           title: photo.id,
           img: photoUrl
         };
-        for(let i = 0; i<100;i++) {
-          photosMapped.push(photosObj);
-        }
+        photosMapped.push(photosObj);
       });
 
       this.setState({ photos: photosMapped });

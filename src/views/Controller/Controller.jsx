@@ -60,7 +60,7 @@ class Controller extends Component {
     const { open, type, message } = this.state;
     const gamepad = this.createGamepad();
     return (
-      <main className={classes.main}>
+      <main>
         <Snackbar
           key="snackbar"
           anchorOrigin={{
@@ -78,7 +78,8 @@ class Controller extends Component {
           />
         </Snackbar>
         <br />
-        <Grid container>
+        <Grid container
+             justify="center" >
           <Grid item>
             <Card className={classes.card}>
               <CardContent>

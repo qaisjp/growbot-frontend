@@ -1,5 +1,5 @@
 const styles = theme => ({
-  main: {
+  main2: {
     width: "auto",
     display: "block", // Fix IE 11 issue.
     marginLeft: theme.spacing.unit * 3,
@@ -9,6 +9,11 @@ const styles = theme => ({
       marginLeft: "auto",
       marginRight: "auto"
     }
+  },
+  main: {
+    marginLeft: "auto",
+    marginRight: "auto",
+    width: "50%",
   },
   card: {
     marginLeft: theme.spacing.unit * 2,
