@@ -44,7 +44,7 @@ function NavigationDrawer(props) {
       <Divider />
       <List>
         {this.props.routes.map((prop, index) => {
-          const isCurrPath = this.isSelectedRoute(prop.path);
+          const isCurrPath = window.location.pathname === prop.path;
           return (
             <Link
               component={RouterLink}
