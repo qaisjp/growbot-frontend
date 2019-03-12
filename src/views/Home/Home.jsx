@@ -388,12 +388,13 @@ class Home extends Component {
           actions={this.createRenameRobotDialogueActions()}
         />
         <br />
-        <Grid container
-        justify="center">
+        <Grid container justify="center">
           <Grid item>
             <Card className={classes.card}>
               <CardContent>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <div>
                     <Typography gutterBottom variant="h5" component="h2">
                       Robots
