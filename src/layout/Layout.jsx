@@ -24,7 +24,15 @@ class Layout extends Component {
   }
 
   render() {
-    const { classes } = this.props;
+    const { classes, loggedIn, location } = this.props;
+
+    let redirectLogin = null;
+    let isAuthPage = location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/chgpass"
+    if (!loggedIn && !isAuthPage) {
+      redirectLogin = <Redirect to={"/login"} />;
+    } else if (loggedIn && isAuthPage) {
+      redirectLogin = <Redirect to={"/"} />;
+    }
 
     return (
       <MuiThemeProvider theme={colors}>
@@ -44,6 +52,7 @@ class Layout extends Component {
             </Typography>
           </div>
           <main className={classes.content}>
+            {redirectLogin}
             <Switch>
               {routes.map(prop => {
 
