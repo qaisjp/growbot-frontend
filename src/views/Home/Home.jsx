@@ -23,6 +23,7 @@ import Dialogue from "../../components/Dialogue/Dialogue";
 import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents";
 
 import { connect } from "react-redux";
+import QrReader from "react-qr-reader";
 
 import offline from "../../assets/views/Home/img/red_circle.png";
 import online from "../../assets/views/Home/img/green_circle.png";
@@ -42,8 +43,11 @@ class Home extends Component {
     open: false,
     type: null,
     message: null,
+    newRobotSerialKey: null,
+    newRobotTitle: null,
+    addRobotDialogue: false,
     renameRobotDialogue: false,
-    renameRobotTitle: null,
+    renameRobotTitle: "",
     removeRobotDialogue: false
   };
   handleOpenDialogue = dialogue => {
@@ -62,13 +66,16 @@ class Home extends Component {
   isRobotOnline = robot => {
     return robot.seen_at !== null;
   };
-
+  handleClose = () => {
+    this.setState({ open: false });
+  };
   fetchRobots = async() => {
     const { loginToken, reduxAddRobot, reduxRobots } = this.props;
     const fetchRobotsResult = await fetchRobots(loginToken);
 
     if (fetchRobotsResult instanceof Error) {
-      //this.setState({ robots: [] });
+      const body = await fetchRobotsResult.json();
+      this.setState({ message: body.message, open: true, type: "error" });
     } else {
       const { robots } = fetchRobotsResult;
       const reduxRobotIds = reduxRobots.map(robot => robot.id);
@@ -85,22 +92,48 @@ class Home extends Component {
     const response = await httpRemoveRobot(loginToken, selectedRobot.id);
 
     if (response.status === 200) {
-      let result = await fetchRobots(loginToken);
-
-      if (!result instanceof Error) {
-        reduxRemoveRobot(selectedRobot);
-        this.setState({
-          message: "Successfully removed robot",
-          open: true,
-          type: "success"
-        });
-      }
+      reduxRemoveRobot(selectedRobot);
+      this.setState({
+        message: "Successfully removed robot",
+        open: true,
+        type: "success"
+      });
     } else {
       const body = await response.json();
       this.setState({ message: body.message, open: true, type: "error" });
     }
     this.handleCloseDialogue('removeRobotDialogue');
 
+  };
+  onAddRobot = async () => {
+    const { loginToken, reduxAddRobot } = this.props;
+    const { newRobotSerialKey, newRobotTitle } = this.state;
+    const response = await addRobot(
+      loginToken,
+      newRobotSerialKey,
+      newRobotTitle
+    );
+
+    if (response.status === 200) {
+      const fetchRobotsResult = await fetchRobots(loginToken);
+
+      if (fetchRobotsResult instanceof Error) {
+        const body = await fetchRobotsResult.json();
+        this.setState({ message: body.message, open: true, type: "error" });
+
+      } else {
+        const {robots} = fetchRobotsResult;
+        robots.forEach(robot => {
+          if(robots.indexOf(robot) < 0) {
+            reduxAddRobot(robot);
+          }
+        });
+      }
+    } else {
+      const body = await response.json();
+      this.setState({ message: body.message, open: true, type: "error" });
+    }
+    this.handleCloseDialogue('addRobotDialogue');
   };
   onRenameRobot = async () => {
     const { loginToken, selectedRobot, reduxRenameRobot } = this.props;
@@ -111,27 +144,14 @@ class Home extends Component {
       selectedRobot.id,
       renameRobotTitle
     );
-    console.log(renameRobotTitle);
-    console.log(selectedRobot.id);
-    console.log(response.status);
 
     if (response.status === 200) {
-      const result = await fetchRobots(loginToken);
-
-      if (result instanceof Error) {
-        this.setState({
-          message: (await response.json()).message,
-          open: true,
-          type: "error"
-        });
-      } else {
-        reduxRenameRobot(selectedRobot, renameRobotTitle);
-        this.setState({
-          message: "Successfully renamed robot",
-          open: true,
-          type: "success"
-        });
-      }
+      reduxRenameRobot(selectedRobot, renameRobotTitle);
+      this.setState({
+        message: "Successfully renamed robot",
+        open: true,
+        type: "success"
+      });
     } else {
       const body = await response.json();
       this.setState({
@@ -141,6 +161,7 @@ class Home extends Component {
       });
     }
     this.handleCloseDialogue('renameRobotDialogue');
+    this.setState({renameRobotDialogue:""})
   };
   createRobotList = () => {
     const { classes, reduxRobots, selectedRobot } = this.props;
@@ -189,6 +210,46 @@ class Home extends Component {
           </ListItem>
         ))}
       </List>
+    );
+  };
+  createAddRobotDialogueContent = () => {
+    const { newRobotSerialKey, newRobotTitle, qrDelay } = this.state;
+    const addRobotSerialKeyTextField = this.createTextField(
+      "addRobot",
+      "Serial key",
+      newRobotSerialKey,
+      "newRobotSerialKey"
+    );
+    const addRobotTitleTextField = this.createTextField(
+      "addRobotTitle",
+      "Title",
+      newRobotTitle,
+      "newRobotTitle"
+    );
+
+    return (
+      <React.Fragment>
+        <QrReader
+          delay={qrDelay}
+          onError={Home.qrHandleError}
+          onScan={this.qrHandleScan.bind(this)}
+          style={{ width: "100%" }}
+        />
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {addRobotSerialKeyTextField}
+          {addRobotTitleTextField}
+        </div>
+      </React.Fragment>
+    );
+  };
+  createAddRobotDialogueActions = () => {
+    return (
+      <React.Fragment>
+        <Button onClick={() => this.handleCloseDialogue("addRobotDialogue")}>
+          Close
+        </Button>
+        <Button onClick={this.onAddRobot}>Add</Button>
+      </React.Fragment>
     );
   };
   createRemoveRobotDialogueActions = () => {
@@ -244,9 +305,20 @@ class Home extends Component {
       />
     );
   };
+  qrHandleScan(data) {
+    const prefix = "growbot:";
+    if (data && data.startsWith(prefix)) {
+      this.setState({
+        newRobotSerialKey: data.slice(prefix.length)
+      });
+    }
+  }
+  static qrHandleError(err) {
+    alert(err);
+  }
   render() {
     const { classes, reduxRobots } = this.props;
-    const { removeRobotDialogue, renameRobotDialogue, open, type, message } = this.state;
+    const { addRobotDialogue, removeRobotDialogue, renameRobotDialogue, open, type, message } = this.state;
     const robotsList = this.createRobotList();
     return (
       <div className={classes.root}>
@@ -266,6 +338,14 @@ class Home extends Component {
             message={message}
           />
         </Snackbar>
+        <Dialogue
+          open={addRobotDialogue}
+          close={() => this.handleCloseDialogue("addRobotDialogue")}
+          title="Add Robot"
+          contentText="Please scan the robot serial and name your robot."
+          content={this.createAddRobotDialogueContent()}
+          actions={this.createAddRobotDialogueActions()}
+        />
         <Dialogue
           key="removeRobotDialogue"
           open={removeRobotDialogue}
