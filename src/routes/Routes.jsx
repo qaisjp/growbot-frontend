@@ -1,3 +1,4 @@
+import Controller from "../views/Controller/Controller";
 import Dashboard from "../views/Dashboard/Dashboard";
 import Home from "../views/Home/Home";
 import Login from "../views/Login/Login";
@@ -6,6 +7,12 @@ import Register from "../views/Register/Register";
 import Settings from "../views/Settings/Settings";
 
 const routes = [
+  {
+    name: "Movement & Controller",
+    path: "/controller",
+    component: Controller,
+    visible: true
+  },
   {
     name: "Dashboard",
     path: "/",

@@ -41,8 +41,8 @@ import httpRemoveRobot from "../../http/remove_robot";
 class Home extends Component {
   state = {
     open: false,
-    type: null,
-    message: null,
+    type: "",
+    message: "",
     newRobotSerialKey: "",
     newRobotTitle: "",
     addRobotDialogue: false,
