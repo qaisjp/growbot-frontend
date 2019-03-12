@@ -74,8 +74,7 @@ class Home extends Component {
     const fetchRobotsResult = await fetchRobots(loginToken);
 
     if (fetchRobotsResult instanceof Error) {
-      const body = await fetchRobotsResult.json();
-      this.setState({ message: body.message, open: true, type: "error" });
+      this.setState({ message: fetchRobotsResult, open: true, type: "error" });
     } else {
       const { robots } = fetchRobotsResult;
       const reduxRobotIds = reduxRobots.map(robot => robot.id);
@@ -117,8 +116,7 @@ class Home extends Component {
       const fetchRobotsResult = await fetchRobots(loginToken);
 
       if (fetchRobotsResult instanceof Error) {
-        const body = await fetchRobotsResult.json();
-        this.setState({ message: body.message, open: true, type: "error" });
+        this.setState({ message: fetchRobotsResult, open: true, type: "error" });
       } else {
         const { robots } = fetchRobotsResult;
         robots.forEach(robot => {
