@@ -35,6 +35,8 @@ import renameRobot from "../../actions/rename_robot";
 import selectRobot from "../../actions/select_robot";
 import fetchRobots from "../../http/fetch_robots";
 import fetchPlants from "../../http/fetch_plants";
+import renamePlant from "../../http/rename_plant";
+import removePlant from "../../http/remove_plant";
 import httpAddRobot from "../../http/add_robot";
 import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
@@ -49,7 +51,11 @@ class Home extends Component {
     addRobotDialogue: false,
     renameRobotDialogue: false,
     renameRobotTitle: "",
+    renamePlantName: "",
     removeRobotDialogue: false,
+    renamePlantDialogue: false,
+    removePlantDialogue: false,
+    selectedPlant: {},
     plants: []
   };
   handleOpenDialogue = dialogue => {
@@ -117,6 +123,69 @@ class Home extends Component {
       this.setState({ message: body.message, open: true, type: "error" });
     }
     this.handleCloseDialogue("removeRobotDialogue");
+  };
+  onRenamePlant = async () => {
+    const { loginToken } = this.props;
+    const { selectedPlant, renamePlantName } = this.state;
+
+    const response = await renamePlant(
+      loginToken,
+      selectedPlant.id,
+      renamePlantName
+    );
+
+    console.log(response);
+
+    if (response.status === 200) {
+      const result = await fetchPlants(loginToken);
+
+      if (result instanceof Error) {
+        this.setState({ robots: [] });
+      } else {
+        this.setState({
+          plants: result.plants,
+          message: (await response.json()).message,
+          open: true,
+          type: "success"
+        });
+      }
+    } else {
+      this.setState({
+        message: (await response.json()).message,
+        open: true,
+        type: "error"
+      });
+    }
+  };
+  onRemovePlant = async () => {
+    const { loginToken } = this.props;
+    const { selectedPlant } = this.state;
+    
+    const response = await removePlant(
+      loginToken,
+      selectedPlant.id,
+    );
+
+    if (response.status === 200) {
+      const result = await fetchPlants(loginToken);
+
+      if (result instanceof Error) {
+        this.setState({ robots: [] });
+      } else {
+        this.setState({
+          plants: result.plants,
+          message: (await response.json()).message,
+          open: true,
+          type: "success"
+        });
+      }
+    } else {
+      this.setState({
+        message: (await response.json()).message,
+        open: true,
+        type: "error"
+      });
+    }
   };
   onAddRobot = async () => {
     const { loginToken, reduxAddRobot } = this.props;
@@ -227,16 +296,16 @@ class Home extends Component {
     return (
       <List className={classes.root}>
         {
-          plants.map(plant => (
+          plants.map((plant, idx) => (
             <ListItem key={plant.id} alignItems="flex-start">
               <ListItemText primary={plant.name} />
               <IconButton
-                onClick={() => this.handleOpenDialogue("removePlantDialogue")}
+                onClick={() => this.setState({selectedPlant: plants[idx], removePlantDialogue: true})}
               >
                 <RemoveIcon />
               </IconButton>
               <IconButton
-                onClick={() => this.handleOpenDialogue("renamePlantDialogue")}
+                onClick={() => this.setState({selectedPlant: plants[idx], renamePlantDialogue: true})}
               >
                 <EditIcon />
               </IconButton>
@@ -246,6 +315,42 @@ class Home extends Component {
         }
       </List>
     );
+  };
+  createRenamePlantDialogueContent = () => {
+    const { renamePlantName } = this.state;
+
+    const renameRobot = this.createTextField(
+      "renamePlantName",
+      "New Name",
+      renamePlantName,
+      "renamePlantName"
+    );
+
+    return <React.Fragment>{renameRobot}</React.Fragment>;
+
+  };
+  createRenamePlantDialogueActions = () => {
+    return (
+      <React.Fragment>
+        <Button onClick={() => this.handleCloseDialogue("renamePlantDialogue")}>
+          Close
+        </Button>
+        <Button onClick={this.onRenamePlant}>Rename</Button>
+      </React.Fragment>
+    );
+  };
+  createRemovePlantDialogueActions = () => {
+    return (
+      <React.Fragment>
+      <Button onClick={() => this.handleCloseDialogue("removePlantDialogue")}>
+        Close
+      </Button>
+      <Button onClick={this.onRemovePlant}>Remove</Button>
+    </React.Fragment>
+    );
+  };
+  createRemovePlantDialogueContent = () => {
+    return <React.Fragment />
   };
   createAddRobotDialogueContent = () => {
     const { newRobotSerialKey, newRobotTitle, qrDelay } = this.state;
@@ -360,6 +465,8 @@ class Home extends Component {
       addRobotDialogue,
       removeRobotDialogue,
       renameRobotDialogue,
+      renamePlantDialogue,
+      removePlantDialogue,
       open,
       type,
       message
@@ -409,6 +516,24 @@ class Home extends Component {
           contentText="Rename your robot."
           content={this.createRenameRobotDialogueContent()}
           actions={this.createRenameRobotDialogueActions()}
+        />
+        <Dialogue
+          key="renamePlantDialogue"
+          open={renamePlantDialogue}
+          close={() => this.handleCloseDialogue("renamePlantDialogue")}
+          title="Rename Plant"
+          contentText="Rename your plant."
+          content={this.createRenamePlantDialogueContent()}
+          actions={this.createRenamePlantDialogueActions()}
+        />
+        <Dialogue
+          key="removePlantDialogue"
+          open={removePlantDialogue}
+          close={() => this.handleCloseDialogue("removePlantDialogue")}
+          title="Remove Plant"
+          contentText="Please confirm that you want to remove this plant."
+          content={this.createRemovePlantDialogueContent()}
+          actions={this.createRemovePlantDialogueActions()}
         />
         <br />
         <Grid container justify="center">

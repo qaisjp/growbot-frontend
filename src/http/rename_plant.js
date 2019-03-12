@@ -1,12 +1,11 @@
 import endpoints from "../endpoints";
 
-export default async function(token, id, title) {
+export default async function(token, id, name) {
   const renameRobotRequest = {
-    key: "title",
-    value: title
+    name
   };
 
-  return await fetch(endpoints.robot_settings(id), {
+  return await fetch(endpoints.plants + '/' + id, {
     method: "PATCH",
     headers: {
       Authorization: "Bearer " + token
