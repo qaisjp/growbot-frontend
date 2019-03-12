@@ -92,7 +92,7 @@ class Header extends Component {
                   {
 
                     menuFunctionRoutes.map(menuFunctionRoute => {
-                      return <MenuItem onClick={()=>menuFunctionRoute.func(this)}>{menuFunctionRoute.name}</MenuItem>
+                      return <MenuItem key={menuFunctionRoute.name} onClick={()=>menuFunctionRoute.func(this)}>{menuFunctionRoute.name}</MenuItem>
                     })
 
                   }
