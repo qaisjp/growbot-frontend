@@ -73,13 +73,9 @@ class Home extends Component {
       const { robots } = fetchRobotsResult;
       const reduxRobotIds = reduxRobots.map(robot => robot.id);
       robots.forEach(robot => {
-        console.log(reduxRobots.indexOf(robot));
-
         if(reduxRobotIds.indexOf(robot.id) < 0) {
           reduxAddRobot(robot);
         }
-
-        console.log(reduxRobots);
       });
     }
   };
@@ -255,6 +251,7 @@ class Home extends Component {
     return (
       <div className={classes.root}>
         <Snackbar
+          key="snackbar"
           anchorOrigin={{
             vertical: "bottom",
             horizontal: "left"
@@ -270,6 +267,7 @@ class Home extends Component {
           />
         </Snackbar>
         <Dialogue
+          key="removeRobotDialogue"
           open={removeRobotDialogue}
           close={() => this.handleCloseDialogue("removeRobotDialogue")}
           title="Remove Robot"
@@ -278,6 +276,7 @@ class Home extends Component {
           actions={this.createRemoveRobotDialogueActions()}
         />
         <Dialogue
+          key="renameRobotDialogue"
           open={renameRobotDialogue}
           close={() => this.handleCloseDialogue("renameRobotDialogue")}
           title="Rename Robot"

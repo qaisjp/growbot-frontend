@@ -8,6 +8,9 @@ export default function(state = {
 }, action) {
 
   const {robots} = state;
+  let robot = null;
+  let idx = -1;
+  let robotArray = null;
 
   switch(action.type) {
     case ADD_ROBOT:
@@ -15,25 +18,22 @@ export default function(state = {
         robots: [...robots, action.robot]
       });
     case REMOVE_ROBOT:
-      let newState = Object.assign({}, state);
-      delete newState.robots[action.robot.id];
-      return newState;
+      robot = action.robot;
+      idx = robots.map(x => x.id).indexOf(robot.id);
+      robotArray = robots.slice();
+      delete robotArray[idx];
+      return Object.assign({}, state, {
+        robots: robotArray
+      });
     case SELECT_ROBOT:
       return Object.assign({}, state, {
         selectedRobot: action.robot
       });
     case RENAME_ROBOT:
-      let i = -1;
-      for(i = 0; i < robots.length; i++) {
-        const robot = robots[i];
-        if(robot.id === action.robot.id) {
-          break;
-        }
-      }
-      console.log(i);
-      let robotArray = robots.slice();
-      console.log(robotArray[i]);
-      robotArray[i].title = action.name;
+      robot = action.robot;
+      idx = robots.map(x => x.id).indexOf(robot.id);
+      robotArray = robots.slice();
+      robotArray[idx].title = action.name;
       return Object.assign({}, state, {
         robots: robotArray
       });
