@@ -7,6 +7,7 @@ import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
 import EditIcon from "@material-ui/icons/Edit";
+import Grid from "@material-ui/core/Grid";
 import RemoveIcon from "@material-ui/icons/Remove";
 import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
@@ -207,6 +208,22 @@ class Home extends Component {
       </List>
     );
   };
+  createPlantList = () => {
+    const { classes } = this.props;
+    return (
+      <List className={classes.root}>
+        <ListItem key="a" alignItems="flex-start" button selected={true}>
+          <ListItemText primary="Sunflower" secondary="Sunflower" />
+        </ListItem>
+        <ListItem key="b" alignItems="flex-start" button selected={false}>
+          <ListItemText primary="Rose" secondary="Rose" />
+        </ListItem>
+        <ListItem key="c" alignItems="flex-start" button selected={false}>
+          <ListItemText primary="Lily" secondary="Lily" />
+        </ListItem>
+      </List>
+    );
+  };
   createAddRobotDialogueContent = () => {
     const { newRobotSerialKey, newRobotTitle, qrDelay } = this.state;
     const addRobotSerialKeyTextField = this.createTextField(
@@ -325,8 +342,9 @@ class Home extends Component {
       message
     } = this.state;
     const robotsList = this.createRobotList();
+    const plantsList = this.createPlantList();
     return (
-      <main className={classes.main}>
+      <main>
         <Snackbar
           key="snackbar"
           anchorOrigin={{
@@ -370,30 +388,49 @@ class Home extends Component {
           actions={this.createRenameRobotDialogueActions()}
         />
         <br />
-        <Card className={classes.card}>
-          <CardContent>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Robots
-                </Typography>
-                <Typography component="p">
-                  {reduxRobots.length === 0
-                    ? "Please add some GrowBots"
-                    : "Select a Growbot"}
-                </Typography>
-              </div>
-              <IconButton
-                aria-label="Add-Robot"
-                onClick={() => this.handleOpenDialogue("addRobotDialogue")}
-              >
-                <AddIcon />
-              </IconButton>
-            </div>
-          </CardContent>
+        <Grid container
+        justify="center">
+          <Grid item>
+            <Card className={classes.card}>
+              <CardContent>
+                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                  <div>
+                    <Typography gutterBottom variant="h5" component="h2">
+                      Robots
+                    </Typography>
+                    <Typography component="p">
+                      {reduxRobots.length === 0
+                        ? "Please add some GrowBots"
+                        : "Select a Growbot"}
+                    </Typography>
+                  </div>
+                  <IconButton
+                    aria-label="Add-Robot"
+                    onClick={() => this.handleOpenDialogue("addRobotDialogue")}
+                  >
+                    <AddIcon />
+                  </IconButton>
+                </div>
+              </CardContent>
 
-          <CardActions>{robotsList}</CardActions>
-        </Card>
+              <CardActions>{robotsList}</CardActions>
+            </Card>
+          </Grid>
+          <Grid item>
+            <Card className={classes.card}>
+              <CardContent>
+                <div>
+                  <Typography gutterBottom variant="h5" component="h2">
+                    Plants
+                  </Typography>
+                  <Typography component="p">Your plants</Typography>
+                </div>
+
+                {plantsList}
+              </CardContent>
+            </Card>
+          </Grid>
+        </Grid>
       </main>
     );
   }
