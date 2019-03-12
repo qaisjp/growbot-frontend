@@ -1,3 +1,9 @@
+import React from "react";
+
+import HomeIcon from "@material-ui/icons/Home";
+import GalleryIcon from "@material-ui/icons/Photo";
+import ControllerIcon from "@material-ui/icons/ControlPoint";
+
 import Controller from "../views/Controller/Controller";
 import Dashboard from "../views/Dashboard/Dashboard";
 import Home from "../views/Home/Home";
@@ -12,18 +18,21 @@ const routes = [
     name: "Home",
     path: "/home",
     component: Home,
+    icon: <HomeIcon color="action"/>,
     visible: true
   },
   {
     name: "Gallery",
     path: "/gallery",
     component: Gallery,
+    icon: <GalleryIcon/>,
     visible: true
   },
   {
     name: "Stream & Controller",
     path: "/controller",
     component: Controller,
+    icon: <ControllerIcon/>,
     visible: true
   },
   {

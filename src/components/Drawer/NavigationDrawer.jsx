@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { Link as RouterLink } from "react-router-dom";
 import { bindActionCreators } from "redux";
@@ -12,6 +12,7 @@ import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
@@ -60,6 +61,10 @@ function NavigationDrawer(props) {
                   [classes.selected]: isCurrPath
                 })}
               >
+                <ListItemIcon>
+                  {prop.visible && prop.icon}
+                </ListItemIcon>
+
                 <ListItemText
                   disableTypography
                   primary={
