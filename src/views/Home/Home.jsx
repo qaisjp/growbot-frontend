@@ -134,8 +134,6 @@ class Home extends Component {
       renamePlantName
     );
 
-    console.log(response);
-
     if (response.status === 200) {
       const result = await fetchPlants(loginToken);
 
@@ -156,11 +154,12 @@ class Home extends Component {
         type: "error"
       });
     }
+    this.handleCloseDialogue("renamePlantDialogue");
   };
   onRemovePlant = async () => {
     const { loginToken } = this.props;
     const { selectedPlant } = this.state;
-    
+
     const response = await removePlant(
       loginToken,
       selectedPlant.id,
@@ -186,6 +185,8 @@ class Home extends Component {
         type: "error"
       });
     }
+    this.handleCloseDialogue("removePlantDialogue");
+
   };
   onAddRobot = async () => {
     const { loginToken, reduxAddRobot } = this.props;
