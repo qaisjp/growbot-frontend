@@ -5,7 +5,7 @@ export default async function(token, id, name) {
     name
   };
 
-  return await fetch(endpoints.plants + '/' + id, {
+  return await fetch(endpoints.plants + "/" + id, {
     method: "PATCH",
     headers: {
       Authorization: "Bearer " + token
