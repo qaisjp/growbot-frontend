@@ -9,7 +9,7 @@ import Gallery from "../views/Gallery/Gallery";
 
 const routes = [
   {
-    name: "Movement & Controller",
+    name: "Stream & Controller",
     path: "/controller",
     component: Controller,
     visible: true

@@ -78,8 +78,7 @@ class Controller extends Component {
           />
         </Snackbar>
         <br />
-        <Grid container
-             justify="center" >
+        <Grid container justify="center">
           <Grid item>
             <Card className={classes.card}>
               <CardContent>

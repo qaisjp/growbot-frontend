@@ -370,32 +370,30 @@ class Home extends Component {
           actions={this.createRenameRobotDialogueActions()}
         />
         <br />
-            <Card className={classes.card}>
-              <CardContent>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <div>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Robots
-                    </Typography>
-                    <Typography component="p">
-                      {reduxRobots.length === 0
-                        ? "Please add some GrowBots"
-                        : "Select a Growbot"}
-                    </Typography>
-                  </div>
-                  <IconButton
-                    aria-label="Add-Robot"
-                    onClick={() => this.handleOpenDialogue("addRobotDialogue")}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </div>
-              </CardContent>
+        <Card className={classes.card}>
+          <CardContent>
+            <div style={{ display: "flex", justifyContent: "space-between" }}>
+              <div>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Robots
+                </Typography>
+                <Typography component="p">
+                  {reduxRobots.length === 0
+                    ? "Please add some GrowBots"
+                    : "Select a Growbot"}
+                </Typography>
+              </div>
+              <IconButton
+                aria-label="Add-Robot"
+                onClick={() => this.handleOpenDialogue("addRobotDialogue")}
+              >
+                <AddIcon />
+              </IconButton>
+            </div>
+          </CardContent>
 
-              <CardActions>{robotsList}</CardActions>
-            </Card>
+          <CardActions>{robotsList}</CardActions>
+        </Card>
       </main>
     );
   }
