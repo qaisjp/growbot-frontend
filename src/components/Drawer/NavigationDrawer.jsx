@@ -21,7 +21,7 @@ import logo from "../../assets/components/Drawer/img/logo.png";
 import { closeDrawer } from "../../actions/close_drawer";
 
 function NavigationDrawer(props) {
-  const { classes, theme, open, hideDrawer,routes } = props;
+  const { classes, theme, open, hideDrawer, routes } = props;
   return (
     <Drawer
       className={classes.drawer}
@@ -61,9 +61,7 @@ function NavigationDrawer(props) {
                   [classes.selected]: isCurrPath
                 })}
               >
-                <ListItemIcon>
-                  {prop.visible && prop.icon}
-                </ListItemIcon>
+                <ListItemIcon>{prop.visible && prop.icon}</ListItemIcon>
 
                 <ListItemText
                   disableTypography
