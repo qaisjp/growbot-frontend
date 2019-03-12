@@ -5,6 +5,7 @@ import Login from "../views/Login/Login";
 import ForgotPassword from "../views/ForgotPassword/ForgotPassword";
 import Register from "../views/Register/Register";
 import Settings from "../views/Settings/Settings";
+import Gallery from "../views/Gallery/Gallery";
 
 const routes = [
   {
@@ -47,6 +48,12 @@ const routes = [
     name: "Home",
     path: "/home",
     component: Home,
+    visible: true
+  },
+  {
+    name: "Gallery",
+    path: "/gallery",
+    component: Gallery,
     visible: true
   }
 ];

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -22,7 +22,7 @@ class Controller extends Component {
   state = {
     open: false,
     type: "",
-    message: "",
+    message: ""
   };
   onMove = async direction => {
     const { loginToken, selectedRobot } = this.props;
@@ -56,8 +56,8 @@ class Controller extends Component {
     this.setState({ open: false });
   };
   render() {
-    const {classes, selectedRobot, loginToken} = this.props;
-    const {open,type,message} = this.state;
+    const { classes, selectedRobot, loginToken } = this.props;
+    const { open, type, message } = this.state;
     const gamepad = this.createGamepad();
     return (
       <div className={classes.root}>
@@ -81,9 +81,10 @@ class Controller extends Component {
         <Grid container>
           <Grid item>
             <Card className={classes.card}>
-
               <CardContent>
-                <div style={{ display: "flex", justifyContent: "space-between" }}>
+                <div
+                  style={{ display: "flex", justifyContent: "space-between" }}
+                >
                   <div>
                     <Typography gutterBottom variant="h5" component="h2">
                       {selectedRobot.title}
@@ -97,7 +98,6 @@ class Controller extends Component {
           </Grid>
           <Grid item>
             <Card className={classes.card}>
-
               <CardContent>
                 <div>
                   <Typography gutterBottom variant="h5" component="h2">
@@ -118,7 +118,8 @@ class Controller extends Component {
             </Card>
           </Grid>
         </Grid>
-      </div>);
+      </div>
+    );
   }
 }
 
@@ -132,9 +133,10 @@ const mapStateToProps = props => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-  }
+  return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Controller));
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Controller));
