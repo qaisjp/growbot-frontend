@@ -9,6 +9,18 @@ import Gallery from "../views/Gallery/Gallery";
 
 const routes = [
   {
+    name: "Home",
+    path: "/home",
+    component: Home,
+    visible: true
+  },
+  {
+    name: "Gallery",
+    path: "/gallery",
+    component: Gallery,
+    visible: true
+  },
+  {
     name: "Stream & Controller",
     path: "/controller",
     component: Controller,
@@ -18,7 +30,7 @@ const routes = [
     name: "Dashboard",
     path: "/",
     component: Dashboard,
-    visible: true
+    visible: false
   },
   {
     name: "Account Login",
@@ -43,18 +55,6 @@ const routes = [
     path: "/settings",
     component: Settings,
     visible: false
-  },
-  {
-    name: "Home",
-    path: "/home",
-    component: Home,
-    visible: true
-  },
-  {
-    name: "Gallery",
-    path: "/gallery",
-    component: Gallery,
-    visible: true
   }
 ];
 

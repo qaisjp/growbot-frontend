@@ -19,62 +19,66 @@ import styles from "../../assets/components/Drawer/jss/navigation-drawer-style";
 import logo from "../../assets/components/Drawer/img/logo.png";
 import { closeDrawer } from "../../actions/close_drawer";
 
-class NavigationDrawer extends Component {
-  isSelectedRoute = path => {
-    return window.location.pathname === path;
-  };
-
-  render() {
-    let { classes, theme } = this.props;
-    let { open } = this.props;
-    return (
-      <Drawer
-        className={classes.drawer}
-        variant="persistent"
-        anchor="left"
-        open={open}
-        classes={{
-          paper: classes.drawerPaper
-        }}
-      >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={this.props.hideDrawer}>
-            {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </div>
-        <img src={logo} alt="growbot-logo" className={classes.image} />
-        <Divider />
-        <List>
-          {this.props.routes.map((prop, index) => {
-            const isCurrPath = this.isSelectedRoute(prop.path);
-            return (
-              <Link
-                component={RouterLink}
-                className={classes.link}
-                to={prop.path}
+function NavigationDrawer(props) {
+  const { classes, theme, open } = props;
+  return (
+    <Drawer
+      className={classes.drawer}
+      variant="persistent"
+      anchor="left"
+      open={open}
+      classes={{
+        paper: classes.drawerPaper
+      }}
+    >
+      <div className={classes.drawerHeader}>
+        <IconButton onClick={this.props.hideDrawer}>
+          {theme.direction === "ltr" ? (
+            <ChevronLeftIcon />
+          ) : (
+            <ChevronRightIcon />
+          )}
+        </IconButton>
+      </div>
+      <img src={logo} alt="growbot-logo" className={classes.image} />
+      <Divider />
+      <List>
+        {this.props.routes.map((prop, index) => {
+          const isCurrPath = this.isSelectedRoute(prop.path);
+          return (
+            <Link
+              component={RouterLink}
+              className={classes.link}
+              to={prop.path}
+              key={prop.name}
+            >
+              <ListItem
+                button
                 key={prop.name}
+                className={classNames({
+                  [classes.listItem]: true,
+                  [classes.selected]: isCurrPath
+                })}
               >
-                <ListItem
-                  button
-                  key={prop.name}
-                  className={classNames({
-                    [classes.listItem]: true,
-                    [classes.selected]: isCurrPath
-                  })}
-                >
-                  <ListItemText disableTypography primary={<Typography className={classes.listItemText} variant="body1" gutterBottom>{prop.name}</Typography>} />
-                </ListItem>
-              </Link>
-            );
-          })}
-        </List>
-      </Drawer>
-    );
-  }
+                <ListItemText
+                  disableTypography
+                  primary={
+                    <Typography
+                      className={classes.listItemText}
+                      variant="body1"
+                      gutterBottom
+                    >
+                      {prop.name}
+                    </Typography>
+                  }
+                />
+              </ListItem>
+            </Link>
+          );
+        })}
+      </List>
+    </Drawer>
+  );
 }
 
 const mapStateToProps = state => {
