@@ -1,6 +1,6 @@
-let drawerWidth = 240;
+const drawerWidth = 240;
 
-let styles = _ => ({
+const styles = theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0
@@ -12,7 +12,11 @@ let styles = _ => ({
     padding: "5px"
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
+    background: theme.palette.primary.main
+  },
+  listItemText: {
+    color: "white"
   }
 });
 

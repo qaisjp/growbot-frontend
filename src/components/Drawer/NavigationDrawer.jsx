@@ -13,6 +13,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
+import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import styles from "../../assets/components/Drawer/jss/navigation-drawer-style";
 import logo from "../../assets/components/Drawer/img/logo.png";
@@ -65,10 +66,7 @@ class NavigationDrawer extends Component {
                     [classes.selected]: isCurrPath
                   })}
                 >
-                  <ListItemText
-                    primary={prop.name}
-                  >
-                  </ListItemText>
+                  <ListItemText disableTypography primary={<Typography className={classes.listItemText} variant="body1" gutterBottom>{prop.name}</Typography>} />
                 </ListItem>
               </Link>
             );
@@ -83,11 +81,11 @@ const mapStateToProps = state => {
   return {
     open: state.drawer
   };
-}
+};
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators({ hideDrawer: closeDrawer }, dispatch);
-}
+};
 
 Drawer.propTypes = {
   classes: PropTypes.object.isRequired,

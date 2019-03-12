@@ -140,21 +140,21 @@ class Header extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     open: state.drawer,
     isLoginPending: state.auth.isLoginPending,
     loggedIn: state.auth.isLoginSuccess,
     loginError: state.auth.loginError
   };
-}
+};
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return {
-    showDrawer: _ => dispatch(openDrawer()),
-    logout: email => dispatch(logout())
+    showDrawer: () => dispatch(openDrawer()),
+    logout: () => dispatch(logout())
   };
-}
+};
 
 Header.propTypes = {
   classes: PropTypes.object.isRequired,
