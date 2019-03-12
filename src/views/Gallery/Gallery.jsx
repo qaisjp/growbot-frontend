@@ -19,7 +19,7 @@ import endpoints from "../../endpoints";
 
 class Gallery extends Component {
   state = {
-    photoDialogue:false,
+    photoDialogue: false,
     photos: [],
     tile: {
       img: vegetables,
@@ -46,8 +46,9 @@ class Gallery extends Component {
           title: photo.id,
           img: photoUrl
         };
-
-        photosMapped.push(photosObj);
+        for(let i = 0; i<100;i++) {
+          photosMapped.push(photosObj);
+        }
       });
 
       this.setState({ photos: photosMapped });
@@ -60,23 +61,23 @@ class Gallery extends Component {
   handleCloseDialogue = dialogue => {
     this.setState({ [dialogue]: false });
   };
-  componentDidMount = async() => {
+  componentDidMount = async () => {
     this.fetchPhotos();
   };
   render() {
-    const {photos, photoDialogue, tile} = this.state;
-    const {classes} = this.props;
+    const { photos, photoDialogue, tile } = this.state;
+    const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <br/>
+        <br />
         <FullScreenDialogue
           open={photoDialogue}
           close={() => this.handleCloseDialogue("photoDialogue")}
           title={tile.title}
           content={this.createPhotoDialogueContent()}
         />
-        <Grid container>
-          <Grid item>
+        <Grid container spacing={24}>
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
             <Card className={classes.card}>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
@@ -97,14 +98,17 @@ class Gallery extends Component {
 }
 
 const mapStateToProps = props => {
-  const {auth} = props;
+  const { auth } = props;
   return {
     loginToken: auth.loginToken
-  }
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {}
+  return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Gallery));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Gallery));
