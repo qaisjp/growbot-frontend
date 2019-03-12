@@ -1,5 +1,5 @@
 export function openDrawer() {
   return {
-    type: 'APPBAR_OPEN'
-  }
+    type: "APPBAR_OPEN"
+  };
 }

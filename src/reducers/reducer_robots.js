@@ -1,18 +1,25 @@
-import { ADD_ROBOT, REMOVE_ROBOT, SELECT_ROBOT, RENAME_ROBOT } from "../robot-constants";
+import {
+  ADD_ROBOT,
+  REMOVE_ROBOT,
+  SELECT_ROBOT,
+  RENAME_ROBOT
+} from "../robot-constants";
 
-export default function(state = {
-  robots: [],
-  selectedRobot: {
-    id: -1
-  }
-}, action) {
-
-  const {robots} = state;
+export default function(
+  state = {
+    robots: [],
+    selectedRobot: {
+      id: -1
+    }
+  },
+  action
+) {
+  const { robots } = state;
   let robot = null;
   let idx = -1;
   let robotArray = null;
 
-  switch(action.type) {
+  switch (action.type) {
     case ADD_ROBOT:
       return Object.assign({}, state, {
         robots: [...robots, action.robot]
@@ -38,6 +45,6 @@ export default function(state = {
         robots: robotArray
       });
     default:
-      return state
+      return state;
   }
 }

@@ -27,7 +27,10 @@ class Layout extends Component {
     const { classes, loggedIn, location } = this.props;
 
     let redirectLogin = null;
-    let isAuthPage = location.pathname === "/login" || location.pathname === "/register" || location.pathname === "/chgpass"
+    let isAuthPage =
+      location.pathname === "/login" ||
+      location.pathname === "/register" ||
+      location.pathname === "/chgpass";
     if (!loggedIn && !isAuthPage) {
       redirectLogin = <Redirect to={"/login"} />;
     } else if (loggedIn && isAuthPage) {
@@ -55,7 +58,6 @@ class Layout extends Component {
             {redirectLogin}
             <Switch>
               {routes.map(prop => {
-
                 return (
                   <Route
                     key={prop.name}

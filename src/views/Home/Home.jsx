@@ -27,24 +27,24 @@ import QrReader from "react-qr-reader";
 
 import offline from "../../assets/views/Home/img/red_circle.png";
 import online from "../../assets/views/Home/img/green_circle.png";
-import styles from '../../assets/views/Home/jss/home-styles'
+import styles from "../../assets/views/Home/jss/home-styles";
 
-import addRobot from '../../actions/add_robot';
-import removeRobot from '../../actions/remove_robot';
-import renameRobot from '../../actions/rename_robot';
-import selectRobot from '../../actions/select_robot';
+import addRobot from "../../actions/add_robot";
+import removeRobot from "../../actions/remove_robot";
+import renameRobot from "../../actions/rename_robot";
+import selectRobot from "../../actions/select_robot";
 import fetchRobots from "../../http/fetch_robots";
+import httpAddRobot from "../../http/add_robot";
 import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
 
 class Home extends Component {
-
   state = {
     open: false,
     type: null,
     message: null,
-    newRobotSerialKey: null,
-    newRobotTitle: null,
+    newRobotSerialKey: "",
+    newRobotTitle: "",
     addRobotDialogue: false,
     renameRobotDialogue: false,
     renameRobotTitle: "",
@@ -58,7 +58,7 @@ class Home extends Component {
   };
   componentDidMount = async () => {
     this.fetchRobots();
-  }
+  };
   handleListItemClick = (event, robot) => {
     const { reduxSelectRobot } = this.props;
     reduxSelectRobot(robot);
@@ -69,7 +69,7 @@ class Home extends Component {
   handleClose = () => {
     this.setState({ open: false });
   };
-  fetchRobots = async() => {
+  fetchRobots = async () => {
     const { loginToken, reduxAddRobot, reduxRobots } = this.props;
     const fetchRobotsResult = await fetchRobots(loginToken);
 
@@ -80,7 +80,7 @@ class Home extends Component {
       const { robots } = fetchRobotsResult;
       const reduxRobotIds = reduxRobots.map(robot => robot.id);
       robots.forEach(robot => {
-        if(reduxRobotIds.indexOf(robot.id) < 0) {
+        if (reduxRobotIds.indexOf(robot.id) < 0) {
           reduxAddRobot(robot);
         }
       });
@@ -102,13 +102,12 @@ class Home extends Component {
       const body = await response.json();
       this.setState({ message: body.message, open: true, type: "error" });
     }
-    this.handleCloseDialogue('removeRobotDialogue');
-
+    this.handleCloseDialogue("removeRobotDialogue");
   };
   onAddRobot = async () => {
     const { loginToken, reduxAddRobot } = this.props;
     const { newRobotSerialKey, newRobotTitle } = this.state;
-    const response = await addRobot(
+    const response = await httpAddRobot(
       loginToken,
       newRobotSerialKey,
       newRobotTitle
@@ -120,11 +119,10 @@ class Home extends Component {
       if (fetchRobotsResult instanceof Error) {
         const body = await fetchRobotsResult.json();
         this.setState({ message: body.message, open: true, type: "error" });
-
       } else {
-        const {robots} = fetchRobotsResult;
+        const { robots } = fetchRobotsResult;
         robots.forEach(robot => {
-          if(robots.indexOf(robot) < 0) {
+          if (robots.indexOf(robot) < 0) {
             reduxAddRobot(robot);
           }
         });
@@ -133,7 +131,7 @@ class Home extends Component {
       const body = await response.json();
       this.setState({ message: body.message, open: true, type: "error" });
     }
-    this.handleCloseDialogue('addRobotDialogue');
+    this.handleCloseDialogue("addRobotDialogue");
   };
   onRenameRobot = async () => {
     const { loginToken, selectedRobot, reduxRenameRobot } = this.props;
@@ -160,7 +158,7 @@ class Home extends Component {
         type: "error"
       });
     }
-    this.handleCloseDialogue('renameRobotDialogue');
+    this.handleCloseDialogue("renameRobotDialogue");
   };
   createRobotList = () => {
     const { classes, reduxRobots, selectedRobot } = this.props;
@@ -186,7 +184,7 @@ class Home extends Component {
                   <React.Fragment>
                     {`Charge: ${robot.battery_level}%; Water Volume: ${
                       robot.water_level
-                      }ml`}
+                    }ml`}
                   </React.Fragment>
                 )
               }
@@ -204,7 +202,6 @@ class Home extends Component {
                   <EditIcon />
                 </IconButton>
               </React.Fragment>
-
             )}
           </ListItem>
         ))}
@@ -289,7 +286,8 @@ class Home extends Component {
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
-  createTextField = (id, label, value, valueName) => this.createTextFieldWithType(id, label, "string", value, valueName);
+  createTextField = (id, label, value, valueName) =>
+    this.createTextFieldWithType(id, label, "string", value, valueName);
   createTextFieldWithType = (id, label, type, value, valueName) => {
     const { classes } = this.props;
     return (
@@ -297,7 +295,9 @@ class Home extends Component {
         id={id}
         label={label}
         type={type}
-        className={type === 'number' ? classes.numberTextField : classes.textField}
+        className={
+          type === "number" ? classes.numberTextField : classes.textField
+        }
         value={value}
         onChange={this.handleChange(valueName)}
         margin="normal"
@@ -317,7 +317,14 @@ class Home extends Component {
   }
   render() {
     const { classes, reduxRobots } = this.props;
-    const { addRobotDialogue, removeRobotDialogue, renameRobotDialogue, open, type, message } = this.state;
+    const {
+      addRobotDialogue,
+      removeRobotDialogue,
+      renameRobotDialogue,
+      open,
+      type,
+      message
+    } = this.state;
     const robotsList = this.createRobotList();
     return (
       <div className={classes.root}>
@@ -363,11 +370,10 @@ class Home extends Component {
           content={this.createRenameRobotDialogueContent()}
           actions={this.createRenameRobotDialogueActions()}
         />
-        <br/>
+        <br />
         <Grid container>
           <Grid item>
             <Card className={classes.card}>
-
               <CardContent>
                 <div
                   style={{ display: "flex", justifyContent: "space-between" }}
@@ -400,13 +406,15 @@ class Home extends Component {
   }
 }
 
-const mapStateToProps = (props) => {
+const mapStateToProps = props => {
   const { robots, selectedRobot } = props.robotState;
   const { loginToken } = props.auth;
   return {
-    reduxRobots: robots, selectedRobot, loginToken
-  }
-}
+    reduxRobots: robots,
+    selectedRobot,
+    loginToken
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -414,7 +422,10 @@ const mapDispatchToProps = dispatch => {
     reduxRemoveRobot: robot => dispatch(removeRobot(robot)),
     reduxSelectRobot: robot => dispatch(selectRobot(robot)),
     reduxRenameRobot: (robot, name) => dispatch(renameRobot(robot, name))
-  }
-}
+  };
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(Home));
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(Home));

@@ -1,4 +1,4 @@
-import { RRule, RRuleSet, rrulestr } from 'rrule'
+import { RRule, RRuleSet, rrulestr } from "rrule";
 
 export default function() {
   const rule = new RRule({

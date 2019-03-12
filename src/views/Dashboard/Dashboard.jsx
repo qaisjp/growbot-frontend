@@ -31,7 +31,7 @@ import RadioGroup from "@material-ui/core/RadioGroup";
 import { withStyles } from "@material-ui/core";
 
 import DateTimePicker from "react-datetime-picker";
-import { RRule, RRuleSet, rrulestr } from 'rrule'
+import { RRule, RRuleSet, rrulestr } from "rrule";
 
 import endpoints from "../../endpoints";
 import styles from "../../assets/views/Dashboard/jss/dashboard-style";
@@ -128,7 +128,7 @@ class Dashboard extends Component {
   handleListItemClick = (event, robot) => {
     this.setState({ selectedRobotId: robot.id, selectedRobot: robot });
   };
-  fetchRobots = async() => {
+  fetchRobots = async () => {
     const { loginToken } = this.props;
     const fetchRobotsResult = await fetchRobots(loginToken);
 
@@ -142,14 +142,14 @@ class Dashboard extends Component {
       }
     }
   };
-  fetchPhotos = async() => {
+  fetchPhotos = async () => {
     const { loginToken } = this.props;
     const fetchPhotosResult = await fetchPhotos(loginToken);
 
-    if(fetchPhotosResult instanceof Error) {
+    if (fetchPhotosResult instanceof Error) {
       console.log(fetchPhotosResult);
       console.log(loginToken);
-      this.setState({ photos: [] })
+      this.setState({ photos: [] });
     } else {
       const { photos } = fetchPhotosResult;
 
@@ -158,7 +158,8 @@ class Dashboard extends Component {
       const photosMapped = [];
 
       photos.forEach(photo => {
-        const photoUrl = endpoints.photos + '/' + photo.id + '?token=' + loginToken;
+        const photoUrl =
+          endpoints.photos + "/" + photo.id + "?token=" + loginToken;
 
         const photosObj = {
           title: photo.id,
@@ -186,34 +187,47 @@ class Dashboard extends Component {
   };
   getAction = () => {
     const { action, plantId } = this.state;
-    if(action==="Water") {
+    if (action === "Water") {
       return {
         name: "PLANT_WATER",
         plant_id: plantId,
         data: []
-      }
+      };
     }
     return {
       name: "TAKE_PICTURE",
       plant_id: plantId,
       data: []
-    }
-  }
+    };
+  };
   getRRule = () => {
-    const { repetitionQuantity, repetitionUnit, repetitionEnd, date, occurances, checkedMonday, checkedTuesday, checkedWednesday, checkedThursday, checkedFriday, checkedSaturday, checkedSunday } = this.state;
+    const {
+      repetitionQuantity,
+      repetitionUnit,
+      repetitionEnd,
+      date,
+      occurances,
+      checkedMonday,
+      checkedTuesday,
+      checkedWednesday,
+      checkedThursday,
+      checkedFriday,
+      checkedSaturday,
+      checkedSunday
+    } = this.state;
 
     let freq = null;
-    if(repetitionUnit === "Second") {
+    if (repetitionUnit === "Second") {
       freq = RRule.SECONDLY;
-    } else if(repetitionUnit === "Minute") {
+    } else if (repetitionUnit === "Minute") {
       freq = RRule.MINUTELY;
-    } else if(repetitionUnit === "Hour") {
+    } else if (repetitionUnit === "Hour") {
       freq = RRule.HOURLY;
-    } else if(repetitionUnit === "Day") {
+    } else if (repetitionUnit === "Day") {
       freq = RRule.DAILY;
-    } else if(repetitionUnit === "Week") {
+    } else if (repetitionUnit === "Week") {
       freq = RRule.WEEKLY;
-    } else if(repetitionUnit === "Month") {
+    } else if (repetitionUnit === "Month") {
       freq = RRule.MONTHLY;
     } else {
       freq = RRule.YEARLY;
@@ -224,43 +238,43 @@ class Dashboard extends Component {
     const count = occurances;
 
     const byweekdays = [];
-    if(checkedMonday) {
+    if (checkedMonday) {
       byweekdays.push(RRule.MO);
     }
-    if(checkedTuesday) {
+    if (checkedTuesday) {
       byweekdays.push(RRule.TU);
     }
-    if(checkedWednesday) {
+    if (checkedWednesday) {
       byweekdays.push(RRule.WE);
     }
-    if(checkedThursday) {
+    if (checkedThursday) {
       byweekdays.push(RRule.TH);
     }
-    if(checkedFriday) {
+    if (checkedFriday) {
       byweekdays.push(RRule.FR);
     }
-    if(checkedSaturday) {
+    if (checkedSaturday) {
       byweekdays.push(RRule.SA);
     }
-    if(checkedSunday) {
+    if (checkedSunday) {
       byweekdays.push(RRule.SU);
     }
 
-    if(repetitionEnd==="never") {
+    if (repetitionEnd === "never") {
       return {
         freq: freq,
         interval: interval,
         byweekday: byweekdays,
         dtstart: new Date()
-      }
-    } else if(repetitionEnd==="on") {
+      };
+    } else if (repetitionEnd === "on") {
       return {
         freq: freq,
         interval: interval,
         byweekday: byweekdays,
         dtstart: new Date(),
         until: dtend
-      }
+      };
     }
     return {
       freq: freq,
@@ -269,8 +283,8 @@ class Dashboard extends Component {
       byweekday: byweekdays,
       dtstart: new Date(),
       until: dtend
-    }
-  }
+    };
+  };
   onSchedule = async () => {
     const { loginToken } = this.props;
 
@@ -281,13 +295,17 @@ class Dashboard extends Component {
 
     const response = await scheduleAction(loginToken, recurrences, actions);
 
-    if(response.status === 200) {
-      this.setState({ message: "Successfully scheduled actions!", open: true, type: "success" });
+    if (response.status === 200) {
+      this.setState({
+        message: "Successfully scheduled actions!",
+        open: true,
+        type: "success"
+      });
     } else {
       const body = await response.json();
       this.setState({ message: body.message, open: true, type: "error" });
     }
-  }
+  };
   onAddRobot = async () => {
     const { loginToken } = this.props;
     const { newRobotSerialKey, newRobotTitle } = this.state;
@@ -371,7 +389,8 @@ class Dashboard extends Component {
       });
     }
   };
-  createTextField = (id, label, value, valueName) => this.createTextFieldWithType(id, label, "string", value, valueName);
+  createTextField = (id, label, value, valueName) =>
+    this.createTextFieldWithType(id, label, "string", value, valueName);
   createTextFieldWithType = (id, label, type, value, valueName) => {
     const { classes } = this.props;
     return (
@@ -379,7 +398,9 @@ class Dashboard extends Component {
         id={id}
         label={label}
         type={type}
-        className={type === 'number' ? classes.numberTextField : classes.textField}
+        className={
+          type === "number" ? classes.numberTextField : classes.textField
+        }
         value={value}
         onChange={this.handleChange(valueName)}
         margin="normal"
@@ -503,9 +524,15 @@ class Dashboard extends Component {
     const repetitionQuantityItems = [1, 2, 3, 4, 5, 6, 7].map(quantity => (
       <MenuItem value={quantity}>{quantity}</MenuItem>
     ));
-    const repetitionUnitItems = ["Second", "Minute", "Hour", "Day", "Week", "Month", "Year"].map(unit => (
-      <MenuItem value={unit}>{unit}</MenuItem>
-    ));
+    const repetitionUnitItems = [
+      "Second",
+      "Minute",
+      "Hour",
+      "Day",
+      "Week",
+      "Month",
+      "Year"
+    ].map(unit => <MenuItem value={unit}>{unit}</MenuItem>);
     const checkboxes = [
       { letter: "M", state: checkedMonday, value: "checkedMonday" },
       {
@@ -534,7 +561,13 @@ class Dashboard extends Component {
     const actions = ["Water", "Take Picture"].map(action => (
       <MenuItem value={action}>{action}</MenuItem>
     ));
-    const occurancesField = this.createTextFieldWithType("Occurances", "Occurances", "number", occurances, "occurances");
+    const occurancesField = this.createTextFieldWithType(
+      "Occurances",
+      "Occurances",
+      "number",
+      occurances,
+      "occurances"
+    );
     return (
       <React.Fragment>
         <Grid container>
@@ -580,7 +613,7 @@ class Dashboard extends Component {
             onChange={x => this.setState({ repetitionEnd: x.target.value })}
           >
             <FormControlLabel value="never" control={<Radio />} label="Never" />
-            <FormControlLabel value="on" control={<Radio/>} label="On" />
+            <FormControlLabel value="on" control={<Radio />} label="On" />
             <FormControlLabel value="after" control={<Radio />} label="After" />
             {occurancesField}
           </RadioGroup>
@@ -591,7 +624,9 @@ class Dashboard extends Component {
         </FormControl>
         <Grid container>
           <Grid item>
-            <InputLabel className={classes.label} htmlFor="action">Action</InputLabel>
+            <InputLabel className={classes.label} htmlFor="action">
+              Action
+            </InputLabel>
           </Grid>
           <Grid item>
             <Select
@@ -608,7 +643,7 @@ class Dashboard extends Component {
   };
   createPhotoDialogueContent = () => {
     const { tile } = this.state;
-    return <img src={tile.img} alt={tile.title}/>;
+    return <img src={tile.img} alt={tile.title} />;
   };
   createSchedulingList = () => {
     const { classes } = this.props;
@@ -619,7 +654,10 @@ class Dashboard extends Component {
         subheader={<ListSubheader component="div">Tasks</ListSubheader>}
       >
         <ListItem key="1">
-          <ListItemText className={classes.listItem} primary={<span>Water Plant A every 3 hours</span>} />
+          <ListItemText
+            className={classes.listItem}
+            primary={<span>Water Plant A every 3 hours</span>}
+          />
           <ListItemSecondaryAction>
             <IconButton aria-label="Edit">
               <EditIcon />
@@ -630,7 +668,10 @@ class Dashboard extends Component {
           </ListItemSecondaryAction>
         </ListItem>
         <ListItem key="2">
-          <ListItemText className={classes.listItem} primary={<span>Water Plant B every 6 hours</span>} />
+          <ListItemText
+            className={classes.listItem}
+            primary={<span>Water Plant B every 6 hours</span>}
+          />
           <ListItemSecondaryAction>
             <IconButton aria-label="Edit">
               <EditIcon />
@@ -641,7 +682,10 @@ class Dashboard extends Component {
           </ListItemSecondaryAction>
         </ListItem>
         <ListItem key="1">
-          <ListItemText className={classes.listItem} primary={<span>Photo Plant A every 3 hours</span>} />
+          <ListItemText
+            className={classes.listItem}
+            primary={<span>Photo Plant A every 3 hours</span>}
+          />
           <ListItemSecondaryAction>
             <IconButton aria-label="Edit">
               <EditIcon />

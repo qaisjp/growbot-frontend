@@ -2,7 +2,8 @@ import endpoints from "../endpoints";
 
 export default async function(token, recurrences, actions) {
   const scheduleRequest = {
-    recurrences, actions
+    recurrences,
+    actions
   };
 
   console.log(scheduleRequest);
