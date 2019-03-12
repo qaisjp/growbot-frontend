@@ -221,10 +221,7 @@ class Home extends Component {
   onAddPlant = async () => {
     const { loginToken } = this.props;
     const { newPlantName } = this.state;
-    const response = await addPlant(
-      loginToken,
-      newPlantName
-    );
+    const response = await addPlant(loginToken, newPlantName);
 
     if (response.status === 200) {
       const fetchPlantsResult = await fetchPlants(loginToken);
@@ -237,7 +234,7 @@ class Home extends Component {
         });
       } else {
         const { plants } = fetchPlantsResult;
-        this.setState({plants});
+        this.setState({ plants });
       }
     } else {
       this.setState({ message: response, open: true, type: "error" });
@@ -642,9 +639,7 @@ class Home extends Component {
                     <Typography gutterBottom variant="h5" component="h2">
                       Plants
                     </Typography>
-                    <Typography component="p">
-                      Your plants
-                    </Typography>
+                    <Typography component="p">Your plants</Typography>
                   </div>
                   <IconButton
                     aria-label="Add-Robot"
