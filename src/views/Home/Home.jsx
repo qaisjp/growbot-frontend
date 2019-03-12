@@ -327,7 +327,7 @@ class Home extends Component {
     } = this.state;
     const robotsList = this.createRobotList();
     return (
-      <div className={classes.root}>
+      <main className={classes.main}>
         <Snackbar
           key="snackbar"
           anchorOrigin={{
@@ -371,8 +371,6 @@ class Home extends Component {
           actions={this.createRenameRobotDialogueActions()}
         />
         <br />
-        <Grid container>
-          <Grid item>
             <Card className={classes.card}>
               <CardContent>
                 <div
@@ -399,9 +397,7 @@ class Home extends Component {
 
               <CardActions>{robotsList}</CardActions>
             </Card>
-          </Grid>
-        </Grid>
-      </div>
+      </main>
     );
   }
 }

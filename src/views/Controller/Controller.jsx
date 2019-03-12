@@ -60,7 +60,7 @@ class Controller extends Component {
     const { open, type, message } = this.state;
     const gamepad = this.createGamepad();
     return (
-      <div className={classes.root}>
+      <main className={classes.main}>
         <Snackbar
           key="snackbar"
           anchorOrigin={{
@@ -118,7 +118,7 @@ class Controller extends Component {
             </Card>
           </Grid>
         </Grid>
-      </div>
+      </main>
     );
   }
 }
