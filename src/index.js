@@ -7,8 +7,6 @@ import thunk from "redux-thunk";
 import App from "./App";
 import reducers from "./reducers";
 
-import playground from './rrule-playground';
-
 import * as serviceWorker from "./serviceWorker";
 
 const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);

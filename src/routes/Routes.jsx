@@ -1,4 +1,5 @@
 import Dashboard from "../views/Dashboard/Dashboard";
+import Home from "../views/Home/Home";
 import Login from "../views/Login/Login";
 import ForgotPassword from "../views/ForgotPassword/ForgotPassword";
 import Register from "../views/Register/Register";
@@ -29,6 +30,11 @@ const routes = [
     name: "Settings",
     path: "/settings",
     component: Settings
+  },
+  {
+    name: "Home",
+    path: "/home",
+    component: Home
   }
 ];
 

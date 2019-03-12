@@ -26,15 +26,11 @@ class Layout extends Component {
   render() {
     const { classes, loggedIn, location } = this.props;
 
-    let redirectLogin = null;
-    if (!loggedIn && location.pathname !== "/login") {
-      redirectLogin = <Redirect to={"/login"} />;
-    }
-
     return (
       <MuiThemeProvider theme={colors}>
         <div className={classes.appFrame}>
           <Header
+            routes={routes}
             menuFunctionRoutes={menuRoutes.filter(
               menuRoute => menuRoute.type === menuRouteTypes.function
             )}
@@ -48,16 +44,8 @@ class Layout extends Component {
             </Typography>
           </div>
           <main className={classes.content}>
-            {redirectLogin}
             <Switch>
               {routes.map(prop => {
-                if (
-                  (prop.name === "Account Login" && loggedIn) ||
-                  (prop.name === "Register" && loggedIn) ||
-                  (prop.name === "Recover Password" && loggedIn)
-                ) {
-                  return <Redirect from={prop.path} to={"/"} />;
-                }
 
                 return (
                   <Route
