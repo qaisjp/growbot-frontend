@@ -34,6 +34,7 @@ import removeRobot from "../../actions/remove_robot";
 import renameRobot from "../../actions/rename_robot";
 import selectRobot from "../../actions/select_robot";
 import fetchRobots from "../../http/fetch_robots";
+import fetchPlants from "../../http/fetch_plants";
 import httpAddRobot from "../../http/add_robot";
 import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
@@ -48,7 +49,8 @@ class Home extends Component {
     addRobotDialogue: false,
     renameRobotDialogue: false,
     renameRobotTitle: "",
-    removeRobotDialogue: false
+    removeRobotDialogue: false,
+    plants: []
   };
   handleOpenDialogue = dialogue => {
     this.setState({ [dialogue]: true });
@@ -58,6 +60,7 @@ class Home extends Component {
   };
   componentDidMount = async () => {
     this.fetchRobots();
+    this.fetchPlants();
   };
   handleListItemClick = (event, robot) => {
     const { reduxSelectRobot } = this.props;
@@ -85,6 +88,18 @@ class Home extends Component {
       });
     }
   };
+  fetchPlants = async () => {
+    const { loginToken } = this.props;
+    const fetchPlantsResult = await fetchPlants(loginToken);
+
+    if(fetchPlantsResult instanceof Error) {
+      this.setState({ message: fetchPlantsResult, open: true, type: "error" });
+    } else {
+      const { plants } = fetchPlantsResult;
+      this.setState({plants});
+    }
+
+  }
   onRemoveRobot = async () => {
     const { loginToken, selectedRobot, reduxRemoveRobot } = this.props;
 
@@ -207,18 +222,28 @@ class Home extends Component {
     );
   };
   createPlantList = () => {
+    const { plants } = this.state;
     const { classes } = this.props;
     return (
       <List className={classes.root}>
-        <ListItem key="a" alignItems="flex-start" button selected={true}>
-          <ListItemText primary="Sunflower" secondary="Sunflower" />
-        </ListItem>
-        <ListItem key="b" alignItems="flex-start" button selected={false}>
-          <ListItemText primary="Rose" secondary="Rose" />
-        </ListItem>
-        <ListItem key="c" alignItems="flex-start" button selected={false}>
-          <ListItemText primary="Lily" secondary="Lily" />
-        </ListItem>
+        {
+          plants.map(plant => (
+            <ListItem key={plant.id} alignItems="flex-start">
+              <ListItemText primary={plant.name} />
+              <IconButton
+                onClick={() => this.handleOpenDialogue("removePlantDialogue")}
+              >
+                <RemoveIcon />
+              </IconButton>
+              <IconButton
+                onClick={() => this.handleOpenDialogue("renamePlantDialogue")}
+              >
+                <EditIcon />
+              </IconButton>
+
+            </ListItem>
+          ))
+        }
       </List>
     );
   };

@@ -22,6 +22,8 @@ export default {
 
   photos: `${base}/photos`,
 
+  plants: `${base}/plants`,
+
   events: `${base}/events`,
 
   robot_delete: uuid => `${base}/robot/${uuid}`,
