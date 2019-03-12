@@ -14,7 +14,7 @@ function ImageGridList(props) {
   tiles.forEach(tile => console.log(tile.img));
 
   return (
-    <div className={classes.root}>
+    <div>
       <GridList cellHeight={160} className={classes.gridList} cols={3}>
         {tiles.map(tile => (
           <GridListTile key={tile.img} cols={tile.cols || 1}>
