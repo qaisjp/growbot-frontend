@@ -161,7 +161,6 @@ class Home extends Component {
       });
     }
     this.handleCloseDialogue('renameRobotDialogue');
-    this.setState({renameRobotDialogue:""})
   };
   createRobotList = () => {
     const { classes, reduxRobots, selectedRobot } = this.props;
