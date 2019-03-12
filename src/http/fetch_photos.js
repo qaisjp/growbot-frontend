@@ -1,7 +1,7 @@
 import endpoints from "../endpoints";
 
 export default async function(token) {
-  const response = await fetch(endpoints.plants, {
+  const response = await fetch(endpoints.photos, {
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json"
