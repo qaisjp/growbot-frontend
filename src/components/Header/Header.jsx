@@ -73,14 +73,6 @@ class Header extends Component {
               GrowBot
             </Typography>
 
-            <Button
-              target="_blank"
-              href="https://goo.gl/forms/IGczlsR2sYve5YNq2"
-              color="inherit"
-            >
-              Survey
-            </Button>
-
             {!loggedIn ? (
               <Button component={RouterLink} to="/login" color="inherit">
                 Login

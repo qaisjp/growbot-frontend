@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import { Link as RouterLink } from "react-router-dom";
 import { bindActionCreators } from "redux";
 import PropTypes from "prop-types";
 import classNames from "classnames";
@@ -9,9 +10,9 @@ import List from "@material-ui/core/List";
 import IconButton from "@material-ui/core/IconButton";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import Link from "@material-ui/core/Link";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
-import { NavLink } from "react-router-dom";
 import Divider from "@material-ui/core/Divider";
 import styles from "../../assets/components/Drawer/jss/navigation-drawer-style";
 import logo from "../../assets/components/Drawer/img/logo.png";
@@ -44,16 +45,16 @@ class NavigationDrawer extends Component {
             )}
           </IconButton>
         </div>
-        <img src={logo} alt="" className={classes.image} />
+        <img src={logo} alt="growbot-logo" className={classes.image} />
         <Divider />
         <List>
           {this.props.routes.map((prop, index) => {
             const isCurrPath = this.isSelectedRoute(prop.path);
             return (
-              <NavLink
+              <Link
+                component={RouterLink}
+                className={classes.link}
                 to={prop.path}
-                className={classes.links}
-                activeClassName={classes.selected}
                 key={prop.name}
               >
                 <ListItem
@@ -65,16 +66,11 @@ class NavigationDrawer extends Component {
                   })}
                 >
                   <ListItemText
-                    primaryTypographyProps={{
-                      className: isCurrPath
-                        ? classes.listItemTextSelected
-                        : classes.listItemText
-                    }}
+                    primary={prop.name}
                   >
-                    {prop.name}
                   </ListItemText>
                 </ListItem>
-              </NavLink>
+              </Link>
             );
           })}
         </List>
@@ -83,13 +79,13 @@ class NavigationDrawer extends Component {
   }
 }
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {
     open: state.drawer
   };
 }
 
-function mapDispatchToProps(dispatch) {
+const mapDispatchToProps = dispatch => {
   return bindActionCreators({ hideDrawer: closeDrawer }, dispatch);
 }
 
