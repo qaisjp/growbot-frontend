@@ -39,6 +39,7 @@ import { RRule } from "rrule/dist/esm/src/index";
 import scheduleAction from "../../http/schedule_action";
 
 import fetchEvents from "../../http/fetch_events";
+import removeEvent from "../../http/remove_event";
 
 class Scheduler extends Component {
   state = {
@@ -60,8 +61,11 @@ class Scheduler extends Component {
     date: new Date(),
     action: "",
     plantId: "11967a3a-4433-11e9-b210-d663bd873d93",
+    plantName: "",
     scheduleRobotDialogue: false,
-    events: []
+    removeActionDialogue: false,
+    events: [],
+    selectedEvent: ""
   };
   fetchEvents = async () => {
     const { loginToken } = this.props;
@@ -79,6 +83,25 @@ class Scheduler extends Component {
   componentDidMount = async () => {
     this.fetchEvents();
   }
+  onRemoveEvent = async () => {
+    const { loginToken } = this.props;
+    const { selectedEvent } = this.state;
+
+    const response = await removeEvent(loginToken, selectedEvent.id);
+
+    if (response.status === 200) {
+      const result = await fetchEvents(loginToken);
+
+      if (result instanceof Error) {
+        this.setState({ events: [], removeActionDialogue: false });
+      } else {
+        this.setState({ events: result.events, removeActionDialogue: false });
+      }
+    } else {
+      const body = await response.json();
+      this.setState({ message: body.message, open: true, type: "error" });
+    }
+  };
   onSchedule = async () => {
     const { loginToken } = this.props;
 
@@ -210,7 +233,7 @@ class Scheduler extends Component {
       >
         {
           events.map((event, idx) => (
-            <ListItem key={idx}>
+            <ListItem key={idx} alignItems="flex-start">
               <ListItemText
                 className={classes.listItem}
                 primary={<span>{event.summary}</span>}
@@ -219,7 +242,7 @@ class Scheduler extends Component {
                 <IconButton aria-label="Edit">
                   <EditIcon />
                 </IconButton>
-                <IconButton aria-label="Remove">
+                <IconButton aria-label="Remove" onClick={()=>this.setState({removeActionDialogue: true, selectedEvent: events[idx]})}>
                   <RemoveIcon />
                 </IconButton>
               </ListItemSecondaryAction>
@@ -283,7 +306,9 @@ class Scheduler extends Component {
     );
   };
   createScheduleRobotDialogueContent = () => {
-    const { classes } = this.props;
+    const { classes, reduxPlants } = this.props;
+
+    const plantNames = reduxPlants.map(plant => <MenuItem value={plant.name}>{plant.name}</MenuItem>);
 
     const {
       checkedMonday,
@@ -297,7 +322,8 @@ class Scheduler extends Component {
       repetitionUnit,
       action,
       occurances,
-      repetitionEnd
+      repetitionEnd,
+      plantName
     } = this.state;
     const repetitionQuantityItems = [1, 2, 3, 4, 5, 6, 7].map(quantity => (
       <MenuItem value={quantity}>{quantity}</MenuItem>
@@ -348,6 +374,20 @@ class Scheduler extends Component {
     );
     return (
       <React.Fragment>
+        <Grid container>
+          <Grid item>
+            <InputLabel>Plant</InputLabel>
+          </Grid>
+          <Grid item>
+            <Select
+              value={plantName}
+              onChange={event => this.setState({ plantName: event.target.value })}
+              name="plantName"
+              id="plantName"
+              items={plantNames}
+            />
+          </Grid>
+        </Grid>
         <Grid container>
           <Grid item>
             <InputLabel>Action</InputLabel>
@@ -419,10 +459,24 @@ class Scheduler extends Component {
       </React.Fragment>
     );
   };
+  createRemoveActionDialogueActions = () => {
+    return (
+      <React.Fragment>
+        <Button onClick={() => this.handleCloseDialogue("removeActionDialogue")}>
+          Close
+        </Button>
+        <Button onClick={this.onRemoveEvent}>Remove</Button>
+      </React.Fragment>
+    );
+  };
+  createRemoveActionDialogueContent = () => {
+    return <React.Fragment />;
+  };
   render() {
     const { classes } = this.props;
     const {
       scheduleRobotDialogue,
+      removeActionDialogue,
       open,
       type,
       message,
@@ -437,6 +491,14 @@ class Scheduler extends Component {
     const schedulingList = this.createSchedulingList();
     return (
       <main className={classes.main}>
+        <Dialogue
+          open={removeActionDialogue}
+          close={() => this.handleCloseDialogue("removeActionDialogue")}
+          title="Remove Action"
+          contentText="Please confirm you would like to remove this action."
+          content={this.createRemoveActionDialogueContent()}
+          actions={this.createRemoveActionDialogueActions()}
+        />
         <Dialogue
           open={scheduleRobotDialogue}
           close={() => this.handleCloseDialogue("scheduleRobotDialogue")}
@@ -494,9 +556,11 @@ class Scheduler extends Component {
 const mapStateToProps = state => {
   const { loginToken } = state.auth;
   const { selectedRobot } = state.robotState;
+  const { plants } = state.plantState;
   return {
     loginToken,
-    selectedRobot
+    selectedRobot,
+    reduxPlants: plants
   };
 };
 
