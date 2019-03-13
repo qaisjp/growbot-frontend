@@ -340,9 +340,9 @@ class Scheduler extends Component {
         {this.createLetterCheckbox(day.letter, day.state, day.value)}
       </Grid>
     ));
-    const actions = ["Water", "Take Picture", "Water & Take Picture"].map(action => (
-      <MenuItem value={action}>{action}</MenuItem>
-    ));
+    const actions = ["Water", "Take Picture", "Water & Take Picture"].map(
+      action => <MenuItem value={action}>{action}</MenuItem>
+    );
     const occurancesField = this.createTextFieldWithType(
       "Occurances",
       "Occurances",
@@ -354,9 +354,7 @@ class Scheduler extends Component {
       <React.Fragment>
         <Grid container>
           <Grid item>
-            <InputLabel>
-              Action
-            </InputLabel>
+            <InputLabel>Action</InputLabel>
           </Grid>
           <Grid item>
             <Select
@@ -414,15 +412,13 @@ class Scheduler extends Component {
             <FormControlLabel value="on" control={<Radio />} label="On" />
             <FormControlLabel value="after" control={<Radio />} label="After" />
           </RadioGroup>
-          {
-            repetitionEnd==="on" && <DateTimePicker
+          {repetitionEnd === "on" && (
+            <DateTimePicker
               onChange={date => this.setState({ date })}
               value={this.state.date}
             />
-          }
-          {
-            repetitionEnd === "after" && occurancesField
-          }
+          )}
+          {repetitionEnd === "after" && occurancesField}
         </FormControl>
       </React.Fragment>
     );
