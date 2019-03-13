@@ -153,7 +153,7 @@ class Scheduler extends Component {
       };
     }
     return {
-      name: "TAKE_PICTURE",
+      name: "PLANT_CAPTURE_PHOTO",
       plant_id: plantId,
       data: []
     };
@@ -187,7 +187,7 @@ class Scheduler extends Component {
       freq = RRule.WEEKLY;
     } else if (repetitionUnit === "Month") {
       freq = RRule.MONTHLY;
-    } else {
+    } else if (repetitionUnit === "Year") {
       freq = RRule.YEARLY;
     }
 
@@ -239,8 +239,7 @@ class Scheduler extends Component {
       interval: interval,
       count: count,
       byweekday: byweekdays,
-      dtstart: new Date(),
-      until: dtend
+      dtstart: new Date()
     };
   };
   createSchedulingList = () => {
@@ -408,7 +407,7 @@ class Scheduler extends Component {
         {this.createLetterCheckbox(day.letter, day.state, day.value)}
       </Grid>
     ));
-    const actions = ["Water", "Take picture", "Water & take picture"].map(
+    const actions = ["Water", "Take picture"].map(
       action => <MenuItem value={action}>{action}</MenuItem>
     );
     const occurancesField = this.createTextFieldWithType(
