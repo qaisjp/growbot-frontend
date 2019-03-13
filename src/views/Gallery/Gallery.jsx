@@ -73,7 +73,7 @@ class Gallery extends Component {
           open={photoDialogue}
           close={() => this.handleCloseDialogue("photoDialogue")}
           title={tile.title}
-          content={this.createPhotoDialogueContent()}
+          content={<div style={{display: "flex", justifyContent:"center", alignItems:"center", height:"100%"}}>{this.createPhotoDialogueContent()}</div>}
         />
         <Grid container spacing={24}>
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
