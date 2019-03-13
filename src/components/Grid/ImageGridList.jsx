@@ -43,7 +43,6 @@ ImageGridList.propTypes = {
   classes: PropTypes.object.isRequired,
   tiles: PropTypes.array.isRequired,
   click: PropTypes.func.isRequired,
-  author: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(ImageGridList);
