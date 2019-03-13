@@ -17,6 +17,6 @@ export function signalRemovePlant(plant) {
 export function signalRenamePlant(plant, name) {
   return {
     type: RENAME_PLANT,
-    name
+    plant, name
   };
 }

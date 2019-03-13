@@ -33,11 +33,14 @@ import addRobot from "../../actions/add_robot";
 import removeRobot from "../../actions/remove_robot";
 import renameRobot from "../../actions/rename_robot";
 import selectRobot from "../../actions/select_robot";
+import addPlant from "../../actions/add_plant";
+import removePlant from "../../actions/remove_plant";
+import renamePlant from "../../actions/rename_plant";
 import fetchRobots from "../../http/fetch_robots";
 import fetchPlants from "../../http/fetch_plants";
-import addPlant from "../../http/add_plant";
-import renamePlant from "../../http/rename_plant";
-import removePlant from "../../http/remove_plant";
+import httpAddPlant from "../../http/add_plant";
+import httpRenamePlant from "../../http/rename_plant";
+import httpRemovePlant from "../../http/remove_plant";
 import httpAddRobot from "../../http/add_robot";
 import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
@@ -58,9 +61,9 @@ class Home extends Component {
     addPlantDialogue: false,
     renamePlantDialogue: false,
     removePlantDialogue: false,
-    selectedPlant: {},
-    plants: []
+    selectedPlant: {}
   };
+
   handleOpenDialogue = dialogue => {
     this.setState({ [dialogue]: true });
   };
@@ -98,14 +101,19 @@ class Home extends Component {
     }
   };
   fetchPlants = async () => {
-    const { loginToken } = this.props;
+    const { loginToken, reduxAddPlant, reduxPlants } = this.props;
     const fetchPlantsResult = await fetchPlants(loginToken);
 
     if (fetchPlantsResult instanceof Error) {
       this.setState({ message: fetchPlantsResult, open: true, type: "error" });
     } else {
       const { plants } = fetchPlantsResult;
-      this.setState({ plants });
+      const reduxPlantIds = reduxPlants.map(plant => plant.id);
+      plants.forEach(plant => {
+        if (reduxPlantIds.indexOf(plant.id) < 0) {
+          reduxAddPlant(plant);
+        }
+      });
     }
   };
   onRemoveRobot = async () => {
@@ -127,28 +135,17 @@ class Home extends Component {
     this.handleCloseDialogue("removeRobotDialogue");
   };
   onRenamePlant = async () => {
-    const { loginToken } = this.props;
+    const { loginToken, reduxRenamePlant } = this.props;
     const { selectedPlant, renamePlantName } = this.state;
 
-    const response = await renamePlant(
+    const response = await httpRenamePlant(
       loginToken,
       selectedPlant.id,
       renamePlantName
     );
 
     if (response.status === 200) {
-      const result = await fetchPlants(loginToken);
-
-      if (result instanceof Error) {
-        this.setState({ robots: [] });
-      } else {
-        this.setState({
-          plants: result.plants,
-          message: (await response.json()).message,
-          open: true,
-          type: "success"
-        });
-      }
+      reduxRenamePlant(selectedPlant, renamePlantName);
     } else {
       this.setState({
         message: (await response.json()).message,
@@ -159,24 +156,13 @@ class Home extends Component {
     this.handleCloseDialogue("renamePlantDialogue");
   };
   onRemovePlant = async () => {
-    const { loginToken } = this.props;
+    const { loginToken, reduxRemovePlant } = this.props;
     const { selectedPlant } = this.state;
 
-    const response = await removePlant(loginToken, selectedPlant.id);
+    const response = await httpRemovePlant(loginToken, selectedPlant.id);
 
     if (response.status === 200) {
-      const result = await fetchPlants(loginToken);
-
-      if (result instanceof Error) {
-        this.setState({ robots: [] });
-      } else {
-        this.setState({
-          plants: result.plants,
-          message: (await response.json()).message,
-          open: true,
-          type: "success"
-        });
-      }
+      reduxRemovePlant(selectedPlant);
     } else {
       this.setState({
         message: (await response.json()).message,
@@ -187,7 +173,7 @@ class Home extends Component {
     this.handleCloseDialogue("removePlantDialogue");
   };
   onAddRobot = async () => {
-    const { loginToken, reduxAddRobot } = this.props;
+    const { loginToken, reduxAddRobot, reduxRobots } = this.props;
     const { newRobotSerialKey, newRobotTitle } = this.state;
     const response = await httpAddRobot(
       loginToken,
@@ -206,8 +192,9 @@ class Home extends Component {
         });
       } else {
         const { robots } = fetchRobotsResult;
+        const reduxRobotIds = reduxRobots.map(robot => robot.id);
         robots.forEach(robot => {
-          if (robots.indexOf(robot) < 0) {
+          if (reduxRobotIds.indexOf(robot.id) < 0) {
             reduxAddRobot(robot);
           }
         });
@@ -219,9 +206,9 @@ class Home extends Component {
     this.handleCloseDialogue("addRobotDialogue");
   };
   onAddPlant = async () => {
-    const { loginToken } = this.props;
+    const { loginToken, reduxPlants, reduxAddPlant } = this.props;
     const { newPlantName } = this.state;
-    const response = await addPlant(loginToken, newPlantName);
+    const response = await httpAddPlant(loginToken, newPlantName);
 
     if (response.status === 200) {
       const fetchPlantsResult = await fetchPlants(loginToken);
@@ -234,7 +221,12 @@ class Home extends Component {
         });
       } else {
         const { plants } = fetchPlantsResult;
-        this.setState({ plants });
+        const reduxPlantIds = reduxPlants.map(plant => plant.id);
+        plants.forEach(plant => {
+          if (reduxPlantIds.indexOf(plant.id) < 0) {
+            reduxAddPlant(plant);
+          }
+        });
       }
     } else {
       this.setState({ message: response, open: true, type: "error" });
@@ -317,17 +309,16 @@ class Home extends Component {
     );
   };
   createPlantList = () => {
-    const { plants } = this.state;
-    const { classes } = this.props;
+    const { classes, reduxPlants } = this.props;
     return (
       <List className={classes.root}>
-        {plants.map((plant, idx) => (
+        {reduxPlants.map((plant, idx) => (
           <ListItem key={plant.id} alignItems="flex-start">
             <ListItemText primary={plant.name} />
             <IconButton
               onClick={() =>
                 this.setState({
-                  selectedPlant: plants[idx],
+                  selectedPlant: reduxPlants[idx],
                   removePlantDialogue: true
                 })
               }
@@ -337,7 +328,7 @@ class Home extends Component {
             <IconButton
               onClick={() =>
                 this.setState({
-                  selectedPlant: plants[idx],
+                  selectedPlant: reduxPlants[idx],
                   renamePlantDialogue: true
                 })
               }
@@ -660,11 +651,13 @@ class Home extends Component {
 
 const mapStateToProps = props => {
   const { robots, selectedRobot } = props.robotState;
+  const { plants } = props.plantState;
   const { loginToken } = props.auth;
   return {
     reduxRobots: robots,
     selectedRobot,
-    loginToken
+    loginToken,
+    reduxPlants: plants
   };
 };
 
@@ -673,7 +666,10 @@ const mapDispatchToProps = dispatch => {
     reduxAddRobot: robot => dispatch(addRobot(robot)),
     reduxRemoveRobot: robot => dispatch(removeRobot(robot)),
     reduxSelectRobot: robot => dispatch(selectRobot(robot)),
-    reduxRenameRobot: (robot, name) => dispatch(renameRobot(robot, name))
+    reduxRenameRobot: (robot, name) => dispatch(renameRobot(robot, name)),
+    reduxAddPlant: plant => dispatch(addPlant(plant)),
+    reduxRemovePlant: plant => dispatch(removePlant(plant)),
+    reduxRenamePlant: (plant, name) => dispatch(renamePlant(plant, name))
   };
 };
 
