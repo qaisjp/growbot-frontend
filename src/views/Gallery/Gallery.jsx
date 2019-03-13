@@ -30,7 +30,7 @@ class Gallery extends Component {
   fetchPhotos = async () => {
     const { loginToken } = this.props;
     const fetchPhotosResult = await fetchPhotos(loginToken);
-    
+
     if (fetchPhotosResult instanceof Error) {
       this.setState({ photos: [] });
     } else {
