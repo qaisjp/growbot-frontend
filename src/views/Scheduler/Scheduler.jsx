@@ -300,7 +300,8 @@ class Scheduler extends Component {
       repetitionQuantity,
       repetitionUnit,
       action,
-      occurances
+      occurances,
+      repetitionEnd
     } = this.state;
     const repetitionQuantityItems = [1, 2, 3, 4, 5, 6, 7].map(quantity => (
       <MenuItem value={quantity}>{quantity}</MenuItem>
@@ -339,7 +340,7 @@ class Scheduler extends Component {
         {this.createLetterCheckbox(day.letter, day.state, day.value)}
       </Grid>
     ));
-    const actions = ["Water", "Take Picture"].map(action => (
+    const actions = ["Water", "Take Picture", "Water & Take Picture"].map(action => (
       <MenuItem value={action}>{action}</MenuItem>
     ));
     const occurancesField = this.createTextFieldWithType(
@@ -351,6 +352,22 @@ class Scheduler extends Component {
     );
     return (
       <React.Fragment>
+        <Grid container>
+          <Grid item>
+            <InputLabel>
+              Action
+            </InputLabel>
+          </Grid>
+          <Grid item>
+            <Select
+              value={action}
+              onChange={event => this.setState({ action: event.target.value })}
+              name="action"
+              id="action"
+              items={actions}
+            />
+          </Grid>
+        </Grid>
         <Grid container>
           <Grid item>
             <InputLabel>Repeat every</InputLabel>
@@ -396,29 +413,17 @@ class Scheduler extends Component {
             <FormControlLabel value="never" control={<Radio />} label="Never" />
             <FormControlLabel value="on" control={<Radio />} label="On" />
             <FormControlLabel value="after" control={<Radio />} label="After" />
-            {occurancesField}
           </RadioGroup>
-          <DateTimePicker
-            onChange={date => this.setState({ date })}
-            value={this.state.date}
-          />
-        </FormControl>
-        <Grid container>
-          <Grid item>
-            <InputLabel className={classes.label} htmlFor="action">
-              Action
-            </InputLabel>
-          </Grid>
-          <Grid item>
-            <Select
-              value={action}
-              onChange={event => this.setState({ action: event.target.value })}
-              name="action"
-              id="action"
-              items={actions}
+          {
+            repetitionEnd==="on" && <DateTimePicker
+              onChange={date => this.setState({ date })}
+              value={this.state.date}
             />
-          </Grid>
-        </Grid>
+          }
+          {
+            repetitionEnd === "after" && occurancesField
+          }
+        </FormControl>
       </React.Fragment>
     );
   };

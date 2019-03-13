@@ -1,11 +1,11 @@
-import {ADD_PLANT,RENAME_PLANT,REMOVE_PLANT} from "../plant-constants";
+import { ADD_PLANT, RENAME_PLANT, REMOVE_PLANT } from "../plant-constants";
 
-export default function(state = {plants: []}, action) {
-  const {plants} = state;
+export default function(state = { plants: [] }, action) {
+  const { plants } = state;
   let plant = null;
   let idx = -1;
   let plantArray = null;
-  switch(action.type) {
+  switch (action.type) {
     case ADD_PLANT:
       return Object.assign({}, state, {
         robots: [...plants, action.plant]
