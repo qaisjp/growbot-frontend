@@ -61,7 +61,7 @@ class Home extends Component {
     addPlantDialogue: false,
     renamePlantDialogue: false,
     removePlantDialogue: false,
-    selectedPlant: {},
+    selectedPlant: {}
   };
 
   handleOpenDialogue = dialogue => {
@@ -85,7 +85,13 @@ class Home extends Component {
     this.setState({ open: false });
   };
   fetchRobots = async () => {
-    const { loginToken, reduxAddRobot, reduxSelectRobot, reduxRobots, selectedRobot } = this.props;
+    const {
+      loginToken,
+      reduxAddRobot,
+      reduxSelectRobot,
+      reduxRobots,
+      selectedRobot
+    } = this.props;
     const fetchRobotsResult = await fetchRobots(loginToken);
 
     if (fetchRobotsResult instanceof Error) {
@@ -98,7 +104,7 @@ class Home extends Component {
           reduxAddRobot(robot);
         }
       });
-      if(selectedRobot.id===-1 && robots.length > 0) {
+      if (selectedRobot.id === -1 && robots.length > 0) {
         reduxSelectRobot(robots[0]);
       }
     }

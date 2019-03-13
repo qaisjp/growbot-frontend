@@ -78,11 +78,11 @@ class Scheduler extends Component {
     } else {
       const { events } = fetchEventsResult;
       this.setState({ events });
-    };
-  }
+    }
+  };
   componentDidMount = async () => {
     this.fetchEvents();
-  }
+  };
   onRemoveEvent = async () => {
     const { loginToken } = this.props;
     const { selectedEvent } = this.state;
@@ -102,6 +102,9 @@ class Scheduler extends Component {
       this.setState({ message: body.message, open: true, type: "error" });
     }
   };
+  handleClose = () => {
+    this.setState({ open: false });
+  };
   onSchedule = async () => {
     const { loginToken } = this.props;
 
@@ -110,14 +113,25 @@ class Scheduler extends Component {
     const recurrences = [new RRule(rruleObj).toString()];
     const actions = [this.getAction()];
 
-    const response = await scheduleAction(loginToken, summary, recurrences, actions);
+    const response = await scheduleAction(
+      loginToken,
+      summary,
+      recurrences,
+      actions
+    );
 
     if (response.ok) {
-      this.setState({
-        message: "Successfully scheduled actions!",
-        open: true,
-        type: "success"
-      });
+      const fetchEventsResult = await fetchEvents(loginToken);
+
+      if (fetchEventsResult instanceof Error) {
+        this.setState({ events: [] });
+      } else {
+        const { events } = fetchEventsResult;
+        this.setState({ events,         message: "Successfully scheduled actions!",
+          open: true,
+          type: "success" });
+      }
+
     } else {
       const body = await response.json();
       this.setState({ message: body.message, open: true, type: "error" });
@@ -238,31 +252,45 @@ class Scheduler extends Component {
         className={classes.root}
         subheader={<ListSubheader component="div">Tasks</ListSubheader>}
       >
-        {
-          events.map((event, idx) => (
-            <ListItem key={idx} alignItems="flex-start">
-              <ListItemText
-                className={classes.listItem}
-                primary={<span>{event.summary}</span>}
-              />
-              <ListItemSecondaryAction>
-                <IconButton aria-label="Edit">
-                  <EditIcon />
-                </IconButton>
-                <IconButton aria-label="Remove" onClick={()=>this.setState({removeActionDialogue: true, selectedEvent: events[idx]})}>
-                  <RemoveIcon />
-                </IconButton>
-              </ListItemSecondaryAction>
-            </ListItem>
-          ))
-        }
+        {events.map((event, idx) => (
+          <ListItem key={idx} alignItems="flex-start">
+            <ListItemText
+              className={classes.listItem}
+              primary={<span>{event.summary}</span>}
+            />
+            <ListItemSecondaryAction>
+              <IconButton aria-label="Edit">
+                <EditIcon />
+              </IconButton>
+              <IconButton
+                aria-label="Remove"
+                onClick={() =>
+                  this.setState({
+                    removeActionDialogue: true,
+                    selectedEvent: events[idx]
+                  })
+                }
+              >
+                <RemoveIcon />
+              </IconButton>
+            </ListItemSecondaryAction>
+          </ListItem>
+        ))}
       </List>
     );
   };
   getSummary = () => {
     const { action, plantName, repetitionQuantity, date } = this.state;
     const time = date.getHours() + ":" + date.getMinutes();
-    return action + " the " + plantName.toLowerCase() + " every " + repetitionQuantity + (repetitionQuantity === 1 ? " day at " : " days at ") + time;
+    return (
+      action +
+      " the " +
+      plantName.toLowerCase() +
+      " every " +
+      repetitionQuantity +
+      (repetitionQuantity === 1 ? " day at " : " days at ") +
+      time
+    );
   };
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
@@ -320,7 +348,9 @@ class Scheduler extends Component {
   createScheduleRobotDialogueContent = () => {
     const { classes, reduxPlants } = this.props;
 
-    const plantNames = reduxPlants.map(plant => <MenuItem value={plant.name}>{plant.name}</MenuItem>);
+    const plantNames = reduxPlants.map(plant => (
+      <MenuItem value={plant.name}>{plant.name}</MenuItem>
+    ));
 
     const {
       checkedMonday,
@@ -337,7 +367,13 @@ class Scheduler extends Component {
       repetitionEnd,
       plantName
     } = this.state;
-    const repetitionQuantityField = this.createTextFieldWithType("repetitionQuantity", "", "number", repetitionQuantity, "repetitionQuantity");
+    const repetitionQuantityField = this.createTextFieldWithType(
+      "repetitionQuantity",
+      "",
+      "number",
+      repetitionQuantity,
+      "repetitionQuantity"
+    );
     const repetitionUnitItems = [
       "Second",
       "Minute",
@@ -391,7 +427,9 @@ class Scheduler extends Component {
           <Grid item>
             <Select
               value={plantName}
-              onChange={event => this.setState({ plantName: event.target.value })}
+              onChange={event =>
+                this.setState({ plantName: event.target.value })
+              }
               name="plantName"
               id="plantName"
               items={plantNames}
@@ -416,9 +454,7 @@ class Scheduler extends Component {
           <Grid item>
             <InputLabel>Repeat every</InputLabel>
           </Grid>
-          <Grid item>
-            {repetitionQuantityField}
-          </Grid>
+          <Grid item>{repetitionQuantityField}</Grid>
           <Grid item>
             <Select
               value={repetitionUnit}
@@ -464,7 +500,9 @@ class Scheduler extends Component {
   createRemoveActionDialogueActions = () => {
     return (
       <React.Fragment>
-        <Button onClick={() => this.handleCloseDialogue("removeActionDialogue")}>
+        <Button
+          onClick={() => this.handleCloseDialogue("removeActionDialogue")}
+        >
           Close
         </Button>
         <Button onClick={this.onRemoveEvent}>Remove</Button>

@@ -14,5 +14,4 @@ export default async function(token) {
   }
 
   return new Error(body);
-
 }
