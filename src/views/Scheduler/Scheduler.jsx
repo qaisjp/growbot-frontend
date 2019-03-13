@@ -106,12 +106,13 @@ class Scheduler extends Component {
     const { loginToken } = this.props;
 
     const rruleObj = this.getRRule();
+    const summary = this.getSummary();
     const recurrences = [new RRule(rruleObj).toString()];
     const actions = [this.getAction()];
 
-    const response = await scheduleAction(loginToken, recurrences, actions);
+    const response = await scheduleAction(loginToken, summary, recurrences, actions);
 
-    if (response.status === 200) {
+    if (response.ok) {
       this.setState({
         message: "Successfully scheduled actions!",
         open: true,
@@ -123,11 +124,17 @@ class Scheduler extends Component {
     }
   };
   getAction = () => {
-    const { action, plantId } = this.state;
+    const { reduxPlants, selectedRobot } = this.props;
+    const { action, plantName } = this.state;
+
+    const plantNames = reduxPlants.map(plant => plant.name);
+    const idx = plantNames.indexOf(plantName);
+    const plantId = reduxPlants[idx].id;
     if (action === "Water") {
       return {
         name: "PLANT_WATER",
         plant_id: plantId,
+        robot_id: selectedRobot.id,
         data: []
       };
     }
@@ -252,6 +259,11 @@ class Scheduler extends Component {
       </List>
     );
   };
+  getSummary = () => {
+    const { action, plantName, repetitionQuantity, date } = this.state;
+    const time = date.getHours() + ":" + date.getMinutes();
+    return action + " the " + plantName.toLowerCase() + " every " + repetitionQuantity + (repetitionQuantity === 1 ? " day at " : " days at ") + time;
+  };
   handleChange = name => event => {
     this.setState({ [name]: event.target.value });
   };
@@ -325,9 +337,7 @@ class Scheduler extends Component {
       repetitionEnd,
       plantName
     } = this.state;
-    const repetitionQuantityItems = [1, 2, 3, 4, 5, 6, 7].map(quantity => (
-      <MenuItem value={quantity}>{quantity}</MenuItem>
-    ));
+    const repetitionQuantityField = this.createTextFieldWithType("repetitionQuantity", "", "number", repetitionQuantity, "repetitionQuantity");
     const repetitionUnitItems = [
       "Second",
       "Minute",
@@ -362,7 +372,7 @@ class Scheduler extends Component {
         {this.createLetterCheckbox(day.letter, day.state, day.value)}
       </Grid>
     ));
-    const actions = ["Water", "Take Picture", "Water & Take Picture"].map(
+    const actions = ["Water", "Take picture", "Water & take picture"].map(
       action => <MenuItem value={action}>{action}</MenuItem>
     );
     const occurancesField = this.createTextFieldWithType(
@@ -407,15 +417,7 @@ class Scheduler extends Component {
             <InputLabel>Repeat every</InputLabel>
           </Grid>
           <Grid item>
-            <Select
-              value={repetitionQuantity}
-              onChange={event =>
-                this.setState({ repetitionQuantity: event.target.value })
-              }
-              name="repetition_quantity"
-              id="repetition_quantity"
-              items={repetitionQuantityItems}
-            />
+            {repetitionQuantityField}
           </Grid>
           <Grid item>
             <Select

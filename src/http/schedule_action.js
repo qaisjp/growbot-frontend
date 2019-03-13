@@ -1,7 +1,8 @@
 import endpoints from "../endpoints";
 
-export default async function(token, recurrences, actions) {
+export default async function(token, summary, recurrences, actions) {
   const scheduleRequest = {
+    summary,
     recurrences,
     actions
   };
