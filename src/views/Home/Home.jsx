@@ -85,7 +85,7 @@ class Home extends Component {
     this.setState({ open: false });
   };
   fetchRobots = async () => {
-    const { loginToken, reduxAddRobot, reduxRobots } = this.props;
+    const { loginToken, reduxAddRobot, reduxSelectRobot, reduxRobots, selectedRobot } = this.props;
     const fetchRobotsResult = await fetchRobots(loginToken);
 
     if (fetchRobotsResult instanceof Error) {
@@ -98,6 +98,9 @@ class Home extends Component {
           reduxAddRobot(robot);
         }
       });
+      if(selectedRobot.id===-1 && robots.length > 0) {
+        reduxSelectRobot(robots[0]);
+      }
     }
   };
   fetchPlants = async () => {
