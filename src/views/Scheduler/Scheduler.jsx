@@ -38,6 +38,8 @@ import styles from "../../assets/views/Scheduler/jss/scheduler-style";
 import { RRule } from "rrule/dist/esm/src/index";
 import scheduleAction from "../../http/schedule_action";
 
+import fetchEvents from "../../http/fetch_events";
+
 class Scheduler extends Component {
   state = {
     message: "",
@@ -58,8 +60,25 @@ class Scheduler extends Component {
     date: new Date(),
     action: "",
     plantId: "11967a3a-4433-11e9-b210-d663bd873d93",
-    scheduleRobotDialogue: false
+    scheduleRobotDialogue: false,
+    events: []
   };
+  fetchEvents = async () => {
+    const { loginToken } = this.props;
+    const fetchEventsResult = await fetchEvents(loginToken);
+
+    console.log(fetchEventsResult);
+
+    if (fetchEventsResult instanceof Error) {
+      this.setState({ events: [] });
+    } else {
+      const { events } = fetchEventsResult;
+      this.setState({ events });
+    };
+  }
+  componentDidMount = async () => {
+    this.fetchEvents();
+  }
   onSchedule = async () => {
     const { loginToken } = this.props;
 
@@ -181,6 +200,7 @@ class Scheduler extends Component {
     };
   };
   createSchedulingList = () => {
+    const { events } = this.state;
     const { classes } = this.props;
 
     return (
@@ -188,48 +208,24 @@ class Scheduler extends Component {
         className={classes.root}
         subheader={<ListSubheader component="div">Tasks</ListSubheader>}
       >
-        <ListItem key="1">
-          <ListItemText
-            className={classes.listItem}
-            primary={<span>Water Plant A every 3 hours</span>}
-          />
-          <ListItemSecondaryAction>
-            <IconButton aria-label="Edit">
-              <EditIcon />
-            </IconButton>
-            <IconButton aria-label="Remove">
-              <RemoveIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem key="2">
-          <ListItemText
-            className={classes.listItem}
-            primary={<span>Water Plant B every 6 hours</span>}
-          />
-          <ListItemSecondaryAction>
-            <IconButton aria-label="Edit">
-              <EditIcon />
-            </IconButton>
-            <IconButton aria-label="Remove">
-              <RemoveIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
-        <ListItem key="1">
-          <ListItemText
-            className={classes.listItem}
-            primary={<span>Photo Plant A every 3 hours</span>}
-          />
-          <ListItemSecondaryAction>
-            <IconButton aria-label="Edit">
-              <EditIcon />
-            </IconButton>
-            <IconButton aria-label="Remove">
-              <RemoveIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
+        {
+          events.map((event, idx) => (
+            <ListItem key={idx}>
+              <ListItemText
+                className={classes.listItem}
+                primary={<span>{event.summary}</span>}
+              />
+              <ListItemSecondaryAction>
+                <IconButton aria-label="Edit">
+                  <EditIcon />
+                </IconButton>
+                <IconButton aria-label="Remove">
+                  <RemoveIcon />
+                </IconButton>
+              </ListItemSecondaryAction>
+            </ListItem>
+          ))
+        }
       </List>
     );
   };

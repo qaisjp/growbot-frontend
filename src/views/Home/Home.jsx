@@ -61,7 +61,7 @@ class Home extends Component {
     addPlantDialogue: false,
     renamePlantDialogue: false,
     removePlantDialogue: false,
-    selectedPlant: {}
+    selectedPlant: {},
   };
 
   handleOpenDialogue = dialogue => {
