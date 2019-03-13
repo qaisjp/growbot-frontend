@@ -143,7 +143,7 @@ class Scheduler extends Component {
 
     const plantNames = reduxPlants.map(plant => plant.name);
     const idx = plantNames.indexOf(plantName);
-    const plantId = reduxPlants[idx].id;
+    const plantId = reduxPlants[idx] ? reduxPlants[idx].id : null;
     if (action === "Water") {
       return {
         name: "PLANT_WATER",
@@ -155,6 +155,7 @@ class Scheduler extends Component {
     return {
       name: "PLANT_CAPTURE_PHOTO",
       plant_id: plantId,
+      robot_id: selectedRobot.id,
       data: []
     };
   };
