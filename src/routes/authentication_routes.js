@@ -13,7 +13,7 @@ const indexRoutes = [
     name: "Register",
     component: Register
   },
-  { path: "/", name: "Home", component: Dashboard },
+  { path: "/", name: "Home", component: Dashboard }
 ];
 
 export default indexRoutes;

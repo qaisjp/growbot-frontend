@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import {Redirect} from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 
 import Card from "../../components/Card/Card.jsx";
 
@@ -9,11 +9,11 @@ import refreshLoginToken from "../../actions/refresh_token";
 import login from "../../actions/login";
 
 const Login = props => {
-  const {loggedIn} = props;
+  const { loggedIn } = props;
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const redirectLogin = loggedIn ? <Redirect to="/"/> : <div />;
+  const redirectLogin = loggedIn ? <Redirect to="/" /> : <div />;
 
   const handleLogin = () => {
     const { login } = props;
@@ -77,11 +77,11 @@ const Login = props => {
 };
 
 const mapStateToProps = state => {
-  const {loginError, isLoginSuccess} = state.auth;
+  const { loginError, isLoginSuccess } = state.auth;
   return {
     loginError,
     loggedIn: isLoginSuccess
-  }
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -91,4 +91,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);

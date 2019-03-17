@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
-import {Grid, Row, Col } from "react-bootstrap";
-import {connect} from "react-redux";
+import React, { useState, useEffect } from "react";
+import { Grid, Row, Col, Alert } from "react-bootstrap";
+import { connect } from "react-redux";
 import QrReader from "react-qr-reader";
 
 import Card from "../../components/Card/Card.jsx";
@@ -27,8 +27,7 @@ import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
 
 const Home = props => {
-
-  const {reduxRobots,reduxSelectRobot, selectedRobot, reduxPlants} = props;
+  const { reduxRobots, reduxSelectRobot, selectedRobot, reduxPlants } = props;
 
   const [selectedPlant, selectPlant] = useState({});
   const [renamePlantName, setRenamePlantName] = useState("");
@@ -39,19 +38,17 @@ const Home = props => {
   const [addRobotModalOpen, addRobotModalVisible] = useState(false);
   const [renameRobotModalOpen, renameRobotModalVisible] = useState(false);
   const [removeRobotModalOpen, removeRobotModalVisible] = useState(false);
-  const [qrDelay,] = useState(0);
+  const [alertVisible, showAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
+  const [qrDelay] = useState(0);
 
   useEffect(() => {
     fetchRobots();
     fetchPlants();
-  },[]);
+  }, []);
 
   const fetchRobots = async () => {
-    const {
-      loginToken,
-      reduxAddRobot,
-      selectedRobot
-    } = props;
+    const { loginToken, reduxAddRobot, selectedRobot } = props;
     const fetchRobotsResult = await httpFetchRobots(loginToken);
 
     if (fetchRobotsResult instanceof Error) {
@@ -89,16 +86,10 @@ const Home = props => {
 
     if (response.status === 200) {
       reduxRemoveRobot(selectedRobot);
-      /*this.setState({
-        message: "Successfully removed robot",
-        open: true,
-        type: "success"
-      });*/
     } else {
       const body = await response.json();
       //this.setState({ message: body.message, open: true, type: "error" });
     }
-    //this.handleCloseDialogue("removeRobotDialogue");
     removeRobotModalVisible(false);
   };
   const onRenamePlant = async () => {
@@ -138,6 +129,11 @@ const Home = props => {
     }
   };
   const onAddRobot = async () => {
+    if(newRobotSerialKey === "" || newRobotTitle === "") {
+      showAlert(true);
+      setAlertMessage("Please make sure you've added a serial key and a title!");
+      return;
+    }
     const { loginToken, reduxAddRobot } = props;
     const response = await httpAddRobot(
       loginToken,
@@ -168,7 +164,9 @@ const Home = props => {
       const body = await response.json();
       //this.setState({ message: body.message, open: true, type: "error" });
     }
-    addRobotModalVisible(false)
+    addRobotModalVisible(false);
+    showAlert(false);
+    setAlertMessage("");
   };
   const onAddPlant = async () => {
     const { loginToken, reduxAddPlant } = props;
@@ -198,6 +196,11 @@ const Home = props => {
     }
   };
   const onRenameRobot = async () => {
+    if(newRobotSerialKey === "" || newRobotTitle === "") {
+      showAlert(true);
+      setAlertMessage("Please make sure you've entered a new name!");
+      return;
+    }
     const { loginToken, reduxRenameRobot } = props;
 
     const response = await httpRenameRobot(
@@ -208,11 +211,6 @@ const Home = props => {
 
     if (response.status === 200) {
       reduxRenameRobot(selectedRobot, renameRobotTitle);
-      /*this.setState({
-        message: "Successfully renamed robot",
-        open: true,
-        type: "success"
-      });*/
     } else {
       const body = await response.json();
       /*this.setState({
@@ -221,56 +219,75 @@ const Home = props => {
         type: "error"
       });*/
     }
-    renameRobotModalVisible(false)
+    renameRobotModalVisible(false);
+    showAlert(false);
+    setAlertMessage("");
   };
   const createRenameRobotModalContent = () => {
     return (
       <div>
+        <div style={!alertVisible ? {display: "none"} : {display: "block"}} className="alert alert-danger" role="alert">{alertMessage}</div>
         <p>Please give the robot a new name</p>
-      <div className="form-group">
-        <label htmlFor="inputName">New Name</label>
-        <input
-          type="text"
-          className="form-control"
-          id="inputName"
-          placeholder="Name"
-          onChange={event => setRenameRobotTitle(event.target.value)}
-        />
-      </div></div>
-    )
+        <div className="form-group">
+          <label htmlFor="inputName">New Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="inputName"
+            placeholder="Name"
+            onChange={event => setRenameRobotTitle(event.target.value)}
+          />
+        </div>
+      </div>
+    );
   };
   const createRenameRobotModalFooter = () => {
     return (
       <React.Fragment>
         <React.Fragment>
-          <button onClick={() => renameRobotModalVisible(false)} className="btn btn-primary">
+          <button
+            onClick={() => {
+              showAlert(false);
+              setAlertMessage("");
+              renameRobotModalVisible(false);
+            }}
+            className="btn btn-primary"
+          >
             Close
           </button>
-          <button onClick={onRenameRobot} className="btn btn-primary">Rename</button>
+          <button onClick={onRenameRobot} className="btn btn-primary">
+            Rename
+          </button>
         </React.Fragment>
       </React.Fragment>
     );
-  }
+  };
   const createRemoveRobotModalContent = () => {
-    return (
-      <p>Are you sure you want to remove this robot?</p>
-    )
-  }
+    return <p>Are you sure you want to remove this robot?</p>;
+  };
   const createRemoveRobotModalFooter = () => {
     return (
       <React.Fragment>
         <React.Fragment>
-          <button onClick={() => removeRobotModalVisible(false)} className="btn btn-primary">
+          <button
+            onClick={() => {
+              removeRobotModalVisible(false)
+            }}
+            className="btn btn-primary"
+          >
             Close
           </button>
-          <button onClick={onRemoveRobot} className="btn btn-primary">Remove</button>
+          <button onClick={onRemoveRobot} className="btn btn-primary">
+            Remove
+          </button>
         </React.Fragment>
       </React.Fragment>
-    )
-  }
+    );
+  };
   const createAddRobotModalContent = () => {
     return (
       <React.Fragment>
+        <div style={!alertVisible ? {display: "none"} : {display: "block"}} className="alert alert-danger" role="alert">{alertMessage}</div>
         <QrReader
           delay={qrDelay}
           onError={qrHandleError}
@@ -305,10 +322,17 @@ const Home = props => {
   const createAddRobotModalFooter = () => {
     return (
       <React.Fragment>
-        <button onClick={() => addRobotModalVisible(false)} className="btn btn-primary">
+        <button
+          onClick={() =>{     showAlert(false);
+            setAlertMessage("");
+            addRobotModalVisible(false)}}
+          className="btn btn-primary"
+        >
           Close
         </button>
-        <button onClick={onAddRobot} className="btn btn-primary">Add</button>
+        <button onClick={onAddRobot} className="btn btn-primary">
+          Add
+        </button>
       </React.Fragment>
     );
   };
@@ -316,16 +340,34 @@ const Home = props => {
     const prefix = "growbot:";
     if (data && data.startsWith(prefix))
       setNewRobotSerialKey(data.slice(prefix.length));
-  }
+  };
   const qrHandleError = error => {
     alert(error);
-  }
+  };
 
   return (
     <div className="content">
-      <Modal open={addRobotModalOpen} close={() => addRobotModalVisible(false)} title="Add Robot" content={createAddRobotModalContent()} footer={createAddRobotModalFooter()} />
-      <Modal open={removeRobotModalOpen} close={() => removeRobotModalVisible(false)} title="Remove Robot" content={createRemoveRobotModalContent()} footer={createRemoveRobotModalFooter()} />
-      <Modal open={renameRobotModalOpen} close={() => renameRobotModalVisible(false)} title="Rename Robot" content={createRenameRobotModalContent()} footer={createRenameRobotModalFooter()} />
+      <Modal
+        open={addRobotModalOpen}
+        close={() => addRobotModalVisible(false)}
+        title="Add Robot"
+        content={createAddRobotModalContent()}
+        footer={createAddRobotModalFooter()}
+      />
+      <Modal
+        open={removeRobotModalOpen}
+        close={() => removeRobotModalVisible(false)}
+        title="Remove Robot"
+        content={createRemoveRobotModalContent()}
+        footer={createRemoveRobotModalFooter()}
+      />
+      <Modal
+        open={renameRobotModalOpen}
+        close={() => renameRobotModalVisible(false)}
+        title="Rename Robot"
+        content={createRenameRobotModalContent()}
+        footer={createRenameRobotModalFooter()}
+      />
 
       <Grid fluid>
         <Row>
@@ -334,32 +376,70 @@ const Home = props => {
               title={"Your Robots"}
               content={
                 <div>
-                <SelectableList
-                  onSelect={idx=>reduxSelectRobot(reduxRobots[idx])}
-                  items={reduxRobots.filter(robot => robot !== undefined).map(robot => (
-                  <div>
-                    <h4 className="list-group-item-heading"><img src={robot.seen_at !== null ? green_circle: red_circle} alt="Status"/> {robot.title}</h4>
-                    <span style={{ marginRight: '15px' }} className="label label-primary">{`Water: ${robot.water_level}ml`}</span>
-                    <span className="label label-default">{`Battery: ${robot.battery_level}%`}</span>
-                  </div>
-                ))}/>
-                  <button style={{marginRight: "10px"}}onClick={() => addRobotModalVisible(true)} className="btn btn-primary">Add Robot</button>
-                  <button style={{marginRight: "10px"}}onClick={() => removeRobotModalVisible(true)} className="btn btn-primary">Remove Robot</button>
-                  <button onClick={() => renameRobotModalVisible(true)} className="btn btn-primary">Rename Robot</button>
-
+                  <SelectableList
+                    onSelect={idx => reduxSelectRobot(reduxRobots[idx])}
+                    items={reduxRobots
+                      .filter(robot => robot !== undefined)
+                      .map(robot => (
+                        <div>
+                          <h4 className="list-group-item-heading">
+                            <img
+                              src={
+                                robot.seen_at !== null
+                                  ? green_circle
+                                  : red_circle
+                              }
+                              alt="Status"
+                            />{" "}
+                            {robot.title}
+                          </h4>
+                          <span
+                            style={{ marginRight: "15px" }}
+                            className="label label-primary"
+                          >{`Water: ${robot.water_level}ml`}</span>
+                          <span className="label label-default">{`Battery: ${
+                            robot.battery_level
+                          }%`}</span>
+                        </div>
+                      ))}
+                  />
+                  <button
+                    style={{ marginRight: "10px" }}
+                    onClick={() => addRobotModalVisible(true)}
+                    className="btn btn-primary"
+                  >
+                    Add Robot
+                  </button>
+                  <button
+                    style={{ marginRight: "10px" }}
+                    onClick={() => removeRobotModalVisible(true)}
+                    className="btn btn-primary"
+                  >
+                    Remove Robot
+                  </button>
+                  <button
+                    onClick={() => renameRobotModalVisible(true)}
+                    className="btn btn-primary"
+                  >
+                    Rename Robot
+                  </button>
                 </div>
-              }/>
+              }
+            />
           </Col>
           <Col md={6}>
             <Card
               title={"Your Plants"}
               content={
                 <ul className="list-group">
-                  {
-                    reduxPlants.map((plant,idx) => <li key={idx} className="list-group-item">{plant.name}</li>)
-                  }
+                  {reduxPlants.map((plant, idx) => (
+                    <li key={idx} className="list-group-item">
+                      {plant.name}
+                    </li>
+                  ))}
                 </ul>
-              }/>
+              }
+            />
           </Col>
         </Row>
       </Grid>
@@ -391,4 +471,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Home);

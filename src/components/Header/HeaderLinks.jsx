@@ -13,7 +13,7 @@ const HeaderLinks = () => {
         </NavItem>
       </Nav>
     </div>
-  )
+  );
 };
 
 export default HeaderLinks;

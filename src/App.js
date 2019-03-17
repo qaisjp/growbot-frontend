@@ -12,12 +12,13 @@ const App = () => {
     <BrowserRouter>
       <Switch>
         {authRoutes.map((prop, key) => {
-          return <Route path={prop.path} component={prop.component} key={key}/>;
+          return (
+            <Route path={prop.path} component={prop.component} key={key} />
+          );
         })}
       </Switch>
     </BrowserRouter>
   );
-
 };
 
 export default App;

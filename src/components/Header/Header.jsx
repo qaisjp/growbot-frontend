@@ -6,12 +6,11 @@ import HeaderLinks from "./HeaderLinks";
 import dashboardRoutes from "../../routes/dashboard_routes";
 
 const Header = props => {
-
   const { location } = props;
   const [sidebarExists, setSidebarExists] = useState(false);
 
   const mobileSidebarToggle = event => {
-    if(!sidebarExists) {
+    if (!sidebarExists) {
       setSidebarExists(true);
     }
     event.preventDefault();
@@ -27,14 +26,14 @@ const Header = props => {
     document.body.appendChild(node);
   };
 
-  const brand = dashboardRoutes.filter(route => route.path === location.pathname || route.path === "/" ).shift();
+  const brand = dashboardRoutes
+    .filter(route => route.path === location.pathname || route.path === "/")
+    .shift();
 
   return (
     <Navbar fluid>
       <Navbar.Header>
-        <Navbar.Brand>
-          { brand.name }
-        </Navbar.Brand>
+        <Navbar.Brand>{brand.name}</Navbar.Brand>
         <Navbar.Toggle onClick={mobileSidebarToggle} />
       </Navbar.Header>
       <Navbar.Collapse>
@@ -42,7 +41,6 @@ const Header = props => {
       </Navbar.Collapse>
     </Navbar>
   );
-
 };
 
 export default Header;

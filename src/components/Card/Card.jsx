@@ -1,7 +1,20 @@
 import React from "react";
 
 const Card = props => {
-  const {plain, hCenter, title, category, ctAllIcons, ctTableFullWidth, ctTableResponsive, ctTableUpgrade, content, legend, stats, statsIcon} = props;
+  const {
+    plain,
+    hCenter,
+    title,
+    category,
+    ctAllIcons,
+    ctTableFullWidth,
+    ctTableResponsive,
+    ctTableUpgrade,
+    content,
+    legend,
+    stats,
+    statsIcon
+  } = props;
 
   return (
     <div className={"card" + (plain ? " card-plain" : "")}>

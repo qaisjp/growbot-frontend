@@ -127,11 +127,13 @@ class Scheduler extends Component {
         this.setState({ events: [] });
       } else {
         const { events } = fetchEventsResult;
-        this.setState({ events,         message: "Successfully scheduled actions!",
+        this.setState({
+          events,
+          message: "Successfully scheduled actions!",
           open: true,
-          type: "success" });
+          type: "success"
+        });
       }
-
     } else {
       const body = await response.json();
       this.setState({ message: body.message, open: true, type: "error" });
@@ -408,9 +410,9 @@ class Scheduler extends Component {
         {this.createLetterCheckbox(day.letter, day.state, day.value)}
       </Grid>
     ));
-    const actions = ["Water", "Take picture"].map(
-      action => <MenuItem value={action}>{action}</MenuItem>
-    );
+    const actions = ["Water", "Take picture"].map(action => (
+      <MenuItem value={action}>{action}</MenuItem>
+    ));
     const occurancesField = this.createTextFieldWithType(
       "Occurances",
       "Occurances",

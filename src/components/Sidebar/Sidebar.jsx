@@ -5,25 +5,18 @@ import dashboardRoutes from "../../routes/dashboard_routes";
 
 const Sidebar = props => {
   const { location } = props;
-  const [ ,updateDimensions ] = useState(window.innerWidth);
-  const activeRoute = routeName => location.pathname.indexOf(routeName) > -1 ? "active" : "";
+  const [, updateDimensions] = useState(window.innerWidth);
+  const activeRoute = routeName =>
+    location.pathname.indexOf(routeName) > -1 ? "active" : "";
 
   useEffect(() => {
     updateDimensions(window.innerWidth);
   });
 
   return (
-    <div
-      id="sidebar"
-      className="sidebar"
-      data-color="red"
-    >
+    <div id="sidebar" className="sidebar" data-color="red">
       <div className="logo">
-        <div
-          className="simple-text logo-normal"
-        >
-          GrowBot
-        </div>
+        <div className="simple-text logo-normal">GrowBot</div>
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">
@@ -32,9 +25,7 @@ const Sidebar = props => {
               return (
                 <li
                   className={
-                    prop.upgrade
-                      ? "active active-pro"
-                      : activeRoute(prop.path)
+                    prop.upgrade ? "active active-pro" : activeRoute(prop.path)
                   }
                   key={key}
                 >
@@ -54,7 +45,6 @@ const Sidebar = props => {
       </div>
     </div>
   );
-
 };
 
 export default Sidebar;
