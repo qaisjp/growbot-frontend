@@ -25,7 +25,7 @@ function Gamepad(props) {
     armdown
   } = props;
   return (
-    <div style={styles} id="main-wrapper">
+    <div id="main-wrapper">
       <div id="arm-control-wrapper">
         <div className="grid-item">
           <Fab
