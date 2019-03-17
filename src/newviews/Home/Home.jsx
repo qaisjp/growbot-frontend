@@ -27,7 +27,13 @@ import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
 
 const Home = props => {
-  const { reduxRobots, reduxSelectRobot, selectedRobot, reduxPlants } = props;
+  const {
+    loginToken,
+    reduxRobots,
+    reduxSelectRobot,
+    selectedRobot,
+    reduxPlants
+  } = props;
 
   const [selectedPlant, selectPlant] = useState({});
   const [renamePlantName, setRenamePlantName] = useState("");
@@ -48,31 +54,31 @@ const Home = props => {
   }, []);
 
   const fetchRobots = async () => {
-    const { loginToken, reduxAddRobot, selectedRobot } = props;
+    const { reduxAddRobot } = props;
     const fetchRobotsResult = await httpFetchRobots(loginToken);
 
     if (!(fetchRobotsResult instanceof Error)) {
       const { robots } = fetchRobotsResult;
       const reduxRobotIds = reduxRobots.map(robot => robot.id);
-      robots.forEach(robot => {
-        if (reduxRobotIds.indexOf(robot.id) < 0) {
+      robots
+        .filter(robot => reduxRobotIds.indexOf(robot.id) < 0)
+        .forEach(robot => {
           reduxAddRobot(robot);
-        }
-      });
+        });
     }
   };
   const fetchPlants = async () => {
-    const { loginToken, reduxAddPlant } = props;
+    const { reduxAddPlant } = props;
     const fetchPlantsResult = await httpFetchPlants(loginToken);
 
     if (!(fetchPlantsResult instanceof Error)) {
       const { plants } = fetchPlantsResult;
       const reduxPlantIds = reduxPlants.map(plant => plant.id);
-      plants.forEach(plant => {
-        if (reduxPlantIds.indexOf(plant.id) < 0) {
+      plants
+        .filter(plant => reduxPlantIds.indexOf(plant.id) < 0)
+        .forEach(plant => {
           reduxAddPlant(plant);
-        }
-      });
+        });
     }
   };
   const onRemoveRobot = async () => {
@@ -87,7 +93,7 @@ const Home = props => {
     removeRobotModalVisible(false);
   };
   const onRenamePlant = async () => {
-    const { loginToken, reduxRenamePlant } = props;
+    const { reduxRenamePlant } = props;
 
     const response = await httpRenamePlant(
       loginToken,
@@ -100,7 +106,7 @@ const Home = props => {
     }
   };
   const onRemovePlant = async () => {
-    const { loginToken, reduxRemovePlant } = props;
+    const { reduxRemovePlant } = props;
 
     const response = await httpRemovePlant(loginToken, selectedPlant.id);
 
@@ -109,12 +115,14 @@ const Home = props => {
     }
   };
   const onAddRobot = async () => {
-    if(newRobotSerialKey === "" || newRobotTitle === "") {
+    if (newRobotSerialKey === "" || newRobotTitle === "") {
       showAlert(true);
-      setAlertMessage("Please make sure you've added a serial key and a title!");
+      setAlertMessage(
+        "Please make sure you've added a serial key and a title!"
+      );
       return;
     }
-    const { loginToken, reduxAddRobot } = props;
+    const { reduxAddRobot } = props;
     const response = await httpAddRobot(
       loginToken,
       newRobotSerialKey,
@@ -127,11 +135,11 @@ const Home = props => {
       if (!fetchRobotsResult instanceof Error) {
         const { robots } = fetchRobotsResult;
         const reduxRobotIds = reduxRobots.map(robot => robot.id);
-        robots.forEach(robot => {
-          if (reduxRobotIds.indexOf(robot.id) < 0) {
+        robots
+          .filter(robot => reduxRobotIds.indexOf(robot.id) < 0)
+          .forEach(robot => {
             reduxAddRobot(robot);
-          }
-        });
+          });
       }
     }
     addRobotModalVisible(false);
@@ -139,7 +147,7 @@ const Home = props => {
     setAlertMessage("");
   };
   const onAddPlant = async () => {
-    const { loginToken, reduxAddPlant } = props;
+    const { reduxAddPlant } = props;
     const response = await httpAddPlant(loginToken, newPlantName);
 
     if (response.status === 200) {
@@ -148,21 +156,21 @@ const Home = props => {
       if (!(fetchPlantsResult instanceof Error)) {
         const { plants } = fetchPlantsResult;
         const reduxPlantIds = reduxPlants.map(plant => plant.id);
-        plants.forEach(plant => {
-          if (reduxPlantIds.indexOf(plant.id) < 0) {
+        plants
+          .filter(plant => reduxPlantIds.indexOf(plant.id) < 0)
+          .forEach(plant => {
             reduxAddPlant(plant);
-          }
-        });
+          });
       }
     }
   };
   const onRenameRobot = async () => {
-    if(renameRobotTitle === "") {
+    if (renameRobotTitle === "") {
       showAlert(true);
       setAlertMessage("Please make sure you've entered a new name!");
       return;
     }
-    const { loginToken, reduxRenameRobot } = props;
+    const { reduxRenameRobot } = props;
 
     const response = await httpRenameRobot(
       loginToken,
@@ -180,7 +188,13 @@ const Home = props => {
   const createRenameRobotModalContent = () => {
     return (
       <div>
-        <div style={!alertVisible ? {display: "none"} : {display: "block"}} className="alert alert-danger" role="alert">{alertMessage}</div>
+        <div
+          style={!alertVisible ? { display: "none" } : { display: "block" }}
+          className="alert alert-danger"
+          role="alert"
+        >
+          {alertMessage}
+        </div>
         <p>Please give the robot a new name</p>
         <div className="form-group">
           <label htmlFor="inputName">New Name</label>
@@ -225,7 +239,7 @@ const Home = props => {
         <React.Fragment>
           <button
             onClick={() => {
-              removeRobotModalVisible(false)
+              removeRobotModalVisible(false);
             }}
             className="btn btn-danger"
           >
@@ -241,7 +255,13 @@ const Home = props => {
   const createAddRobotModalContent = () => {
     return (
       <React.Fragment>
-        <div style={!alertVisible ? {display: "none"} : {display: "block"}} className="alert alert-danger" role="alert">{alertMessage}</div>
+        <div
+          style={!alertVisible ? { display: "none" } : { display: "block" }}
+          className="alert alert-danger"
+          role="alert"
+        >
+          {alertMessage}
+        </div>
         <QrReader
           delay={qrDelay}
           onError={qrHandleError}
@@ -277,9 +297,11 @@ const Home = props => {
     return (
       <React.Fragment>
         <button
-          onClick={() =>{     showAlert(false);
+          onClick={() => {
+            showAlert(false);
             setAlertMessage("");
-            addRobotModalVisible(false)}}
+            addRobotModalVisible(false);
+          }}
           className="btn btn-danger"
         >
           Close
@@ -385,13 +407,31 @@ const Home = props => {
             <Card
               title={"Your Plants"}
               content={
-                <ul className="list-group">
-                  {reduxPlants.map((plant, idx) => (
-                    <li key={idx} className="list-group-item">
-                      {plant.name} <button type="button" style={{marginLeft: "10px"}} className="btn btn-sm btn-danger pull-right"><i className="glyphicon glyphicon-minus"/></button> <button type="button" className="btn btn-sm btn-danger pull-right"><i className="glyphicon glyphicon-pencil"/></button>
-                    </li>
-                  ))}
-                </ul>
+                <div>
+                  <ul className="list-group">
+                    {reduxPlants.map((plant, idx) => (
+                      <li key={idx} className="list-group-item">
+                        {plant.name}{" "}
+                        <button
+                          type="button"
+                          style={{ marginLeft: "10px" }}
+                          className="btn btn-sm btn-danger pull-right"
+                        >
+                          <i className="glyphicon glyphicon-minus" />
+                        </button>{" "}
+                        <button
+                          type="button"
+                          className="btn btn-sm btn-danger pull-right"
+                        >
+                          <i className="glyphicon glyphicon-pencil" />
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                  <button type="button" className="btn btn-sm btn-danger">
+                    Add Plant
+                  </button>
+                </div>
               }
             />
           </Col>
