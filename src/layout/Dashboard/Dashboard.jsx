@@ -9,6 +9,7 @@ import Header from "../../components/Header/Header.jsx";
 import dashboardRoutes from "../../routes/view_routes";
 
 const Dashboard = (props) => {
+
   return (
     <div className="wrapper">
       <Sidebar {...props} />
