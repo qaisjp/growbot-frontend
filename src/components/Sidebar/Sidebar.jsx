@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-import dashboardRoutes from "../../routes/view_routes";
+import dashboardRoutes from "../../routes/dashboard_routes";
 
 const Sidebar = props => {
   const { location } = props;

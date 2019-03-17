@@ -3,7 +3,7 @@ import { Navbar } from "react-bootstrap";
 
 import HeaderLinks from "./HeaderLinks";
 
-import dashboardRoutes from "../../routes/view_routes";
+import dashboardRoutes from "../../routes/dashboard_routes";
 
 const Header = props => {
 
@@ -27,7 +27,7 @@ const Header = props => {
     document.body.appendChild(node);
   };
 
-  const brand = dashboardRoutes.filter(route => route.path === location.pathname || route.path === "/").pop();
+  const brand = dashboardRoutes.filter(route => route.path === location.pathname || route.path === "/" ).shift();
 
   return (
     <Navbar fluid>
