@@ -4,6 +4,9 @@ import {Grid, Row, Col } from "react-bootstrap";
 import Card from "../../components/Card/Card.jsx";
 import SelectableList from "../../components/List/SelectableList.jsx";
 
+import green_circle from "../../assets/img/green_circle.png";
+import red_circle from "../../assets/img/red_circle.png";
+
 const Home = () => (
   <div className="content">
     <Grid fluid>
@@ -13,10 +16,14 @@ const Home = () => (
             title={"Your Robots"}
             content={
               <SelectableList items={[<div>
-                <h4 className="list-group-item-heading">PrototypeBot</h4>
-                <p className="list-group-item-text">Battery: 100%; Water: 500ml</p></div>, <div>
-                <h4 className="list-group-item-heading">NoobBot</h4>
-                <p className="list-group-item-text">Battery: 88%; Water: 80ml</p></div>]}/>
+                <h4 className="list-group-item-heading"><img src={green_circle} alt="Online" /> PrototypeBot</h4>
+                <span style={{marginRight: '15px'}}className="label label-primary">Water: 500ml</span>
+                <span className="label label-default">Battery: 100%</span>
+              </div>, <div disabled>
+                <h4 className="list-group-item-heading disabled"><img src={red_circle} alt="Offline" /> NoobBot</h4>
+                <span style={{marginRight: '15px'}}className="label label-primary">Water: 335ml</span>
+                <span className="label label-default">Battery: 93%</span>
+              </div>]}/>
             }/>
         </Col>
         <Col md={6}>

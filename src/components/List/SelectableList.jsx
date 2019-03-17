@@ -7,11 +7,12 @@ const SelectableList = props => {
 
   const listItems = items.map((item, idx) => {
     const state = selectedItems[idx] ? "active" : "inactive";
-    const className = `list-group-item ${state}`;
+    const disabled = item.props.hasOwnProperty("disabled") ? "disabled" : "";
+    const className = `list-group-item ${state} ${disabled}`;
     return (
-      <a className={className} onClick={() => onSelectItem(idx)}>
+      <div key={idx} className={className} onClick={() => onSelectItem(idx)}>
         {item}
-      </a>
+      </div>
     )
   });
 

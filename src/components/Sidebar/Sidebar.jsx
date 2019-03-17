@@ -5,7 +5,7 @@ import dashboardRoutes from "../../routes/view_routes";
 
 const Sidebar = props => {
   const { location } = props;
-  const [ width, updateDimensions ] = useState(window.innerWidth);
+  const [ ,updateDimensions ] = useState(window.innerWidth);
   const activeRoute = routeName => location.pathname.indexOf(routeName) > -1 ? "active" : "";
 
   useEffect(() => {
@@ -19,11 +19,11 @@ const Sidebar = props => {
       data-color="green"
     >
       <div className="logo">
-        <a
+        <div
           className="simple-text logo-normal"
         >
           GrowBot
-        </a>
+        </div>
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">
