@@ -2,6 +2,7 @@ import React from "react";
 
 import { Switch, Route, Redirect } from "react-router-dom";
 
+import Footer from "../../components/Footer/Footer.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
 import Header from "../../components/Header/Header.jsx";
 
@@ -22,6 +23,7 @@ const Dashboard = (props) => {
             );
           })}
         </Switch>
+        <Footer />
       </div>
     </div>
   );
