@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from "react";
 import {Grid, Row, Col } from "react-bootstrap";
 import {connect} from "react-redux";
+import QrReader from "react-qr-reader";
 
 import Card from "../../components/Card/Card.jsx";
+import Modal from "../../components/Modal/Modal.jsx";
 import SelectableList from "../../components/List/SelectableList.jsx";
 
 import green_circle from "../../assets/img/green_circle.png";
@@ -26,7 +28,7 @@ import httpRemoveRobot from "../../http/remove_robot";
 
 const Home = props => {
 
-  const {reduxRobots,reduxPlants} = props;
+  const {reduxRobots,reduxSelectRobot, selectedRobot, reduxPlants} = props;
 
   const [selectedPlant, selectPlant] = useState({});
   const [renamePlantName, setRenamePlantName] = useState("");
@@ -34,6 +36,10 @@ const Home = props => {
   const [newRobotSerialKey, setNewRobotSerialKey] = useState("");
   const [newRobotTitle, setNewRobotTitle] = useState("");
   const [renameRobotTitle, setRenameRobotTitle] = useState("");
+  const [addRobotModalOpen, addRobotModalVisible] = useState(false);
+  const [renameRobotModalOpen, renameRobotModalVisible] = useState(false);
+  const [removeRobotModalOpen, removeRobotModalVisible] = useState(false);
+  const [qrDelay,] = useState(0);
 
   useEffect(() => {
     fetchRobots();
@@ -44,7 +50,6 @@ const Home = props => {
     const {
       loginToken,
       reduxAddRobot,
-      reduxSelectRobot,
       selectedRobot
     } = props;
     const fetchRobotsResult = await httpFetchRobots(loginToken);
@@ -56,13 +61,9 @@ const Home = props => {
       const reduxRobotIds = reduxRobots.map(robot => robot.id);
       robots.forEach(robot => {
         if (reduxRobotIds.indexOf(robot.id) < 0) {
-          console.log(robot);
           reduxAddRobot(robot);
         }
       });
-      if (selectedRobot.id === -1 && robots.length > 0) {
-        reduxSelectRobot(robots[0]);
-      }
     }
   };
   const fetchPlants = async () => {
@@ -82,7 +83,7 @@ const Home = props => {
     }
   };
   const onRemoveRobot = async () => {
-    const { loginToken, selectedRobot, reduxRemoveRobot } = props;
+    const { loginToken, reduxRemoveRobot } = props;
 
     const response = await httpRemoveRobot(loginToken, selectedRobot.id);
 
@@ -98,6 +99,7 @@ const Home = props => {
       //this.setState({ message: body.message, open: true, type: "error" });
     }
     //this.handleCloseDialogue("removeRobotDialogue");
+    removeRobotModalVisible(false);
   };
   const onRenamePlant = async () => {
     const { loginToken, reduxRenamePlant } = props;
@@ -166,6 +168,7 @@ const Home = props => {
       const body = await response.json();
       //this.setState({ message: body.message, open: true, type: "error" });
     }
+    addRobotModalVisible(false)
   };
   const onAddPlant = async () => {
     const { loginToken, reduxAddPlant } = props;
@@ -195,7 +198,7 @@ const Home = props => {
     }
   };
   const onRenameRobot = async () => {
-    const { loginToken, selectedRobot, reduxRenameRobot } = props;
+    const { loginToken, reduxRenameRobot } = props;
 
     const response = await httpRenameRobot(
       loginToken,
@@ -218,23 +221,133 @@ const Home = props => {
         type: "error"
       });*/
     }
-    //this.handleCloseDialogue("renameRobotDialogue");
+    renameRobotModalVisible(false)
   };
+  const createRenameRobotModalContent = () => {
+    return (
+      <div>
+        <p>Please give the robot a new name</p>
+      <div className="form-group">
+        <label htmlFor="inputName">New Name</label>
+        <input
+          type="text"
+          className="form-control"
+          id="inputName"
+          placeholder="Name"
+          onChange={event => setRenameRobotTitle(event.target.value)}
+        />
+      </div></div>
+    )
+  };
+  const createRenameRobotModalFooter = () => {
+    return (
+      <React.Fragment>
+        <React.Fragment>
+          <button onClick={() => renameRobotModalVisible(false)} className="btn btn-primary">
+            Close
+          </button>
+          <button onClick={onRenameRobot} className="btn btn-primary">Rename</button>
+        </React.Fragment>
+      </React.Fragment>
+    );
+  }
+  const createRemoveRobotModalContent = () => {
+    return (
+      <p>Are you sure you want to remove this robot?</p>
+    )
+  }
+  const createRemoveRobotModalFooter = () => {
+    return (
+      <React.Fragment>
+        <React.Fragment>
+          <button onClick={() => removeRobotModalVisible(false)} className="btn btn-primary">
+            Close
+          </button>
+          <button onClick={onRemoveRobot} className="btn btn-primary">Remove</button>
+        </React.Fragment>
+      </React.Fragment>
+    )
+  }
+  const createAddRobotModalContent = () => {
+    return (
+      <React.Fragment>
+        <QrReader
+          delay={qrDelay}
+          onError={qrHandleError}
+          onScan={qrHandleScan}
+          style={{ width: "100%" }}
+        />
+        <div>
+          <div className="form-group">
+            <label htmlFor="inputSerialKey">Serial Key</label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputSerialKey"
+              placeholder="Key"
+              onChange={event => setNewRobotSerialKey(event.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputTitle">Title</label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputTitle"
+              placeholder="Title"
+              onChange={event => setNewRobotTitle(event.target.value)}
+            />
+          </div>
+        </div>
+      </React.Fragment>
+    );
+  };
+  const createAddRobotModalFooter = () => {
+    return (
+      <React.Fragment>
+        <button onClick={() => addRobotModalVisible(false)} className="btn btn-primary">
+          Close
+        </button>
+        <button onClick={onAddRobot} className="btn btn-primary">Add</button>
+      </React.Fragment>
+    );
+  };
+  const qrHandleScan = data => {
+    const prefix = "growbot:";
+    if (data && data.startsWith(prefix))
+      setNewRobotSerialKey(data.slice(prefix.length));
+  }
+  const qrHandleError = error => {
+    alert(error);
+  }
+
   return (
     <div className="content">
+      <Modal open={addRobotModalOpen} close={() => addRobotModalVisible(false)} title="Add Robot" content={createAddRobotModalContent()} footer={createAddRobotModalFooter()} />
+      <Modal open={removeRobotModalOpen} close={() => removeRobotModalVisible(false)} title="Remove Robot" content={createRemoveRobotModalContent()} footer={createRemoveRobotModalFooter()} />
+      <Modal open={renameRobotModalOpen} close={() => renameRobotModalVisible(false)} title="Rename Robot" content={createRenameRobotModalContent()} footer={createRenameRobotModalFooter()} />
+
       <Grid fluid>
         <Row>
           <Col md={6}>
             <Card
               title={"Your Robots"}
               content={
-                <SelectableList items={reduxRobots.map(robot => (
+                <div>
+                <SelectableList
+                  onSelect={idx=>reduxSelectRobot(reduxRobots[idx])}
+                  items={reduxRobots.filter(robot => robot !== undefined).map(robot => (
                   <div>
                     <h4 className="list-group-item-heading"><img src={robot.seen_at !== null ? green_circle: red_circle} alt="Status"/> {robot.title}</h4>
                     <span style={{ marginRight: '15px' }} className="label label-primary">{`Water: ${robot.water_level}ml`}</span>
                     <span className="label label-default">{`Battery: ${robot.battery_level}%`}</span>
                   </div>
                 ))}/>
+                  <button style={{marginRight: "10px"}}onClick={() => addRobotModalVisible(true)} className="btn btn-primary">Add Robot</button>
+                  <button style={{marginRight: "10px"}}onClick={() => removeRobotModalVisible(true)} className="btn btn-primary">Remove Robot</button>
+                  <button onClick={() => renameRobotModalVisible(true)} className="btn btn-primary">Rename Robot</button>
+
+                </div>
               }/>
           </Col>
           <Col md={6}>
@@ -243,7 +356,7 @@ const Home = props => {
               content={
                 <ul className="list-group">
                   {
-                    reduxPlants.map(plant => <li className="list-group-item">{plant.name}</li>)
+                    reduxPlants.map((plant,idx) => <li key={idx} className="list-group-item">{plant.name}</li>)
                   }
                 </ul>
               }/>
