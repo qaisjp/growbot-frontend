@@ -16,7 +16,7 @@ const Sidebar = props => {
     <div
       id="sidebar"
       className="sidebar"
-      data-color="green"
+      data-color="red"
     >
       <div className="logo">
         <div
