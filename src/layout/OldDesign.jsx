@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { withRouter, Switch, Route, Redirect } from "react-router-dom";
-import Header from "../components/Header/Header";
+import Header from "../components/MUIHeader/Header";
 import { MuiThemeProvider } from "@material-ui/core/styles";
 import { withStyles } from "@material-ui/core";
 import routes from "../routes/Routes";
-import menuRoutes from "../components/Header/header_actions";
-import menuRouteTypes from "../components/Header/header_action_types";
+import menuRoutes from "../components/MUIHeader/header_actions";
+import menuRouteTypes from "../components/MUIHeader/header_action_types";
 import Typography from "@material-ui/core/Typography";
 import styles from "../assets/layout/jss/layout-style";
 import colors from "../assets/layout/jss/color-style";
