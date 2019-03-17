@@ -1,16 +1,18 @@
 import React, { Component } from "react";
-import { Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import Layout from "./layout/Layout";
+import { HashRouter, Switch, Route } from "react-router-dom";
 
-const hist = createBrowserHistory();
+import indexRoutes from "./routes/index";
 
 class App extends Component {
   render() {
     return (
-      <Router history={hist}>
-        <Layout />
-      </Router>
+      <HashRouter>
+        <Switch>
+          {indexRoutes.map((prop, key) => {
+            return <Route to={prop.path} component={prop.component} key={key} />;
+          })}
+        </Switch>
+      </HashRouter>
     );
   }
 }

@@ -11,7 +11,7 @@ import styles from "../assets/layout/jss/layout-style";
 import colors from "../assets/layout/jss/color-style";
 import { connect } from "react-redux";
 
-class Layout extends Component {
+class OldDesign extends Component {
   static getPathName(url) {
     for (let i = 0; i < routes.length; i++) {
       const route = routes[i];
@@ -51,7 +51,7 @@ class Layout extends Component {
           />
           <div className={classes.contextHeader}>
             <Typography component="h2" variant="h2" color="inherit">
-              {Layout.getPathName(window.location.pathname)}
+              {OldDesign.getPathName(window.location.pathname)}
             </Typography>
           </div>
           <main className={classes.content}>
@@ -98,5 +98,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(withStyles(styles)(Layout))
+  )(withStyles(styles)(OldDesign))
 );
