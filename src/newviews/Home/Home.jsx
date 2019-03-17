@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Row, Col, Alert } from "react-bootstrap";
+import { Grid, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import QrReader from "react-qr-reader";
 
@@ -51,9 +51,7 @@ const Home = props => {
     const { loginToken, reduxAddRobot, selectedRobot } = props;
     const fetchRobotsResult = await httpFetchRobots(loginToken);
 
-    if (fetchRobotsResult instanceof Error) {
-      //this.setState({ message: fetchRobotsResult, open: true, type: "error" });
-    } else {
+    if (!(fetchRobotsResult instanceof Error)) {
       const { robots } = fetchRobotsResult;
       const reduxRobotIds = reduxRobots.map(robot => robot.id);
       robots.forEach(robot => {
@@ -67,9 +65,7 @@ const Home = props => {
     const { loginToken, reduxAddPlant } = props;
     const fetchPlantsResult = await httpFetchPlants(loginToken);
 
-    if (fetchPlantsResult instanceof Error) {
-      //this.setState({ message: fetchPlantsResult, open: true, type: "error" });
-    } else {
+    if (!(fetchPlantsResult instanceof Error)) {
       const { plants } = fetchPlantsResult;
       const reduxPlantIds = reduxPlants.map(plant => plant.id);
       plants.forEach(plant => {
@@ -86,10 +82,8 @@ const Home = props => {
 
     if (response.status === 200) {
       reduxRemoveRobot(selectedRobot);
-    } else {
-      const body = await response.json();
-      //this.setState({ message: body.message, open: true, type: "error" });
     }
+
     removeRobotModalVisible(false);
   };
   const onRenamePlant = async () => {
@@ -103,13 +97,6 @@ const Home = props => {
 
     if (response.status === 200) {
       reduxRenamePlant(selectedPlant, renamePlantName);
-    } else {
-      /*
-      this.setState({
-        message: (await response.json()).message,
-        open: true,
-        type: "error"
-      });*/
     }
   };
   const onRemovePlant = async () => {
@@ -119,13 +106,6 @@ const Home = props => {
 
     if (response.status === 200) {
       reduxRemovePlant(selectedPlant);
-    } else {
-      /*
-      this.setState({
-        message: (await response.json()).message,
-        open: true,
-        type: "error"
-      });*/
     }
   };
   const onAddRobot = async () => {
@@ -144,14 +124,7 @@ const Home = props => {
     if (response.status === 200) {
       const fetchRobotsResult = await fetchRobots(loginToken);
 
-      if (fetchRobotsResult instanceof Error) {
-        /*
-        this.setState({
-          message: fetchRobotsResult,
-          open: true,
-          type: "error"
-        });*/
-      } else {
+      if (!fetchRobotsResult instanceof Error) {
         const { robots } = fetchRobotsResult;
         const reduxRobotIds = reduxRobots.map(robot => robot.id);
         robots.forEach(robot => {
@@ -160,9 +133,6 @@ const Home = props => {
           }
         });
       }
-    } else {
-      const body = await response.json();
-      //this.setState({ message: body.message, open: true, type: "error" });
     }
     addRobotModalVisible(false);
     showAlert(false);
@@ -175,14 +145,7 @@ const Home = props => {
     if (response.status === 200) {
       const fetchPlantsResult = await fetchPlants(loginToken);
 
-      if (fetchPlantsResult instanceof Error) {
-        /*
-        this.setState({
-          message: fetchPlantsResult,
-          open: true,
-          type: "error"
-        });*/
-      } else {
+      if (!(fetchPlantsResult instanceof Error)) {
         const { plants } = fetchPlantsResult;
         const reduxPlantIds = reduxPlants.map(plant => plant.id);
         plants.forEach(plant => {
@@ -191,12 +154,10 @@ const Home = props => {
           }
         });
       }
-    } else {
-      //this.setState({ message: response, open: true, type: "error" });
     }
   };
   const onRenameRobot = async () => {
-    if(newRobotSerialKey === "" || newRobotTitle === "") {
+    if(renameRobotTitle === "") {
       showAlert(true);
       setAlertMessage("Please make sure you've entered a new name!");
       return;
@@ -211,13 +172,6 @@ const Home = props => {
 
     if (response.status === 200) {
       reduxRenameRobot(selectedRobot, renameRobotTitle);
-    } else {
-      const body = await response.json();
-      /*this.setState({
-        message: body.message,
-        open: true,
-        type: "error"
-      });*/
     }
     renameRobotModalVisible(false);
     showAlert(false);
@@ -251,11 +205,11 @@ const Home = props => {
               setAlertMessage("");
               renameRobotModalVisible(false);
             }}
-            className="btn btn-primary"
+            className="btn btn-danger"
           >
             Close
           </button>
-          <button onClick={onRenameRobot} className="btn btn-primary">
+          <button onClick={onRenameRobot} className="btn btn-danger">
             Rename
           </button>
         </React.Fragment>
@@ -273,11 +227,11 @@ const Home = props => {
             onClick={() => {
               removeRobotModalVisible(false)
             }}
-            className="btn btn-primary"
+            className="btn btn-danger"
           >
             Close
           </button>
-          <button onClick={onRemoveRobot} className="btn btn-primary">
+          <button onClick={onRemoveRobot} className="btn btn-danger">
             Remove
           </button>
         </React.Fragment>
@@ -326,11 +280,11 @@ const Home = props => {
           onClick={() =>{     showAlert(false);
             setAlertMessage("");
             addRobotModalVisible(false)}}
-          className="btn btn-primary"
+          className="btn btn-danger"
         >
           Close
         </button>
-        <button onClick={onAddRobot} className="btn btn-primary">
+        <button onClick={onAddRobot} className="btn btn-danger">
           Add
         </button>
       </React.Fragment>
@@ -406,20 +360,20 @@ const Home = props => {
                   <button
                     style={{ marginRight: "10px" }}
                     onClick={() => addRobotModalVisible(true)}
-                    className="btn btn-primary"
+                    className="btn btn-danger"
                   >
                     Add Robot
                   </button>
                   <button
                     style={{ marginRight: "10px" }}
                     onClick={() => removeRobotModalVisible(true)}
-                    className="btn btn-primary"
+                    className="btn btn-danger"
                   >
                     Remove Robot
                   </button>
                   <button
                     onClick={() => renameRobotModalVisible(true)}
-                    className="btn btn-primary"
+                    className="btn btn-danger"
                   >
                     Rename Robot
                   </button>
@@ -434,7 +388,7 @@ const Home = props => {
                 <ul className="list-group">
                   {reduxPlants.map((plant, idx) => (
                     <li key={idx} className="list-group-item">
-                      {plant.name}
+                      {plant.name} <button type="button" style={{marginLeft: "10px"}} className="btn btn-sm btn-danger pull-right"><i className="glyphicon glyphicon-minus"/></button> <button type="button" className="btn btn-sm btn-danger pull-right"><i className="glyphicon glyphicon-pencil"/></button>
                     </li>
                   ))}
                 </ul>
