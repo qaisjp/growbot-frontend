@@ -1,4 +1,4 @@
-import Home from "../views/EmptyHome/EmptyHome.jsx";
+import Home from "../newviews/Home/Home.jsx";
 
 const routes = [
   {
