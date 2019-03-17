@@ -1,7 +1,7 @@
 import React from "react";
 import { NavItem, Nav } from "react-bootstrap";
 
-export default function HeaderLinks() {
+const HeaderLinks = () => {
   return (
     <div>
       <Nav pullRight>
@@ -14,4 +14,6 @@ export default function HeaderLinks() {
       </Nav>
     </div>
   )
-}
+};
+
+export default HeaderLinks;

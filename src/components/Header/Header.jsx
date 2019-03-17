@@ -1,25 +1,20 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Navbar } from "react-bootstrap";
 
 import HeaderLinks from "./HeaderLinks";
 
 import dashboardRoutes from "../../routes/view_routes";
 
-export default class Header extends Component {
-  constructor(props) {
-    super(props);
-    this.mobileSidebarToggle = this.mobileSidebarToggle.bind(this);
-    this.state = {
-      sidebarExists: false
-    };
-  }
-  mobileSidebarToggle(e) {
-    if (this.state.sidebarExists === false) {
-      this.setState({
-        sidebarExists: true
-      });
+const Header = props => {
+
+  const { location } = props;
+  const [sidebarExists, setSidebarExists] = useState(false);
+
+  const mobileSidebarToggle = event => {
+    if(!sidebarExists) {
+      setSidebarExists(true);
     }
-    e.preventDefault();
+    event.preventDefault();
 
     // This is very very bad!!!!!
     document.documentElement.classList.toggle("nav-open");
@@ -30,32 +25,24 @@ export default class Header extends Component {
       document.documentElement.classList.toggle("nav-open");
     };
     document.body.appendChild(node);
-  }
-  getBrand() {
-    const { location } = this.props;
+  };
 
-    for(let idx in dashboardRoutes) {
-      const route = dashboardRoutes[idx];
-      if(location.pathname === route.path) {
-        return route.name;
-      }
-    }
+  const brand = dashboardRoutes.filter(route => route.path === location.pathname || route.path === "/").pop();
 
-    return null;
-  }
-  render() {
-    return (
-      <Navbar fluid>
-        <Navbar.Header>
-          <Navbar.Brand>
-            {this.getBrand()}
-          </Navbar.Brand>
-          <Navbar.Toggle onClick={this.mobileSidebarToggle} />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <HeaderLinks />
-        </Navbar.Collapse>
-      </Navbar>
-    );
-  }
-}
+  return (
+    <Navbar fluid>
+      <Navbar.Header>
+        <Navbar.Brand>
+          { brand.name }
+        </Navbar.Brand>
+        <Navbar.Toggle onClick={mobileSidebarToggle} />
+      </Navbar.Header>
+      <Navbar.Collapse>
+        <HeaderLinks />
+      </Navbar.Collapse>
+    </Navbar>
+  );
+
+};
+
+export default Header;
