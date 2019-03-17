@@ -13,42 +13,23 @@ const Home = () => (
             title={"Your Robots"}
             content={
               <SelectableList items={[<div>
-                <h4 className="list-group-item-heading">List group item heading</h4>
-                <p className="list-group-item-text">...</p></div>, <div>
-                <h4 className="list-group-item-heading">List group item heading</h4>
-                <p className="list-group-item-text">...</p></div>]}/>
+                <h4 className="list-group-item-heading">PrototypeBot</h4>
+                <p className="list-group-item-text">Battery: 100%; Water: 500ml</p></div>, <div>
+                <h4 className="list-group-item-heading">NoobBot</h4>
+                <p className="list-group-item-text">Battery: 88%; Water: 80ml</p></div>]}/>
             }/>
         </Col>
         <Col md={6}>
           <Card
-            title={"Your Robots"}
+            title={"Your Plants"}
             content={
-              <div className="list-group">
-                <a href="#" className="list-group-item active">
-                  <h4 className="list-group-item-heading">List group item heading</h4>
-                  <p className="list-group-item-text">...</p>
-                </a>
-                <a href="#" className="list-group-item inactive">
-                  <h4 className="list-group-item-heading">List group item heading</h4>
-                  <p className="list-group-item-text">...</p>
-                </a>
-              </div>
-            }/>
-        </Col>
-        <Col md={6}>
-          <Card
-            title={"Your Robots"}
-            content={
-              <div className="list-group">
-                <a href="#" className="list-group-item active">
-                  <h4 className="list-group-item-heading">List group item heading</h4>
-                  <p className="list-group-item-text">...</p>
-                </a>
-                <a href="#" className="list-group-item inactive">
-                  <h4 className="list-group-item-heading">List group item heading</h4>
-                  <p className="list-group-item-text">...</p>
-                </a>
-              </div>
+              <ul className="list-group">
+                <li className="list-group-item">Sunflower 1</li>
+                <li className="list-group-item">Sunflower 2</li>
+                <li className="list-group-item">Sunflower 3</li>
+                <li className="list-group-item">Sunflower 4</li>
+                <li className="list-group-item">Sunflower 5</li>
+              </ul>
             }/>
         </Col>
       </Row>
