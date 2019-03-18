@@ -11,6 +11,8 @@ import login from "../../actions/login";
 
 const Login = props => {
   const { loggedIn } = props;
+  const [alertVisible, showAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -22,10 +24,14 @@ const Login = props => {
   };
 
   useEffect(() => {
-    const { refreshLoginToken } = props;
+    const { refreshLoginToken, loginError } = props;
     const token = localStorage.getItem("loginToken");
     if (token !== null) {
       refreshLoginToken(token);
+    }
+    if(loginError) {
+      showAlert(true);
+      setAlertMessage(loginError);
     }
   });
 
@@ -39,6 +45,13 @@ const Login = props => {
           title="Login"
           content={
             <div>
+              <div
+                style={!alertVisible ? { display: "none" } : { display: "block" }}
+                className="alert alert-danger"
+                role="alert"
+              >
+                {alertMessage}
+              </div>
               <div className="form-group">
                 <label htmlFor="inputEmail">Email</label>
                 <input
