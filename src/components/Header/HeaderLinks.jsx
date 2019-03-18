@@ -1,6 +1,9 @@
 import React from "react";
 import { NavItem, Nav } from "react-bootstrap";
 
+import store from "../../store";
+import logout from "../../actions/logout";
+
 const HeaderLinks = () => {
   return (
     <div>
@@ -8,7 +11,7 @@ const HeaderLinks = () => {
         <NavItem eventKey={1} href="#">
           Settings
         </NavItem>
-        <NavItem eventKey={3} href="#">
+        <NavItem onClick={() => store.dispatch(logout())} eventKey={3}>
           Log out
         </NavItem>
       </Nav>

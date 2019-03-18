@@ -1,9 +1,12 @@
+import store from "../../store";
+import logout from "../../actions/logout";
+
 const actions = [
   {
     name: "Logout",
     icon: "pe-7s-graph",
-    action: caller => {
-      console.log("clicked");
+    action: () => {
+      store.dispatch(logout());
     }
   }
 ];
