@@ -16,9 +16,9 @@
   height: 300px;
 
   /* Center form on page horizontally & vertically */
-  top: 50%;
+  top: 52%;
   left: 50%;
-  margin-top: -150px;
+  margin-top: -300px;
   margin-left: -150px;
 }
 

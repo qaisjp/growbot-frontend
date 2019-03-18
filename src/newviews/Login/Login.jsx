@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 import Card from "../../components/Card/Card.jsx";
 
-import "./login.css";
+import "../../assets/css/login.css";
 import backgroundImage from "../../assets/img/background.png";
 import refreshLoginToken from "../../actions/refresh_token";
 import login from "../../actions/login";
 
 const Login = props => {
   const { loggedIn } = props;
+  const redirectLogin = loggedIn ? <Redirect to="/" /> : <div />;
+
   const [alertVisible, showAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
-  const redirectLogin = loggedIn ? <Redirect to="/" /> : <div />;
 
   const handleLogin = () => {
     const { login } = props;
@@ -29,7 +29,7 @@ const Login = props => {
     if (token !== null) {
       refreshLoginToken(token);
     }
-    if(loginError) {
+    if (loginError) {
       showAlert(true);
       setAlertMessage(loginError);
     }
@@ -46,7 +46,9 @@ const Login = props => {
           content={
             <div>
               <div
-                style={!alertVisible ? { display: "none" } : { display: "block" }}
+                style={
+                  !alertVisible ? { display: "none" } : { display: "block" }
+                }
                 className="alert alert-danger"
                 role="alert"
               >
@@ -82,9 +84,10 @@ const Login = props => {
                 </label>
               </div>
 
-              <button onClick={handleLogin} className="btn btn-primary">
+              <button style={{marginRight: '10px'}}onClick={handleLogin} className="btn btn-primary">
                 Login
               </button>
+              <Link to="/register" className="btn btn-primary">Go To Register</Link>
             </div>
           }
         />
