@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { Grid, Row, Col } from "react-bootstrap";
 import { connect } from "react-redux";
 import QrReader from "react-qr-reader";
+
+//import "./checkbox.css"
 
 import Card from "../../components/Card/Card.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
@@ -494,9 +495,9 @@ const Home = props => {
         content={createRemovePlantModalContent()}
         footer={createRemovePlantModalFooter()}
       />
-      <Grid fluid>
-        <Row>
-          <Col md={6}>
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6">
             <Card
               title={"Your Robots"}
               content={
@@ -551,8 +552,8 @@ const Home = props => {
                 </div>
               }
             />
-          </Col>
-          <Col md={6}>
+          </div>
+          <div className="col-md-6">
             <Card
               title={"Your Plants"}
               content={
@@ -599,9 +600,9 @@ const Home = props => {
                 </div>
               }
             />
-          </Col>
-        </Row>
-      </Grid>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

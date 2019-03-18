@@ -1,20 +1,34 @@
 import React from "react";
-import { Modal as BootstrapModal } from "react-bootstrap";
 
 const Modal = props => {
   const { open, close, title, content, footer } = props;
+  const modalClassAttribute = open ? "show" : "hide";
 
   return (
-    <BootstrapModal show={open} onHide={close}>
-      <BootstrapModal.Header closeButton>
-        <BootstrapModal.Title>{title}</BootstrapModal.Title>
-      </BootstrapModal.Header>
+    <div style={{overflowY: "auto"}} className={"modal " + modalClassAttribute}>
+      <div className="modal-dialog" role="document">
+        <div className="modal-content">
 
-      <BootstrapModal.Body>{content}</BootstrapModal.Body>
-
-      <BootstrapModal.Footer>{footer}</BootstrapModal.Footer>
-    </BootstrapModal>
-  );
-};
+          <div className="modal-header">
+            <button
+              type="button"
+              onClick={close}
+              className="close"
+            >
+              &times;
+            </button>
+            <h4 className="modal-title">{title}</h4>
+          </div>
+          <div className="modal-body">
+            {open && content}
+          </div>
+          <div className="modal-footer">
+            {footer}
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default Modal;

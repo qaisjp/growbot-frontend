@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { Navbar } from "react-bootstrap";
-
-import HeaderLinks from "./HeaderLinks";
 
 import dashboardRoutes from "../../routes/dashboard_routes";
+import logout from "../../actions/logout";
+import store from "../../store";
 
 const Header = props => {
   const { location } = props;
@@ -17,7 +16,7 @@ const Header = props => {
 
     // This is very very bad!!!!!
     document.documentElement.classList.toggle("nav-open");
-    var node = document.createElement("div");
+    let node = document.createElement("div");
     node.id = "bodyClick";
     node.onclick = function() {
       this.parentElement.removeChild(this);
@@ -31,15 +30,25 @@ const Header = props => {
     .shift();
 
   return (
-    <Navbar fluid>
-      <Navbar.Header>
-        <Navbar.Brand>{brand.name}</Navbar.Brand>
-        <Navbar.Toggle onClick={mobileSidebarToggle} />
-      </Navbar.Header>
-      <Navbar.Collapse>
-        <HeaderLinks />
-      </Navbar.Collapse>
-    </Navbar>
+      <nav className="navbar navbar-default">
+        <div className="container-fluid">
+          <div className="navbar-header page-scroll">
+            <button type="button" className="navbar-toggle" onClick={mobileSidebarToggle}>
+              <span className="sr-only">Toggle navigation</span>
+              <i className="fa fa-bars"/>
+            </button>
+            <a className="navbar-brand" href="#">{brand.name}</a>
+          </div>
+          <div className="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
+            <ul className="nav navbar-nav pull-right">
+              <li><a href="#">Settings</a></li>
+              <li><a href="#" onClick={() => store.dispatch(logout())}>
+                Log out
+              </a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
   );
 };
 
