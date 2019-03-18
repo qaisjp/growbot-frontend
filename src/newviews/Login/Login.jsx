@@ -84,10 +84,16 @@ const Login = props => {
                 </label>
               </div>
 
-              <button style={{marginRight: '10px'}}onClick={handleLogin} className="btn btn-primary">
+              <button
+                style={{ marginRight: "10px" }}
+                onClick={handleLogin}
+                className="btn btn-primary"
+              >
                 Login
               </button>
-              <Link to="/register" className="btn btn-primary">Go To Register</Link>
+              <Link to="/register" className="btn btn-primary">
+                Go To Register
+              </Link>
             </div>
           }
         />

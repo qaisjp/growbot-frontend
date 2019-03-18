@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 import Modal from "../../components/Modal/Modal";
 
@@ -6,27 +6,23 @@ const Scheduler = () => {
   const [scheduleEventModalOpen, scheduleEventModalVisible] = useState(false);
 
   const createScheduleEventModalContent = () => {
-    return (
-      <React.Fragment>
-      </React.Fragment>
-    )
-  }
+    return <React.Fragment />;
+  };
 
-  const createScheduleEventModalActions = () => {
-  }
+  const createScheduleEventModalActions = () => {};
 
   return (
     <div className="content">
-      <button onClick={()=>scheduleEventModalVisible(true)}>Schedule</button>
+      <button onClick={() => scheduleEventModalVisible(true)}>Schedule</button>
       <Modal
         open={scheduleEventModalOpen}
-        close={()=>scheduleEventModalVisible(false)}
+        close={() => scheduleEventModalVisible(false)}
         title="Schedule Event"
         content={createScheduleEventModalContent()}
-        actions={createScheduleEventModalActions()}/>
+        actions={createScheduleEventModalActions()}
+      />
     </div>
-  )
-
+  );
 };
 
 export default Scheduler;

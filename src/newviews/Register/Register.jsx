@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import "../../assets/css/register.css";
@@ -8,7 +8,7 @@ import login from "../../actions/login";
 import register from "../../http/register";
 
 const Register = props => {
-  const {login} = props;
+  const { login } = props;
 
   const [alertVisible, showAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
@@ -19,12 +19,12 @@ const Register = props => {
   const [confirmPassword, setConfirmPassword] = useState("");
 
   const onRegister = async () => {
-    if(alertVisible) {
+    if (alertVisible) {
       showAlert(false);
       setAlertMessage("");
     }
 
-    if(password !== confirmPassword) {
+    if (password !== confirmPassword) {
       showAlert(true);
       setAlertMessage(
         "Make sure New Password and Confirm Password are identical!"
@@ -33,7 +33,7 @@ const Register = props => {
     }
 
     const response = await register(email, password, forename, surname);
-    if(response.status === 200) {
+    if (response.status === 200) {
       login(email, password);
     } else {
       const body = await response.json();
@@ -127,8 +127,7 @@ const Register = props => {
 };
 
 const mapStateToProps = state => {
-  return {
-  };
+  return {};
 };
 
 const mapDispatchToProps = dispatch => {
@@ -137,4 +136,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Register);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Register);

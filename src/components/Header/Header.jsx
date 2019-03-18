@@ -30,25 +30,38 @@ const Header = props => {
     .shift();
 
   return (
-      <nav className="navbar navbar-default">
-        <div className="container-fluid">
-          <div className="navbar-header page-scroll">
-            <button type="button" className="navbar-toggle" onClick={mobileSidebarToggle}>
-              <span className="sr-only">Toggle navigation</span>
-              <i className="fa fa-bars"/>
-            </button>
-            <a className="navbar-brand" href="#">{brand.name}</a>
-          </div>
-          <div className="navbar-collapse collapse" id="bs-example-navbar-collapse-1">
-            <ul className="nav navbar-nav pull-right">
-              <li><a href="#">Settings</a></li>
-              <li><a href="#" onClick={() => store.dispatch(logout())}>
-                Log out
-              </a></li>
-            </ul>
-          </div>
+    <nav className="navbar navbar-default">
+      <div className="container-fluid">
+        <div className="navbar-header page-scroll">
+          <button
+            type="button"
+            className="navbar-toggle"
+            onClick={mobileSidebarToggle}
+          >
+            <span className="sr-only">Toggle navigation</span>
+            <i className="fa fa-bars" />
+          </button>
+          <a className="navbar-brand" href="#">
+            {brand.name}
+          </a>
         </div>
-      </nav>
+        <div
+          className="navbar-collapse collapse"
+          id="bs-example-navbar-collapse-1"
+        >
+          <ul className="nav navbar-nav pull-right">
+            <li>
+              <a href="#">Settings</a>
+            </li>
+            <li>
+              <a href="#" onClick={() => store.dispatch(logout())}>
+                Log out
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
   );
 };
 

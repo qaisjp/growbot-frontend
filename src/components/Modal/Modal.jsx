@@ -5,30 +5,24 @@ const Modal = props => {
   const modalClassAttribute = open ? "show" : "hide";
 
   return (
-    <div style={{overflowY: "auto"}} className={"modal " + modalClassAttribute}>
+    <div
+      style={{ overflowY: "auto" }}
+      className={"modal " + modalClassAttribute}
+    >
       <div className="modal-dialog" role="document">
         <div className="modal-content">
-
           <div className="modal-header">
-            <button
-              type="button"
-              onClick={close}
-              className="close"
-            >
+            <button type="button" onClick={close} className="close">
               &times;
             </button>
             <h4 className="modal-title">{title}</h4>
           </div>
-          <div className="modal-body">
-            {open && content}
-          </div>
-          <div className="modal-footer">
-            {footer}
-          </div>
+          <div className="modal-body">{open && content}</div>
+          <div className="modal-footer">{footer}</div>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
 export default Modal;
