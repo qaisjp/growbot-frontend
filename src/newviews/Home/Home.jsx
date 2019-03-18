@@ -239,21 +239,19 @@ const Home = props => {
   const createRenameRobotModalFooter = () => {
     return (
       <React.Fragment>
-        <React.Fragment>
-          <button
-            onClick={() => {
-              showAlert(false);
-              setAlertMessage("");
-              renameRobotModalVisible(false);
-            }}
-            className="btn btn-danger"
-          >
-            Close
-          </button>
-          <button onClick={onRenameRobot} className="btn btn-danger">
-            Rename
-          </button>
-        </React.Fragment>
+        <button
+          onClick={() => {
+            showAlert(false);
+            setAlertMessage("");
+            renameRobotModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button onClick={onRenameRobot} className="btn btn-danger">
+          Rename
+        </button>
       </React.Fragment>
     );
   };
@@ -263,19 +261,17 @@ const Home = props => {
   const createRemoveRobotModalFooter = () => {
     return (
       <React.Fragment>
-        <React.Fragment>
-          <button
-            onClick={() => {
-              removeRobotModalVisible(false);
-            }}
-            className="btn btn-danger"
-          >
-            Close
-          </button>
-          <button onClick={onRemoveRobot} className="btn btn-danger">
-            Remove
-          </button>
-        </React.Fragment>
+        <button
+          onClick={() => {
+            removeRobotModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button onClick={onRemoveRobot} className="btn btn-danger">
+          Remove
+        </button>
       </React.Fragment>
     );
   };
@@ -386,21 +382,19 @@ const Home = props => {
   const createAddPlantModalFooter = () => {
     return (
       <React.Fragment>
-        <React.Fragment>
-          <button
-            onClick={() => {
-              showAlert(false);
-              setAlertMessage("");
-              addPlantModalVisible(false);
-            }}
-            className="btn btn-danger"
-          >
-            Close
-          </button>
-          <button onClick={onAddPlant} className="btn btn-danger">
-            Add
-          </button>
-        </React.Fragment>
+        <button
+          onClick={() => {
+            showAlert(false);
+            setAlertMessage("");
+            addPlantModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button onClick={onAddPlant} className="btn btn-danger">
+          Add
+        </button>
       </React.Fragment>
     );
   };

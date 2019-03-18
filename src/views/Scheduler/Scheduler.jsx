@@ -129,7 +129,7 @@ class Scheduler extends Component {
         const { events } = fetchEventsResult;
         this.setState({
           events,
-          message: "Successfully scheduled actions!",
+          message: "Successfully scheduled sidebar_actions!",
           open: true,
           type: "success"
         });
