@@ -98,9 +98,7 @@ const Home = props => {
   const onRenamePlant = async () => {
     if (renamePlantName === "") {
       showAlert(true);
-      setAlertMessage(
-        "Please make sure you've typed in a new name!"
-      );
+      setAlertMessage("Please make sure you've typed in a new name!");
       return;
     }
 
@@ -286,19 +284,19 @@ const Home = props => {
   };
   const createRemovePlantModalFooter = () => {
     return (
-        <React.Fragment>
-          <button
-            onClick={() => {
-              removePlantModalVisible(false);
-            }}
-            className="btn btn-danger"
-          >
-            Close
-          </button>
-          <button onClick={onRemovePlant} className="btn btn-danger">
-            Remove
-          </button>
-        </React.Fragment>
+      <React.Fragment>
+        <button
+          onClick={() => {
+            removePlantModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button onClick={onRemovePlant} className="btn btn-danger">
+          Remove
+        </button>
+      </React.Fragment>
     );
   };
   const createAddRobotModalContent = () => {
@@ -432,21 +430,21 @@ const Home = props => {
   };
   const createRenamePlantModalFooter = () => {
     return (
-        <React.Fragment>
-          <button
-            onClick={() => {
-              showAlert(false);
-              setAlertMessage("");
-              renamePlantModalVisible(false);
-            }}
-            className="btn btn-danger"
-          >
-            Close
-          </button>
-          <button onClick={onRenamePlant} className="btn btn-danger">
-            Rename
-          </button>
-        </React.Fragment>
+      <React.Fragment>
+        <button
+          onClick={() => {
+            showAlert(false);
+            setAlertMessage("");
+            renamePlantModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button onClick={onRenamePlant} className="btn btn-danger">
+          Rename
+        </button>
+      </React.Fragment>
     );
   };
   const qrHandleScan = data => {
@@ -566,36 +564,42 @@ const Home = props => {
               content={
                 <div>
                   <ul className="list-group">
-                    {reduxPlants.filter(plant => plant !== undefined).map((plant, idx) => (
-                      <li key={idx} className="list-group-item">
-                        {plant.name}{" "}
-                        <button
-                          onClick={() => {
-                            const plant = reduxPlants[idx];
-                            selectPlant(plant);
-                            removePlantModalVisible(true);
-                          }}
-                          type="button"
-                          style={{ marginLeft: "10px" }}
-                          className="btn btn-sm btn-danger pull-right"
-                        >
-                          <i className="glyphicon glyphicon-minus" />
-                        </button>{" "}
-                        <button
-                          onClick={() => {
-                            const plant = reduxPlants[idx];
-                            selectPlant(plant);
-                            renamePlantModalVisible(true);
-                          }}
-                          type="button"
-                          className="btn btn-sm btn-danger pull-right"
-                        >
-                          <i className="glyphicon glyphicon-pencil" />
-                        </button>
-                      </li>
-                    ))}
+                    {reduxPlants
+                      .filter(plant => plant !== undefined)
+                      .map((plant, idx) => (
+                        <li key={idx} className="list-group-item">
+                          {plant.name}{" "}
+                          <button
+                            onClick={() => {
+                              const plant = reduxPlants[idx];
+                              selectPlant(plant);
+                              removePlantModalVisible(true);
+                            }}
+                            type="button"
+                            style={{ marginLeft: "10px" }}
+                            className="btn btn-sm btn-danger pull-right"
+                          >
+                            <i className="glyphicon glyphicon-minus" />
+                          </button>{" "}
+                          <button
+                            onClick={() => {
+                              const plant = reduxPlants[idx];
+                              selectPlant(plant);
+                              renamePlantModalVisible(true);
+                            }}
+                            type="button"
+                            className="btn btn-sm btn-danger pull-right"
+                          >
+                            <i className="glyphicon glyphicon-pencil" />
+                          </button>
+                        </li>
+                      ))}
                   </ul>
-                  <button onClick={()=>addPlantModalVisible(true)} type="button" className="btn btn-sm btn-danger">
+                  <button
+                    onClick={() => addPlantModalVisible(true)}
+                    type="button"
+                    className="btn btn-sm btn-danger"
+                  >
                     Add Plant
                   </button>
                 </div>

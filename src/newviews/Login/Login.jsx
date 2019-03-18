@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import Card from "../../components/Card/Card.jsx";
 
 import "./login.css";
+import backgroundImage from "../../assets/img/background.png";
 import refreshLoginToken from "../../actions/refresh_token";
 import login from "../../actions/login";
 
@@ -29,49 +30,52 @@ const Login = props => {
   });
 
   return (
-    <div className="login_div">
-      {redirectLogin}
-      <Card
-        className="login_card"
-        title="Login"
-        content={
-          <div>
-            <div className="form-group">
-              <label htmlFor="inputEmail">Email</label>
-              <input
-                type="email"
-                className="form-control"
-                id="inputEmail"
-                placeholder="Email"
-                onChange={event => setEmail(event.target.value)}
-              />
+    <div className="background">
+      <img className="background-img" src={backgroundImage} alt="background" />
+      <div className="login-div">
+        {redirectLogin}
+        <Card
+          className="login-card"
+          title="Login"
+          content={
+            <div>
+              <div className="form-group">
+                <label htmlFor="inputEmail">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="inputEmail"
+                  placeholder="Email"
+                  onChange={event => setEmail(event.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="inputPassword">Password</label>
+
+                <input
+                  type="password"
+                  className="form-control"
+                  id="inputPassword"
+                  placeholder="Password"
+                  onChange={event => setPassword(event.target.value)}
+                />
+              </div>
+
+              <div className="checkbox">
+                <label>
+                  <input type="checkbox" />
+                  Remember me
+                </label>
+              </div>
+
+              <button onClick={handleLogin} className="btn btn-primary">
+                Login
+              </button>
             </div>
-
-            <div className="form-group">
-              <label htmlFor="inputPassword">Password</label>
-
-              <input
-                type="password"
-                className="form-control"
-                id="inputPassword"
-                placeholder="Password"
-                onChange={event => setPassword(event.target.value)}
-              />
-            </div>
-
-            <div className="checkbox">
-              <label>
-                <input type="checkbox" />
-                Remember me
-              </label>
-            </div>
-
-            <button onClick={handleLogin} className="btn btn-primary">
-              Login
-            </button>
-          </div>
-        }
-      />
+          }
+        />
+      </div>
     </div>
   );
 };
