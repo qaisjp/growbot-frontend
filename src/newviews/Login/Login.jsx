@@ -18,9 +18,10 @@ const Login = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleSubmit = event => {
     const { login } = props;
     login(email, password);
+    event.preventDefault();
   };
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const Login = props => {
           className="login-card"
           title="Login"
           content={
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleSubmit}>
               <div
                 style={
                   !alertVisible ? { display: "none" } : { display: "block" }
