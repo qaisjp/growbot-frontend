@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import "../../assets/css/register.css";
-import backgroundImage from "../../assets/img/background.png";
+import backgroundImage from "../../assets/img/background.jpg";
 import Card from "../../components/Card/Card.jsx";
 import login from "../../actions/login";
 import register from "../../http/register";

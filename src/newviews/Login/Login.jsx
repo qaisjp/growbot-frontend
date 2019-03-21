@@ -5,7 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import Card from "../../components/Card/Card.jsx";
 
 import "../../assets/css/login.css";
-import backgroundImage from "../../assets/img/background.png";
+import backgroundImage from "../../assets/img/background.jpg";
 import refreshLoginToken from "../../actions/refresh_token";
 import login from "../../actions/login";
 
