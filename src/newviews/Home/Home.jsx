@@ -578,7 +578,7 @@ const Home = props => {
                             style={{ marginLeft: "10px" }}
                             className="btn btn-sm btn-danger pull-right"
                           >
-                            <i className="glyphicon glyphicon-minus" />
+                            <i className="glyphicon glyphicon-trash" />
                           </button>{" "}
                           <button
                             onClick={() => {
