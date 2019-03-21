@@ -498,7 +498,19 @@ const Home = props => {
         <div className="row">
           <div className="col-md-6">
             <Card
-              title={"Your Robots"}
+              title={
+                <span style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                  <span>
+                    Your Robots
+                  </span>
+                  <button
+                    onClick={() => addRobotModalVisible(true)}
+                    className="btn btn-sm btn-danger"
+                  >
+                    Add Robot
+                  </button>
+                </span>
+              }
               content={
                 <div>
                   <SelectableList
@@ -530,13 +542,6 @@ const Home = props => {
                   />
                   <button
                     style={{ marginRight: "10px" }}
-                    onClick={() => addRobotModalVisible(true)}
-                    className="btn btn-danger"
-                  >
-                    Add Robot
-                  </button>
-                  <button
-                    style={{ marginRight: "10px" }}
                     onClick={() => removeRobotModalVisible(true)}
                     className="btn btn-danger"
                   >
@@ -559,7 +564,19 @@ const Home = props => {
           </div>
           <div className="col-md-6">
             <Card
-              title={"Your Plants"}
+              title={
+                <span style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                  <span>
+                    Your Plants
+                  </span>
+                  <button
+                    onClick={() => addPlantModalVisible(true)}
+                    className="btn btn-sm btn-danger"
+                  >
+                    Add Plant
+                  </button>
+                </span>
+              }
               content={
                 <div>
                   <ul className="list-group">
@@ -594,13 +611,6 @@ const Home = props => {
                         </li>
                       ))}
                   </ul>
-                  <button
-                    onClick={() => addPlantModalVisible(true)}
-                    type="button"
-                    className="btn btn-sm btn-danger"
-                  >
-                    Add Plant
-                  </button>
                 </div>
               }
             />
