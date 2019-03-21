@@ -548,11 +548,11 @@ const Home = props => {
                   >
                     Rename Robot
                   </button>
-                  <Dropdown
+                  {localStorage.test && <Dropdown
                     name="Test"
                     items={[1, 2, 3, 4, 5]}
                     click={() => console.log("lol")}
-                  />
+                  />}
                 </div>
               }
             />
