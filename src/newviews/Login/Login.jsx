@@ -44,7 +44,7 @@ const Login = props => {
           className="login-card"
           title="Login"
           content={
-            <div>
+            <form onSubmit={handleLogin}>
               <div
                 style={
                   !alertVisible ? { display: "none" } : { display: "block" }
@@ -61,6 +61,7 @@ const Login = props => {
                   className="form-control"
                   id="inputEmail"
                   placeholder="Email"
+                  autoComplete="email"
                   onChange={event => setEmail(event.target.value)}
                 />
               </div>
@@ -73,21 +74,22 @@ const Login = props => {
                   className="form-control"
                   id="inputPassword"
                   placeholder="Password"
+                  autoComplete="current-password"
                   onChange={event => setPassword(event.target.value)}
                 />
               </div>
 
               <button
                 style={{ marginRight: "10px" }}
-                onClick={handleLogin}
                 className="btn btn-primary"
+                type="submit"
               >
                 Login
               </button>
               <Link to="/register" className="btn btn-primary">
-                Go To Register
+                Register...
               </Link>
-            </div>
+            </form>
           }
         />
       </div>
