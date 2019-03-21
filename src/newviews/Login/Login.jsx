@@ -77,13 +77,6 @@ const Login = props => {
                 />
               </div>
 
-              <div className="checkbox">
-                <label>
-                  <input type="checkbox" />
-                  Remember me
-                </label>
-              </div>
-
               <button
                 style={{ marginRight: "10px" }}
                 onClick={handleLogin}
