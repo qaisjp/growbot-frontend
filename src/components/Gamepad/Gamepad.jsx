@@ -60,6 +60,7 @@ function Gamepad(props) {
           <button
             className="btn btn-sm btn-danger"
             onClick={forward}
+            style={{opacity: 0.8}}
           >
             <img
               src={tup}
@@ -73,6 +74,7 @@ function Gamepad(props) {
           <button
             className="btn btn-sm btn-danger"
             onClick={left}
+            style={{opacity: 0.8}}
           >
             <img
               src={tleft}
@@ -85,6 +87,7 @@ function Gamepad(props) {
           <button
             className="btn btn-sm btn-danger"
             onClick={brake}
+            style={{opacity:0.8}}
           >
             <img src={indication} className="circle-centre" alt="Brake bot" />
           </button>
@@ -93,6 +96,7 @@ function Gamepad(props) {
           <button
             className="btn btn-sm btn-danger"
             onClick={right}
+            style={{opacity: 0.8}}
           >
             <img
               src={tright}
@@ -106,6 +110,7 @@ function Gamepad(props) {
           <button
             className="btn btn-sm btn-danger"
             onClick={backward}
+            style={{opacity:0.8}}
           >
             <img
               src={tdown}
