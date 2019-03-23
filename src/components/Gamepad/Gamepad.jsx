@@ -1,17 +1,14 @@
 import React from "react";
 
-import Fab from "@material-ui/core/Fab";
-import { withStyles } from "@material-ui/core";
-
-import PropTypes from "prop-types";
-
-import styles from "../../assets/components/Gamepad/css/style.css";
 import roboticArm from "../../assets/components/Gamepad/img/robotic-arm.svg";
 import tdown from "../../assets/components/Gamepad/img/TriangleArrow-Down.svg";
 import tup from "../../assets/components/Gamepad/img/TriangleArrow-Up.svg";
 import tleft from "../../assets/components/Gamepad/img/TriangleArrow-Left.svg";
 import tright from "../../assets/components/Gamepad/img/TriangleArrow-Right.svg";
 import indication from "../../assets/components/Gamepad/img/Parking_brake-indication.svg";
+
+import "../../assets/components/Gamepad/css/style.css";
+
 
 function Gamepad(props) {
   const {
@@ -28,47 +25,40 @@ function Gamepad(props) {
     <div id="main-wrapper">
       <div id="arm-control-wrapper">
         <div className="grid-item">
-          <Fab
-            size="large"
-            color="secondary"
-            aria-label="Add"
-            className={classes.margin}
+          <button
+            className="btn btn-sm btn-danger"
             onClick={armup}
+            style={{opacity: 0.8}}
           >
             <img
               src={tup}
               className="arrow-image arrow-vert"
               alt="Move arm up"
             />
-          </Fab>
+          </button>
         </div>
         <div className="grid-item">
           <img src={roboticArm} id="robotic-arm-icon" alt="" />
         </div>
         <div className="grid-item">
-          <Fab
-            size="large"
-            color="secondary"
-            aria-label="Add"
-            className={classes.margin}
+          <button
+            className="btn btn-sm btn-danger"
             onClick={armdown}
+            style={{opacity: 0.8}}
           >
             <img
               src={tdown}
               className="arrow-image arrow-vert"
               alt="Move arm down"
             />
-          </Fab>
+          </button>
         </div>
       </div>
       <div id="directional-wrapper">
         <div className="grid-item" />
         <div className="grid-item">
-          <Fab
-            size="large"
-            color="secondary"
-            aria-label="Add"
-            className={classes.margin}
+          <button
+            className="btn btn-sm btn-danger"
             onClick={forward}
           >
             <img
@@ -76,15 +66,12 @@ function Gamepad(props) {
               className="arrow-image arrow-vert"
               alt="Move bot forward"
             />
-          </Fab>
+          </button>
         </div>
         <div className="grid-item" />
         <div className="grid-item">
-          <Fab
-            size="large"
-            color="secondary"
-            aria-label="Add"
-            className={classes.margin}
+          <button
+            className="btn btn-sm btn-danger"
             onClick={left}
           >
             <img
@@ -92,25 +79,19 @@ function Gamepad(props) {
               className="arrow-image arrow-hor"
               alt="Move bot left"
             />
-          </Fab>
+          </button>
         </div>
         <div className="grid-item">
-          <Fab
-            size="large"
-            color="secondary"
-            aria-label="Add"
-            className={classes.margin}
+          <button
+            className="btn btn-sm btn-danger"
             onClick={brake}
           >
             <img src={indication} className="circle-centre" alt="Brake bot" />
-          </Fab>
+          </button>
         </div>
         <div className="grid-item">
-          <Fab
-            size="large"
-            color="secondary"
-            aria-label="Add"
-            className={classes.margin}
+          <button
+            className="btn btn-sm btn-danger"
             onClick={right}
           >
             <img
@@ -118,15 +99,12 @@ function Gamepad(props) {
               className="arrow-image arrow-hor"
               alt="Move bot right"
             />
-          </Fab>
+          </button>
         </div>
         <div className="grid-item" />
         <div className="grid-item">
-          <Fab
-            size="large"
-            color="secondary"
-            aria-label="Add"
-            className={classes.margin}
+          <button
+            className="btn btn-sm btn-danger"
             onClick={backward}
           >
             <img
@@ -134,7 +112,7 @@ function Gamepad(props) {
               className="arrow-image arrow-vert"
               alt="Move bot backward"
             />
-          </Fab>
+          </button>
         </div>
         <div className="grid-item" />
       </div>
@@ -142,14 +120,4 @@ function Gamepad(props) {
   );
 }
 
-Gamepad.propTypes = {
-  forward: PropTypes.func.isRequired,
-  backward: PropTypes.func.isRequired,
-  left: PropTypes.func.isRequired,
-  right: PropTypes.func.isRequired,
-  brake: PropTypes.func.isRequired,
-  armup: PropTypes.func.isRequired,
-  armdown: PropTypes.func.isRequired
-};
-
-export default withStyles({})(Gamepad);
+export default Gamepad;
