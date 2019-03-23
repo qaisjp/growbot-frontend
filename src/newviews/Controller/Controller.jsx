@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import { connect } from "react-redux";
 
 import moveRobot from "../../http/move_robot";
@@ -9,21 +9,11 @@ import endpoints from "../../endpoints";
 const Controller = props => {
 
   const { selectedRobot, loginToken } = props;
-  const [alertVisible, showAlert] = useState(false);
-  const [alertMessage, setAlertMessage] = useState(false);
 
 
   const onMove = async direction => {
     const { loginToken, selectedRobot } = props;
-    const response = await moveRobot(loginToken, direction, selectedRobot.id);
-
-    showAlert(true);
-    if (response.status === 200) {
-      alertMessage("Successfully moved robot!");
-    } else {
-      const body = await response.json();
-      setAlertMessage(body.message);
-    }
+    await moveRobot(loginToken, direction, selectedRobot.id);
   };
 
   const createGamepad = () => {
