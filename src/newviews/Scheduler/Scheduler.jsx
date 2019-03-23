@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
 
 import actions from "./scheduler_actions";
-import {AFTER, ON, NEVER} from "./scheduler_ends";
+import { AFTER, ON, NEVER } from "./scheduler_ends";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Modal from "../../components/Modal/Modal";
 import units from "./scheduler_time_units";
@@ -66,27 +66,43 @@ const Scheduler = props => {
           </div>
           <div className="col-md-6">
             <label>Ends</label>
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
             <div className="input-group">
               <label style={{ marginRight: "10px" }}>Never</label>
-              <input type="radio" checked={ends===NEVER} onClick={()=>setEnds(NEVER)}/>
+              <input
+                type="radio"
+                checked={ends === NEVER}
+                onClick={() => setEnds(NEVER)}
+              />
             </div>
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
 
             <div className="input-group">
               <label style={{ marginRight: "10px" }}>On</label>
               <span className="input-group-addon">
-                <input type="radio" checked={ends===ON} onClick={()=>setEnds(ON)}/>
+                <input
+                  type="radio"
+                  checked={ends === ON}
+                  onClick={() => setEnds(ON)}
+                />
               </span>
-              <DateTimePicker onChange={setDate} value={date}/>
+              <DateTimePicker onChange={setDate} value={date} />
             </div>
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
             <div className="input-group">
               <label style={{ marginRight: "10px" }}>After</label>
               <span className="input-group-addon">
-                <input type="radio" checked={ends===AFTER} onClick={()=>setEnds(AFTER)}/>
+                <input
+                  type="radio"
+                  checked={ends === AFTER}
+                  onClick={() => setEnds(AFTER)}
+                />
               </span>
-              <input type="text" className="form-control" onChange={event=>setAfterOccurances(event.target.value)}/>
+              <input
+                type="text"
+                className="form-control"
+                onChange={event => setAfterOccurances(event.target.value)}
+              />
             </div>
           </div>
         </div>
@@ -96,19 +112,20 @@ const Scheduler = props => {
 
   const createScheduleEventModalActions = () => {
     return (
-    <React.Fragment>
-      <button
-        onClick={() => {
-          scheduleEventModalVisible(false)
-        }}
-        className="btn btn-danger"
-      >
-        Close
-      </button>
-      <button onClick={()=>{}} className="btn btn-danger">
-        Schedule
-      </button>
-    </React.Fragment>);
+      <React.Fragment>
+        <button
+          onClick={() => {
+            scheduleEventModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button onClick={() => {}} className="btn btn-danger">
+          Schedule
+        </button>
+      </React.Fragment>
+    );
   };
 
   return (

@@ -7,9 +7,7 @@ import Gamepad from "../../components/Gamepad/Gamepad";
 import endpoints from "../../endpoints";
 
 const Controller = props => {
-
   const { selectedRobot, loginToken } = props;
-
 
   const onMove = async direction => {
     const { loginToken, selectedRobot } = props;
@@ -43,17 +41,18 @@ const Controller = props => {
           <div className="col-md-6">
             <Card
               title={<span>Live Stream - {selectedRobot.title}</span>}
-              content={<img
-                alt="Video stream"
-                src={endpoints.robot_video(selectedRobot.id, loginToken)}
-              />}
+              content={
+                <img
+                  alt="Video stream"
+                  src={endpoints.robot_video(selectedRobot.id, loginToken)}
+                />
+              }
             />
           </div>
         </div>
       </div>
     </div>
-  )
-
+  );
 };
 
 const mapStateToProps = props => {
@@ -69,4 +68,7 @@ const mapDispatchToProps = dispatch => {
   return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Controller);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Controller);

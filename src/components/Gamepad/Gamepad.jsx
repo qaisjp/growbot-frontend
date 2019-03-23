@@ -9,7 +9,6 @@ import indication from "../../assets/components/Gamepad/img/Parking_brake-indica
 
 import "../../assets/components/Gamepad/css/style.css";
 
-
 const Gamepad = props => {
   const {
     classes,
@@ -28,7 +27,7 @@ const Gamepad = props => {
           <button
             className="btn btn-sm btn-danger"
             onClick={armup}
-            style={{opacity: 0.8}}
+            style={{ opacity: 0.8 }}
           >
             <img
               src={tup}
@@ -44,7 +43,7 @@ const Gamepad = props => {
           <button
             className="btn btn-sm btn-danger"
             onClick={armdown}
-            style={{opacity: 0.8}}
+            style={{ opacity: 0.8 }}
           >
             <img
               src={tdown}
@@ -60,7 +59,7 @@ const Gamepad = props => {
           <button
             className="btn btn-sm btn-danger"
             onClick={forward}
-            style={{opacity: 0.8}}
+            style={{ opacity: 0.8 }}
           >
             <img
               src={tup}
@@ -74,7 +73,7 @@ const Gamepad = props => {
           <button
             className="btn btn-sm btn-danger"
             onClick={left}
-            style={{opacity: 0.8}}
+            style={{ opacity: 0.8 }}
           >
             <img
               src={tleft}
@@ -87,7 +86,7 @@ const Gamepad = props => {
           <button
             className="btn btn-sm btn-danger"
             onClick={brake}
-            style={{opacity:0.8}}
+            style={{ opacity: 0.8 }}
           >
             <img src={indication} className="circle-centre" alt="Brake bot" />
           </button>
@@ -96,7 +95,7 @@ const Gamepad = props => {
           <button
             className="btn btn-sm btn-danger"
             onClick={right}
-            style={{opacity: 0.8}}
+            style={{ opacity: 0.8 }}
           >
             <img
               src={tright}
@@ -110,7 +109,7 @@ const Gamepad = props => {
           <button
             className="btn btn-sm btn-danger"
             onClick={backward}
-            style={{opacity:0.8}}
+            style={{ opacity: 0.8 }}
           >
             <img
               src={tdown}
@@ -123,6 +122,6 @@ const Gamepad = props => {
       </div>
     </div>
   );
-}
+};
 
 export default Gamepad;

@@ -30,7 +30,7 @@ const Dropdown = props => {
           visibility: "visible"
         }}
       >
-        {items.map((item,idx) => (
+        {items.map((item, idx) => (
           <li key={idx}>
             <a href="#todo" onClick={() => onItemClick(item, click)}>
               {item}

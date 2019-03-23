@@ -1,10 +1,10 @@
-const SECONDS = 'SECONDS';
-const MINUTES = 'MINUTES';
-const HOURS = 'HOURS';
-const DAYS = 'DAYS';
-const WEEKS = 'WEEKS';
-const MONTHS = 'MONTHS';
-const YEARS = 'YEARS';
+const SECONDS = "SECONDS";
+const MINUTES = "MINUTES";
+const HOURS = "HOURS";
+const DAYS = "DAYS";
+const WEEKS = "WEEKS";
+const MONTHS = "MONTHS";
+const YEARS = "YEARS";
 
 const units = [
   {
@@ -19,8 +19,8 @@ const units = [
   },
   {
     name: "Hours",
-   type: HOURS,
-   units: 60
+    type: HOURS,
+    units: 60
   },
   {
     name: "Days",
@@ -42,6 +42,6 @@ const units = [
     type: YEARS,
     units: 100
   }
-]
+];
 
 export default units;
