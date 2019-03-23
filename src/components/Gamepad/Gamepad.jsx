@@ -10,7 +10,7 @@ import indication from "../../assets/components/Gamepad/img/Parking_brake-indica
 import "../../assets/components/Gamepad/css/style.css";
 
 
-function Gamepad(props) {
+const Gamepad = props => {
   const {
     classes,
     forward,
