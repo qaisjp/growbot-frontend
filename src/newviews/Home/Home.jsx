@@ -3,7 +3,6 @@ import { connect } from "react-redux";
 import QrReader from "react-qr-reader";
 
 import Card from "../../components/Card/Card.jsx";
-import Dropdown from "../../components/Dropdown/Dropdown.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
 import SelectableList from "../../components/List/SelectableList.jsx";
 
@@ -548,11 +547,6 @@ const Home = props => {
                   >
                     Rename Robot
                   </button>
-                  <Dropdown
-                    name="Test"
-                    items={[1, 2, 3, 4, 5]}
-                    click={() => console.log("lol")}
-                  />
                 </div>
               }
             />
