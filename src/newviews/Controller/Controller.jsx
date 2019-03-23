@@ -2,7 +2,9 @@ import React, {useState} from "react";
 import { connect } from "react-redux";
 
 import moveRobot from "../../http/move_robot";
+import Card from "../../components/Card/Card";
 import Gamepad from "../../components/Gamepad/Gamepad";
+import endpoints from "../../endpoints";
 
 const Controller = props => {
 
@@ -27,20 +29,38 @@ const Controller = props => {
   const createGamepad = () => {
     return (
       <Gamepad
-        forward={this.onMove.bind(this, "forward")}
-        backward={this.onMove.bind(this, "backward")}
-        armdown={this.onMove.bind(this, "armdown")}
-        armup={this.onMove.bind(this, "armup")}
-        left={this.onMove.bind(this, "left")}
-        right={this.onMove.bind(this, "right")}
-        brake={this.onMove.bind(this, "brake")}
+        forward={onMove.bind(this, "forward")}
+        backward={onMove.bind(this, "backward")}
+        armdown={onMove.bind(this, "armdown")}
+        armup={onMove.bind(this, "armup")}
+        left={onMove.bind(this, "left")}
+        right={onMove.bind(this, "right")}
+        brake={onMove.bind(this, "brake")}
       />
     );
   };
 
   return (
     <div className="content">
-
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6">
+            <Card
+              title={<span>Controller - {selectedRobot.title}</span>}
+              content={createGamepad()}
+            />
+          </div>
+          <div className="col-md-6">
+            <Card
+              title={<span>Live Stream - {selectedRobot.title}</span>}
+              content={<img
+                alt="Video stream"
+                src={endpoints.robot_video(selectedRobot.id, loginToken)}
+              />}
+            />
+          </div>
+        </div>
+      </div>
     </div>
   )
 
