@@ -1,4 +1,5 @@
 import Controller from "../newviews/Controller/Controller";
+import Gallery from "../newviews/Gallery/Gallery";
 import Home from "../newviews/Home/Home";
 import Scheduler from "../newviews/Scheduler/Scheduler";
 
@@ -8,6 +9,12 @@ const routes = [
     name: "Controller",
     icon: "pe-7s-graph",
     component: Controller
+  },
+  {
+    path: "/gallery",
+    name: "Gallery",
+    icon: "pe-7s-graph",
+    component: Gallery
   },
   {
     path: "/home",
