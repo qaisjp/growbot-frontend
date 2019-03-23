@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import QrReader from "react-qr-reader";
 
 import Card from "../../components/Card/Card.jsx";
+import Dropdown from "../../components/Dropdown/Dropdown.jsx";
 import Modal from "../../components/Modal/Modal.jsx";
 import SelectableList from "../../components/List/SelectableList.jsx";
 
@@ -497,7 +498,19 @@ const Home = props => {
         <div className="row">
           <div className="col-md-6">
             <Card
-              title={"Your Robots"}
+              title={
+                <span style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                  <span>
+                    Your Robots
+                  </span>
+                  <button
+                    onClick={() => addRobotModalVisible(true)}
+                    className="btn btn-sm btn-danger"
+                  >
+                    Add Robot
+                  </button>
+                </span>
+              }
               content={
                 <div>
                   <SelectableList
@@ -523,17 +536,10 @@ const Home = props => {
                           >{`Water: ${robot.water_level}ml`}</span>
                           <span className="label label-default">{`Battery: ${
                             robot.battery_level
-                          }%`}</span>
+                            }%`}</span>
                         </div>
                       ))}
                   />
-                  <button
-                    style={{ marginRight: "10px" }}
-                    onClick={() => addRobotModalVisible(true)}
-                    className="btn btn-danger"
-                  >
-                    Add Robot
-                  </button>
                   <button
                     style={{ marginRight: "10px" }}
                     onClick={() => removeRobotModalVisible(true)}
@@ -547,13 +553,30 @@ const Home = props => {
                   >
                     Rename Robot
                   </button>
+                  {localStorage.test && <Dropdown
+                    name="Test"
+                    items={[1, 2, 3, 4, 5]}
+                    click={() => console.log("lol")}
+                  />}
                 </div>
               }
             />
           </div>
           <div className="col-md-6">
             <Card
-              title={"Your Plants"}
+              title={
+                <span style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                  <span>
+                    Your Plants
+                  </span>
+                  <button
+                    onClick={() => addPlantModalVisible(true)}
+                    className="btn btn-sm btn-danger"
+                  >
+                    Add Plant
+                  </button>
+                </span>
+              }
               content={
                 <div>
                   <ul className="list-group">
@@ -572,7 +595,7 @@ const Home = props => {
                             style={{ marginLeft: "10px" }}
                             className="btn btn-sm btn-danger pull-right"
                           >
-                            <i className="glyphicon glyphicon-minus" />
+                            <i className="glyphicon glyphicon-trash" />
                           </button>{" "}
                           <button
                             onClick={() => {
@@ -588,13 +611,6 @@ const Home = props => {
                         </li>
                       ))}
                   </ul>
-                  <button
-                    onClick={() => addPlantModalVisible(true)}
-                    type="button"
-                    className="btn btn-sm btn-danger"
-                  >
-                    Add Plant
-                  </button>
                 </div>
               }
             />

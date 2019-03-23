@@ -5,7 +5,7 @@ import { Link, Redirect } from "react-router-dom";
 import Card from "../../components/Card/Card.jsx";
 
 import "../../assets/css/login.css";
-import backgroundImage from "../../assets/img/background.png";
+import backgroundImage from "../../assets/img/background.jpg";
 import refreshLoginToken from "../../actions/refresh_token";
 import login from "../../actions/login";
 
@@ -18,9 +18,10 @@ const Login = props => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
+  const handleSubmit = event => {
     const { login } = props;
     login(email, password);
+    event.preventDefault();
   };
 
   useEffect(() => {
@@ -44,7 +45,7 @@ const Login = props => {
           className="login-card"
           title="Login"
           content={
-            <div>
+            <form onSubmit={handleSubmit}>
               <div
                 style={
                   !alertVisible ? { display: "none" } : { display: "block" }
@@ -61,6 +62,7 @@ const Login = props => {
                   className="form-control"
                   id="inputEmail"
                   placeholder="Email"
+                  autoComplete="email"
                   onChange={event => setEmail(event.target.value)}
                 />
               </div>
@@ -73,28 +75,22 @@ const Login = props => {
                   className="form-control"
                   id="inputPassword"
                   placeholder="Password"
+                  autoComplete="current-password"
                   onChange={event => setPassword(event.target.value)}
                 />
               </div>
 
-              <div className="checkbox">
-                <label>
-                  <input type="checkbox" />
-                  Remember me
-                </label>
-              </div>
-
               <button
                 style={{ marginRight: "10px" }}
-                onClick={handleLogin}
                 className="btn btn-primary"
+                type="submit"
               >
                 Login
               </button>
               <Link to="/register" className="btn btn-primary">
-                Go To Register
+                Register...
               </Link>
-            </div>
+            </form>
           }
         />
       </div>

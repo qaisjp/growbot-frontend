@@ -41,7 +41,7 @@ const Header = props => {
             <span className="sr-only">Toggle navigation</span>
             <i className="fa fa-bars" />
           </button>
-          <a className="navbar-brand" href="#">
+          <a className="navbar-brand" href="#todo">
             {brand.name}
           </a>
         </div>
@@ -51,10 +51,10 @@ const Header = props => {
         >
           <ul className="nav navbar-nav pull-right">
             <li>
-              <a href="#">Settings</a>
+              <a href="#todo">Settings</a>
             </li>
             <li>
-              <a href="#" onClick={() => store.dispatch(logout())}>
+              <a href="#todo" onClick={() => store.dispatch(logout())}>
                 Log out
               </a>
             </li>

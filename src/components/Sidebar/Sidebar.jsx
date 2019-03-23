@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
-import sidebarActions from "./sidebar_actions";
 import dashboardRoutes from "../../routes/dashboard_routes";
 
 const Sidebar = props => {
@@ -41,20 +40,6 @@ const Sidebar = props => {
                 </li>
               );
             return null;
-          })}
-          {sidebarActions.map((prop, key) => {
-            return (
-              <li key={key}>
-                <a
-                  href="#logout"
-                  className="nav-link active"
-                  onClick={prop.action}
-                >
-                  <i className={prop.icon} />
-                  <p>{prop.name}</p>
-                </a>
-              </li>
-            );
           })}
         </ul>
       </div>

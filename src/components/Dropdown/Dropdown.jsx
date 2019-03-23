@@ -32,7 +32,7 @@ const Dropdown = props => {
       >
         {items.map((item,idx) => (
           <li key={idx}>
-            <a href="#" onClick={() => onItemClick(item, click)}>
+            <a href="#todo" onClick={() => onItemClick(item, click)}>
               {item}
             </a>
           </li>
