@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import dashboardRoutes from "../../routes/dashboard_routes";
 import logout from "../../actions/logout";
@@ -56,7 +57,7 @@ const Header = props => {
         >
           <ul className="nav navbar-nav pull-right">
             <li>
-              <a href="#todo">Settings</a>
+              <Link to="/settings">Settings</Link>
             </li>
             <li>
               <a href="/logout" onClick={onLogout}>

@@ -20,7 +20,7 @@ const Sidebar = props => {
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">
-          {dashboardRoutes.map((prop, key) => {
+          {dashboardRoutes.filter(prop => prop.sidebar).map((prop, key) => {
             if (!prop.redirect)
               return (
                 <li
