@@ -126,7 +126,7 @@ const Register = props => {
   );
 };
 
-const mapStateToProps = state => {
+const mapStateToProps = () => {
   return {};
 };
 
