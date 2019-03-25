@@ -3,7 +3,7 @@ import Card from "../../components/Card/Card";
 import data from "../../assets/components/Grid/data";
 
 const Gallery = props => {
-  
+
   return (
     <div className="content">
       <div className="container-fluid">
@@ -14,7 +14,7 @@ const Gallery = props => {
               content={<div className="container-fluid">
                 <center><div className="row">
                   {
-                    data.map(image => <div className="col-md-6"><img style={{height: "50%", width: "80%", marginBottom: "25px"}} src={image.img} alt={image.title} /></div>)
+                    data.map((image, idx) => <div key={idx} onClick={()=>console.log("clicked!")}className="col-md-6"><img style={{height: "50%", width: "80%", marginBottom: "25px"}} src={image.img} alt={image.title} /></div>)
                   }
                 </div></center>
               </div>}
