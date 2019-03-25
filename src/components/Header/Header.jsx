@@ -32,7 +32,7 @@ const Header = props => {
   const onLogout = event => {
     store.dispatch(logout());
     event.preventDefault();
-  }
+  };
 
   return (
     <nav className="navbar navbar-default">

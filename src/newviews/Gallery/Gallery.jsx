@@ -7,26 +7,26 @@ import httpFetchPhotos from "../../http/fetch_photos";
 
 const Gallery = props => {
   const [photos, setPhotos] = useState([]);
-  const [viewImageModalOpen, viewImageModalVisible] = useState(false);
-  const [image, setImage] = useState(null);
+  const [viewPhotoModalOpen, viewPhotoModalVisible] = useState(false);
+  const [photo, setPhoto] = useState(null);
 
-  const createViewImageModalContent = () => {
+  const createViewPhotoModalContent = () => {
     return (
       <React.Fragment>
-        {image && (
-          <img style={{ width: "100%" }} src={image.img} alt={image.title} />
+        {photo && (
+          <img style={{ width: "100%" }} src={photo.img} alt={photo.title} />
         )}
       </React.Fragment>
     );
   };
 
-  const createViewImageModalFooter = () => {
+  const createViewPhotoModalFooter = () => {
     return <React.Fragment />;
   };
 
-  const onClickImage = image => {
-    setImage(image);
-    viewImageModalVisible(true);
+  const onClickPhoto = photo => {
+    setPhoto(photo);
+    viewPhotoModalVisible(true);
   };
 
   const fetchPhotos = async () => {
@@ -36,15 +36,17 @@ const Gallery = props => {
     if (!(fetchPhotosResult instanceof Error)) {
       const { photos } = fetchPhotosResult;
 
-      setPhotos(photos.map(photo => {
-        const photoUrl =
-          endpoints.photos + "/" + photo.id + "?token=" + loginToken;
+      setPhotos(
+        photos.map(photo => {
+          const photoUrl =
+            endpoints.photos + "/" + photo.id + "?token=" + loginToken;
 
-        return {
-          title: photo.id,
-          img: photoUrl
-        };
-      }));
+          return {
+            title: photo.id,
+            img: photoUrl
+          };
+        })
+      );
     }
   };
 
@@ -55,11 +57,11 @@ const Gallery = props => {
   return (
     <div className="content">
       <Modal
-        open={viewImageModalOpen}
-        close={() => viewImageModalVisible(false)}
+        open={viewPhotoModalOpen}
+        close={() => viewPhotoModalVisible(false)}
         title={"View Image"}
-        content={createViewImageModalContent()}
-        footer={createViewImageModalFooter()}
+        content={createViewPhotoModalContent()}
+        footer={createViewPhotoModalFooter()}
       />
       <div className="container-fluid">
         <div className="row">
@@ -70,10 +72,10 @@ const Gallery = props => {
                 <div className="container-fluid">
                   <center>
                     <div className="row">
-                      {photos.map((image, idx) => (
+                      {photos.map((photo, idx) => (
                         <div
                           key={idx}
-                          onClick={() => onClickImage(image)}
+                          onClick={() => onClickPhoto(photo)}
                           className="col-md-6"
                         >
                           <img
@@ -82,8 +84,8 @@ const Gallery = props => {
                               width: "80%",
                               marginBottom: "25px"
                             }}
-                            src={image.img}
-                            alt={image.title}
+                            src={photo.img}
+                            alt={photo.title}
                           />
                         </div>
                       ))}
@@ -99,8 +101,8 @@ const Gallery = props => {
   );
 };
 
-const mapStateToProps = props => {
-  const { auth } = props;
+const mapStateToProps = state => {
+  const { auth } = state;
   return {
     loginToken: auth.loginToken
   };
