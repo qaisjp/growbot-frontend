@@ -29,6 +29,11 @@ const Header = props => {
     .filter(route => route.path === location.pathname || route.path === "/")
     .shift();
 
+  const onLogout = event => {
+    store.dispatch(logout());
+    event.preventDefault();
+  }
+
   return (
     <nav className="navbar navbar-default">
       <div className="container-fluid">
@@ -54,7 +59,7 @@ const Header = props => {
               <a href="#todo">Settings</a>
             </li>
             <li>
-              <a href="#todo" onClick={() => store.dispatch(logout())}>
+              <a href="/logout" onClick={onLogout}>
                 Log out
               </a>
             </li>
