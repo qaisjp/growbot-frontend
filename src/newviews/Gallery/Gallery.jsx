@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import Card from "../../components/Card/Card";
 import Modal from "../../components/Modal/Modal";
 import endpoints from "../../endpoints";
+import httpDeletePhoto from "../../http/remove_photo";
 import httpFetchPhotos from "../../http/fetch_photos";
 
 const Gallery = props => {
@@ -14,14 +15,30 @@ const Gallery = props => {
     return (
       <React.Fragment>
         {photo && (
-          <img style={{ width: "100%" }} src={photo.img} alt={photo.title} />
+          <img style={{ width: "100%" }} src={photo.img} alt={photo.id} />
         )}
       </React.Fragment>
     );
   };
 
   const createViewPhotoModalFooter = () => {
-    return <React.Fragment />;
+    return (
+      <React.Fragment>
+        <button onClick={onDeletePhoto} className="btn btn-danger">Delete Photo</button>
+        <button onClick={() => viewPhotoModalVisible(false)} className="btn btn-danger">Close</button>
+      </React.Fragment>
+    );
+  };
+
+  const onDeletePhoto = async () => {
+    const { loginToken } = props;
+    const response = await httpDeletePhoto(loginToken, photo.id);
+
+    if(response.status === 200) {
+      setPhotos(photos.filter(item => item.id !== photo.id));
+      setPhoto(null);
+      viewPhotoModalVisible(false);
+    }
   };
 
   const onClickPhoto = photo => {
@@ -42,7 +59,7 @@ const Gallery = props => {
             endpoints.photos + "/" + photo.id + "?token=" + loginToken;
 
           return {
-            title: photo.id,
+            id: photo.id,
             img: photoUrl
           };
         })
@@ -85,7 +102,7 @@ const Gallery = props => {
                               marginBottom: "25px"
                             }}
                             src={photo.img}
-                            alt={photo.title}
+                            alt={photo.id}
                           />
                         </div>
                       ))}
