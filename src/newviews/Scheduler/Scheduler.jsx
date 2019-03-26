@@ -23,8 +23,6 @@ const Scheduler = props => {
   const createScheduleEventModalContent = () => {
     const reduxPlantNames = reduxPlants.map(plant => plant.name);
     const actionNames = actions.map(action => action.name);
-    const unitNames = units.map(unit => unit.name);
-    const timeUnits = [...Array(repeatEveryUnit.units + 1).keys()];
     return (
       <div className="container-fluid">
         <div className="row">
@@ -52,18 +50,18 @@ const Scheduler = props => {
             />
             <div style={{ marginTop: "10px" }} />
             <label>Repeat</label>
-            <Dropdown
-              name="Number"
-              style={{ display: "inline", marginLeft: "10px" }}
-              items={timeUnits}
-              click={() => console.log("lol")}
+            <input
+              style={{ marginLeft: "10px", width: "30%", height: "29px", display: "inline-block" }}
+              type="number"
+              className="form-control"
+              onChange={() => console.log("lol")}
             />
             <Dropdown
               name="Time"
               style={{ display: "inline", marginLeft: "10px" }}
-              items={unitNames}
-              click={unitName => {
-                const idx = unitNames.indexOf(unitName);
+              items={units}
+              click={unit => {
+                const idx = units.indexOf(unit);
                 setRepeatEveryUnit(units[idx]);
               }}
             />
@@ -71,32 +69,32 @@ const Scheduler = props => {
           <div className="col-md-6">
             <label>Ends</label>
             <div style={{ marginTop: "10px" }} />
-              <label style={{ marginRight: "10px" }}>Never</label>
-              <input
-                type="radio"
-                checked={ends === NEVER}
-                onClick={() => setEnds(NEVER)}
-              />
+            <label style={{ marginRight: "10px" }}>Never</label>
+            <input
+              type="radio"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
             <div style={{ marginTop: "10px" }} />
 
-              <label style={{ marginRight: "10px" }}>On</label>
-              <input
-                type="radio"
-                style={{ marginRight: "10px" }}
-                checked={ends === ON}
-                onClick={() => setEnds(ON)}
-              />
-              <DateTimePicker onChange={setDate} value={date} />
-            <div style={{ marginTop: "10px" }} />
-              <label style={{ marginRight: "10px" }}>After</label>
-              <input
-                type="radio"
-                style={{ marginRight: "10px" }}
-                checked={ends === AFTER}
-                onClick={() => setEnds(AFTER)}
-              />
+            <label style={{ marginRight: "10px" }}>On</label>
             <input
-              style={{width: "30%", height: "29px", display: "inline-block"}}
+              type="radio"
+              style={{ marginRight: "10px" }}
+              checked={ends === ON}
+              onClick={() => setEnds(ON)}
+            />
+            <DateTimePicker onChange={setDate} value={date} />
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ marginRight: "10px" }}>After</label>
+            <input
+              type="radio"
+              style={{ marginRight: "10px" }}
+              checked={ends === AFTER}
+              onClick={() => setEnds(AFTER)}
+            />
+            <input
+              style={{ width: "30%", height: "29px", display: "inline-block" }}
               type="number"
               className="form-control"
               onChange={event => setAfterOccurances(event.target.value)}
