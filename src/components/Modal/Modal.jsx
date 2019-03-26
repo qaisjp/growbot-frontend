@@ -8,6 +8,7 @@ const Modal = props => {
     <div
       style={{ overflowY: "auto" }}
       className={"modal " + modalClassAttribute}
+      {...props}
     >
       <div className="modal-dialog" role="document">
         <div className="modal-content">

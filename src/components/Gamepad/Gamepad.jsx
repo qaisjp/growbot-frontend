@@ -11,7 +11,6 @@ import "../../assets/components/Gamepad/css/style.css";
 
 const Gamepad = props => {
   const {
-    classes,
     forward,
     backward,
     left,
@@ -21,7 +20,7 @@ const Gamepad = props => {
     armdown
   } = props;
   return (
-    <div id="main-wrapper">
+    <div id="main-wrapper" {...props}>
       <div id="arm-control-wrapper">
         <div className="grid-item">
           <button
