@@ -12,7 +12,7 @@ const Dropdown = props => {
   };
 
   return (
-    <div className="dropdown">
+    <div className="dropdown" {...props}>
       <button
         className="btn btn-default dropdown-toggle"
         onClick={() => setExpanded(!expanded)}

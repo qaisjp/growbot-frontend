@@ -32,6 +32,7 @@ const Scheduler = props => {
             <label>Plant</label>
             <Dropdown
               name="Plants"
+              style={{display: "inline", marginLeft: "10px"}}
               items={reduxPlantNames}
               click={plantName => {
                 const idx = reduxPlantNames.indexOf(plantName);
@@ -42,6 +43,7 @@ const Scheduler = props => {
             <label>Action</label>
             <Dropdown
               name="Actions"
+              style={{display: "inline", marginLeft: "10px"}}
               items={actionNames}
               click={actionName => {
                 const idx = actionNames.indexOf(actionName);
@@ -49,14 +51,16 @@ const Scheduler = props => {
               }}
             />
             <div style={{ marginTop: "10px" }} />
-            <label>Repeat every</label>
+            <label>Repeat</label>
             <Dropdown
               name="Number"
+              style={{display: "inline", marginLeft: "10px"}}
               items={timeUnits}
               click={() => console.log("lol")}
             />
             <Dropdown
               name="Time"
+              style={{display: "inline", marginLeft: "10px"}}
               items={unitNames}
               click={unitName => {
                 const idx = unitNames.indexOf(unitName);
