@@ -1,6 +1,6 @@
 import Dashboard from "../layout/Dashboard/Dashboard.jsx";
-import Login from "../newviews/Login/Login.jsx";
-import Register from "../newviews/Register/Register.jsx";
+import Login from "../views/Login/Login.jsx";
+import Register from "../views/Register/Register.jsx";
 
 const indexRoutes = [
   {

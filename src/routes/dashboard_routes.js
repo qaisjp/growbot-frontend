@@ -1,8 +1,8 @@
-import Controller from "../newviews/Controller/Controller";
-import Gallery from "../newviews/Gallery/Gallery";
-import Home from "../newviews/Home/Home";
-import Scheduler from "../newviews/Scheduler/Scheduler";
-import Settings from "../newviews/Settings/Settings";
+import Controller from "../views/Controller/Controller";
+import Gallery from "../views/Gallery/Gallery";
+import Home from "../views/Home/Home";
+import Scheduler from "../views/Scheduler/Scheduler";
+import Settings from "../views/Settings/Settings";
 
 const routes = [
   {

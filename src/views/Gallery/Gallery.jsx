@@ -1,124 +1,142 @@
-import React, { Component } from "react";
-
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Grid from "@material-ui/core/Grid";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core";
-
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
-
-import FullScreenDialogue from "../../components/Dialogue/FullScreenDialogue";
-import ImageGridList from "../../components/Grid/ImageGridList";
-
-import vegetables from "../../assets/components/Grid/img/vegetables.jpg";
-import styles from "../../assets/views/Controller/jss/controller-styles";
-
-import fetchPhotos from "../../http/fetch_photos";
+import Card from "../../components/Card/Card";
+import Modal from "../../components/Modal/Modal";
 import endpoints from "../../endpoints";
+import httpDeletePhoto from "../../http/remove_photo";
+import httpFetchPhotos from "../../http/fetch_photos";
 
-class Gallery extends Component {
-  state = {
-    photoDialogue: false,
-    photos: [],
-    tile: {
-      img: vegetables,
-      title: "Vegetables",
-      author: "Raees"
+const Gallery = props => {
+  const [photos, setPhotos] = useState([]);
+  const [viewPhotoModalOpen, viewPhotoModalVisible] = useState(false);
+  const [photo, setPhoto] = useState(null);
+
+  const createViewPhotoModalContent = () => {
+    return (
+      <React.Fragment>
+        {photo && (
+          <img style={{ width: "100%" }} src={photo.img} alt={photo.id} />
+        )}
+      </React.Fragment>
+    );
+  };
+
+  const createViewPhotoModalFooter = () => {
+    return (
+      <React.Fragment>
+        <button onClick={onDeletePhoto} className="btn btn-danger">
+          Delete Photo
+        </button>
+        <button
+          onClick={() => viewPhotoModalVisible(false)}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+      </React.Fragment>
+    );
+  };
+
+  const onDeletePhoto = async () => {
+    const { loginToken } = props;
+    const response = await httpDeletePhoto(loginToken, photo.id);
+
+    if (response.status === 200) {
+      setPhotos(photos.filter(item => item.id !== photo.id));
+      setPhoto(null);
+      viewPhotoModalVisible(false);
     }
   };
-  fetchPhotos = async () => {
-    const { loginToken } = this.props;
-    const fetchPhotosResult = await fetchPhotos(loginToken);
 
-    if (fetchPhotosResult instanceof Error) {
-      this.setState({ photos: [] });
-    } else {
+  const onClickPhoto = photo => {
+    setPhoto(photo);
+    viewPhotoModalVisible(true);
+  };
+
+  const fetchPhotos = async () => {
+    const { loginToken } = props;
+    const fetchPhotosResult = await httpFetchPhotos(loginToken);
+
+    if (!(fetchPhotosResult instanceof Error)) {
       const { photos } = fetchPhotosResult;
 
-      const photosMapped = [];
+      setPhotos(
+        photos.map(photo => {
+          const photoUrl =
+            endpoints.photos + "/" + photo.id + "?token=" + loginToken;
 
-      photos.forEach(photo => {
-        const photoUrl =
-          endpoints.photos + "/" + photo.id + "?token=" + loginToken;
-
-        const photosObj = {
-          title: photo.id,
-          img: photoUrl
-        };
-
-        photosMapped.push(photosObj);
-      });
-
-      this.setState({ photos: photosMapped });
+          return {
+            id: photo.id,
+            img: photoUrl
+          };
+        })
+      );
     }
   };
-  createPhotoDialogueContent = () => {
-    const { tile } = this.state;
-    return <img src={tile.img} alt={tile.title} />;
-  };
-  handleCloseDialogue = dialogue => {
-    this.setState({ [dialogue]: false });
-  };
-  componentDidMount = async () => {
-    this.fetchPhotos();
-  };
-  render() {
-    const { photos, photoDialogue, tile } = this.state;
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <br />
-        <FullScreenDialogue
-          open={photoDialogue}
-          close={() => this.handleCloseDialogue("photoDialogue")}
-          title={tile.title}
-          content={
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100%"
-              }}
-            >
-              {this.createPhotoDialogueContent()}
-            </div>
-          }
-        />
-        <Grid container spacing={24}>
-          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Card className={classes.card}>
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Pictures
-                </Typography>
-                <ImageGridList
-                  tiles={photos}
-                  click={tile => this.setState({ tile, photoDialogue: true })}
-                  author="Raees"
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </div>
-    );
-  }
-}
 
-const mapStateToProps = props => {
-  const { auth } = props;
+  useEffect(() => {
+    fetchPhotos();
+  }, []);
+
+  return (
+    <div className="content">
+      <Modal
+        open={viewPhotoModalOpen}
+        close={() => viewPhotoModalVisible(false)}
+        title={"View Image"}
+        content={createViewPhotoModalContent()}
+        footer={createViewPhotoModalFooter()}
+      />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-12">
+            <Card
+              title={"Photo gallery"}
+              content={
+                <div className="container-fluid">
+                  <center>
+                    <div className="row">
+                      {photos.map((photo, idx) => (
+                        <div
+                          key={idx}
+                          onClick={() => onClickPhoto(photo)}
+                          className="col-md-6"
+                        >
+                          <img
+                            style={{
+                              height: "50%",
+                              width: "80%",
+                              marginBottom: "25px"
+                            }}
+                            src={photo.img}
+                            alt={photo.id}
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </center>
+                </div>
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const mapStateToProps = state => {
+  const { auth } = state;
   return {
     loginToken: auth.loginToken
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
   return {};
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Gallery));
+)(Gallery);

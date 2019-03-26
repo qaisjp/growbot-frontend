@@ -1,43 +1,24 @@
-import React, { Component } from "react";
-
-import AddIcon from "@material-ui/icons/Add";
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import EditIcon from "@material-ui/icons/Edit";
-import Grid from "@material-ui/core/Grid";
-import RemoveIcon from "@material-ui/icons/Remove";
-import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import ListItemText from "@material-ui/core/ListItemText";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core";
-
-import Dialogue from "../../components/Dialogue/Dialogue";
-import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents";
-
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import QrReader from "react-qr-reader";
 
-import offline from "../../assets/views/Home/img/red_circle.png";
-import online from "../../assets/views/Home/img/green_circle.png";
-import styles from "../../assets/views/Home/jss/home-styles";
+import Card from "../../components/Card/Card.jsx";
+import Dropdown from "../../components/Dropdown/Dropdown.jsx";
+import Modal from "../../components/Modal/Modal.jsx";
+import SelectableList from "../../components/List/SelectableList.jsx";
 
-import addRobot from "../../actions/add_robot";
+import green_circle from "../../assets/img/green_circle.png";
+import red_circle from "../../assets/img/red_circle.png";
+
 import removeRobot from "../../actions/remove_robot";
-import renameRobot from "../../actions/rename_robot";
 import selectRobot from "../../actions/select_robot";
 import addPlant from "../../actions/add_plant";
-import removePlant from "../../actions/remove_plant";
+import addRobot from "../../actions/add_robot";
+import renameRobot from "../../actions/rename_robot";
 import renamePlant from "../../actions/rename_plant";
-import fetchRobots from "../../http/fetch_robots";
-import fetchPlants from "../../http/fetch_plants";
+import removePlant from "../../actions/remove_plant";
+import httpFetchRobots from "../../http/fetch_robots";
+import httpFetchPlants from "../../http/fetch_plants";
 import httpAddPlant from "../../http/add_plant";
 import httpRenamePlant from "../../http/rename_plant";
 import httpRemovePlant from "../../http/remove_plant";
@@ -45,107 +26,83 @@ import httpAddRobot from "../../http/add_robot";
 import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
 
-class Home extends Component {
-  state = {
-    open: false,
-    type: "",
-    message: "",
-    newRobotSerialKey: "",
-    newRobotTitle: "",
-    addRobotDialogue: false,
-    renameRobotDialogue: false,
-    renameRobotTitle: "",
-    newPlantName: "",
-    renamePlantName: "",
-    removeRobotDialogue: false,
-    addPlantDialogue: false,
-    renamePlantDialogue: false,
-    removePlantDialogue: false,
-    selectedPlant: {}
-  };
+const Home = props => {
+  const {
+    loginToken,
+    reduxRobots,
+    reduxSelectRobot,
+    selectedRobot,
+    reduxPlants
+  } = props;
 
-  handleOpenDialogue = dialogue => {
-    this.setState({ [dialogue]: true });
-  };
-  handleCloseDialogue = dialogue => {
-    this.setState({ [dialogue]: false });
-  };
-  componentDidMount = async () => {
-    this.fetchRobots();
-    this.fetchPlants();
-  };
-  handleListItemClick = (event, robot) => {
-    const { reduxSelectRobot } = this.props;
-    reduxSelectRobot(robot);
-  };
-  isRobotOnline = robot => {
-    return robot.seen_at !== null;
-  };
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-  fetchRobots = async () => {
-    const {
-      loginToken,
-      reduxAddRobot,
-      reduxSelectRobot,
-      reduxRobots,
-      selectedRobot
-    } = this.props;
-    const fetchRobotsResult = await fetchRobots(loginToken);
+  const [selectedPlant, selectPlant] = useState({});
+  const [renamePlantName, setRenamePlantName] = useState("");
+  const [newPlantName, setNewPlantName] = useState("");
+  const [newRobotSerialKey, setNewRobotSerialKey] = useState("");
+  const [newRobotTitle, setNewRobotTitle] = useState("");
+  const [renameRobotTitle, setRenameRobotTitle] = useState("");
+  const [addRobotModalOpen, addRobotModalVisible] = useState(false);
+  const [renameRobotModalOpen, renameRobotModalVisible] = useState(false);
+  const [removeRobotModalOpen, removeRobotModalVisible] = useState(false);
+  const [addPlantModalOpen, addPlantModalVisible] = useState(false);
+  const [renamePlantModalOpen, renamePlantModalVisible] = useState(false);
+  const [removePlantModalOpen, removePlantModalVisible] = useState(false);
+  const [alertVisible, showAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
+  const [qrDelay] = useState(0);
 
-    if (fetchRobotsResult instanceof Error) {
-      this.setState({ message: fetchRobotsResult, open: true, type: "error" });
-    } else {
+  useEffect(() => {
+    fetchRobots();
+    fetchPlants();
+  }, []);
+
+  const fetchRobots = async () => {
+    const { reduxAddRobot } = props;
+    const fetchRobotsResult = await httpFetchRobots(loginToken);
+
+    if (!(fetchRobotsResult instanceof Error)) {
       const { robots } = fetchRobotsResult;
       const reduxRobotIds = reduxRobots.map(robot => robot.id);
-      robots.forEach(robot => {
-        if (reduxRobotIds.indexOf(robot.id) < 0) {
+      robots
+        .filter(robot => reduxRobotIds.indexOf(robot.id) < 0)
+        .forEach(robot => {
           reduxAddRobot(robot);
-        }
-      });
-      if (selectedRobot.id === -1 && robots.length > 0) {
-        reduxSelectRobot(robots[0]);
-      }
+        });
     }
   };
-  fetchPlants = async () => {
-    const { loginToken, reduxAddPlant, reduxPlants } = this.props;
-    const fetchPlantsResult = await fetchPlants(loginToken);
+  const fetchPlants = async () => {
+    const { reduxAddPlant } = props;
+    const fetchPlantsResult = await httpFetchPlants(loginToken);
 
-    if (fetchPlantsResult instanceof Error) {
-      this.setState({ message: fetchPlantsResult, open: true, type: "error" });
-    } else {
+    if (!(fetchPlantsResult instanceof Error)) {
       const { plants } = fetchPlantsResult;
       const reduxPlantIds = reduxPlants.map(plant => plant.id);
-      plants.forEach(plant => {
-        if (reduxPlantIds.indexOf(plant.id) < 0) {
+      plants
+        .filter(plant => reduxPlantIds.indexOf(plant.id) < 0)
+        .forEach(plant => {
           reduxAddPlant(plant);
-        }
-      });
+        });
     }
   };
-  onRemoveRobot = async () => {
-    const { loginToken, selectedRobot, reduxRemoveRobot } = this.props;
+  const onRemoveRobot = async () => {
+    const { loginToken, reduxRemoveRobot } = props;
 
     const response = await httpRemoveRobot(loginToken, selectedRobot.id);
 
     if (response.status === 200) {
       reduxRemoveRobot(selectedRobot);
-      this.setState({
-        message: "Successfully removed robot",
-        open: true,
-        type: "success"
-      });
-    } else {
-      const body = await response.json();
-      this.setState({ message: body.message, open: true, type: "error" });
     }
-    this.handleCloseDialogue("removeRobotDialogue");
+
+    removeRobotModalVisible(false);
   };
-  onRenamePlant = async () => {
-    const { loginToken, reduxRenamePlant } = this.props;
-    const { selectedPlant, renamePlantName } = this.state;
+  const onRenamePlant = async () => {
+    if (renamePlantName === "") {
+      showAlert(true);
+      setAlertMessage("Please make sure you've typed in a new name!");
+      return;
+    }
+
+    const { reduxRenamePlant } = props;
 
     const response = await httpRenamePlant(
       loginToken,
@@ -155,35 +112,32 @@ class Home extends Component {
 
     if (response.status === 200) {
       reduxRenamePlant(selectedPlant, renamePlantName);
-    } else {
-      this.setState({
-        message: (await response.json()).message,
-        open: true,
-        type: "error"
-      });
     }
-    this.handleCloseDialogue("renamePlantDialogue");
+
+    renamePlantModalVisible(false);
+    showAlert(false);
+    setAlertMessage("");
   };
-  onRemovePlant = async () => {
-    const { loginToken, reduxRemovePlant } = this.props;
-    const { selectedPlant } = this.state;
+  const onRemovePlant = async () => {
+    const { reduxRemovePlant } = props;
 
     const response = await httpRemovePlant(loginToken, selectedPlant.id);
 
     if (response.status === 200) {
       reduxRemovePlant(selectedPlant);
-    } else {
-      this.setState({
-        message: (await response.json()).message,
-        open: true,
-        type: "error"
-      });
     }
-    this.handleCloseDialogue("removePlantDialogue");
+
+    removePlantModalVisible(false);
   };
-  onAddRobot = async () => {
-    const { loginToken, reduxAddRobot, reduxRobots } = this.props;
-    const { newRobotSerialKey, newRobotTitle } = this.state;
+  const onAddRobot = async () => {
+    if (newRobotSerialKey === "" || newRobotTitle === "") {
+      showAlert(true);
+      setAlertMessage(
+        "Please make sure you've added a serial key and a title!"
+      );
+      return;
+    }
+    const { reduxAddRobot } = props;
     const response = await httpAddRobot(
       loginToken,
       newRobotSerialKey,
@@ -193,58 +147,57 @@ class Home extends Component {
     if (response.status === 200) {
       const fetchRobotsResult = await fetchRobots(loginToken);
 
-      if (fetchRobotsResult instanceof Error) {
-        this.setState({
-          message: fetchRobotsResult,
-          open: true,
-          type: "error"
-        });
-      } else {
+      if (!fetchRobotsResult instanceof Error) {
         const { robots } = fetchRobotsResult;
         const reduxRobotIds = reduxRobots.map(robot => robot.id);
-        robots.forEach(robot => {
-          if (reduxRobotIds.indexOf(robot.id) < 0) {
+        robots
+          .filter(robot => reduxRobotIds.indexOf(robot.id) < 0)
+          .forEach(robot => {
             reduxAddRobot(robot);
-          }
-        });
+          });
       }
-    } else {
-      const body = await response.json();
-      this.setState({ message: body.message, open: true, type: "error" });
     }
-    this.handleCloseDialogue("addRobotDialogue");
+    addRobotModalVisible(false);
+    showAlert(false);
+    setAlertMessage("");
   };
-  onAddPlant = async () => {
-    const { loginToken, reduxPlants, reduxAddPlant } = this.props;
-    const { newPlantName } = this.state;
+  const onAddPlant = async () => {
+    if (newPlantName === "") {
+      showAlert(true);
+      setAlertMessage(
+        "Please make sure you've entered a name for your new plant!"
+      );
+      return;
+    }
+
+    const { reduxAddPlant } = props;
     const response = await httpAddPlant(loginToken, newPlantName);
 
     if (response.status === 200) {
       const fetchPlantsResult = await fetchPlants(loginToken);
 
-      if (fetchPlantsResult instanceof Error) {
-        this.setState({
-          message: fetchPlantsResult,
-          open: true,
-          type: "error"
-        });
-      } else {
+      if (!(fetchPlantsResult instanceof Error)) {
         const { plants } = fetchPlantsResult;
         const reduxPlantIds = reduxPlants.map(plant => plant.id);
-        plants.forEach(plant => {
-          if (reduxPlantIds.indexOf(plant.id) < 0) {
+        plants
+          .filter(plant => reduxPlantIds.indexOf(plant.id) < 0)
+          .forEach(plant => {
             reduxAddPlant(plant);
-          }
-        });
+          });
       }
-    } else {
-      this.setState({ message: response, open: true, type: "error" });
     }
-    this.handleCloseDialogue("addPlantDialogue");
+
+    addPlantModalVisible(false);
+    showAlert(false);
+    setAlertMessage("");
   };
-  onRenameRobot = async () => {
-    const { loginToken, selectedRobot, reduxRenameRobot } = this.props;
-    const { renameRobotTitle } = this.state;
+  const onRenameRobot = async () => {
+    if (renameRobotTitle === "") {
+      showAlert(true);
+      setAlertMessage("Please make sure you've entered a new name!");
+      return;
+    }
+    const { reduxRenameRobot } = props;
 
     const response = await httpRenameRobot(
       loginToken,
@@ -254,409 +207,429 @@ class Home extends Component {
 
     if (response.status === 200) {
       reduxRenameRobot(selectedRobot, renameRobotTitle);
-      this.setState({
-        message: "Successfully renamed robot",
-        open: true,
-        type: "success"
-      });
-    } else {
-      const body = await response.json();
-      this.setState({
-        message: body.message,
-        open: true,
-        type: "error"
-      });
     }
-    this.handleCloseDialogue("renameRobotDialogue");
+    renameRobotModalVisible(false);
+    showAlert(false);
+    setAlertMessage("");
   };
-  createRobotList = () => {
-    const { classes, reduxRobots, selectedRobot } = this.props;
+  const createRenameRobotModalContent = () => {
     return (
-      <List className={classes.root}>
-        {reduxRobots.map(robot => (
-          <ListItem
-            key={robot.id}
-            alignItems="flex-start"
-            button
-            selected={selectedRobot.id === robot.id}
-            onClick={event => this.handleListItemClick(event, robot)}
-          >
-            <ListItemAvatar>
-              <Avatar src={this.isRobotOnline(robot) ? online : offline} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={robot.title}
-              secondary={
-                robot.seen_at === null ? (
-                  <React.Fragment>Please start this growbot</React.Fragment>
-                ) : (
-                  <React.Fragment>
-                    {`Charge: ${robot.battery_level}%; Water Volume: ${
-                      robot.water_level
-                    }ml`}
-                  </React.Fragment>
-                )
-              }
-            />
-            {selectedRobot.id === robot.id && (
-              <React.Fragment>
-                <IconButton
-                  onClick={() => this.handleOpenDialogue("removeRobotDialogue")}
-                >
-                  <RemoveIcon />
-                </IconButton>
-                <IconButton
-                  onClick={() => this.handleOpenDialogue("renameRobotDialogue")}
-                >
-                  <EditIcon />
-                </IconButton>
-              </React.Fragment>
-            )}
-          </ListItem>
-        ))}
-      </List>
+      <div>
+        <div
+          style={!alertVisible ? { display: "none" } : { display: "block" }}
+          className="alert alert-danger"
+          role="alert"
+        >
+          {alertMessage}
+        </div>
+        <p>Please give the robot a new name</p>
+        <div className="form-group">
+          <label htmlFor="inputName">New Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="inputName"
+            placeholder="Name"
+            onChange={event => setRenameRobotTitle(event.target.value)}
+          />
+        </div>
+      </div>
     );
   };
-  createPlantList = () => {
-    const { classes, reduxPlants } = this.props;
-    return (
-      <List className={classes.root}>
-        {reduxPlants.map((plant, idx) => (
-          <ListItem key={plant.id} alignItems="flex-start">
-            <ListItemText primary={plant.name} />
-            <IconButton
-              onClick={() =>
-                this.setState({
-                  selectedPlant: reduxPlants[idx],
-                  removePlantDialogue: true
-                })
-              }
-            >
-              <RemoveIcon />
-            </IconButton>
-            <IconButton
-              onClick={() =>
-                this.setState({
-                  selectedPlant: reduxPlants[idx],
-                  renamePlantDialogue: true
-                })
-              }
-            >
-              <EditIcon />
-            </IconButton>
-          </ListItem>
-        ))}
-      </List>
-    );
-  };
-  createRenamePlantDialogueContent = () => {
-    const { renamePlantName } = this.state;
-
-    const renameRobot = this.createTextField(
-      "renamePlantName",
-      "New Name",
-      renamePlantName,
-      "renamePlantName"
-    );
-
-    return <React.Fragment>{renameRobot}</React.Fragment>;
-  };
-  createRenamePlantDialogueActions = () => {
+  const createRenameRobotModalFooter = () => {
     return (
       <React.Fragment>
-        <Button onClick={() => this.handleCloseDialogue("renamePlantDialogue")}>
+        <button
+          onClick={() => {
+            showAlert(false);
+            setAlertMessage("");
+            renameRobotModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
           Close
-        </Button>
-        <Button onClick={this.onRenamePlant}>Rename</Button>
+        </button>
+        <button onClick={onRenameRobot} className="btn btn-danger">
+          Rename
+        </button>
       </React.Fragment>
     );
   };
-  createAddPlantDialogueContent = () => {
-    const { newPlantName } = this.state;
-
-    const addPlant = this.createTextField(
-      "newPlantName",
-      "Name",
-      newPlantName,
-      "newPlantName"
-    );
-
-    return <React.Fragment>{addPlant}</React.Fragment>;
+  const createRemoveRobotModalContent = () => {
+    return <p>Are you sure you want to remove this robot?</p>;
   };
-  createAddPlantDialogueActions = () => {
+  const createRemoveRobotModalFooter = () => {
     return (
       <React.Fragment>
-        <Button onClick={() => this.handleCloseDialogue("addPlantDialogue")}>
+        <button
+          onClick={() => {
+            removeRobotModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
           Close
-        </Button>
-        <Button onClick={this.onAddPlant}>Add</Button>
+        </button>
+        <button onClick={onRemoveRobot} className="btn btn-danger">
+          Remove
+        </button>
       </React.Fragment>
     );
   };
-  createRemovePlantDialogueActions = () => {
+  const createRemovePlantModalContent = () => {
+    return <p>Are you sure you want to remove this plant?</p>;
+  };
+  const createRemovePlantModalFooter = () => {
     return (
       <React.Fragment>
-        <Button onClick={() => this.handleCloseDialogue("removePlantDialogue")}>
+        <button
+          onClick={() => {
+            removePlantModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
           Close
-        </Button>
-        <Button onClick={this.onRemovePlant}>Remove</Button>
+        </button>
+        <button onClick={onRemovePlant} className="btn btn-danger">
+          Remove
+        </button>
       </React.Fragment>
     );
   };
-  createRemovePlantDialogueContent = () => {
-    return <React.Fragment />;
-  };
-  createAddRobotDialogueContent = () => {
-    const { newRobotSerialKey, newRobotTitle, qrDelay } = this.state;
-    const addRobotSerialKeyTextField = this.createTextField(
-      "addRobot",
-      "Serial key",
-      newRobotSerialKey,
-      "newRobotSerialKey"
-    );
-    const addRobotTitleTextField = this.createTextField(
-      "addRobotTitle",
-      "Title",
-      newRobotTitle,
-      "newRobotTitle"
-    );
-
+  const createAddRobotModalContent = () => {
     return (
       <React.Fragment>
+        <div
+          style={!alertVisible ? { display: "none" } : { display: "block" }}
+          className="alert alert-danger"
+          role="alert"
+        >
+          {alertMessage}
+        </div>
         <QrReader
           delay={qrDelay}
-          onError={Home.qrHandleError}
-          onScan={this.qrHandleScan.bind(this)}
+          onError={qrHandleError}
+          onScan={qrHandleScan}
           style={{ width: "100%" }}
         />
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          {addRobotSerialKeyTextField}
-          {addRobotTitleTextField}
+        <div>
+          <div className="form-group">
+            <label htmlFor="inputSerialKey">Serial Key</label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputSerialKey"
+              placeholder="Key"
+              onChange={event => setNewRobotSerialKey(event.target.value)}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="inputTitle">Title</label>
+            <input
+              type="text"
+              className="form-control"
+              id="inputTitle"
+              placeholder="Title"
+              onChange={event => setNewRobotTitle(event.target.value)}
+            />
+          </div>
         </div>
       </React.Fragment>
     );
   };
-  createAddRobotDialogueActions = () => {
+  const createAddRobotModalFooter = () => {
     return (
       <React.Fragment>
-        <Button onClick={() => this.handleCloseDialogue("addRobotDialogue")}>
-          Close
-        </Button>
-        <Button onClick={this.onAddRobot}>Add</Button>
-      </React.Fragment>
-    );
-  };
-  createRemoveRobotDialogueActions = () => {
-    return (
-      <React.Fragment>
-        <Button onClick={() => this.handleCloseDialogue("removeRobotDialogue")}>
-          Close
-        </Button>
-        <Button onClick={this.onRemoveRobot}>Remove</Button>
-      </React.Fragment>
-    );
-  };
-  createRemoveRobotDialogueContent = () => {
-    return <React.Fragment />;
-  };
-  createRenameRobotDialogueActions = () => {
-    return (
-      <React.Fragment>
-        <Button onClick={() => this.handleCloseDialogue("renameRobotDialogue")}>
-          Close
-        </Button>
-        <Button onClick={this.onRenameRobot}>Rename</Button>
-      </React.Fragment>
-    );
-  };
-  createRenameRobotDialogueContent = () => {
-    const { renameRobotTitle } = this.state;
-
-    const renameRobot = this.createTextField(
-      "renameRobotTitle",
-      "New Name",
-      renameRobotTitle,
-      "renameRobotTitle"
-    );
-
-    return <React.Fragment>{renameRobot}</React.Fragment>;
-  };
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-  createTextField = (id, label, value, valueName) =>
-    this.createTextFieldWithType(id, label, "string", value, valueName);
-  createTextFieldWithType = (id, label, type, value, valueName) => {
-    const { classes } = this.props;
-    return (
-      <TextField
-        id={id}
-        label={label}
-        type={type}
-        className={
-          type === "number" ? classes.numberTextField : classes.textField
-        }
-        value={value}
-        onChange={this.handleChange(valueName)}
-        margin="normal"
-      />
-    );
-  };
-  qrHandleScan(data) {
-    const prefix = "growbot:";
-    if (data && data.startsWith(prefix)) {
-      this.setState({
-        newRobotSerialKey: data.slice(prefix.length)
-      });
-    }
-  }
-  static qrHandleError(err) {
-    alert(err);
-  }
-  render() {
-    const { classes, reduxRobots } = this.props;
-    const {
-      addRobotDialogue,
-      removeRobotDialogue,
-      renameRobotDialogue,
-      renamePlantDialogue,
-      removePlantDialogue,
-      addPlantDialogue,
-      open,
-      type,
-      message
-    } = this.state;
-    const robotsList = this.createRobotList();
-    const plantsList = this.createPlantList();
-    return (
-      <main>
-        <Snackbar
-          key="snackbar"
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left"
+        <button
+          onClick={() => {
+            showAlert(false);
+            setAlertMessage("");
+            addRobotModalVisible(false);
           }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={this.handleClose}
+          className="btn btn-danger"
         >
-          <SnackbarContentWrapper
-            onClose={this.handleClose}
-            variant={type}
-            message={message}
-          />
-        </Snackbar>
-        <Dialogue
-          open={addRobotDialogue}
-          close={() => this.handleCloseDialogue("addRobotDialogue")}
-          title="Add Robot"
-          contentText="Please scan the robot serial and name your robot."
-          content={this.createAddRobotDialogueContent()}
-          actions={this.createAddRobotDialogueActions()}
-        />
-        <Dialogue
-          key="removeRobotDialogue"
-          open={removeRobotDialogue}
-          close={() => this.handleCloseDialogue("removeRobotDialogue")}
-          title="Remove Robot"
-          contentText="Please confirm you wish to remove the robot."
-          content={this.createRemoveRobotDialogueContent()}
-          actions={this.createRemoveRobotDialogueActions()}
-        />
-        <Dialogue
-          key="renameRobotDialogue"
-          open={renameRobotDialogue}
-          close={() => this.handleCloseDialogue("renameRobotDialogue")}
-          title="Rename Robot"
-          contentText="Rename your robot."
-          content={this.createRenameRobotDialogueContent()}
-          actions={this.createRenameRobotDialogueActions()}
-        />
-        <Dialogue
-          key="renamePlantDialogue"
-          open={renamePlantDialogue}
-          close={() => this.handleCloseDialogue("renamePlantDialogue")}
-          title="Rename Plant"
-          contentText="Rename your plant."
-          content={this.createRenamePlantDialogueContent()}
-          actions={this.createRenamePlantDialogueActions()}
-        />
-        <Dialogue
-          key="removePlantDialogue"
-          open={removePlantDialogue}
-          close={() => this.handleCloseDialogue("removePlantDialogue")}
-          title="Remove Plant"
-          contentText="Please confirm that you want to remove this plant."
-          content={this.createRemovePlantDialogueContent()}
-          actions={this.createRemovePlantDialogueActions()}
-        />
-        <Dialogue
-          key="addPlantDialogue"
-          open={addPlantDialogue}
-          close={() => this.handleCloseDialogue("addPlantDialogue")}
-          title="Add New Plant"
-          contentText="Please provide a name for your new plant."
-          content={this.createAddPlantDialogueContent()}
-          actions={this.createAddPlantDialogueActions()}
-        />
-        <br />
-        <Grid container justify="center">
-          <Grid item>
-            <Card className={classes.card}>
-              <CardContent>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <div>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Robots
-                    </Typography>
-                    <Typography component="p">
-                      {reduxRobots.length === 0
-                        ? "Please add some GrowBots"
-                        : "Select a Growbot"}
-                    </Typography>
-                  </div>
-                  <IconButton
-                    aria-label="Add-Robot"
-                    onClick={() => this.handleOpenDialogue("addRobotDialogue")}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </div>
-              </CardContent>
-
-              <CardActions>{robotsList}</CardActions>
-            </Card>
-          </Grid>
-          <Grid item>
-            <Card className={classes.card}>
-              <CardContent>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <div>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      Plants
-                    </Typography>
-                    <Typography component="p">Your plants</Typography>
-                  </div>
-                  <IconButton
-                    aria-label="Add-Robot"
-                    onClick={() => this.handleOpenDialogue("addPlantDialogue")}
-                  >
-                    <AddIcon />
-                  </IconButton>
-                </div>
-                {plantsList}
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </main>
+          Close
+        </button>
+        <button onClick={onAddRobot} className="btn btn-danger">
+          Add
+        </button>
+      </React.Fragment>
     );
-  }
-}
+  };
+  const createAddPlantModalContent = () => {
+    return (
+      <div>
+        <div
+          style={!alertVisible ? { display: "none" } : { display: "block" }}
+          className="alert alert-danger"
+          role="alert"
+        >
+          {alertMessage}
+        </div>
+        <p>Enter a name for your new plant</p>
+        <div className="form-group">
+          <label htmlFor="inputName">Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="inputName"
+            placeholder="Name"
+            onChange={event => setNewPlantName(event.target.value)}
+          />
+        </div>
+      </div>
+    );
+  };
+  const createAddPlantModalFooter = () => {
+    return (
+      <React.Fragment>
+        <button
+          onClick={() => {
+            showAlert(false);
+            setAlertMessage("");
+            addPlantModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button onClick={onAddPlant} className="btn btn-danger">
+          Add
+        </button>
+      </React.Fragment>
+    );
+  };
+  const createRenamePlantModalContent = () => {
+    return (
+      <div>
+        <div
+          style={!alertVisible ? { display: "none" } : { display: "block" }}
+          className="alert alert-danger"
+          role="alert"
+        >
+          {alertMessage}
+        </div>
+        <p>Enter a new name for your plant</p>
+        <div className="form-group">
+          <label htmlFor="inputName">New Name</label>
+          <input
+            type="text"
+            className="form-control"
+            id="inputName"
+            placeholder="Name"
+            onChange={event => setRenamePlantName(event.target.value)}
+          />
+        </div>
+      </div>
+    );
+  };
+  const createRenamePlantModalFooter = () => {
+    return (
+      <React.Fragment>
+        <button
+          onClick={() => {
+            showAlert(false);
+            setAlertMessage("");
+            renamePlantModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button onClick={onRenamePlant} className="btn btn-danger">
+          Rename
+        </button>
+      </React.Fragment>
+    );
+  };
+  const qrHandleScan = data => {
+    const prefix = "growbot:";
+    if (data && data.startsWith(prefix))
+      setNewRobotSerialKey(data.slice(prefix.length));
+  };
+  const qrHandleError = error => {
+    alert(error);
+  };
+
+  return (
+    <div className="content">
+      <Modal
+        open={addRobotModalOpen}
+        close={() => addRobotModalVisible(false)}
+        title="Add Robot"
+        content={createAddRobotModalContent()}
+        footer={createAddRobotModalFooter()}
+      />
+      <Modal
+        open={removeRobotModalOpen}
+        close={() => removeRobotModalVisible(false)}
+        title="Remove Robot"
+        content={createRemoveRobotModalContent()}
+        footer={createRemoveRobotModalFooter()}
+      />
+      <Modal
+        open={renameRobotModalOpen}
+        close={() => renameRobotModalVisible(false)}
+        title="Rename Robot"
+        content={createRenameRobotModalContent()}
+        footer={createRenameRobotModalFooter()}
+      />
+      <Modal
+        open={addPlantModalOpen}
+        close={() => addPlantModalVisible(false)}
+        title="Add Plant"
+        content={createAddPlantModalContent()}
+        footer={createAddPlantModalFooter()}
+      />
+      <Modal
+        open={renamePlantModalOpen}
+        close={() => renamePlantModalVisible(false)}
+        title="Rename Plant"
+        content={createRenamePlantModalContent()}
+        footer={createRenamePlantModalFooter()}
+      />
+      <Modal
+        open={removePlantModalOpen}
+        close={() => removePlantModalVisible(false)}
+        title="Remove Plant"
+        content={createRemovePlantModalContent()}
+        footer={createRemovePlantModalFooter()}
+      />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6">
+            <Card
+              title={
+                <span
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                  }}
+                >
+                  <span>Your Robots</span>
+                  <button
+                    onClick={() => addRobotModalVisible(true)}
+                    className="btn btn-sm btn-danger"
+                  >
+                    Add Robot
+                  </button>
+                </span>
+              }
+              content={
+                <div>
+                  <SelectableList
+                    onSelect={idx => reduxSelectRobot(reduxRobots[idx])}
+                    items={reduxRobots
+                      .filter(robot => robot !== undefined)
+                      .map(robot => (
+                        <div>
+                          <h4 className="list-group-item-heading">
+                            <img
+                              src={
+                                robot.seen_at !== null
+                                  ? green_circle
+                                  : red_circle
+                              }
+                              alt="Status"
+                            />{" "}
+                            {robot.title}
+                          </h4>
+                          <span
+                            style={{ marginRight: "15px" }}
+                            className="label label-primary"
+                          >{`Water: ${robot.water_level}ml`}</span>
+                          <span className="label label-default">{`Battery: ${
+                            robot.battery_level
+                          }%`}</span>
+                        </div>
+                      ))}
+                  />
+                  <button
+                    style={{ marginRight: "10px" }}
+                    onClick={() => removeRobotModalVisible(true)}
+                    className="btn btn-danger"
+                  >
+                    Remove Robot
+                  </button>
+                  <button
+                    onClick={() => renameRobotModalVisible(true)}
+                    className="btn btn-danger"
+                  >
+                    Rename Robot
+                  </button>
+                  {localStorage.test && (
+                    <Dropdown
+                      name="Test"
+                      items={[1, 2, 3, 4, 5]}
+                      click={() => console.log("lol")}
+                    />
+                  )}
+                </div>
+              }
+            />
+          </div>
+          <div className="col-md-6">
+            <Card
+              title={
+                <span
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                  }}
+                >
+                  <span>Your Plants</span>
+                  <button
+                    onClick={() => addPlantModalVisible(true)}
+                    className="btn btn-sm btn-danger"
+                  >
+                    Add Plant
+                  </button>
+                </span>
+              }
+              content={
+                <div>
+                  <ul className="list-group">
+                    {reduxPlants
+                      .filter(plant => plant !== undefined)
+                      .map((plant, idx) => (
+                        <li key={idx} className="list-group-item">
+                          {plant.name}{" "}
+                          <button
+                            onClick={() => {
+                              const plant = reduxPlants[idx];
+                              selectPlant(plant);
+                              removePlantModalVisible(true);
+                            }}
+                            type="button"
+                            style={{ marginLeft: "10px" }}
+                            className="btn btn-sm btn-danger pull-right"
+                          >
+                            <i className="glyphicon glyphicon-trash" />
+                          </button>{" "}
+                          <button
+                            onClick={() => {
+                              const plant = reduxPlants[idx];
+                              selectPlant(plant);
+                              renamePlantModalVisible(true);
+                            }}
+                            type="button"
+                            className="btn btn-sm btn-danger pull-right"
+                          >
+                            <i className="glyphicon glyphicon-pencil" />
+                          </button>
+                        </li>
+                      ))}
+                  </ul>
+                </div>
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const mapStateToProps = props => {
   const { robots, selectedRobot } = props.robotState;
@@ -685,4 +658,4 @@ const mapDispatchToProps = dispatch => {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Home));
+)(Home);

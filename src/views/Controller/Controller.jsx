@@ -1,127 +1,59 @@
-import React, { Component } from "react";
-import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardContent from "@material-ui/core/CardContent";
-import Grid from "@material-ui/core/Grid";
-import Snackbar from "@material-ui/core/Snackbar";
-import Typography from "@material-ui/core/Typography";
-
-import styles from "../../assets/views/Controller/jss/controller-styles";
-
-import Gamepad from "../../components/Gamepad/Gamepad";
-import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents";
-
-import { withStyles } from "@material-ui/core";
-
+import React from "react";
 import { connect } from "react-redux";
 
 import moveRobot from "../../http/move_robot";
+import Card from "../../components/Card/Card";
+import Gamepad from "../../components/Gamepad/Gamepad";
 import endpoints from "../../endpoints";
 
-class Controller extends Component {
-  state = {
-    open: false,
-    type: "",
-    message: ""
-  };
-  onMove = async direction => {
-    const { loginToken, selectedRobot } = this.props;
-    const response = await moveRobot(loginToken, direction, selectedRobot.id);
+const Controller = props => {
+  const { selectedRobot, loginToken } = props;
 
-    if (response.status === 200) {
-      this.setState({
-        message: "Successfully moved robot",
-        open: true,
-        type: "success"
-      });
-    } else {
-      const body = await response.json();
-      this.setState({ message: body.message, open: true, type: "error" });
-    }
+  const onMove = async direction => {
+    const { loginToken, selectedRobot } = props;
+    await moveRobot(loginToken, direction, selectedRobot.id);
   };
-  createGamepad = () => {
+
+  const createGamepad = () => {
     return (
       <Gamepad
-        forward={this.onMove.bind(this, "forward")}
-        backward={this.onMove.bind(this, "backward")}
-        armdown={this.onMove.bind(this, "armdown")}
-        armup={this.onMove.bind(this, "armup")}
-        left={this.onMove.bind(this, "left")}
-        right={this.onMove.bind(this, "right")}
-        brake={this.onMove.bind(this, "brake")}
+        forward={onMove.bind(this, "forward")}
+        backward={onMove.bind(this, "backward")}
+        armdown={onMove.bind(this, "armdown")}
+        armup={onMove.bind(this, "armup")}
+        left={onMove.bind(this, "left")}
+        right={onMove.bind(this, "right")}
+        brake={onMove.bind(this, "brake")}
       />
     );
   };
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-  render() {
-    const { classes, selectedRobot, loginToken } = this.props;
-    const { open, type, message } = this.state;
-    const gamepad = this.createGamepad();
-    return (
-      <main>
-        <Snackbar
-          key="snackbar"
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left"
-          }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={this.handleClose}
-        >
-          <SnackbarContentWrapper
-            onClose={this.handleClose}
-            variant={type}
-            message={message}
-          />
-        </Snackbar>
-        <br />
-        <Grid container justify="center">
-          <Grid item>
-            <Card className={classes.card}>
-              <CardContent>
-                <div
-                  style={{ display: "flex", justifyContent: "space-between" }}
-                >
-                  <div>
-                    <Typography gutterBottom variant="h5" component="h2">
-                      {selectedRobot.title}
-                    </Typography>
-                    <Typography component="p">Move Growbot around.</Typography>
-                  </div>
-                </div>
-              </CardContent>
-              <CardActions>{gamepad}</CardActions>
-            </Card>
-          </Grid>
-          <Grid item>
-            <Card className={classes.card}>
-              <CardContent>
-                <div>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Video
-                  </Typography>
-                  <Typography component="p">
-                    Live stream from {selectedRobot.title}
-                  </Typography>
-                </div>
 
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  <img
-                    alt="Video stream"
-                    src={endpoints.robot_video(selectedRobot.id, loginToken)}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </Grid>
-        </Grid>
-      </main>
-    );
-  }
-}
+  return (
+    <div className="content">
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6">
+            <Card
+              title={<span>Controller - {selectedRobot.title}</span>}
+              content={createGamepad()}
+            />
+          </div>
+          <div className="col-md-6">
+            <Card
+              title={<span>Live Stream - {selectedRobot.title}</span>}
+              content={
+                <img
+                  alt="Video stream"
+                  src={endpoints.robot_video(selectedRobot.id, loginToken)}
+                />
+              }
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const mapStateToProps = props => {
   const { selectedRobot } = props.robotState;
@@ -132,11 +64,11 @@ const mapStateToProps = props => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
   return {};
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Controller));
+)(Controller);

@@ -1,192 +1,142 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-
-import Avatar from "@material-ui/core/Avatar";
-import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import Snackbar from "@material-ui/core/Snackbar";
-import FormControl from "@material-ui/core/FormControl";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
-import Paper from "@material-ui/core/Paper";
-import Typography from "@material-ui/core/Typography";
-import withStyles from "@material-ui/core/styles/withStyles";
-
-import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents";
-
-import styles from "../../assets/views/Register/register-style";
-
-import endpoints from "../../endpoints";
-import login from "../../actions/login";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
-class Register extends Component {
-  state = {
-    forename: null,
-    surname: null,
-    email: null,
-    password: null,
-    confirmPassword: null,
-    message: null,
-    open: false,
-    type: null
-  };
+import "../../assets/css/register.css";
+import backgroundImage from "../../assets/img/background.jpg";
+import Card from "../../components/Card/Card.jsx";
+import login from "../../actions/login";
+import register from "../../http/register";
 
-  onRegister = async () => {
-    let registrationRequest = {
-      email: this.state.email,
-      password: this.state.password,
-      forename: this.state.forename,
-      surname: this.state.surname
-    };
+const Register = props => {
+  const { login } = props;
 
-    if (this.state.password !== this.state.confirmPassword) {
-      this.setState({
-        message: "Please check the passwords match!",
-        open: true,
-        type: "error"
-      });
+  const [alertVisible, showAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
+  const [forename, setForename] = useState("");
+  const [surname, setSurname] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const onRegister = async () => {
+    if (alertVisible) {
+      showAlert(false);
+      setAlertMessage("");
+    }
+
+    if (password !== confirmPassword) {
+      showAlert(true);
+      setAlertMessage(
+        "Make sure New Password and Confirm Password are identical!"
+      );
       return;
     }
 
-    let response = await fetch(endpoints.auth_register, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(registrationRequest)
-    });
-
+    const response = await register(email, password, forename, surname);
     if (response.status === 200) {
-      this.props.authLogin(this.state.email, this.state.password);
-      //this.setState({message: "Successfully Registered", open: true, type: "success"})
-      return;
+      login(email, password);
+    } else {
+      const body = await response.json();
+      setAlertMessage(body.message);
+      showAlert(true);
     }
-
-    const body = await response.json();
-    this.setState({ message: body.message, open: true, type: "error" });
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  render() {
-    let { classes } = this.props;
-    return (
-      <main className={classes.main}>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left"
-          }}
-          open={this.state.open}
-          autoHideDuration={6000}
-          onClose={this.handleClose}
-        >
-          <SnackbarContentWrapper
-            onClose={this.handleClose}
-            variant={this.state.type}
-            message={this.state.message}
-          />
-        </Snackbar>
-        <CssBaseline />
-        <Paper className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Register
-          </Typography>
-          <form className={classes.form}>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="forename">Forename</InputLabel>
-              <Input
-                name="forename"
-                type="forename"
-                id="forname"
-                onChange={e => this.setState({ forename: e.target.value })}
-              />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="surname">Surname</InputLabel>
-              <Input
-                name="surname"
-                type="surname"
-                id="surname"
-                onChange={e => this.setState({ surname: e.target.value })}
-              />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="email">Email Address</InputLabel>
-              <Input
-                id="email"
-                name="email"
-                autoComplete="email"
-                autoFocus
-                onChange={e => this.setState({ email: e.target.value })}
-              />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="password">Password</InputLabel>
-              <Input
-                name="password"
-                type="password"
-                id="password"
-                autoComplete="new-password"
-                onChange={e => this.setState({ password: e.target.value })}
-              />
-            </FormControl>
-            <FormControl margin="normal" required fullWidth>
-              <InputLabel htmlFor="confirm_password">
-                Confirm Password
-              </InputLabel>
-              <Input
-                name="confirm_password"
-                type="password"
-                id="confirm_password"
-                autoComplete="new-password"
-                onChange={e =>
-                  this.setState({ confirmPassword: e.target.value })
+  return (
+    <div className="background">
+      <img className="background-img" src={backgroundImage} alt="background" />
+      <div className="register-div">
+        <Card
+          className="register-card"
+          title="Register"
+          content={
+            <div>
+              <div
+                style={
+                  !alertVisible ? { display: "none" } : { display: "block" }
                 }
-              />
-            </FormControl>
-            <Button
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={this.onRegister}
-            >
-              Register
-            </Button>
-          </form>
-        </Paper>
-      </main>
-    );
-  }
-}
+                className="alert alert-danger"
+                role="alert"
+              >
+                {alertMessage}
+              </div>
+              <div className="form-group">
+                <label htmlFor="inputForename">Forename</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputForename"
+                  placeholder="Forename"
+                  onChange={event => setForename(event.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="inputSurname">Surname</label>
+                <input
+                  type="text"
+                  className="form-control"
+                  id="inputSurname"
+                  placeholder="Surname"
+                  onChange={event => setSurname(event.target.value)}
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="inputEmail">Email</label>
+                <input
+                  type="email"
+                  className="form-control"
+                  id="inputEmail"
+                  placeholder="Email"
+                  onChange={event => setEmail(event.target.value)}
+                />
+              </div>
 
-function mapStateToProps(state) {
+              <div className="form-group">
+                <label htmlFor="inputPassword">Password</label>
+
+                <input
+                  type="password"
+                  className="form-control"
+                  id="inputPassword"
+                  placeholder="Password"
+                  onChange={event => setPassword(event.target.value)}
+                />
+              </div>
+
+              <div className="form-group">
+                <label htmlFor="inputConfirmPassword">Confirm Password</label>
+
+                <input
+                  type="password"
+                  className="form-control"
+                  id="inputConfirmPassword"
+                  placeholder="Confirm Password"
+                  onChange={event => setConfirmPassword(event.target.value)}
+                />
+              </div>
+
+              <button onClick={onRegister} className="btn btn-primary">
+                Register
+              </button>
+            </div>
+          }
+        />
+      </div>
+    </div>
+  );
+};
+
+const mapStateToProps = () => {
+  return {};
+};
+
+const mapDispatchToProps = dispatch => {
   return {
-    isLoginPending: state.auth.isLoginPending,
-    isLoginSuccess: state.auth.isLoginSuccess,
-    loginError: state.auth.loginError
+    login: (email, password) => dispatch(login(email, password))
   };
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    authLogin: (email, password) => dispatch(login(email, password))
-  };
-}
-
-Register.propTypes = {
-  classes: PropTypes.object.isRequired
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Register));
+)(Register);

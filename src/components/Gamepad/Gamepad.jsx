@@ -1,13 +1,13 @@
 import React from "react";
 
-import roboticArm from "../../assets/components/Gamepad/img/robotic-arm.svg";
-import tdown from "../../assets/components/Gamepad/img/TriangleArrow-Down.svg";
-import tup from "../../assets/components/Gamepad/img/TriangleArrow-Up.svg";
-import tleft from "../../assets/components/Gamepad/img/TriangleArrow-Left.svg";
-import tright from "../../assets/components/Gamepad/img/TriangleArrow-Right.svg";
-import indication from "../../assets/components/Gamepad/img/Parking_brake-indication.svg";
+import roboticArm from "../../assets/img/robotic-arm.svg";
+import tdown from "../../assets/img/TriangleArrow-Down.svg";
+import tup from "../../assets/img/TriangleArrow-Up.svg";
+import tleft from "../../assets/img/TriangleArrow-Left.svg";
+import tright from "../../assets/img/TriangleArrow-Right.svg";
+import indication from "../../assets/img/Parking_brake-indication.svg";
 
-import "../../assets/components/Gamepad/css/style.css";
+import "../../assets/css/gamepad-styles.css";
 
 const Gamepad = props => {
   const { forward, backward, left, right, brake, armup, armdown } = props;
