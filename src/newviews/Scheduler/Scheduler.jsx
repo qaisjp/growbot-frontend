@@ -83,25 +83,21 @@ const Scheduler = props => {
 
             <div className="input-group">
               <label style={{ marginRight: "10px" }}>On</label>
-              <span className="input-group-addon">
                 <input
                   type="radio"
                   checked={ends === ON}
                   onClick={() => setEnds(ON)}
                 />
-              </span>
               <DateTimePicker onChange={setDate} value={date} />
             </div>
             <div style={{ marginTop: "10px" }} />
             <div className="input-group">
               <label style={{ marginRight: "10px" }}>After</label>
-              <span className="input-group-addon">
                 <input
                   type="radio"
                   checked={ends === AFTER}
                   onClick={() => setEnds(AFTER)}
                 />
-              </span>
               <input
                 type="text"
                 className="form-control"
