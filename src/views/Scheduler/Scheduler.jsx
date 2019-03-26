@@ -51,7 +51,12 @@ const Scheduler = props => {
             <div style={{ marginTop: "10px" }} />
             <label>Repeat</label>
             <input
-              style={{ marginLeft: "10px", width: "30%", height: "29px", display: "inline-block" }}
+              style={{
+                marginLeft: "10px",
+                width: "30%",
+                height: "29px",
+                display: "inline-block"
+              }}
               type="number"
               className="form-control"
               onChange={() => console.log("lol")}
