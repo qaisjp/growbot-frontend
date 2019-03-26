@@ -10,15 +10,7 @@ import indication from "../../assets/components/Gamepad/img/Parking_brake-indica
 import "../../assets/components/Gamepad/css/style.css";
 
 const Gamepad = props => {
-  const {
-    forward,
-    backward,
-    left,
-    right,
-    brake,
-    armup,
-    armdown
-  } = props;
+  const { forward, backward, left, right, brake, armup, armdown } = props;
   return (
     <div id="main-wrapper" {...props}>
       <div id="arm-control-wrapper">

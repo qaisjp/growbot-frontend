@@ -32,7 +32,7 @@ const Scheduler = props => {
             <label>Plant</label>
             <Dropdown
               name="Plants"
-              style={{display: "inline", marginLeft: "10px"}}
+              style={{ display: "inline", marginLeft: "10px" }}
               items={reduxPlantNames}
               click={plantName => {
                 const idx = reduxPlantNames.indexOf(plantName);
@@ -43,7 +43,7 @@ const Scheduler = props => {
             <label>Action</label>
             <Dropdown
               name="Actions"
-              style={{display: "inline", marginLeft: "10px"}}
+              style={{ display: "inline", marginLeft: "10px" }}
               items={actionNames}
               click={actionName => {
                 const idx = actionNames.indexOf(actionName);
@@ -54,13 +54,13 @@ const Scheduler = props => {
             <label>Repeat</label>
             <Dropdown
               name="Number"
-              style={{display: "inline", marginLeft: "10px"}}
+              style={{ display: "inline", marginLeft: "10px" }}
               items={timeUnits}
               click={() => console.log("lol")}
             />
             <Dropdown
               name="Time"
-              style={{display: "inline", marginLeft: "10px"}}
+              style={{ display: "inline", marginLeft: "10px" }}
               items={unitNames}
               click={unitName => {
                 const idx = unitNames.indexOf(unitName);
@@ -71,39 +71,36 @@ const Scheduler = props => {
           <div className="col-md-6">
             <label>Ends</label>
             <div style={{ marginTop: "10px" }} />
-            <div className="input-group">
               <label style={{ marginRight: "10px" }}>Never</label>
               <input
                 type="radio"
                 checked={ends === NEVER}
                 onClick={() => setEnds(NEVER)}
               />
-            </div>
             <div style={{ marginTop: "10px" }} />
 
-            <div className="input-group">
               <label style={{ marginRight: "10px" }}>On</label>
-                <input
-                  type="radio"
-                  checked={ends === ON}
-                  onClick={() => setEnds(ON)}
-                />
-              <DateTimePicker onChange={setDate} value={date} />
-            </div>
-            <div style={{ marginTop: "10px" }} />
-            <div className="input-group">
-              <label style={{ marginRight: "10px" }}>After</label>
-                <input
-                  type="radio"
-                  checked={ends === AFTER}
-                  onClick={() => setEnds(AFTER)}
-                />
               <input
-                type="text"
-                className="form-control"
-                onChange={event => setAfterOccurances(event.target.value)}
+                type="radio"
+                style={{ marginRight: "10px" }}
+                checked={ends === ON}
+                onClick={() => setEnds(ON)}
               />
-            </div>
+              <DateTimePicker onChange={setDate} value={date} />
+            <div style={{ marginTop: "10px" }} />
+              <label style={{ marginRight: "10px" }}>After</label>
+              <input
+                type="radio"
+                style={{ marginRight: "10px" }}
+                checked={ends === AFTER}
+                onClick={() => setEnds(AFTER)}
+              />
+            <input
+              style={{width: "30%", height: "29px", display: "inline-block"}}
+              type="number"
+              className="form-control"
+              onChange={event => setAfterOccurances(event.target.value)}
+            />
           </div>
         </div>
       </div>

@@ -24,8 +24,15 @@ const Gallery = props => {
   const createViewPhotoModalFooter = () => {
     return (
       <React.Fragment>
-        <button onClick={onDeletePhoto} className="btn btn-danger">Delete Photo</button>
-        <button onClick={() => viewPhotoModalVisible(false)} className="btn btn-danger">Close</button>
+        <button onClick={onDeletePhoto} className="btn btn-danger">
+          Delete Photo
+        </button>
+        <button
+          onClick={() => viewPhotoModalVisible(false)}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
       </React.Fragment>
     );
   };
@@ -34,7 +41,7 @@ const Gallery = props => {
     const { loginToken } = props;
     const response = await httpDeletePhoto(loginToken, photo.id);
 
-    if(response.status === 200) {
+    if (response.status === 200) {
       setPhotos(photos.filter(item => item.id !== photo.id));
       setPhoto(null);
       viewPhotoModalVisible(false);

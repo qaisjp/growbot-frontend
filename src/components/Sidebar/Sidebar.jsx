@@ -20,27 +20,31 @@ const Sidebar = props => {
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">
-          {dashboardRoutes.filter(prop => prop.sidebar).map((prop, key) => {
-            if (!prop.redirect)
-              return (
-                <li
-                  className={
-                    prop.upgrade ? "active active-pro" : activeRoute(prop.path)
-                  }
-                  key={key}
-                >
-                  <NavLink
-                    to={prop.path}
-                    className="nav-link"
-                    activeClassName="active"
+          {dashboardRoutes
+            .filter(prop => prop.sidebar)
+            .map((prop, key) => {
+              if (!prop.redirect)
+                return (
+                  <li
+                    className={
+                      prop.upgrade
+                        ? "active active-pro"
+                        : activeRoute(prop.path)
+                    }
+                    key={key}
                   >
-                    <i className={prop.icon} />
-                    <p>{prop.name}</p>
-                  </NavLink>
-                </li>
-              );
-            return null;
-          })}
+                    <NavLink
+                      to={prop.path}
+                      className="nav-link"
+                      activeClassName="active"
+                    >
+                      <i className={prop.icon} />
+                      <p>{prop.name}</p>
+                    </NavLink>
+                  </li>
+                );
+              return null;
+            })}
         </ul>
       </div>
     </div>
