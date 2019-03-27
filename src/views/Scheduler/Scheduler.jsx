@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
 
 import actions from "./scheduler_actions";
+import {MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY} from "./scheduler_days";
 import { AFTER, ON, NEVER } from "./scheduler_ends";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Modal from "../../components/Modal/Modal";
@@ -19,6 +20,19 @@ const Scheduler = props => {
   const [ends, setEnds] = useState(NEVER);
   const [afterOccurances, setAfterOccurances] = useState("");
   const [date, setDate] = useState(new Date());
+
+  const createRepeatOnCheckbox = day => {
+    return (
+      <React.Fragment>
+      <label style={{ marginRight: "5px" }}>{day}</label>
+      <input
+    style={{marginRight: "10px"}}
+    type="checkbox"
+    checked={ends === NEVER}
+    onClick={() => setEnds(NEVER)}
+      /></React.Fragment>
+    )
+  };
 
   const createScheduleEventModalContent = () => {
     const reduxPlantNames = reduxPlants.map(plant => plant.name);
@@ -73,49 +87,13 @@ const Scheduler = props => {
           </div>
           <div className="col-md-6">
             <label style={{display: "block"}}>Repeat on</label>
-            <label style={{ marginRight: "5px" }}>Monday</label>
-            <input
-              style={{marginRight: "10px"}}
-              type="checkbox"
-              checked={ends === NEVER}
-              onClick={() => setEnds(NEVER)}
-            />
-            <label style={{ marginRight: "10px" }}>Tuesday</label>
-            <input
-              type="checkbox"
-              checked={ends === NEVER}
-              onClick={() => setEnds(NEVER)}
-            />
-            <label style={{ marginRight: "10px" }}>Wednesday</label>
-            <input
-              type="checkbox"
-              checked={ends === NEVER}
-              onClick={() => setEnds(NEVER)}
-            />
-            <label style={{ marginRight: "10px" }}>Thursday</label>
-            <input
-              type="checkbox"
-              checked={ends === NEVER}
-              onClick={() => setEnds(NEVER)}
-            />
-            <label style={{ marginRight: "10px" }}>Friday</label>
-            <input
-              type="checkbox"
-              checked={ends === NEVER}
-              onClick={() => setEnds(NEVER)}
-            />
-            <label style={{ marginRight: "10px" }}>Saturday</label>
-            <input
-              type="checkbox"
-              checked={ends === NEVER}
-              onClick={() => setEnds(NEVER)}
-            />
-            <label style={{ marginRight: "10px" }}>Sunday</label>
-            <input
-              type="checkbox"
-              checked={ends === NEVER}
-              onClick={() => setEnds(NEVER)}
-            />
+            {createRepeatOnCheckbox(MONDAY)}
+            {createRepeatOnCheckbox(TUESDAY)}
+            {createRepeatOnCheckbox(WEDNESDAY)}
+            {createRepeatOnCheckbox(THURSDAY)}
+            {createRepeatOnCheckbox(FRIDAY)}
+            {createRepeatOnCheckbox(SATURDAY)}
+            {createRepeatOnCheckbox(SUNDAY)}
             <label style={{display: "block"}}>Ends</label>
             <div style={{ marginTop: "10px" }} />
             <label style={{ marginRight: "10px" }}>Never</label>
