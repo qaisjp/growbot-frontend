@@ -105,6 +105,7 @@ const Scheduler = props => {
           </div>
           <div className="col-md-6">
             <label style={{ display: "block" }}>Repeat on</label>
+            <div style={{ marginTop: "10px" }} />
             {createRepeatOnCheckbox(MONDAY)}
             {createRepeatOnCheckbox(TUESDAY)}
             {createRepeatOnCheckbox(WEDNESDAY)}
@@ -112,6 +113,7 @@ const Scheduler = props => {
             {createRepeatOnCheckbox(FRIDAY)}
             {createRepeatOnCheckbox(SATURDAY)}
             {createRepeatOnCheckbox(SUNDAY)}
+            <div style={{ marginTop: "10px" }} />
             <label style={{ display: "block" }}>Ends</label>
             <div style={{ marginTop: "10px" }} />
             <label style={{ marginRight: "10px" }}>Never</label>
