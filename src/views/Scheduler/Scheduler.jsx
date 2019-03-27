@@ -72,9 +72,10 @@ const Scheduler = props => {
             />
           </div>
           <div className="col-md-6">
-            <label>Repeat on</label>
-            <label style={{ marginRight: "10px" }}>Monday</label>
+            <label style={{display: "block"}}>Repeat on</label>
+            <label style={{ marginRight: "5px" }}>Monday</label>
             <input
+              style={{marginRight: "10px"}}
               type="checkbox"
               checked={ends === NEVER}
               onClick={() => setEnds(NEVER)}
@@ -115,7 +116,7 @@ const Scheduler = props => {
               checked={ends === NEVER}
               onClick={() => setEnds(NEVER)}
             />
-            <label>Ends</label>
+            <label style={{display: "block"}}>Ends</label>
             <div style={{ marginTop: "10px" }} />
             <label style={{ marginRight: "10px" }}>Never</label>
             <input
