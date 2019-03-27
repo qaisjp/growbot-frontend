@@ -72,6 +72,49 @@ const Scheduler = props => {
             />
           </div>
           <div className="col-md-6">
+            <label>Repeat on</label>
+            <label style={{ marginRight: "10px" }}>Monday</label>
+            <input
+              type="checkbox"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
+            <label style={{ marginRight: "10px" }}>Tuesday</label>
+            <input
+              type="checkbox"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
+            <label style={{ marginRight: "10px" }}>Wednesday</label>
+            <input
+              type="checkbox"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
+            <label style={{ marginRight: "10px" }}>Thursday</label>
+            <input
+              type="checkbox"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
+            <label style={{ marginRight: "10px" }}>Friday</label>
+            <input
+              type="checkbox"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
+            <label style={{ marginRight: "10px" }}>Saturday</label>
+            <input
+              type="checkbox"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
+            <label style={{ marginRight: "10px" }}>Sunday</label>
+            <input
+              type="checkbox"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
             <label>Ends</label>
             <div style={{ marginTop: "10px" }} />
             <label style={{ marginRight: "10px" }}>Never</label>
