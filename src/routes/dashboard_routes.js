@@ -6,20 +6,6 @@ import Settings from "../views/Settings/Settings";
 
 const routes = [
   {
-    path: "/controller",
-    name: "Controller",
-    icon: "pe-7s-compass",
-    sidebar: true,
-    component: Controller
-  },
-  {
-    path: "/gallery",
-    name: "Gallery",
-    icon: "pe-7s-photo-gallery",
-    sidebar: true,
-    component: Gallery
-  },
-  {
     path: "/home",
     name: "Dashboard",
     icon: "pe-7s-home",
@@ -27,11 +13,25 @@ const routes = [
     component: Home
   },
   {
+    path: "/controller",
+    name: "Controller",
+    icon: "pe-7s-compass",
+    sidebar: true,
+    component: Controller
+  },
+  {
     path: "/scheduler",
     name: "Scheduler",
     icon: "pe-7s-clock",
     sidebar: true,
     component: Scheduler
+  },
+  {
+    path: "/gallery",
+    name: "Gallery",
+    icon: "pe-7s-photo-gallery",
+    sidebar: true,
+    component: Gallery
   },
   {
     path: "/settings",
