@@ -14,8 +14,10 @@ import {
   SUNDAY
 } from "./scheduler_days";
 import { AFTER, ON, NEVER } from "./scheduler_ends";
+import Card from "../../components/Card/Card";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Modal from "../../components/Modal/Modal";
+import httpFetchEvents from "../../http/fetch_events";
 import units from "./scheduler_time_units";
 
 const Scheduler = props => {
@@ -40,7 +42,7 @@ const Scheduler = props => {
   });
 
   const fetchEvents = async () => {
-    const fetchEventResult = await fetchEvents(loginToken);
+    const fetchEventResult = await httpFetchEvents(loginToken);
     if(!(fetchEventResult instanceof Error)) {
       const { events } = fetchEventResult;
       setEvents(events);
@@ -71,7 +73,7 @@ const Scheduler = props => {
     return (
       <div className="container-fluid">
         <div className="row">
-          <div className="col-md-6">
+         <div className="col-md-6">
             <label>Plant</label>
             <Dropdown
               name="Plants"
@@ -195,7 +197,34 @@ const Scheduler = props => {
       <div className="container-fluid">
         <div className="row">
           <div className="col-md-8">
-            
+            <Card
+              title={
+                <span
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center"
+                  }}
+                >
+                  <span>Your Scheduled Actions</span>
+                  <button
+                    onClick={() => scheduleEventModalVisible(true)}
+                    className="btn btn-sm btn-danger"
+                  >
+                    Schedule New Action
+                  </button>
+                </span>
+              }
+              content={
+                <ul className="list-group">
+                  {events.filter(event => event !== undefined).map((event,idx) => (
+                    <li key={idx} className="list-group-item">
+                      {event.summary}
+                    </li>
+                    ))}
+                </ul>
+              }
+              />
           </div>
         </div>
       </div>
