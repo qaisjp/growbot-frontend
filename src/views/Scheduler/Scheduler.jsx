@@ -1,19 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import DateTimePicker from "react-datetime-picker";
 
 import actions from "./scheduler_actions";
-import {
-  MONDAY,
-  TUESDAY,
-  WEDNESDAY,
-  THURSDAY,
-  FRIDAY,
-  SATURDAY,
-  SUNDAY
-} from "./scheduler_days";
-import { AFTER, ON, NEVER } from "./scheduler_ends";
+import { FRIDAY, MONDAY, SATURDAY, SUNDAY, THURSDAY, TUESDAY, WEDNESDAY } from "./scheduler_days";
+import { AFTER, NEVER, ON } from "./scheduler_ends";
 import Card from "../../components/Card/Card";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Modal from "../../components/Modal/Modal";
@@ -43,7 +35,7 @@ const Scheduler = props => {
 
   const fetchEvents = async () => {
     const fetchEventResult = await httpFetchEvents(loginToken);
-    if(!(fetchEventResult instanceof Error)) {
+    if (!(fetchEventResult instanceof Error)) {
       const { events } = fetchEventResult;
       setEvents(events);
     }
@@ -61,7 +53,7 @@ const Scheduler = props => {
           style={{ marginRight: "10px" }}
           type="checkbox"
           checked={daySelected[day]}
-          onClick={() => setDaySelected({day: !day})}
+          onClick={() => setDaySelected({ day: !day })}
         />
       </React.Fragment>
     );
@@ -73,7 +65,7 @@ const Scheduler = props => {
     return (
       <div className="container-fluid">
         <div className="row">
-         <div className="col-md-6">
+          <div className="col-md-6">
             <label>Plant</label>
             <Dropdown
               name="Plants"
@@ -84,7 +76,7 @@ const Scheduler = props => {
                 selectPlant(reduxPlants[idx]);
               }}
             />
-            <div style={{ marginTop: "10px" }} />
+            <div style={{ marginTop: "10px" }}/>
             <label>Action</label>
             <Dropdown
               name="Actions"
@@ -95,7 +87,7 @@ const Scheduler = props => {
                 selectAction(actions[idx]);
               }}
             />
-            <div style={{ marginTop: "10px" }} />
+            <div style={{ marginTop: "10px" }}/>
             <label>Repeat</label>
             <input
               style={{
@@ -120,7 +112,7 @@ const Scheduler = props => {
           </div>
           <div className="col-md-6">
             <label style={{ display: "block" }}>Repeat on</label>
-            <div style={{ marginTop: "10px" }} />
+            <div style={{ marginTop: "10px" }}/>
             {createRepeatOnCheckbox(MONDAY)}
             {createRepeatOnCheckbox(TUESDAY)}
             {createRepeatOnCheckbox(WEDNESDAY)}
@@ -128,16 +120,16 @@ const Scheduler = props => {
             {createRepeatOnCheckbox(FRIDAY)}
             {createRepeatOnCheckbox(SATURDAY)}
             {createRepeatOnCheckbox(SUNDAY)}
-            <div style={{ marginTop: "10px" }} />
+            <div style={{ marginTop: "10px" }}/>
             <label style={{ display: "block" }}>Ends</label>
-            <div style={{ marginTop: "10px" }} />
+            <div style={{ marginTop: "10px" }}/>
             <label style={{ marginRight: "10px" }}>Never</label>
             <input
               type="radio"
               checked={ends === NEVER}
               onClick={() => setEnds(NEVER)}
             />
-            <div style={{ marginTop: "10px" }} />
+            <div style={{ marginTop: "10px" }}/>
 
             <label style={{ marginRight: "10px" }}>On</label>
             <input
@@ -146,8 +138,8 @@ const Scheduler = props => {
               checked={ends === ON}
               onClick={() => setEnds(ON)}
             />
-            <DateTimePicker onChange={setDate} value={date} />
-            <div style={{ marginTop: "10px" }} />
+            <DateTimePicker onChange={setDate} value={date}/>
+            <div style={{ marginTop: "10px" }}/>
             <label style={{ marginRight: "10px" }}>After</label>
             <input
               type="radio"
@@ -178,7 +170,8 @@ const Scheduler = props => {
         >
           Close
         </button>
-        <button onClick={() => {}} className="btn btn-danger">
+        <button onClick={() => {
+        }} className="btn btn-danger">
           Schedule
         </button>
       </React.Fragment>
@@ -194,18 +187,15 @@ const Scheduler = props => {
         content={createScheduleEventModalContent()}
         actions={createScheduleEventModalActions()}
       />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-8">
-            <Card
-              title={
-                <span
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                  }}
-                >
+      <Card
+        title={
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}
+          >
                   <span>Your Scheduled Actions</span>
                   <button
                     onClick={() => scheduleEventModalVisible(true)}
@@ -214,20 +204,17 @@ const Scheduler = props => {
                     Schedule New Action
                   </button>
                 </span>
-              }
-              content={
-                <ul className="list-group">
-                  {events.filter(event => event !== undefined).map((event,idx) => (
-                    <li key={idx} className="list-group-item">
-                      {event.summary}
-                    </li>
-                    ))}
-                </ul>
-              }
-              />
-          </div>
-        </div>
-      </div>
+        }
+        content={
+          <ul className="list-group">
+            {events.filter(event => event !== undefined).map((event, idx) => (
+              <li key={idx} className="list-group-item">
+                {event.summary}
+              </li>
+            ))}
+          </ul>
+        }
+      />
     </div>
   );
 };
