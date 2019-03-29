@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import DateTimePicker from "react-datetime-picker";
+import { RRule } from "rrule/dist/esm/src/index";
 
 import actions from "./scheduler_actions";
 import {
@@ -18,6 +19,8 @@ import Card from "../../components/Card/Card";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Modal from "../../components/Modal/Modal";
 import httpFetchEvents from "../../http/fetch_events";
+import httpScheduleAction from "../../http/schedule_action";
+import getRRule from "./scheduler_get_rrule";
 import units from "./scheduler_time_units";
 
 const Scheduler = props => {
@@ -48,6 +51,48 @@ const Scheduler = props => {
     if (!(fetchEventResult instanceof Error)) {
       const { events } = fetchEventResult;
       setEvents(events);
+    }
+  };
+
+  const onSchedule = async () => {
+    const { selectedRobot } = props;
+    const rruleObj = getRRule(
+      repeatEveryNumber,
+      repeatEveryUnit,
+      date,
+      afterOccurances,
+      daySelected[MONDAY],
+      daySelected[TUESDAY],
+      daySelected[WEDNESDAY],
+      daySelected[THURSDAY],
+      daySelected[FRIDAY],
+      daySelected[SATURDAY],
+      daySelected[SUNDAY]
+    );
+
+    const recurrences = [new RRule(rruleObj).toString()];
+    const summary = "Test123";
+    const actions = eventsToAdd.map(event => ({
+      name: event.action.typeStr,
+      data: {},
+      robot_id: selectedRobot.id,
+      plant_id: plant.id
+    }));
+    const response = await httpScheduleAction(
+      loginToken,
+      summary,
+      recurrences,
+      actions
+    );
+
+    console.log({summary, recurrences, actions});
+
+    console.log(response.ok);
+    console.log(response.status);
+
+    if (response.ok) {
+      console.log("Response ok!");
+      fetchEvents();
     }
   };
 
@@ -164,7 +209,7 @@ const Scheduler = props => {
         >
           Add New Action
         </button>
-        <button onClick={() => {}} className="btn btn-danger">
+        <button onClick={onSchedule} className="btn btn-danger">
           Schedule
         </button>
       </React.Fragment>
@@ -293,9 +338,11 @@ const Scheduler = props => {
 
 const mapStateToProps = props => {
   const { plants } = props.plantState;
+  const { selectedRobot } = props.robotState;
   const { loginToken } = props.auth;
   return {
     loginToken,
+    selectedRobot,
     reduxPlants: plants
   };
 };
