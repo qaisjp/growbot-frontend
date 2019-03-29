@@ -1,4 +1,4 @@
-const WATER_PLANT = "WATER_PLANT";
+const WATER_PLANT = "PLANT_WATER";
 const TAKE_PICTURE = "PLANT_CAPTURE_PHOTO";
 
 const actions = [

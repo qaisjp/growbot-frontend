@@ -4,7 +4,15 @@ import { connect } from "react-redux";
 import DateTimePicker from "react-datetime-picker";
 
 import actions from "./scheduler_actions";
-import { FRIDAY, MONDAY, SATURDAY, SUNDAY, THURSDAY, TUESDAY, WEDNESDAY } from "./scheduler_days";
+import {
+  FRIDAY,
+  MONDAY,
+  SATURDAY,
+  SUNDAY,
+  THURSDAY,
+  TUESDAY,
+  WEDNESDAY
+} from "./scheduler_days";
 import { AFTER, NEVER, ON } from "./scheduler_ends";
 import Card from "../../components/Card/Card";
 import Dropdown from "../../components/Dropdown/Dropdown";
@@ -15,6 +23,7 @@ import units from "./scheduler_time_units";
 const Scheduler = props => {
   const { loginToken, reduxPlants } = props;
   const [events, setEvents] = useState([]);
+  const [schedulerModalOpen, schedulerModalVisible] = useState(false);
   const [scheduleEventModalOpen, scheduleEventModalVisible] = useState(false);
   const [plant, selectPlant] = useState("");
   const [action, selectAction] = useState("");
@@ -59,6 +68,102 @@ const Scheduler = props => {
     );
   };
 
+  const createSchedulerModalContent = () => {
+    const reduxPlantNames = reduxPlants.map(plant => plant.name);
+    return (
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6">
+            <label>Plant</label>
+            <Dropdown
+              name="Plants"
+              style={{ display: "inline", marginLeft: "10px" }}
+              items={reduxPlantNames}
+              click={plantName => {
+                const idx = reduxPlantNames.indexOf(plantName);
+                selectPlant(reduxPlants[idx]);
+              }}
+            />
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ display: "block" }}>Actions</label>
+            <div style={{ marginTop: "10px" }} />
+            <ul className="list-group">
+              <li className="list-group-item">
+                A
+              </li>
+              <li className="list-group-item">
+                B
+              </li>
+              <li className="list-group-item">
+                C
+              </li>
+            </ul>
+          </div>
+          <div className="col-md-6">
+            <label style={{ display: "block" }}>Repeat on</label>
+            <div style={{ marginTop: "10px" }} />
+            {createRepeatOnCheckbox(MONDAY)}
+            {createRepeatOnCheckbox(TUESDAY)}
+            {createRepeatOnCheckbox(WEDNESDAY)}
+            {createRepeatOnCheckbox(THURSDAY)}
+            {createRepeatOnCheckbox(FRIDAY)}
+            {createRepeatOnCheckbox(SATURDAY)}
+            {createRepeatOnCheckbox(SUNDAY)}
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ display: "block" }}>Ends</label>
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ marginRight: "10px" }}>Never</label>
+            <input
+              type="radio"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
+            <div style={{ marginTop: "10px" }} />
+
+            <label style={{ marginRight: "10px" }}>On</label>
+            <input
+              type="radio"
+              style={{ marginRight: "10px" }}
+              checked={ends === ON}
+              onClick={() => setEnds(ON)}
+            />
+            <DateTimePicker onChange={setDate} value={date} />
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ marginRight: "10px" }}>After</label>
+            <input
+              type="radio"
+              style={{ marginRight: "10px" }}
+              checked={ends === AFTER}
+              onClick={() => setEnds(AFTER)}
+            />
+            <input
+              style={{ width: "30%", height: "29px", display: "inline-block" }}
+              type="number"
+              className="form-control"
+              onChange={event => setAfterOccurances(event.target.value)}
+            />
+        </div>
+        </div>
+      </div>
+    );
+  };
+
+  const createSchedulerModalActions = () => {
+   return( <React.Fragment>
+      <button
+        onClick={() => {
+          schedulerModalVisible(false);
+        }}
+        className="btn btn-danger"
+      >
+        Close
+      </button>
+      <button onClick={() => {}} className="btn btn-danger">
+        Schedule
+      </button>
+    </React.Fragment>);
+  };
+
   const createScheduleEventModalContent = () => {
     const reduxPlantNames = reduxPlants.map(plant => plant.name);
     const actionNames = actions.map(action => action.name);
@@ -76,7 +181,7 @@ const Scheduler = props => {
                 selectPlant(reduxPlants[idx]);
               }}
             />
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
             <label>Action</label>
             <Dropdown
               name="Actions"
@@ -87,7 +192,7 @@ const Scheduler = props => {
                 selectAction(actions[idx]);
               }}
             />
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
             <label>Repeat</label>
             <input
               style={{
@@ -112,7 +217,7 @@ const Scheduler = props => {
           </div>
           <div className="col-md-6">
             <label style={{ display: "block" }}>Repeat on</label>
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
             {createRepeatOnCheckbox(MONDAY)}
             {createRepeatOnCheckbox(TUESDAY)}
             {createRepeatOnCheckbox(WEDNESDAY)}
@@ -120,16 +225,16 @@ const Scheduler = props => {
             {createRepeatOnCheckbox(FRIDAY)}
             {createRepeatOnCheckbox(SATURDAY)}
             {createRepeatOnCheckbox(SUNDAY)}
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
             <label style={{ display: "block" }}>Ends</label>
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
             <label style={{ marginRight: "10px" }}>Never</label>
             <input
               type="radio"
               checked={ends === NEVER}
               onClick={() => setEnds(NEVER)}
             />
-            <div style={{ marginTop: "10px" }}/>
+            <div style={{ marginTop: "10px" }} />
 
             <label style={{ marginRight: "10px" }}>On</label>
             <input
@@ -138,8 +243,8 @@ const Scheduler = props => {
               checked={ends === ON}
               onClick={() => setEnds(ON)}
             />
-            <DateTimePicker onChange={setDate} value={date}/>
-            <div style={{ marginTop: "10px" }}/>
+            <DateTimePicker onChange={setDate} value={date} />
+            <div style={{ marginTop: "10px" }} />
             <label style={{ marginRight: "10px" }}>After</label>
             <input
               type="radio"
@@ -170,9 +275,8 @@ const Scheduler = props => {
         >
           Close
         </button>
-        <button onClick={() => {
-        }} className="btn btn-danger">
-          Schedule
+        <button onClick={() => {}} className="btn btn-danger">
+          Add
         </button>
       </React.Fragment>
     );
@@ -181,11 +285,18 @@ const Scheduler = props => {
   return (
     <div className="content">
       <Modal
+        open={schedulerModalOpen}
+        close={() => schedulerModalVisible(false)}
+        title="Scheduler"
+        content={createSchedulerModalContent()}
+        footer={createSchedulerModalActions()}
+      />
+      <Modal
         open={scheduleEventModalOpen}
         close={() => scheduleEventModalVisible(false)}
         title="Schedule Event"
         content={createScheduleEventModalContent()}
-        actions={createScheduleEventModalActions()}
+        footer={createScheduleEventModalActions()}
       />
       <Card
         title={
@@ -196,22 +307,24 @@ const Scheduler = props => {
               alignItems: "center"
             }}
           >
-                  <span>Your Scheduled Actions</span>
-                  <button
-                    onClick={() => scheduleEventModalVisible(true)}
-                    className="btn btn-sm btn-danger"
-                  >
-                    Schedule New Action
-                  </button>
-                </span>
+            <span>Your Scheduled Actions</span>
+            <button
+              onClick={() => schedulerModalVisible(true)}
+              className="btn btn-sm btn-danger"
+            >
+              Schedule New Action
+            </button>
+          </span>
         }
         content={
           <ul className="list-group">
-            {events.filter(event => event !== undefined).map((event, idx) => (
-              <li key={idx} className="list-group-item">
-                {event.summary}
-              </li>
-            ))}
+            {events
+              .filter(event => event !== undefined)
+              .map((event, idx) => (
+                <li key={idx} className="list-group-item">
+                  {event.summary}
+                </li>
+              ))}
           </ul>
         }
       />
