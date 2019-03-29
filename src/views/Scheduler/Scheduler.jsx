@@ -86,11 +86,15 @@ const Scheduler = props => {
               }}
             />
             <div style={{ marginTop: "10px" }} />
-            <label style={{ display: "block" }}>Actions</label>
+            <label style={{ display: eventsToAdd.length ? "block" : "none" }}>
+              Actions
+            </label>
             <div style={{ marginTop: "10px" }} />
             <ul className="list-group">
               {eventsToAdd.map((event, idx) => (
-                <li className="list-group-item">{(idx + 1) + ". " + event.action.name}</li>
+                <li className="list-group-item">
+                  {idx + 1 + ". " + event.action.name}
+                </li>
               ))}
             </ul>
           </div>
@@ -155,7 +159,7 @@ const Scheduler = props => {
           Close
         </button>
         <button
-          onClick={()=>scheduleEventModalVisible(true)}
+          onClick={() => scheduleEventModalVisible(true)}
           className="btn btn-danger"
         >
           Add New Action
@@ -218,16 +222,19 @@ const Scheduler = props => {
         >
           Close
         </button>
-        <button onClick={() => {
-          const eventsToAddRef = eventsToAdd;
-          eventsToAddRef.push({
-            action,
-            repeatEveryNumber,
-            repeatEveryUnit
-          });
-          setEventsToAdd(eventsToAddRef);
-          scheduleEventModalVisible(false);
-        }} className="btn btn-danger">
+        <button
+          onClick={() => {
+            const eventsToAddRef = eventsToAdd;
+            eventsToAddRef.push({
+              action,
+              repeatEveryNumber,
+              repeatEveryUnit
+            });
+            setEventsToAdd(eventsToAddRef);
+            scheduleEventModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
           Add
         </button>
       </React.Fragment>
