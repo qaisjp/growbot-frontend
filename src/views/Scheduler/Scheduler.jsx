@@ -88,6 +88,8 @@ const Scheduler = props => {
     if (response.ok) {
       fetchEvents();
     }
+
+    schedulerModalVisible(false);
   };
 
   useEffect(() => {
@@ -126,7 +128,11 @@ const Scheduler = props => {
             />
             <div style={{ marginTop: "10px" }} />
             <label>Summary</label>
-            <input onChange={event=>setSummary(event.target.value)} style={{ marginRight: "10px" }} type="text"/>
+            <input
+              onChange={event => setSummary(event.target.value)}
+              style={{ marginRight: "10px" }}
+              type="text"
+            />
             <div style={{ marginTop: "10px" }} />
             <label style={{ display: eventsToAdd.length ? "block" : "none" }}>
               Actions
