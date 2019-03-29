@@ -25,6 +25,7 @@ import units from "./scheduler_time_units";
 
 const Scheduler = props => {
   const { loginToken, reduxPlants } = props;
+  const [summary, setSummary] = useState("");
   const [events, setEvents] = useState([]);
   const [eventsToAdd, setEventsToAdd] = useState([]);
   const [schedulerModalOpen, schedulerModalVisible] = useState(false);
@@ -71,7 +72,6 @@ const Scheduler = props => {
     );
 
     const recurrences = [new RRule(rruleObj).toString()];
-    const summary = "Test123";
     const actions = eventsToAdd.map(event => ({
       name: event.action.typeStr,
       data: {},
@@ -85,13 +85,7 @@ const Scheduler = props => {
       actions
     );
 
-    console.log({summary, recurrences, actions});
-
-    console.log(response.ok);
-    console.log(response.status);
-
     if (response.ok) {
-      console.log("Response ok!");
       fetchEvents();
     }
   };
@@ -130,6 +124,9 @@ const Scheduler = props => {
                 selectPlant(reduxPlants[idx]);
               }}
             />
+            <div style={{ marginTop: "10px" }} />
+            <label>Summary</label>
+            <input onChange={event=>setSummary(event.target.value)} style={{ marginRight: "10px" }} type="text"/>
             <div style={{ marginTop: "10px" }} />
             <label style={{ display: eventsToAdd.length ? "block" : "none" }}>
               Actions
