@@ -7,8 +7,6 @@ export default async function(token, summary, recurrences, actions) {
     actions
   };
 
-  console.log(scheduleRequest);
-
   return await fetch(endpoints.events, {
     method: "POST",
     headers: {

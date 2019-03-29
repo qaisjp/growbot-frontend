@@ -21,8 +21,11 @@ export default function(
 
   switch (action.type) {
     case ADD_ROBOT:
+      robot = action.robot;
+      robotArray = robots.slice();
+      robotArray.push(robot);
       return Object.assign({}, state, {
-        robots: [...robots, action.robot]
+        robots: robotArray
       });
     case REMOVE_ROBOT:
       robot = action.robot;

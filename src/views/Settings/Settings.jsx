@@ -1,177 +1,123 @@
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-
-import ExpansionPanel from "@material-ui/core/ExpansionPanel";
-import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import Typography from "@material-ui/core/Typography";
-import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import FormControl from "@material-ui/core/FormControl";
-import Snackbar from "@material-ui/core/Snackbar";
-import Input from "@material-ui/core/Input";
-import InputLabel from "@material-ui/core/InputLabel";
-import Button from "@material-ui/core/Button";
-import { withStyles } from "@material-ui/core/styles";
-
-import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents";
-
-import styles from "../../assets/views/Settings/jss/settings-style";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 
+import Card from "../../components/Card/Card";
 import changePassword from "../../http/change_password";
 
-class Settings extends Component {
-  state = {
-    message: "",
-    type: "",
-    open: false,
-    currentPassword: null,
-    newPassword: null,
-    confirmNewPassword: null
-  };
+const Settings = props => {
+  const { loginToken } = props;
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
+  const [alertVisible, showAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState(false);
+  const [alertType, setAlertType] = useState("");
 
-  onChangePassword = async () => {
-    const { loginToken } = this.props;
-    const { currentPassword, confirmNewPassword, newPassword } = this.state;
-
-    if (confirmNewPassword === newPassword) {
-      const response = await changePassword(
-        loginToken,
-        currentPassword,
-        newPassword
+  const onChangePassword = async () => {
+    if (newPassword !== confirmNewPassword) {
+      showAlert(true);
+      setAlertMessage(
+        "Make sure New Password and Confirm Password are identical!"
       );
+      setAlertType("error");
+      return;
+    }
 
-      if (response.status === 200) {
-        this.setState({
-          message: "Successfully changed password",
-          open: true,
-          type: "success"
-        });
-      } else {
-        const body = await response.json();
-        this.setState({
-          message: "Failed: " + body.message,
-          open: true,
-          type: "error"
-        });
-      }
+    const response = await changePassword(
+      loginToken,
+      currentPassword,
+      newPassword,
+      confirmNewPassword
+    );
+    showAlert(true);
+
+    if (response.status === 200) {
+      setAlertMessage("Successfully changed password!");
+      setAlertType("success");
     } else {
-      this.setState({
-        message:
-          "Please make sure the confirm password matches the new password",
-        open: true,
-        type: "error"
-      });
+      const body = await response.json();
+      setAlertMessage(body.message);
+      setAlertType("error");
     }
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
+  return (
+    <div className="content">
+      <Card
+        title="Change Password"
+        content={
+          <div>
+            <div
+              style={!alertVisible ? { display: "none" } : { display: "block" }}
+              className={
+                alertType === "success"
+                  ? "alert alert-success"
+                  : "alert alert-danger"
+              }
+              role="alert"
+            >
+              {alertMessage}
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputPassword">Password</label>
 
-  render() {
-    const { classes } = this.props;
-    return (
-      <div className={classes.root}>
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left"
-          }}
-          open={this.state.open}
-          autoHideDuration={6000}
-          onClose={this.handleClose}
-        >
-          <SnackbarContentWrapper
-            onClose={this.handleClose}
-            variant={this.state.type}
-            message={this.state.message}
-          />
-        </Snackbar>
-        <Typography
-          className={classes.typography}
-          variant="subtitle1"
-          gutterBottom
-        >
-          Authentication
-        </Typography>
-        <ExpansionPanel expanded={true}>
-          <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography className={classes.heading}>Change Password</Typography>
-          </ExpansionPanelSummary>
-          <ExpansionPanelDetails>
-            <form>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="currentPassword">
-                  Current Password
-                </InputLabel>
-                <Input
-                  name="currentPassword"
-                  type="password"
-                  id="currentPassword"
-                  onChange={this.handleChange("currentPassword")}
-                />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="newPassword">New Password</InputLabel>
-                <Input
-                  name="newPassword"
-                  type="password"
-                  id="newPassword"
-                  onChange={this.handleChange("newPassword")}
-                />
-              </FormControl>
-              <FormControl margin="normal" required fullWidth>
-                <InputLabel htmlFor="confirmNewPassword">
-                  Confirm New Password
-                </InputLabel>
-                <Input
-                  name="confirmNewPassword"
-                  type="password"
-                  id="confirmNewPassword"
-                  onChange={this.handleChange("confirmNewPassword")}
-                />
-              </FormControl>
+              <input
+                type="password"
+                className="form-control"
+                id="inputPassword"
+                placeholder="Password"
+                onChange={event => setCurrentPassword(event.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputNewPassword">New Password</label>
 
-              <Button
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-                onClick={this.onChangePassword}
-              >
-                Submit
-              </Button>
-            </form>
-          </ExpansionPanelDetails>
-        </ExpansionPanel>
-      </div>
-    );
-  }
-}
+              <input
+                type="password"
+                className="form-control"
+                id="inputNewPassword"
+                placeholder="NewPassword"
+                onChange={event => setNewPassword(event.target.value)}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="inputConfirmPassword">Confirm Password</label>
 
-function mapStateToProps(state) {
+              <input
+                type="password"
+                className="form-control"
+                id="inputConfirmPassword"
+                placeholder="ConfirmPassword"
+                onChange={event => setConfirmNewPassword(event.target.value)}
+              />
+            </div>
+            <button
+              onClick={onChangePassword}
+              type="button"
+              className="btn btn-sm btn-danger"
+            >
+              Change Password
+            </button>
+          </div>
+        }
+      />
+    </div>
+  );
+};
+
+const mapStateToProps = state => {
+  const { loginToken } = state.auth;
   return {
-    isLoginPending: state.auth.isLoginPending,
-    isLoginSuccess: state.auth.isLoginSuccess,
-    loginError: state.auth.loginError,
-    loginToken: state.auth.loginToken
+    loginToken
   };
-}
+};
 
-function mapDispatchToProps() {
+const mapDispatchToProps = () => {
   return {};
-}
-
-Settings.propTypes = {
-  classes: PropTypes.object.isRequired
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Settings));
+)(Settings);

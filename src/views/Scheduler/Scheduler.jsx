@@ -1,119 +1,84 @@
-import React, { Component } from "react";
-
-import AddIcon from "@material-ui/icons/Add";
-import Button from "@material-ui/core/Button";
-import Card from "@material-ui/core/Card";
-import CardContent from "@material-ui/core/CardContent";
-import Checkbox from "@material-ui/core/Checkbox";
-import EditIcon from "@material-ui/icons/Edit";
-import FormControl from "@material-ui/core/FormControl";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import FormLabel from "@material-ui/core/FormLabel";
-import Grid from "@material-ui/core/Grid";
-import Radio from "@material-ui/core/Radio";
-import RadioGroup from "@material-ui/core/RadioGroup";
-import RemoveIcon from "@material-ui/icons/Remove";
-import Snackbar from "@material-ui/core/Snackbar";
-import IconButton from "@material-ui/core/IconButton";
-import InputLabel from "@material-ui/core/InputLabel";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemSecondaryAction from "@material-ui/core/ListItemSecondaryAction";
-import ListSubheader from "@material-ui/core/ListSubheader";
-import TextField from "@material-ui/core/TextField";
-import MenuItem from "@material-ui/core/MenuItem";
-import Typography from "@material-ui/core/Typography";
-import { withStyles } from "@material-ui/core";
-
-import DateTimePicker from "react-datetime-picker";
+import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import Dialogue from "../../components/Dialogue/Dialogue";
-import LetterIcon from "../../components/Icon/LetterIcon";
-import Select from "../../components/Select/Select";
-import SnackbarContentWrapper from "../../components/Snackbar/CodedSnackbarContents";
-
-import styles from "../../assets/views/Scheduler/jss/scheduler-style";
+import DateTimePicker from "react-datetime-picker";
 import { RRule } from "rrule/dist/esm/src/index";
-import scheduleAction from "../../http/schedule_action";
 
-import fetchEvents from "../../http/fetch_events";
-import removeEvent from "../../http/remove_event";
+import actions from "./scheduler_actions";
+import {
+  FRIDAY,
+  MONDAY,
+  SATURDAY,
+  SUNDAY,
+  THURSDAY,
+  TUESDAY,
+  WEDNESDAY
+} from "./scheduler_days";
+import { AFTER, NEVER, ON } from "./scheduler_ends";
+import Card from "../../components/Card/Card";
+import Dropdown from "../../components/Dropdown/Dropdown";
+import Modal from "../../components/Modal/Modal";
+import httpFetchEvents from "../../http/fetch_events";
+import httpScheduleAction from "../../http/schedule_action";
+import getRRule from "./scheduler_get_rrule";
+import units from "./scheduler_time_units";
 
-class Scheduler extends Component {
-  state = {
-    message: "",
-    open: false,
-    type: "",
-    checkedMonday: false,
-    checkedTuesday: false,
-    checkedWednesday: false,
-    checkedThursday: false,
-    checkedFriday: false,
-    checkedSaturday: false,
-    checkedSunday: false,
-    repetitionQuantity: "",
-    repetitionUnit: "",
-    repetitionEnd: "never",
-    occurances: "",
-    searchFilter: "",
-    date: new Date(),
-    action: "",
-    plantId: "11967a3a-4433-11e9-b210-d663bd873d93",
-    plantName: "",
-    scheduleRobotDialogue: false,
-    removeActionDialogue: false,
-    events: [],
-    selectedEvent: ""
-  };
-  fetchEvents = async () => {
-    const { loginToken } = this.props;
-    const fetchEventsResult = await fetchEvents(loginToken);
+const Scheduler = props => {
+  const { loginToken, reduxPlants } = props;
+  const [summary, setSummary] = useState("");
+  const [events, setEvents] = useState([]);
+  const [eventsToAdd, setEventsToAdd] = useState([]);
+  const [schedulerModalOpen, schedulerModalVisible] = useState(false);
+  const [scheduleEventModalOpen, scheduleEventModalVisible] = useState(false);
+  const [plant, selectPlant] = useState("");
+  const [action, selectAction] = useState("");
+  const [repeatEveryNumber, setRepeatEveryNumber] = useState(1);
+  const [repeatEveryUnit, setRepeatEveryUnit] = useState(units[0]);
+  const [ends, setEnds] = useState(NEVER);
+  const [afterOccurances, setAfterOccurances] = useState("");
+  const [date, setDate] = useState(new Date());
+  const [daySelected, setDaySelected] = useState({
+    MONDAY: false,
+    TUESDAY: false,
+    WEDNESDAY: false,
+    THURSDAY: false,
+    FRIDAY: false,
+    SATURDAY: false,
+    SUNDAY: false
+  });
 
-    console.log(fetchEventsResult);
-
-    if (fetchEventsResult instanceof Error) {
-      this.setState({ events: [] });
-    } else {
-      const { events } = fetchEventsResult;
-      this.setState({ events });
+  const fetchEvents = async () => {
+    const fetchEventResult = await httpFetchEvents(loginToken);
+    if (!(fetchEventResult instanceof Error)) {
+      const { events } = fetchEventResult;
+      setEvents(events);
     }
   };
-  componentDidMount = async () => {
-    this.fetchEvents();
-  };
-  onRemoveEvent = async () => {
-    const { loginToken } = this.props;
-    const { selectedEvent } = this.state;
 
-    const response = await removeEvent(loginToken, selectedEvent.id);
+  const onSchedule = async () => {
+    const { selectedRobot } = props;
+    const rruleObj = getRRule(
+      repeatEveryNumber,
+      repeatEveryUnit,
+      date,
+      afterOccurances,
+      daySelected[MONDAY],
+      daySelected[TUESDAY],
+      daySelected[WEDNESDAY],
+      daySelected[THURSDAY],
+      daySelected[FRIDAY],
+      daySelected[SATURDAY],
+      daySelected[SUNDAY]
+    );
 
-    if (response.status === 200) {
-      const result = await fetchEvents(loginToken);
-
-      if (result instanceof Error) {
-        this.setState({ events: [], removeActionDialogue: false });
-      } else {
-        this.setState({ events: result.events, removeActionDialogue: false });
-      }
-    } else {
-      const body = await response.json();
-      this.setState({ message: body.message, open: true, type: "error" });
-    }
-  };
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-  onSchedule = async () => {
-    const { loginToken } = this.props;
-
-    const rruleObj = this.getRRule();
-    const summary = this.getSummary();
     const recurrences = [new RRule(rruleObj).toString()];
-    const actions = [this.getAction()];
-
-    const response = await scheduleAction(
+    const actions = eventsToAdd.map(event => ({
+      name: event.action.typeStr,
+      data: {},
+      robot_id: selectedRobot.id,
+      plant_id: plant.id
+    }));
+    const response = await httpScheduleAction(
       loginToken,
       summary,
       recurrences,
@@ -121,482 +86,263 @@ class Scheduler extends Component {
     );
 
     if (response.ok) {
-      const fetchEventsResult = await fetchEvents(loginToken);
-
-      if (fetchEventsResult instanceof Error) {
-        this.setState({ events: [] });
-      } else {
-        const { events } = fetchEventsResult;
-        this.setState({ events,         message: "Successfully scheduled actions!",
-          open: true,
-          type: "success" });
-      }
-
-    } else {
-      const body = await response.json();
-      this.setState({ message: body.message, open: true, type: "error" });
-    }
-  };
-  getAction = () => {
-    const { reduxPlants, selectedRobot } = this.props;
-    const { action, plantName } = this.state;
-
-    const plantNames = reduxPlants.map(plant => plant.name);
-    const idx = plantNames.indexOf(plantName);
-    const plantId = reduxPlants[idx] ? reduxPlants[idx].id : null;
-    if (action === "Water") {
-      return {
-        name: "PLANT_WATER",
-        plant_id: plantId,
-        robot_id: selectedRobot.id,
-        data: []
-      };
-    }
-    return {
-      name: "PLANT_CAPTURE_PHOTO",
-      plant_id: plantId,
-      robot_id: selectedRobot.id,
-      data: []
-    };
-  };
-  getRRule = () => {
-    const {
-      repetitionQuantity,
-      repetitionUnit,
-      repetitionEnd,
-      date,
-      occurances,
-      checkedMonday,
-      checkedTuesday,
-      checkedWednesday,
-      checkedThursday,
-      checkedFriday,
-      checkedSaturday,
-      checkedSunday
-    } = this.state;
-
-    let freq = null;
-    if (repetitionUnit === "Second") {
-      freq = RRule.SECONDLY;
-    } else if (repetitionUnit === "Minute") {
-      freq = RRule.MINUTELY;
-    } else if (repetitionUnit === "Hour") {
-      freq = RRule.HOURLY;
-    } else if (repetitionUnit === "Day") {
-      freq = RRule.DAILY;
-    } else if (repetitionUnit === "Week") {
-      freq = RRule.WEEKLY;
-    } else if (repetitionUnit === "Month") {
-      freq = RRule.MONTHLY;
-    } else if (repetitionUnit === "Year") {
-      freq = RRule.YEARLY;
+      fetchEvents();
     }
 
-    const interval = repetitionQuantity;
-    const dtend = date;
-    const count = occurances;
+    schedulerModalVisible(false);
+  };
 
-    const byweekdays = [];
-    if (checkedMonday) {
-      byweekdays.push(RRule.MO);
-    }
-    if (checkedTuesday) {
-      byweekdays.push(RRule.TU);
-    }
-    if (checkedWednesday) {
-      byweekdays.push(RRule.WE);
-    }
-    if (checkedThursday) {
-      byweekdays.push(RRule.TH);
-    }
-    if (checkedFriday) {
-      byweekdays.push(RRule.FR);
-    }
-    if (checkedSaturday) {
-      byweekdays.push(RRule.SA);
-    }
-    if (checkedSunday) {
-      byweekdays.push(RRule.SU);
-    }
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
-    if (repetitionEnd === "never") {
-      return {
-        freq: freq,
-        interval: interval,
-        byweekday: byweekdays,
-        dtstart: new Date()
-      };
-    } else if (repetitionEnd === "on") {
-      return {
-        freq: freq,
-        interval: interval,
-        byweekday: byweekdays,
-        dtstart: new Date(),
-        until: dtend
-      };
-    }
-    return {
-      freq: freq,
-      interval: interval,
-      count: count,
-      byweekday: byweekdays,
-      dtstart: new Date()
-    };
-  };
-  createSchedulingList = () => {
-    const { events } = this.state;
-    const { classes } = this.props;
-
-    return (
-      <List
-        className={classes.root}
-        subheader={<ListSubheader component="div">Tasks</ListSubheader>}
-      >
-        {events.map((event, idx) => (
-          <ListItem key={idx} alignItems="flex-start">
-            <ListItemText
-              className={classes.listItem}
-              primary={<span>{event.summary}</span>}
-            />
-            <ListItemSecondaryAction>
-              <IconButton aria-label="Edit">
-                <EditIcon />
-              </IconButton>
-              <IconButton
-                aria-label="Remove"
-                onClick={() =>
-                  this.setState({
-                    removeActionDialogue: true,
-                    selectedEvent: events[idx]
-                  })
-                }
-              >
-                <RemoveIcon />
-              </IconButton>
-            </ListItemSecondaryAction>
-          </ListItem>
-        ))}
-      </List>
-    );
-  };
-  getSummary = () => {
-    const { action, plantName, repetitionQuantity, date } = this.state;
-    const time = date.getHours() + ":" + date.getMinutes();
-    return (
-      action +
-      " the " +
-      plantName.toLowerCase() +
-      " every " +
-      repetitionQuantity +
-      (repetitionQuantity === 1 ? " day at " : " days at ") +
-      time
-    );
-  };
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.value });
-  };
-  handleChecked = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
-  handleOpenDialogue = dialogue => {
-    this.setState({ [dialogue]: true });
-  };
-  handleCloseDialogue = dialogue => {
-    this.setState({ [dialogue]: false });
-  };
-  createScheduleRobotDialogueActions = () => {
+  const createRepeatOnCheckbox = day => {
     return (
       <React.Fragment>
-        <Button
-          onClick={() => this.handleCloseDialogue("scheduleRobotDialogue")}
-        >
-          Close
-        </Button>
-        <Button onClick={this.onSchedule}>Schedule</Button>
-      </React.Fragment>
-    );
-  };
-  createTextField = (id, label, value, valueName) =>
-    this.createTextFieldWithType(id, label, "string", value, valueName);
-  createTextFieldWithType = (id, label, type, value, valueName) => {
-    const { classes } = this.props;
-    return (
-      <TextField
-        id={id}
-        label={label}
-        type={type}
-        className={
-          type === "number" ? classes.numberTextField : classes.textField
-        }
-        value={value}
-        onChange={this.handleChange(valueName)}
-        margin="normal"
-      />
-    );
-  };
-  createLetterCheckbox = (letter, state, value) => {
-    return (
-      <Checkbox
-        icon={<LetterIcon letter={letter} color="#000000" />}
-        checkedIcon={<LetterIcon letter={letter} color="#006600" />}
-        checked={state}
-        onChange={this.handleChecked(value)}
-        value={value}
-      />
-    );
-  };
-  createScheduleRobotDialogueContent = () => {
-    const { classes, reduxPlants } = this.props;
-
-    const plantNames = reduxPlants.map(plant => (
-      <MenuItem value={plant.name}>{plant.name}</MenuItem>
-    ));
-
-    const {
-      checkedMonday,
-      checkedTuesday,
-      checkedWednesday,
-      checkedThursday,
-      checkedFriday,
-      checkedSaturday,
-      checkedSunday,
-      repetitionQuantity,
-      repetitionUnit,
-      action,
-      occurances,
-      repetitionEnd,
-      plantName
-    } = this.state;
-    const repetitionQuantityField = this.createTextFieldWithType(
-      "repetitionQuantity",
-      "",
-      "number",
-      repetitionQuantity,
-      "repetitionQuantity"
-    );
-    const repetitionUnitItems = [
-      "Second",
-      "Minute",
-      "Hour",
-      "Day",
-      "Week",
-      "Month",
-      "Year"
-    ].map(unit => <MenuItem value={unit}>{unit}</MenuItem>);
-    const checkboxes = [
-      { letter: "M", state: checkedMonday, value: "checkedMonday" },
-      {
-        letter: "T",
-        state: checkedTuesday,
-        value: "checkedTuesday"
-      },
-      { letter: "W", state: checkedWednesday, value: "checkedWednesday" },
-      {
-        letter: "T",
-        state: checkedThursday,
-        value: "checkedThursday"
-      },
-      { letter: "F", state: checkedFriday, value: "checkedFriday" },
-      {
-        letter: "S",
-        state: checkedSaturday,
-        value: "checkedSaturday"
-      },
-      { letter: "S", state: checkedSunday, value: "checkedSunday" }
-    ].map(day => (
-      <Grid item>
-        {this.createLetterCheckbox(day.letter, day.state, day.value)}
-      </Grid>
-    ));
-    const actions = ["Water", "Take picture"].map(
-      action => <MenuItem value={action}>{action}</MenuItem>
-    );
-    const occurancesField = this.createTextFieldWithType(
-      "Occurances",
-      "Occurances",
-      "number",
-      occurances,
-      "occurances"
-    );
-    return (
-      <React.Fragment>
-        <Grid container>
-          <Grid item>
-            <InputLabel>Plant</InputLabel>
-          </Grid>
-          <Grid item>
-            <Select
-              value={plantName}
-              onChange={event =>
-                this.setState({ plantName: event.target.value })
-              }
-              name="plantName"
-              id="plantName"
-              items={plantNames}
-            />
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <InputLabel>Action</InputLabel>
-          </Grid>
-          <Grid item>
-            <Select
-              value={action}
-              onChange={event => this.setState({ action: event.target.value })}
-              name="action"
-              id="action"
-              items={actions}
-            />
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <InputLabel>Repeat every</InputLabel>
-          </Grid>
-          <Grid item>{repetitionQuantityField}</Grid>
-          <Grid item>
-            <Select
-              value={repetitionUnit}
-              onChange={event =>
-                this.setState({ repetitionUnit: event.target.value })
-              }
-              name="repetition_unit"
-              id="repetition_unit"
-              items={repetitionUnitItems}
-            />
-          </Grid>
-        </Grid>
-        <Grid container>
-          <Grid item>
-            <InputLabel>Repeat on</InputLabel>
-          </Grid>
-          {checkboxes}
-        </Grid>
-        <FormControl component="fieldset" className={classes.formControl}>
-          <FormLabel component="legend">Ends</FormLabel>
-          <RadioGroup
-            aria-label="Ends"
-            name="ends"
-            className={classes.group}
-            value={this.state.repetitionEnd}
-            onChange={x => this.setState({ repetitionEnd: x.target.value })}
-          >
-            <FormControlLabel value="never" control={<Radio />} label="Never" />
-            <FormControlLabel value="on" control={<Radio />} label="On" />
-            <FormControlLabel value="after" control={<Radio />} label="After" />
-          </RadioGroup>
-          {repetitionEnd === "on" && (
-            <DateTimePicker
-              onChange={date => this.setState({ date })}
-              value={this.state.date}
-            />
-          )}
-          {repetitionEnd === "after" && occurancesField}
-        </FormControl>
-      </React.Fragment>
-    );
-  };
-  createRemoveActionDialogueActions = () => {
-    return (
-      <React.Fragment>
-        <Button
-          onClick={() => this.handleCloseDialogue("removeActionDialogue")}
-        >
-          Close
-        </Button>
-        <Button onClick={this.onRemoveEvent}>Remove</Button>
-      </React.Fragment>
-    );
-  };
-  createRemoveActionDialogueContent = () => {
-    return <React.Fragment />;
-  };
-  render() {
-    const { classes } = this.props;
-    const {
-      scheduleRobotDialogue,
-      removeActionDialogue,
-      open,
-      type,
-      message,
-      searchFilter
-    } = this.state;
-    const robotSearchCriteria = this.createTextField(
-      "search-criteria",
-      "Filter",
-      searchFilter,
-      "searchFilter"
-    );
-    const schedulingList = this.createSchedulingList();
-    return (
-      <main className={classes.main}>
-        <Dialogue
-          open={removeActionDialogue}
-          close={() => this.handleCloseDialogue("removeActionDialogue")}
-          title="Remove Action"
-          contentText="Please confirm you would like to remove this action."
-          content={this.createRemoveActionDialogueContent()}
-          actions={this.createRemoveActionDialogueActions()}
+        <label style={{ marginRight: "5px" }}>{day}</label>
+        <input
+          style={{ marginRight: "10px" }}
+          type="checkbox"
+          checked={daySelected[day]}
+          onClick={() => setDaySelected({ day: !day })}
         />
-        <Dialogue
-          open={scheduleRobotDialogue}
-          close={() => this.handleCloseDialogue("scheduleRobotDialogue")}
-          title="Schedule Action"
-          contentText="Please fill in the form to schedule an action."
-          content={this.createScheduleRobotDialogueContent()}
-          actions={this.createScheduleRobotDialogueActions()}
-        />
-        <Snackbar
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left"
+      </React.Fragment>
+    );
+  };
+
+  const createSchedulerModalContent = () => {
+    const reduxPlantNames = reduxPlants.map(plant => plant.name);
+    return (
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-6">
+            <label>Plant</label>
+            <Dropdown
+              name="Plants"
+              style={{ display: "inline", marginLeft: "10px" }}
+              items={reduxPlantNames}
+              click={plantName => {
+                const idx = reduxPlantNames.indexOf(plantName);
+                selectPlant(reduxPlants[idx]);
+              }}
+            />
+            <div style={{ marginTop: "10px" }} />
+            <label>Summary</label>
+            <input
+              onChange={event => setSummary(event.target.value)}
+              style={{ marginRight: "10px" }}
+              type="text"
+            />
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ display: eventsToAdd.length ? "block" : "none" }}>
+              Actions
+            </label>
+            <div style={{ marginTop: "10px" }} />
+            <ul className="list-group">
+              {eventsToAdd.map((event, idx) => (
+                <li className="list-group-item">
+                  {idx + 1 + ". " + event.action.name}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="col-md-6">
+            <label style={{ display: "block" }}>Repeat on</label>
+            <div style={{ marginTop: "10px" }} />
+            {createRepeatOnCheckbox(MONDAY)}
+            {createRepeatOnCheckbox(TUESDAY)}
+            {createRepeatOnCheckbox(WEDNESDAY)}
+            {createRepeatOnCheckbox(THURSDAY)}
+            {createRepeatOnCheckbox(FRIDAY)}
+            {createRepeatOnCheckbox(SATURDAY)}
+            {createRepeatOnCheckbox(SUNDAY)}
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ display: "block" }}>Ends</label>
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ marginRight: "10px" }}>Never</label>
+            <input
+              type="radio"
+              checked={ends === NEVER}
+              onClick={() => setEnds(NEVER)}
+            />
+            <div style={{ marginTop: "10px" }} />
+
+            <label style={{ marginRight: "10px" }}>On</label>
+            <input
+              type="radio"
+              style={{ marginRight: "10px" }}
+              checked={ends === ON}
+              onClick={() => setEnds(ON)}
+            />
+            <DateTimePicker onChange={setDate} value={date} />
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ marginRight: "10px" }}>After</label>
+            <input
+              type="radio"
+              style={{ marginRight: "10px" }}
+              checked={ends === AFTER}
+              onClick={() => setEnds(AFTER)}
+            />
+            <input
+              style={{ width: "30%", height: "29px", display: "inline-block" }}
+              type="number"
+              className="form-control"
+              onChange={event => setAfterOccurances(event.target.value)}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  const createSchedulerModalActions = () => {
+    return (
+      <React.Fragment>
+        <button
+          onClick={() => {
+            schedulerModalVisible(false);
           }}
-          open={open}
-          autoHideDuration={6000}
-          onClose={this.handleClose}
+          className="btn btn-danger"
         >
-          <SnackbarContentWrapper
-            onClose={this.handleClose}
-            variant={type}
-            message={message}
-          />
-        </Snackbar>
-        <br />
-        <Card className={classes.card}>
-          <CardContent>
-            <div style={{ display: "flex", justifyContent: "space-between" }}>
-              <div>
-                <Typography gutterBottom variant="h5" component="h2">
-                  Scheduler
-                </Typography>
-                <Typography component="p">Assign tasks to Growbot.</Typography>
-                {robotSearchCriteria}
-              </div>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                <IconButton
-                  aria-label="Add"
-                  onClick={() => {
-                    this.handleOpenDialogue("scheduleRobotDialogue");
-                  }}
-                >
-                  <AddIcon />
-                </IconButton>
-              </div>
-            </div>
-
-            {schedulingList}
-          </CardContent>
-        </Card>
-      </main>
+          Close
+        </button>
+        <button
+          onClick={() => scheduleEventModalVisible(true)}
+          className="btn btn-danger"
+        >
+          Add New Action
+        </button>
+        <button onClick={onSchedule} className="btn btn-danger">
+          Schedule
+        </button>
+      </React.Fragment>
     );
-  }
-}
+  };
 
-const mapStateToProps = state => {
-  const { loginToken } = state.auth;
-  const { selectedRobot } = state.robotState;
-  const { plants } = state.plantState;
+  const createScheduleEventModalContent = () => {
+    const actionNames = actions.map(action => action.name);
+    return (
+      <React.Fragment>
+        <label>Action</label>
+        <Dropdown
+          name="Actions"
+          style={{ display: "inline", marginLeft: "10px" }}
+          items={actionNames}
+          click={actionName => {
+            const idx = actionNames.indexOf(actionName);
+            selectAction(actions[idx]);
+          }}
+        />
+        <div style={{ marginTop: "10px" }} />
+        <label>Repeat</label>
+        <input
+          style={{
+            marginLeft: "10px",
+            width: "30%",
+            height: "29px",
+            display: "inline-block"
+          }}
+          type="number"
+          className="form-control"
+          onChange={event => setRepeatEveryNumber(event.target.value)}
+        />
+        <Dropdown
+          name="Time"
+          style={{ display: "inline", marginLeft: "10px" }}
+          items={units}
+          click={unit => {
+            const idx = units.indexOf(unit);
+            setRepeatEveryUnit(units[idx]);
+          }}
+        />
+      </React.Fragment>
+    );
+  };
+
+  const createScheduleEventModalActions = () => {
+    return (
+      <React.Fragment>
+        <button
+          onClick={() => {
+            scheduleEventModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button
+          onClick={() => {
+            const eventsToAddRef = eventsToAdd;
+            eventsToAddRef.push({
+              action,
+              repeatEveryNumber,
+              repeatEveryUnit
+            });
+            setEventsToAdd(eventsToAddRef);
+            scheduleEventModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Add
+        </button>
+      </React.Fragment>
+    );
+  };
+
+  return (
+    <div className="content">
+      <Modal
+        open={schedulerModalOpen}
+        close={() => schedulerModalVisible(false)}
+        title="Scheduler"
+        content={createSchedulerModalContent()}
+        footer={createSchedulerModalActions()}
+      />
+      <Modal
+        open={scheduleEventModalOpen}
+        close={() => scheduleEventModalVisible(false)}
+        title="Schedule Event"
+        content={createScheduleEventModalContent()}
+        footer={createScheduleEventModalActions()}
+      />
+      <Card
+        title={
+          <span
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center"
+            }}
+          >
+            <span>Your Scheduled Actions</span>
+            <button
+              onClick={() => schedulerModalVisible(true)}
+              className="btn btn-sm btn-danger"
+            >
+              Schedule New Action
+            </button>
+          </span>
+        }
+        content={
+          <ul className="list-group">
+            {events
+              .filter(event => event !== undefined)
+              .map((event, idx) => (
+                <li key={idx} className="list-group-item">
+                  {event.summary}
+                </li>
+              ))}
+          </ul>
+        }
+      />
+    </div>
+  );
+};
+
+const mapStateToProps = props => {
+  const { plants } = props.plantState;
+  const { selectedRobot } = props.robotState;
+  const { loginToken } = props.auth;
   return {
     loginToken,
     selectedRobot,
@@ -604,11 +350,11 @@ const mapStateToProps = state => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = () => {
   return {};
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(withStyles(styles)(Scheduler));
+)(Scheduler);

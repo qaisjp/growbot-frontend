@@ -1,18 +1,27 @@
-import React, { Component } from "react";
-import { Router } from "react-router-dom";
-import { createBrowserHistory } from "history";
-import Layout from "./layout/Layout";
+import React from "react";
+import { Provider } from "react-redux";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-const hist = createBrowserHistory();
+import store from "./store";
+import authRoutes from "./routes/authentication_routes";
 
-class App extends Component {
-  render() {
-    return (
-      <Router history={hist}>
-        <Layout />
-      </Router>
-    );
-  }
-}
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./assets/sass/light-bootstrap-dashboard.css?v=1.2.0";
+import "./assets/css/pe-icon-7-stroke.css";
+const App = () => {
+  return (
+    <Provider store={store}>
+      <BrowserRouter>
+        <Switch>
+          {authRoutes.map((prop, key) => {
+            return (
+              <Route path={prop.path} component={prop.component} key={key} />
+            );
+          })}
+        </Switch>
+      </BrowserRouter>
+    </Provider>
+  );
+};
 
 export default App;

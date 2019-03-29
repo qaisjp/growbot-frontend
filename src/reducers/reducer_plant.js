@@ -7,8 +7,11 @@ export default function(state = { plants: [] }, action) {
   let plantArray = null;
   switch (action.type) {
     case ADD_PLANT:
+      plant = action.plant;
+      plantArray = plants.slice();
+      plantArray.push(plant);
       return Object.assign({}, state, {
-        plants: [...plants, action.plant]
+        plants: plantArray
       });
     case REMOVE_PLANT:
       plant = action.plant;
@@ -19,9 +22,6 @@ export default function(state = { plants: [] }, action) {
         plants: plantArray
       });
     case RENAME_PLANT:
-      console.log("reached rename_plant");
-      console.log(action.plant);
-      console.log(action.name);
       plant = action.plant;
       idx = plants.map(x => x.id).indexOf(plant.id);
       plantArray = plants.slice();
