@@ -23,6 +23,7 @@ import units from "./scheduler_time_units";
 const Scheduler = props => {
   const { loginToken, reduxPlants } = props;
   const [events, setEvents] = useState([]);
+  const [eventsToAdd, setEventsToAdd] = useState([]);
   const [schedulerModalOpen, schedulerModalVisible] = useState(false);
   const [scheduleEventModalOpen, scheduleEventModalVisible] = useState(false);
   const [plant, selectPlant] = useState("");
@@ -88,15 +89,9 @@ const Scheduler = props => {
             <label style={{ display: "block" }}>Actions</label>
             <div style={{ marginTop: "10px" }} />
             <ul className="list-group">
-              <li className="list-group-item">
-                A
-              </li>
-              <li className="list-group-item">
-                B
-              </li>
-              <li className="list-group-item">
-                C
-              </li>
+              {eventsToAdd.map((event, idx) => (
+                <li className="list-group-item">{(idx + 1) + ". " + event.action.name}</li>
+              ))}
             </ul>
           </div>
           <div className="col-md-6">
@@ -142,125 +137,73 @@ const Scheduler = props => {
               className="form-control"
               onChange={event => setAfterOccurances(event.target.value)}
             />
-        </div>
+          </div>
         </div>
       </div>
     );
   };
 
   const createSchedulerModalActions = () => {
-   return( <React.Fragment>
-      <button
-        onClick={() => {
-          schedulerModalVisible(false);
-        }}
-        className="btn btn-danger"
-      >
-        Close
-      </button>
-      <button onClick={() => {}} className="btn btn-danger">
-        Schedule
-      </button>
-    </React.Fragment>);
+    return (
+      <React.Fragment>
+        <button
+          onClick={() => {
+            schedulerModalVisible(false);
+          }}
+          className="btn btn-danger"
+        >
+          Close
+        </button>
+        <button
+          onClick={()=>scheduleEventModalVisible(true)}
+          className="btn btn-danger"
+        >
+          Add New Action
+        </button>
+        <button onClick={() => {}} className="btn btn-danger">
+          Schedule
+        </button>
+      </React.Fragment>
+    );
   };
 
   const createScheduleEventModalContent = () => {
-    const reduxPlantNames = reduxPlants.map(plant => plant.name);
     const actionNames = actions.map(action => action.name);
     return (
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-6">
-            <label>Plant</label>
-            <Dropdown
-              name="Plants"
-              style={{ display: "inline", marginLeft: "10px" }}
-              items={reduxPlantNames}
-              click={plantName => {
-                const idx = reduxPlantNames.indexOf(plantName);
-                selectPlant(reduxPlants[idx]);
-              }}
-            />
-            <div style={{ marginTop: "10px" }} />
-            <label>Action</label>
-            <Dropdown
-              name="Actions"
-              style={{ display: "inline", marginLeft: "10px" }}
-              items={actionNames}
-              click={actionName => {
-                const idx = actionNames.indexOf(actionName);
-                selectAction(actions[idx]);
-              }}
-            />
-            <div style={{ marginTop: "10px" }} />
-            <label>Repeat</label>
-            <input
-              style={{
-                marginLeft: "10px",
-                width: "30%",
-                height: "29px",
-                display: "inline-block"
-              }}
-              type="number"
-              className="form-control"
-              onChange={() => console.log("lol")}
-            />
-            <Dropdown
-              name="Time"
-              style={{ display: "inline", marginLeft: "10px" }}
-              items={units}
-              click={unit => {
-                const idx = units.indexOf(unit);
-                setRepeatEveryUnit(units[idx]);
-              }}
-            />
-          </div>
-          <div className="col-md-6">
-            <label style={{ display: "block" }}>Repeat on</label>
-            <div style={{ marginTop: "10px" }} />
-            {createRepeatOnCheckbox(MONDAY)}
-            {createRepeatOnCheckbox(TUESDAY)}
-            {createRepeatOnCheckbox(WEDNESDAY)}
-            {createRepeatOnCheckbox(THURSDAY)}
-            {createRepeatOnCheckbox(FRIDAY)}
-            {createRepeatOnCheckbox(SATURDAY)}
-            {createRepeatOnCheckbox(SUNDAY)}
-            <div style={{ marginTop: "10px" }} />
-            <label style={{ display: "block" }}>Ends</label>
-            <div style={{ marginTop: "10px" }} />
-            <label style={{ marginRight: "10px" }}>Never</label>
-            <input
-              type="radio"
-              checked={ends === NEVER}
-              onClick={() => setEnds(NEVER)}
-            />
-            <div style={{ marginTop: "10px" }} />
-
-            <label style={{ marginRight: "10px" }}>On</label>
-            <input
-              type="radio"
-              style={{ marginRight: "10px" }}
-              checked={ends === ON}
-              onClick={() => setEnds(ON)}
-            />
-            <DateTimePicker onChange={setDate} value={date} />
-            <div style={{ marginTop: "10px" }} />
-            <label style={{ marginRight: "10px" }}>After</label>
-            <input
-              type="radio"
-              style={{ marginRight: "10px" }}
-              checked={ends === AFTER}
-              onClick={() => setEnds(AFTER)}
-            />
-            <input
-              style={{ width: "30%", height: "29px", display: "inline-block" }}
-              type="number"
-              className="form-control"
-              onChange={event => setAfterOccurances(event.target.value)}
-            />
-          </div>
-        </div>
-      </div>
+      <React.Fragment>
+        <label>Action</label>
+        <Dropdown
+          name="Actions"
+          style={{ display: "inline", marginLeft: "10px" }}
+          items={actionNames}
+          click={actionName => {
+            const idx = actionNames.indexOf(actionName);
+            selectAction(actions[idx]);
+          }}
+        />
+        <div style={{ marginTop: "10px" }} />
+        <label>Repeat</label>
+        <input
+          style={{
+            marginLeft: "10px",
+            width: "30%",
+            height: "29px",
+            display: "inline-block"
+          }}
+          type="number"
+          className="form-control"
+          onChange={event => setRepeatEveryNumber(event.target.value)}
+        />
+        <Dropdown
+          name="Time"
+          style={{ display: "inline", marginLeft: "10px" }}
+          items={units}
+          click={unit => {
+            const idx = units.indexOf(unit);
+            setRepeatEveryUnit(units[idx]);
+          }}
+        />
+      </React.Fragment>
     );
   };
 
@@ -275,7 +218,16 @@ const Scheduler = props => {
         >
           Close
         </button>
-        <button onClick={() => {}} className="btn btn-danger">
+        <button onClick={() => {
+          const eventsToAddRef = eventsToAdd;
+          eventsToAddRef.push({
+            action,
+            repeatEveryNumber,
+            repeatEveryUnit
+          });
+          setEventsToAdd(eventsToAddRef);
+          scheduleEventModalVisible(false);
+        }} className="btn btn-danger">
           Add
         </button>
       </React.Fragment>
