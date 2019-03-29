@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 
 import DateTimePicker from "react-datetime-picker";
@@ -19,7 +19,8 @@ import Modal from "../../components/Modal/Modal";
 import units from "./scheduler_time_units";
 
 const Scheduler = props => {
-  const { reduxPlants } = props;
+  const { loginToken, reduxPlants } = props;
+  const [events, setEvents] = useState([]);
   const [scheduleEventModalOpen, scheduleEventModalVisible] = useState(false);
   const [plant, selectPlant] = useState("");
   const [action, selectAction] = useState("");
@@ -36,7 +37,19 @@ const Scheduler = props => {
     FRIDAY: false,
     SATURDAY: false,
     SUNDAY: false
-  })
+  });
+
+  const fetchEvents = async () => {
+    const fetchEventResult = await fetchEvents(loginToken);
+    if(!(fetchEventResult instanceof Error)) {
+      const { events } = fetchEventResult;
+      setEvents(events);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
 
   const createRepeatOnCheckbox = day => {
     return (
@@ -172,7 +185,6 @@ const Scheduler = props => {
 
   return (
     <div className="content">
-      <button onClick={() => scheduleEventModalVisible(true)}>Schedule</button>
       <Modal
         open={scheduleEventModalOpen}
         close={() => scheduleEventModalVisible(false)}
@@ -180,6 +192,13 @@ const Scheduler = props => {
         content={createScheduleEventModalContent()}
         actions={createScheduleEventModalActions()}
       />
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-md-8">
+            
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
