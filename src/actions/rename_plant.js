@@ -1,4 +1,4 @@
-import { signalRenamePlant } from "../plant-mutators";
+import { signalRenamePlant } from "../plant_mutators";
 
 export default function(plant, name) {
   return dispatch => {

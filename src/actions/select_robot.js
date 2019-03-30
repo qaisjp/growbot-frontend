@@ -1,4 +1,4 @@
-import { signalSelectRobot } from "../robot-mutators";
+import { signalSelectRobot } from "../robot_mutators";
 
 export default function(robot) {
   return dispatch => {

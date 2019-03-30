@@ -1,4 +1,4 @@
-import { signalRenameRobot } from "../robot-mutators";
+import { signalRenameRobot } from "../robot_mutators";
 
 export default function(robot, name) {
   return dispatch => {

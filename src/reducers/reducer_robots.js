@@ -3,7 +3,7 @@ import {
   REMOVE_ROBOT,
   SELECT_ROBOT,
   RENAME_ROBOT
-} from "../robot-constants";
+} from "../robot_constants";
 
 export default function(
   state = {

@@ -3,7 +3,7 @@ import {
   setLoginPending,
   setLoginSuccess,
   setLoginToken
-} from "../auth-mutators";
+} from "../auth_mutators";
 import refreshToken from "../http/refresh_token";
 
 export default function(token) {

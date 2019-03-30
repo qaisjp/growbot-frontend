@@ -1,4 +1,4 @@
-import { setLoginError } from "../auth-mutators";
+import { setLoginError } from "../auth_mutators";
 
 export default function() {
   return dispatch => {

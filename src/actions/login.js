@@ -3,7 +3,7 @@ import {
   setLoginPending,
   setLoginSuccess,
   setLoginToken
-} from "../auth-mutators";
+} from "../auth_mutators";
 import callLoginApi from "../http/login";
 
 export default function(email, password) {

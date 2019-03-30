@@ -3,7 +3,7 @@ import {
   setLoginPending,
   setLoginSuccess,
   setLoginToken
-} from "../auth-mutators";
+} from "../auth_mutators";
 
 export default function() {
   return dispatch => {

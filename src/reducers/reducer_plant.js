@@ -1,4 +1,4 @@
-import { ADD_PLANT, RENAME_PLANT, REMOVE_PLANT } from "../plant-constants";
+import { ADD_PLANT, RENAME_PLANT, REMOVE_PLANT } from "../plant_constants";
 
 export default function(state = { plants: [] }, action) {
   const { plants } = state;

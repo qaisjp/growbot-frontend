@@ -1,4 +1,4 @@
-import { ADD_PLANT, REMOVE_PLANT, RENAME_PLANT } from "./plant-constants";
+import { ADD_PLANT, REMOVE_PLANT, RENAME_PLANT } from "./plant_constants";
 
 export function signalAddPlant(plant) {
   return {

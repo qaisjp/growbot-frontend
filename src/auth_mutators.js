@@ -3,7 +3,7 @@ import {
   SET_LOGIN_PENDING,
   SET_LOGIN_SUCCESS,
   SET_LOGIN_TOKEN
-} from "./auth-constants";
+} from "./auth_constants";
 
 export function setLoginPending(isLoginPending) {
   return {
