@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
-import DateTimePicker from "react-datetime-picker";
 import Datetime from "react-datetime";
 import { RRule } from "rrule/dist/esm/src/index";
 
@@ -131,7 +130,7 @@ const Scheduler = props => {
             <label>Summary</label>
             <input
               onChange={event => setSummary(event.target.value)}
-              style={{ marginRight: "10px" }}
+              style={{ marginLeft: "10px" }}
               type="text"
             />
             <div style={{ marginTop: "10px" }} />
