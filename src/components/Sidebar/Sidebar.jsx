@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink } from "react-router-dom";
 
+import logo from "../../assets/img/logo.png";
 import dashboardRoutes from "../../routes/dashboard_routes";
 
 const Sidebar = props => {
@@ -16,7 +17,7 @@ const Sidebar = props => {
   return (
     <div id="sidebar" className="sidebar" data-color="red">
       <div className="logo">
-        <div className="simple-text logo-normal">GrowBot</div>
+        <img style={{marginLeft:"-10px", height:"25%"}} src={logo} alt="GrowBot" />
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">
