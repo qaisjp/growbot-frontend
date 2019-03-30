@@ -11,10 +11,12 @@ import httpRemovePlant from "../../http/remove_plant";
 import renamePlant from "../../actions/rename_plant";
 import removePlant from "../../actions/remove_plant";
 
+import PlantsAdd from "./PlantsAdd";
+import PlantsRemove from "./PlantsRemove.jsx";
+
 const PlantsCard = props => {
     const [selectedPlant, selectPlant] = useState({});
     const [renamePlantName, setRenamePlantName] = useState("");
-    const [newPlantName, setNewPlantName] = useState("");
     const [addPlantModalOpen, addPlantModalVisible] = useState(false);
     const [renamePlantModalOpen, renamePlantModalVisible] = useState(false);
     const [removePlantModalOpen, removePlantModalVisible] = useState(false);
@@ -22,64 +24,6 @@ const PlantsCard = props => {
     const { loginToken, plants, onPlantAdded } = props;
 
     const reduxPlants = plants;
-
-    const createRemovePlantModalContent = () => {
-        return <p>Are you sure you want to remove this plant?</p>;
-    };
-
-    const createRemovePlantModalFooter = () => {
-        return (
-            <React.Fragment>
-                <button
-                    onClick={() => {
-                        removePlantModalVisible(false);
-                    }}
-                    className="btn btn-danger"
-                >
-                    Close
-            </button>
-                <button onClick={onRemovePlant} className="btn btn-danger">
-                    Remove
-            </button>
-            </React.Fragment>
-        );
-    };
-
-    const createAddPlantModalContent = () => {
-        return (
-            <div>
-                <p>Enter a name for your new plant</p>
-                <div className="form-group">
-                    <label htmlFor="inputName">Name</label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        id="inputName"
-                        placeholder="Name"
-                        onChange={event => setNewPlantName(event.target.value)}
-                    />
-                </div>
-            </div>
-        );
-    };
-
-    const createAddPlantModalFooter = () => {
-        return (
-            <React.Fragment>
-                <button
-                    onClick={() => {
-                        addPlantModalVisible(false);
-                    }}
-                    className="btn btn-danger"
-                >
-                    Close
-            </button>
-                <button onClick={onAddPlant} className="btn btn-danger">
-                    Add
-            </button>
-            </React.Fragment>
-        );
-    };
 
     const createRenamePlantModalContent = () => {
         return (
@@ -149,7 +93,7 @@ const PlantsCard = props => {
 
         removePlantModalVisible(false);
     };
-    const onAddPlant = async () => {
+    const onAddPlant = async (newPlantName) => {
         if (newPlantName === "") {
             // todo: improve alert
             alert(
@@ -224,13 +168,7 @@ const PlantsCard = props => {
             }
         />
 
-        <Modal
-            open={addPlantModalOpen}
-            close={() => addPlantModalVisible(false)}
-            title="Add Plant"
-            content={createAddPlantModalContent()}
-            footer={createAddPlantModalFooter()}
-        />
+        <PlantsAdd onSubmit={onAddPlant} visible={addPlantModalOpen} onClose={() => {addPlantModalVisible(false)}} />
         <Modal
             open={renamePlantModalOpen}
             close={() => renamePlantModalVisible(false)}
@@ -238,13 +176,7 @@ const PlantsCard = props => {
             content={createRenamePlantModalContent()}
             footer={createRenamePlantModalFooter()}
         />
-        <Modal
-            open={removePlantModalOpen}
-            close={() => removePlantModalVisible(false)}
-            title="Remove Plant"
-            content={createRemovePlantModalContent()}
-            footer={createRemovePlantModalFooter()}
-        />
+        <PlantsRemove onSubmit={onRemovePlant} visible={removePlantModalOpen} onClose={() => removePlantModalVisible(false)} />
     </React.Fragment>
 };
 
