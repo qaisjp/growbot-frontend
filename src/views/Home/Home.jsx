@@ -15,16 +15,13 @@ import selectRobot from "../../actions/select_robot";
 import addPlant from "../../actions/add_plant";
 import addRobot from "../../actions/add_robot";
 import renameRobot from "../../actions/rename_robot";
-import renamePlant from "../../actions/rename_plant";
-import removePlant from "../../actions/remove_plant";
 import httpFetchRobots from "../../http/fetch_robots";
 import httpFetchPlants from "../../http/fetch_plants";
-import httpAddPlant from "../../http/add_plant";
-import httpRenamePlant from "../../http/rename_plant";
-import httpRemovePlant from "../../http/remove_plant";
 import httpAddRobot from "../../http/add_robot";
 import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
+
+import PlantsCard from "./PlantsCard";
 
 const Home = props => {
   const {
@@ -35,25 +32,19 @@ const Home = props => {
     reduxPlants
   } = props;
 
-  const [selectedPlant, selectPlant] = useState({});
-  const [renamePlantName, setRenamePlantName] = useState("");
-  const [newPlantName, setNewPlantName] = useState("");
   const [newRobotSerialKey, setNewRobotSerialKey] = useState("");
   const [newRobotTitle, setNewRobotTitle] = useState("");
   const [renameRobotTitle, setRenameRobotTitle] = useState("");
   const [addRobotModalOpen, addRobotModalVisible] = useState(false);
   const [renameRobotModalOpen, renameRobotModalVisible] = useState(false);
   const [removeRobotModalOpen, removeRobotModalVisible] = useState(false);
-  const [addPlantModalOpen, addPlantModalVisible] = useState(false);
-  const [renamePlantModalOpen, renamePlantModalVisible] = useState(false);
-  const [removePlantModalOpen, removePlantModalVisible] = useState(false);
   const [alertVisible, showAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState(false);
   const [qrDelay] = useState(0);
 
   useEffect(() => {
     fetchRobots();
-    fetchPlants();
+    fetchPlants(props.reduxAddPlant);
   }, []);
 
   const fetchRobots = async () => {
@@ -84,6 +75,7 @@ const Home = props => {
         });
     }
   };
+
   const onRemoveRobot = async () => {
     const { loginToken, reduxRemoveRobot } = props;
 
@@ -95,40 +87,7 @@ const Home = props => {
 
     removeRobotModalVisible(false);
   };
-  const onRenamePlant = async () => {
-    if (renamePlantName === "") {
-      showAlert(true);
-      setAlertMessage("Please make sure you've typed in a new name!");
-      return;
-    }
 
-    const { reduxRenamePlant } = props;
-
-    const response = await httpRenamePlant(
-      loginToken,
-      selectedPlant.id,
-      renamePlantName
-    );
-
-    if (response.status === 200) {
-      reduxRenamePlant(selectedPlant, renamePlantName);
-    }
-
-    renamePlantModalVisible(false);
-    showAlert(false);
-    setAlertMessage("");
-  };
-  const onRemovePlant = async () => {
-    const { reduxRemovePlant } = props;
-
-    const response = await httpRemovePlant(loginToken, selectedPlant.id);
-
-    if (response.status === 200) {
-      reduxRemovePlant(selectedPlant);
-    }
-
-    removePlantModalVisible(false);
-  };
   const onAddRobot = async () => {
     if (newRobotSerialKey === "" || newRobotTitle === "") {
       showAlert(true);
@@ -161,36 +120,7 @@ const Home = props => {
     showAlert(false);
     setAlertMessage("");
   };
-  const onAddPlant = async () => {
-    if (newPlantName === "") {
-      showAlert(true);
-      setAlertMessage(
-        "Please make sure you've entered a name for your new plant!"
-      );
-      return;
-    }
 
-    const { reduxAddPlant } = props;
-    const response = await httpAddPlant(loginToken, newPlantName);
-
-    if (response.status === 200) {
-      const fetchPlantsResult = await fetchPlants(loginToken);
-
-      if (!(fetchPlantsResult instanceof Error)) {
-        const { plants } = fetchPlantsResult;
-        const reduxPlantIds = reduxPlants.map(plant => plant.id);
-        plants
-          .filter(plant => reduxPlantIds.indexOf(plant.id) < 0)
-          .forEach(plant => {
-            reduxAddPlant(plant);
-          });
-      }
-    }
-
-    addPlantModalVisible(false);
-    showAlert(false);
-    setAlertMessage("");
-  };
   const onRenameRobot = async () => {
     if (renameRobotTitle === "") {
       showAlert(true);
@@ -275,26 +205,7 @@ const Home = props => {
       </React.Fragment>
     );
   };
-  const createRemovePlantModalContent = () => {
-    return <p>Are you sure you want to remove this plant?</p>;
-  };
-  const createRemovePlantModalFooter = () => {
-    return (
-      <React.Fragment>
-        <button
-          onClick={() => {
-            removePlantModalVisible(false);
-          }}
-          className="btn btn-danger"
-        >
-          Close
-        </button>
-        <button onClick={onRemovePlant} className="btn btn-danger">
-          Remove
-        </button>
-      </React.Fragment>
-    );
-  };
+
   const createAddRobotModalContent = () => {
     return (
       <React.Fragment>
@@ -336,6 +247,7 @@ const Home = props => {
       </React.Fragment>
     );
   };
+
   const createAddRobotModalFooter = () => {
     return (
       <React.Fragment>
@@ -355,92 +267,12 @@ const Home = props => {
       </React.Fragment>
     );
   };
-  const createAddPlantModalContent = () => {
-    return (
-      <div>
-        <div
-          style={!alertVisible ? { display: "none" } : { display: "block" }}
-          className="alert alert-danger"
-          role="alert"
-        >
-          {alertMessage}
-        </div>
-        <p>Enter a name for your new plant</p>
-        <div className="form-group">
-          <label htmlFor="inputName">Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputName"
-            placeholder="Name"
-            onChange={event => setNewPlantName(event.target.value)}
-          />
-        </div>
-      </div>
-    );
-  };
-  const createAddPlantModalFooter = () => {
-    return (
-      <React.Fragment>
-        <button
-          onClick={() => {
-            showAlert(false);
-            setAlertMessage("");
-            addPlantModalVisible(false);
-          }}
-          className="btn btn-danger"
-        >
-          Close
-        </button>
-        <button onClick={onAddPlant} className="btn btn-danger">
-          Add
-        </button>
-      </React.Fragment>
-    );
-  };
-  const createRenamePlantModalContent = () => {
-    return (
-      <div>
-        <div
-          style={!alertVisible ? { display: "none" } : { display: "block" }}
-          className="alert alert-danger"
-          role="alert"
-        >
-          {alertMessage}
-        </div>
-        <p>Enter a new name for your plant</p>
-        <div className="form-group">
-          <label htmlFor="inputName">New Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputName"
-            placeholder="Name"
-            onChange={event => setRenamePlantName(event.target.value)}
-          />
-        </div>
-      </div>
-    );
-  };
-  const createRenamePlantModalFooter = () => {
-    return (
-      <React.Fragment>
-        <button
-          onClick={() => {
-            showAlert(false);
-            setAlertMessage("");
-            renamePlantModalVisible(false);
-          }}
-          className="btn btn-danger"
-        >
-          Close
-        </button>
-        <button onClick={onRenamePlant} className="btn btn-danger">
-          Rename
-        </button>
-      </React.Fragment>
-    );
-  };
+
+  // When a new plant is added via the interface, refetch all plants
+  const onPlantAdded = async () => {
+    fetchPlants();
+  }
+
   const qrHandleScan = data => {
     const prefix = "growbot:";
     if (data && data.startsWith(prefix))
@@ -472,27 +304,6 @@ const Home = props => {
         title="Rename Robot"
         content={createRenameRobotModalContent()}
         footer={createRenameRobotModalFooter()}
-      />
-      <Modal
-        open={addPlantModalOpen}
-        close={() => addPlantModalVisible(false)}
-        title="Add Plant"
-        content={createAddPlantModalContent()}
-        footer={createAddPlantModalFooter()}
-      />
-      <Modal
-        open={renamePlantModalOpen}
-        close={() => renamePlantModalVisible(false)}
-        title="Rename Plant"
-        content={createRenamePlantModalContent()}
-        footer={createRenamePlantModalFooter()}
-      />
-      <Modal
-        open={removePlantModalOpen}
-        close={() => removePlantModalVisible(false)}
-        title="Remove Plant"
-        content={createRemovePlantModalContent()}
-        footer={createRemovePlantModalFooter()}
       />
       <div className="container-fluid">
         <div className="row">
@@ -569,61 +380,7 @@ const Home = props => {
             />
           </div>
           <div className="col-md-6">
-            <Card
-              title={
-                <span
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center"
-                  }}
-                >
-                  <span>Your Plants</span>
-                  <button
-                    onClick={() => addPlantModalVisible(true)}
-                    className="btn btn-sm btn-danger"
-                  >
-                    Add Plant
-                  </button>
-                </span>
-              }
-              content={
-                <div>
-                  <ul className="list-group">
-                    {reduxPlants
-                      .filter(plant => plant !== undefined)
-                      .map((plant, idx) => (
-                        <li key={idx} className="list-group-item">
-                          {plant.name}{" "}
-                          <button
-                            onClick={() => {
-                              const plant = reduxPlants[idx];
-                              selectPlant(plant);
-                              removePlantModalVisible(true);
-                            }}
-                            type="button"
-                            style={{ marginLeft: "10px" }}
-                            className="btn btn-sm btn-danger pull-right"
-                          >
-                            <i className="glyphicon glyphicon-trash" />
-                          </button>{" "}
-                          <button
-                            onClick={() => {
-                              const plant = reduxPlants[idx];
-                              selectPlant(plant);
-                              renamePlantModalVisible(true);
-                            }}
-                            type="button"
-                            className="btn btn-sm btn-danger pull-right"
-                          >
-                            <i className="glyphicon glyphicon-pencil" />
-                          </button>
-                        </li>
-                      ))}
-                  </ul>
-                </div>
-              }
-            />
+            <PlantsCard onPlantAdded={onPlantAdded} />
           </div>
         </div>
       </div>
@@ -650,8 +407,6 @@ const mapDispatchToProps = dispatch => {
     reduxSelectRobot: robot => dispatch(selectRobot(robot)),
     reduxRenameRobot: (robot, name) => dispatch(renameRobot(robot, name)),
     reduxAddPlant: plant => dispatch(addPlant(plant)),
-    reduxRemovePlant: plant => dispatch(removePlant(plant)),
-    reduxRenamePlant: (plant, name) => dispatch(renamePlant(plant, name))
   };
 };
 
