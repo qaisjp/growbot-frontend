@@ -1,7 +1,9 @@
 import endpoints from "../endpoints";
 
-export default async function(token) {
-  const response = await fetch(endpoints.logs, {
+export default async function(token, query) {
+  const queryString = query ? "?" + query : "";
+
+  const response = await fetch(endpoints.logs + queryString, {
     headers: {
       Authorization: "Bearer " + token,
       "Content-Type": "application/json"

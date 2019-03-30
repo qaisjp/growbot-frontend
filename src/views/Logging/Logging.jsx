@@ -22,8 +22,6 @@ const Logging = props => {
 
   const getRobotName = id => {
     const { reduxRobots } = props;
-    console.log(reduxRobots);
-    console.log(id);
     const robots = reduxRobots.filter(robot => robot.id === id);
     return robots.length > 0 ? robots.pop().title : "Robot not in database!";
   };
