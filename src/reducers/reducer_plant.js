@@ -16,8 +16,7 @@ export default function(state = { plants: [] }, action) {
     case REMOVE_PLANT:
       plant = action.plant;
       idx = plants.map(x => x.id).indexOf(plant.id);
-      plantArray = plants.slice();
-      delete plantArray[idx];
+      plantArray = plants.filter((plant, index) => index!==idx);
       return Object.assign({}, state, {
         plants: plantArray
       });

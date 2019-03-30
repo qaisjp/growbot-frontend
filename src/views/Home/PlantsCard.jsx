@@ -62,6 +62,7 @@ const PlantsCard = props => {
     };
 
     const onRenamePlant = async () => {
+        console.log(reduxPlants);
         if (renamePlantName === "") {
             // todo: improve alert
             alert("Please make sure you've typed in a new name!");
