@@ -57,7 +57,7 @@ const Home = props => {
 
   const fetchLogs = async () => {
     const { loginToken } = props;
-    const fetchLogsResult = await httpFetchLogs(loginToken, "limit=1");
+    const fetchLogsResult = await httpFetchLogs(loginToken, "limit=5");
 
     if (!(fetchLogsResult instanceof Error)) {
       const { entries } = fetchLogsResult;
