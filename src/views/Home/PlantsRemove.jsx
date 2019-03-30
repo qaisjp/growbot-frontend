@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Modal from "../../components/Modal/Modal.jsx";
 
 const PlantsRemove = ({ visible, onClose, onSubmit }) => {
@@ -10,12 +10,8 @@ const PlantsRemove = ({ visible, onClose, onSubmit }) => {
       content={<p>Are you sure you want to remove this plant?</p>}
       footer={
         <>
-          <button onClick={onClose} className="btn btn-danger">
-            No
-          </button>
-          <button onClick={onSubmit} className="btn btn-danger">
-            Yes
-          </button>
+          <button onClick={onClose} className="btn btn-danger">No</button>
+          <button onClick={onSubmit} className="btn btn-danger">Yes</button>
         </>
       }
     />
