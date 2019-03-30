@@ -7,6 +7,13 @@ import { connect } from "react-redux";
 
 const Logging = props => {
 
+  const severity = {
+    0: "info",
+    1: "success",
+    2: "warning",
+    3: "danger"
+  };
+
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
@@ -14,11 +21,17 @@ const Logging = props => {
   }, []);
 
   const getRobotName = id => {
-
+    const {reduxRobots} = props;
+    console.log(reduxRobots);
+    console.log(id);
+    const robots =  reduxRobots.filter(robot => robot.id === id);
+    return robots.length > 0 ? robots.pop().title : "Robot not in database!";
   };
 
   const getPlantName = id => {
-
+    const {reduxPlants} = props;
+    const plants = reduxPlants.filter(plant => plant.id === id);
+    return plants.length > 0 ? plants.pop().name : "Plant not in database!";
   };
 
   const fetchLogs = async () => {
@@ -26,7 +39,6 @@ const Logging = props => {
     const fetchLogsResult = await httpFetchLogs(loginToken);
 
     if(!(fetchLogsResult instanceof Error)) {
-      console.log(fetchLogsResult);
       const {entries} = fetchLogsResult;
       setLogs(entries);
     }
@@ -46,35 +58,17 @@ const Logging = props => {
             </thead>
             <tbody>
             {logs.map(log => (
-              <tr className="success">
+              <tr className={severity[log.severity]}>
                 <td>
                   {log.message}
                   <br />
-                  <small>Robot: PrototypeBot · Plant: Sunflower</small>
+                  <strong>Robot: </strong>{getRobotName(log.robot_id)} {" "}
+                  <strong>Plant: </strong>
+                  {getPlantName(log.plant_id)}
                 </td>
                 <td>{moment(log.created_at).fromNow()}</td>
               </tr>
             ))}
-              <tr className="danger">
-                <td>
-                  GrowBot is stuck between two objects
-                  <br />
-                  <small>
-                    <strong>Robot: </strong>PrototypeBot ·{" "}
-                    <strong>Plant: </strong>
-                    Sunflower
-                  </small>
-                </td>
-                <td>3 hours ago</td>
-              </tr>
-              <tr className="success">
-                <td>
-                  GrowBot successfully watered your plant
-                  <br />
-                  <small>Robot: PrototypeBot · Plant: Sunflower</small>
-                </td>
-                <td>3 hours ago</td>
-              </tr>
             </tbody>
           </table>
         }
@@ -85,11 +79,12 @@ const Logging = props => {
 
 const mapStateToProps = props => {
   const { plants } = props.plantState;
-  const { selectedRobot } = props.robotState;
+  const { robots, selectedRobot } = props.robotState;
   const { loginToken } = props.auth;
   return {
     loginToken,
     selectedRobot,
+    reduxRobots: robots,
     reduxPlants: plants
   };
 };
