@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 
 import Card from "../../components/Card/Card";
 import LoggingTable from "../../components/Logging/Logging";
+import getPlantName from "../../components/Logging/logging_get_plant_name";
+import getRobotName from "../../components/Logging/logging_get_robot_name";
 import httpFetchLogs from "../../http/fetch_logs";
 import { connect } from "react-redux";
 
@@ -12,18 +14,6 @@ const Logging = props => {
   useEffect(() => {
     fetchLogs();
   }, []);
-
-  const getRobotName = id => {
-    const { reduxRobots } = props;
-    const robots = reduxRobots.filter(robot => robot.id === id);
-    return robots.length > 0 ? robots.pop().title : "Robot not in database!";
-  };
-
-  const getPlantName = id => {
-    const { reduxPlants } = props;
-    const plants = reduxPlants.filter(plant => plant.id === id);
-    return plants.length > 0 ? plants.pop().name : "Plant not in database!";
-  };
 
   const fetchLogs = async () => {
     const { loginToken } = props;
