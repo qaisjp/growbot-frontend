@@ -1,14 +1,14 @@
 import React from "react";
 
 const Modal = props => {
-  const { open, close, title, content, footer } = props;
+  const { open, close, title, content, footer, ...otherProps } = props;
   const modalClassAttribute = open ? "show" : "hide";
 
   return (
     <div
       style={{ overflowY: "auto", backgroundColor: "rgba(0, 0, 0, 0.3)" }}
       className={"modal " + modalClassAttribute}
-      {...props}
+      {...otherProps}
     >
       <div className="modal-dialog" role="document">
         <div className="modal-content">
