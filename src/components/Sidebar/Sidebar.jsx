@@ -18,7 +18,7 @@ const Sidebar = props => {
     <div id="sidebar" className="sidebar" data-color="red">
       <div className="logo">
         <img
-          style={{ marginLeft: "-10px", height: "25%" }}
+          style={{ maxWidth: "100%" }}
           src={logo}
           alt="GrowBot"
         />
