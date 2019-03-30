@@ -87,9 +87,6 @@ const Gallery = props => {
         content={createViewPhotoModalContent()}
         footer={createViewPhotoModalFooter()}
       />
-      <div className="container-fluid">
-        <div className="row">
-          <div className="col-md-12">
             <Card
               title={"Photo gallery"}
               content={
@@ -118,9 +115,6 @@ const Gallery = props => {
                 </div>
               }
             />
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
