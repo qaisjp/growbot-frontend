@@ -271,7 +271,7 @@ const Home = props => {
   // When a new plant is added via the interface, refetch all plants
   const onPlantAdded = async () => {
     fetchPlants();
-  }
+  };
 
   const qrHandleScan = data => {
     const prefix = "growbot:";
@@ -406,7 +406,7 @@ const mapDispatchToProps = dispatch => {
     reduxRemoveRobot: robot => dispatch(removeRobot(robot)),
     reduxSelectRobot: robot => dispatch(selectRobot(robot)),
     reduxRenameRobot: (robot, name) => dispatch(renameRobot(robot, name)),
-    reduxAddPlant: plant => dispatch(addPlant(plant)),
+    reduxAddPlant: plant => dispatch(addPlant(plant))
   };
 };
 

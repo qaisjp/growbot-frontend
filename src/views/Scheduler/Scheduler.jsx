@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 
 import DateTimePicker from "react-datetime-picker";
+import Datetime from "react-datetime";
 import { RRule } from "rrule/dist/esm/src/index";
 
 import actions from "./scheduler_actions";
@@ -174,7 +175,7 @@ const Scheduler = props => {
               checked={ends === ON}
               onClick={() => setEnds(ON)}
             />
-            <DateTimePicker onChange={setDate} value={date} />
+            <Datetime onChange={setDate} value={date} />
             <div style={{ marginTop: "10px" }} />
             <label style={{ marginRight: "10px" }}>After</label>
             <input
