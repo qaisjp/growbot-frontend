@@ -4,8 +4,12 @@ import QrReader from "react-qr-reader";
 
 import Card from "../../components/Card/Card.jsx";
 import Dropdown from "../../components/Dropdown/Dropdown.jsx";
+import LoggingTable from "../../components/Logging/Logging";
 import Modal from "../../components/Modal/Modal.jsx";
 import SelectableList from "../../components/List/SelectableList.jsx";
+
+import getPlantName from "../../components/Logging/logging_get_plant_name";
+import getRobotName from "../../components/Logging/logging_get_robot_name";
 
 import green_circle from "../../assets/img/green_circle.png";
 import red_circle from "../../assets/img/red_circle.png";
@@ -22,6 +26,7 @@ import httpRenameRobot from "../../http/rename_robot";
 import httpRemoveRobot from "../../http/remove_robot";
 
 import PlantsCard from "./PlantsCard";
+import httpFetchLogs from "../../http/fetch_logs";
 
 const Home = props => {
   const {
@@ -33,6 +38,7 @@ const Home = props => {
     reduxPlants
   } = props;
 
+  const [logs, setLogs] = useState([]);
   const [newRobotSerialKey, setNewRobotSerialKey] = useState("");
   const [newRobotTitle, setNewRobotTitle] = useState("");
   const [renameRobotTitle, setRenameRobotTitle] = useState("");
@@ -46,7 +52,18 @@ const Home = props => {
   useEffect(() => {
     fetchRobots();
     fetchPlants();
+    fetchLogs();
   }, []);
+
+  const fetchLogs = async () => {
+    const { loginToken } = props;
+    const fetchLogsResult = await httpFetchLogs(loginToken, "limit=1");
+
+    if (!(fetchLogsResult instanceof Error)) {
+      const { entries } = fetchLogsResult;
+      setLogs(entries);
+    }
+  };
 
   const fetchRobots = async () => {
     const { reduxAddRobot } = props;
@@ -382,6 +399,16 @@ const Home = props => {
           </div>
           <div className="col-md-6">
             <PlantsCard onPlantAdded={onPlantAdded} />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-md-12">
+            <Card
+              title={"Robot Logs"}
+              content={
+                <LoggingTable logs={logs} reduxPlants={reduxPlants} getPlantName={getPlantName} reduxRobots={reduxRobots} getRobotName={getRobotName} />
+              }
+            />
           </div>
         </div>
       </div>
