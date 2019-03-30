@@ -20,18 +20,21 @@ const Logging = props => {
         </tr>
       </thead>
       <tbody>
-        {logs.map(log => (
-          <tr className={severity[log.severity]}>
-            <td>
-              {log.message}
-              <br />
-              <strong>Robot: </strong>
-              {getRobotName(log.robot_id, reduxRobots)} <strong>Plant: </strong>
-              {getPlantName(log.plant_id, reduxPlants)}
-            </td>
-            <td>{moment(log.created_at).fromNow()}</td>
-          </tr>
-        ))}
+        {logs.map(entry => {
+          const robotName = getRobotName(entry.robot_id, reduxRobots);
+          const plantName = getPlantName(entry.plant_id, reduxPlants);
+          const robot = robotName ? <span><strong>Robot: </strong>{robotName}</span> : null;
+          const plant = plantName ? <span><strong>Plant: </strong>{plantName}</span> : null;
+
+          return (
+            <tr className={severity[entry.severity]}>
+              <td>
+                {entry.message} <br /> {robot} {(robotName && plantName ? "•" : null)} {plant}
+              </td>
+              <td>{moment(entry.created_at).fromNow()}</td>
+            </tr>
+          )
+        })}
       </tbody>
     </table>
   );
