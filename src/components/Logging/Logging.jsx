@@ -9,7 +9,7 @@ const severity = {
 };
 
 const Logging = props => {
-  const { logs, getRobotName, getPlantName } = props;
+  const { logs, reduxRobots, getRobotName, reduxPlants, getPlantName } = props;
 
   return (
     <table className="table">
@@ -26,8 +26,8 @@ const Logging = props => {
               {log.message}
               <br />
               <strong>Robot: </strong>
-              {getRobotName(log.robot_id)} <strong>Plant: </strong>
-              {getPlantName(log.plant_id)}
+              {getRobotName(log.robot_id, reduxRobots)} <strong>Plant: </strong>
+              {getPlantName(log.plant_id, reduxPlants)}
             </td>
             <td>{moment(log.created_at).fromNow()}</td>
           </tr>

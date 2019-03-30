@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
 import Card from "../../components/Card/Card";
 import LoggingTable from "../../components/Logging/Logging";
 import getPlantName from "../../components/Logging/logging_get_plant_name";
 import getRobotName from "../../components/Logging/logging_get_robot_name";
 import httpFetchLogs from "../../http/fetch_logs";
-import { connect } from "react-redux";
 
 const Logging = props => {
 
+  const {reduxPlants, reduxRobots} = props;
   const [logs, setLogs] = useState([]);
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const Logging = props => {
       <Card
         title={"Robot Logs"}
         content={
-          <LoggingTable logs={logs} getPlantName={getPlantName} getRobotName={getRobotName} />
+          <LoggingTable logs={logs} reduxPlants={reduxPlants} getPlantName={getPlantName} reduxRobots={reduxRobots} getRobotName={getRobotName} />
         }
       />
     </div>

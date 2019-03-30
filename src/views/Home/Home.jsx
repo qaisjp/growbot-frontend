@@ -26,6 +26,7 @@ import PlantsCard from "./PlantsCard";
 const Home = props => {
   const {
     loginToken,
+    reduxAddPlant,
     reduxRobots,
     reduxSelectRobot,
     selectedRobot,
@@ -44,7 +45,7 @@ const Home = props => {
 
   useEffect(() => {
     fetchRobots();
-    fetchPlants(props.reduxAddPlant);
+    fetchPlants();
   }, []);
 
   const fetchRobots = async () => {
