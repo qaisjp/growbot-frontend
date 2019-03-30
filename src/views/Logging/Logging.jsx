@@ -3,8 +3,14 @@ import moment from "moment";
 
 import Card from "../../components/Card/Card";
 import httpFetchLogs from "../../http/fetch_logs";
-import severity from "./logging_severity";
 import { connect } from "react-redux";
+
+const severity = {
+  0: "info",
+  1: "success",
+  2: "warning",
+  3: "danger"
+};
 
 const Logging = props => {
 
