@@ -17,7 +17,11 @@ const Sidebar = props => {
   return (
     <div id="sidebar" className="sidebar" data-color="red">
       <div className="logo">
-        <img style={{marginLeft:"-10px", height:"25%"}} src={logo} alt="GrowBot" />
+        <img
+          style={{ marginLeft: "-10px", height: "25%" }}
+          src={logo}
+          alt="GrowBot"
+        />
       </div>
       <div className="sidebar-wrapper">
         <ul className="nav">

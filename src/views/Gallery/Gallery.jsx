@@ -87,34 +87,34 @@ const Gallery = props => {
         content={createViewPhotoModalContent()}
         footer={createViewPhotoModalFooter()}
       />
-            <Card
-              title={"Photo gallery"}
-              content={
-                <div className="container-fluid">
-                  <center>
-                    <div className="row">
-                      {photos.map((photo, idx) => (
-                        <div
-                          key={idx}
-                          onClick={() => onClickPhoto(photo)}
-                          className="col-md-6"
-                        >
-                          <img
-                            style={{
-                              height: "50%",
-                              width: "80%",
-                              marginBottom: "25px"
-                            }}
-                            src={photo.img}
-                            alt={photo.id}
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  </center>
-                </div>
-              }
-            />
+      <Card
+        title={"Photo gallery"}
+        content={
+          <div className="container-fluid">
+            <center>
+              <div className="row">
+                {photos.map((photo, idx) => (
+                  <div
+                    key={idx}
+                    onClick={() => onClickPhoto(photo)}
+                    className="col-md-6"
+                  >
+                    <img
+                      style={{
+                        height: "50%",
+                        width: "80%",
+                        marginBottom: "25px"
+                      }}
+                      src={photo.img}
+                      alt={photo.id}
+                    />
+                  </div>
+                ))}
+              </div>
+            </center>
+          </div>
+        }
+      />
     </div>
   );
 };
