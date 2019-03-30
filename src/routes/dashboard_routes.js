@@ -1,6 +1,7 @@
 import Controller from "../views/Controller/Controller";
 import Gallery from "../views/Gallery/Gallery";
 import Home from "../views/Home/Home";
+import Logging from "../views/Logging/Logging";
 import Scheduler from "../views/Scheduler/Scheduler";
 import Settings from "../views/Settings/Settings";
 
@@ -39,6 +40,13 @@ const routes = [
     icon: "pe-7s-settings",
     sidebar: false,
     component: Settings
+  },
+  {
+    path: "/logging",
+    name: "Logging",
+    icon: "pe-7s-info",
+    sidebar: true,
+    component: Logging
   },
   { redirect: true, path: "/", to: "/home", name: "Dashboard" }
 ];
