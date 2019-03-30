@@ -6,7 +6,7 @@ const Modal = props => {
 
   return (
     <div
-      style={{ overflowY: "auto" }}
+      style={{ overflowY: "auto", backgroundColor: "rgba(0, 0, 0, 0.3)" }}
       className={"modal " + modalClassAttribute}
       {...props}
     >
