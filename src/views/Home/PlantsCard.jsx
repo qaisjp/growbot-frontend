@@ -12,7 +12,7 @@ import removePlant from "../../actions/remove_plant";
 
 import PlantsAdd from "./PlantsAdd";
 import PlantsRemove from "./PlantsRemove";
-import PlantsRename from "./PlantsRename"
+import PlantsRename from "./PlantsAdd"
 
 const PlantsCard = props => {
   const [selectedPlant, selectPlant] = useState({});

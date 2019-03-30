@@ -25,13 +25,14 @@ import units from "./scheduler_time_units";
 
 const Scheduler = props => {
   const { loginToken, reduxPlants } = props;
+
+  const [actionDropdownVisible, setActionDropdownVisible] = useState(true);
   const [summary, setSummary] = useState("");
   const [events, setEvents] = useState([]);
-  const [eventsToAdd, setEventsToAdd] = useState([]);
+  const [eventActions, ] = useState([]);
   const [schedulerModalOpen, schedulerModalVisible] = useState(false);
-  const [scheduleEventModalOpen, scheduleEventModalVisible] = useState(false);
   const [plant, selectPlant] = useState("");
-  const [action, selectAction] = useState("");
+  const [, selectAction] = useState("");
   const [repeatEveryNumber, setRepeatEveryNumber] = useState(1);
   const [repeatEveryUnit, setRepeatEveryUnit] = useState(units[0]);
   const [ends, setEnds] = useState(NEVER);
@@ -72,8 +73,8 @@ const Scheduler = props => {
     );
 
     const recurrences = [new RRule(rruleObj).toString()];
-    const actions = eventsToAdd.map(event => ({
-      name: event.action.typeStr,
+    const actions = eventActions.map(action => ({
+      name: action.typeStr,
       data: {},
       robot_id: selectedRobot.id,
       plant_id: plant.id
@@ -84,6 +85,8 @@ const Scheduler = props => {
       recurrences,
       actions
     );
+
+    console.log({summary, recurrences, actions});
 
     if (response.ok) {
       fetchEvents();
@@ -111,6 +114,7 @@ const Scheduler = props => {
   };
 
   const createSchedulerModalContent = () => {
+    const actionNames = actions.map(action => action.name);
     const reduxPlantNames = reduxPlants.map(plant => plant.name);
     return (
       <div className="container-fluid">
@@ -134,14 +138,59 @@ const Scheduler = props => {
               type="text"
             />
             <div style={{ marginTop: "10px" }} />
-            <label style={{ display: eventsToAdd.length ? "block" : "none" }}>
+            <label
+              style={{ display: actionDropdownVisible ? "inline" : "none" }}
+            >
+              Action
+            </label>
+            <Dropdown
+              name="Actions"
+              style={{
+                display: actionDropdownVisible ? "inline" : "none",
+                marginLeft: "10px"
+              }}
+              items={actionNames}
+              click={actionName => {
+                const idx = actionNames.indexOf(actionName);
+                eventActions.push(actions[idx]);
+                selectAction(actions[idx]);
+                setActionDropdownVisible(false);
+              }}
+            />
+            <div style={{ marginTop: "10px" }} />
+            <label>Repeat</label>
+            <input
+              style={{
+                marginLeft: "10px",
+                width: "30%",
+                height: "29px",
+                display: "inline-block"
+              }}
+              type="number"
+              className="form-control"
+              onChange={event => setRepeatEveryNumber(event.target.value)}
+            />
+            <Dropdown
+              name="Time"
+              style={{ display: "inline", marginLeft: "10px" }}
+              items={units}
+              click={unit => {
+                const idx = units.indexOf(unit);
+                setRepeatEveryUnit(units[idx]);
+              }}
+            />
+            <div style={{ marginTop: "10px" }} />
+            <label style={{ display: eventActions.length ? "block" : "none" }}>
               Actions
             </label>
             <div style={{ marginTop: "10px" }} />
-            <ul className="list-group">
-              {eventsToAdd.map((event, idx) => (
+            <ul
+              style={{ display: eventActions.length ? "inline" : "none" }}
+              className="list-group"
+            >
+              {eventActions.map((action, idx) => (
                 <li className="list-group-item">
-                  {idx + 1 + ". " + event.action.name}
+                  {idx + 1 + ". " + action.name}
                 </li>
               ))}
             </ul>
@@ -207,83 +256,13 @@ const Scheduler = props => {
           Close
         </button>
         <button
-          onClick={() => scheduleEventModalVisible(true)}
+          onClick={() => setActionDropdownVisible(true)}
           className="btn btn-danger"
         >
-          Add New Action
+          Add Another Action
         </button>
         <button onClick={onSchedule} className="btn btn-danger">
           Schedule
-        </button>
-      </React.Fragment>
-    );
-  };
-
-  const createScheduleEventModalContent = () => {
-    const actionNames = actions.map(action => action.name);
-    return (
-      <React.Fragment>
-        <label>Action</label>
-        <Dropdown
-          name="Actions"
-          style={{ display: "inline", marginLeft: "10px" }}
-          items={actionNames}
-          click={actionName => {
-            const idx = actionNames.indexOf(actionName);
-            selectAction(actions[idx]);
-          }}
-        />
-        <div style={{ marginTop: "10px" }} />
-        <label>Repeat</label>
-        <input
-          style={{
-            marginLeft: "10px",
-            width: "30%",
-            height: "29px",
-            display: "inline-block"
-          }}
-          type="number"
-          className="form-control"
-          onChange={event => setRepeatEveryNumber(event.target.value)}
-        />
-        <Dropdown
-          name="Time"
-          style={{ display: "inline", marginLeft: "10px" }}
-          items={units}
-          click={unit => {
-            const idx = units.indexOf(unit);
-            setRepeatEveryUnit(units[idx]);
-          }}
-        />
-      </React.Fragment>
-    );
-  };
-
-  const createScheduleEventModalActions = () => {
-    return (
-      <React.Fragment>
-        <button
-          onClick={() => {
-            scheduleEventModalVisible(false);
-          }}
-          className="btn btn-danger"
-        >
-          Close
-        </button>
-        <button
-          onClick={() => {
-            const eventsToAddRef = eventsToAdd;
-            eventsToAddRef.push({
-              action,
-              repeatEveryNumber,
-              repeatEveryUnit
-            });
-            setEventsToAdd(eventsToAddRef);
-            scheduleEventModalVisible(false);
-          }}
-          className="btn btn-danger"
-        >
-          Add
         </button>
       </React.Fragment>
     );
@@ -297,13 +276,6 @@ const Scheduler = props => {
         title="Scheduler"
         content={createSchedulerModalContent()}
         footer={createSchedulerModalActions()}
-      />
-      <Modal
-        open={scheduleEventModalOpen}
-        close={() => scheduleEventModalVisible(false)}
-        title="Schedule Event"
-        content={createScheduleEventModalContent()}
-        footer={createScheduleEventModalActions()}
       />
       <Card
         title={
