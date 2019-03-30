@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { connect } from "react-redux";
 
 import Card from "../../components/Card/Card.jsx";
-import Modal from "../../components/Modal/Modal.jsx";
 
 import httpAddPlant from "../../http/add_plant";
 import httpRenamePlant from "../../http/rename_plant";
@@ -12,11 +11,11 @@ import renamePlant from "../../actions/rename_plant";
 import removePlant from "../../actions/remove_plant";
 
 import PlantsAdd from "./PlantsAdd";
-import PlantsRemove from "./PlantsRemove.jsx";
+import PlantsRemove from "./PlantsRemove";
+import PlantsRename from "./PlantsRename"
 
 const PlantsCard = props => {
   const [selectedPlant, selectPlant] = useState({});
-  const [renamePlantName, setRenamePlantName] = useState("");
   const [addPlantModalOpen, addPlantModalVisible] = useState(false);
   const [renamePlantModalOpen, renamePlantModalVisible] = useState(false);
   const [removePlantModalOpen, removePlantModalVisible] = useState(false);
@@ -25,43 +24,7 @@ const PlantsCard = props => {
 
   const reduxPlants = plants;
 
-  const createRenamePlantModalContent = () => {
-    return (
-      <div>
-        <p>Enter a new name for your plant</p>
-        <div className="form-group">
-          <label htmlFor="inputName">New Name</label>
-          <input
-            type="text"
-            className="form-control"
-            id="inputName"
-            placeholder="Name"
-            onChange={event => setRenamePlantName(event.target.value)}
-          />
-        </div>
-      </div>
-    );
-  };
-
-  const createRenamePlantModalFooter = () => {
-    return (
-      <React.Fragment>
-        <button
-          onClick={() => {
-            renamePlantModalVisible(false);
-          }}
-          className="btn btn-danger"
-        >
-          Close
-        </button>
-        <button onClick={onRenamePlant} className="btn btn-danger">
-          Rename
-        </button>
-      </React.Fragment>
-    );
-  };
-
-  const onRenamePlant = async () => {
+  const onRenamePlant = async (renamePlantName) => {
     console.log(reduxPlants);
     if (renamePlantName === "") {
       // todo: improve alert
@@ -175,12 +138,12 @@ const PlantsCard = props => {
           addPlantModalVisible(false);
         }}
       />
-      <Modal
-        open={renamePlantModalOpen}
-        close={() => renamePlantModalVisible(false)}
-        title="Rename Plant"
-        content={createRenamePlantModalContent()}
-        footer={createRenamePlantModalFooter()}
+      <PlantsRename
+        onSubmit={onRenamePlant}
+        visible={renamePlantModalOpen}
+        onClose={() => {
+            renamePlantModalVisible(false);
+        }}
       />
       <PlantsRemove
         onSubmit={onRemovePlant}
