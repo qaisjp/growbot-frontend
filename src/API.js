@@ -9,6 +9,7 @@ class API {
     _onmessage(event) {
         const subs = this.subscriptions;
         const msg = JSON.parse(event.data);
+        console.log(msg);
         const type = msg.type;
         const data = msg.data;
 
