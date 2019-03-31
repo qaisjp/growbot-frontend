@@ -47,7 +47,8 @@ const Home = props => {
     const [qrDelay] = useState(0);
 
     const newLogEntryCallback = entry => {
-        setLogs([entry, ...logs]);
+        const updatedLogs = [entry, ...logs].slice(0, 5);
+        setLogs(updatedLogs);
     };
     API.subscribe("NEW_LOG_ENTRY", newLogEntryCallback);
 
