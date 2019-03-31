@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "../../components/Modal/Modal.jsx";
 
-const PlantsRename = ({ visible, onClose, onSubmit }) => {
-  const [name, setName] = useState("");
+const PlantsRename = ({ visible, onClose, onSubmit, defaultText = "" }) => {
+  const [name, setName] = useState(defaultText);
+
+  useEffect(() => {
+    setName(defaultText);
+  }, [defaultText])
 
   return (
     <Modal
@@ -19,10 +23,11 @@ const PlantsRename = ({ visible, onClose, onSubmit }) => {
               className="form-control"
               id="inputName"
               placeholder="Name"
+              value={name}
               onChange={event => setName(event.target.value)}
             />
           </div>
-        </div >
+        </div>
       }
       footer={
         <>

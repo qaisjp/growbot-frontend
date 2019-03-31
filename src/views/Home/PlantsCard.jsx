@@ -12,12 +12,13 @@ import removePlant from "../../actions/remove_plant";
 
 import PlantsAdd from "./PlantsAdd";
 import PlantsRemove from "./PlantsRemove";
-import PlantsRename from "./PlantsAdd"
+import PlantsRename from "./PlantsRename"
 
 const PlantsCard = props => {
   const [selectedPlant, selectPlant] = useState({});
   const [addPlantModalOpen, addPlantModalVisible] = useState(false);
   const [renamePlantModalOpen, renamePlantModalVisible] = useState(false);
+  const [renamePlantText, setRenamePlantText] = useState("");
   const [removePlantModalOpen, removePlantModalVisible] = useState(false);
 
   const { loginToken, plants, onPlantAdded } = props;
@@ -117,6 +118,7 @@ const PlantsCard = props => {
                       onClick={() => {
                         const plant = reduxPlants[idx];
                         selectPlant(plant);
+                        setRenamePlantText(plant.name);
                         renamePlantModalVisible(true);
                       }}
                       type="button"
@@ -140,6 +142,7 @@ const PlantsCard = props => {
         onSubmit={onRenamePlant}
         visible={renamePlantModalOpen}
         onClose={() => renamePlantModalVisible(false)}
+        defaultText={renamePlantText}
       />
       <PlantsRemove
         onSubmit={onRemovePlant}
