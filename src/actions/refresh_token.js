@@ -1,6 +1,6 @@
 import {setLoginError, setLoginPending, setLoginSuccess, setLoginToken} from "../auth_mutators";
 import refreshToken from "../http/refresh_token";
-import API from "../API";
+import {api} from "../API";
 
 export default function (token) {
     return dispatch => {
@@ -13,7 +13,7 @@ export default function (token) {
 
             if (!error) {
                 localStorage.setItem("loginToken", result);
-                API.authLogin(result);
+                api.authLogin(result);
                 dispatch(setLoginToken(result));
                 dispatch(setLoginSuccess(true));
             } else {

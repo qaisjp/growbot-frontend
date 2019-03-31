@@ -25,7 +25,7 @@ import httpRemoveRobot from "../../http/remove_robot";
 
 import PlantsCard from "./PlantsCard";
 import httpFetchLogs from "../../http/fetch_logs";
-import API from "../../API";
+import {api, NEW_LOG_ENTRY} from "../../API";
 
 const Home = props => {
     const {
@@ -50,7 +50,7 @@ const Home = props => {
         const updatedLogs = [entry, ...logs].slice(0, 5);
         setLogs(updatedLogs);
     };
-    API.subscribe("NEW_LOG_ENTRY", newLogEntryCallback);
+    api.subscribe(NEW_LOG_ENTRY, newLogEntryCallback);
 
 
     useEffect(() => {
@@ -58,7 +58,7 @@ const Home = props => {
         fetchPlants();
         fetchLogs();
         return () => {
-            API.unsubscribe("NEW_LOG_ENTRY", newLogEntryCallback);
+            api.unsubscribe(NEW_LOG_ENTRY, newLogEntryCallback);
         }
     }, []);
 

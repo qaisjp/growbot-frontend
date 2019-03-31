@@ -54,4 +54,12 @@ class API {
     }
 }
 
-export default new API();
+const api = new API();
+const NEW_LOG_ENTRY = "NEW_LOG_ENTRY";
+const UPDATE_ROBOT_STATE = "UPDATE_ROBOT_STATE";
+
+export {
+    api,
+    NEW_LOG_ENTRY,
+    UPDATE_ROBOT_STATE
+}

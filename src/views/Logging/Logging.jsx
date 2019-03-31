@@ -6,7 +6,7 @@ import LoggingTable from "../../components/Logging/Logging";
 import getPlantName from "../../components/Logging/logging_get_plant_name";
 import getRobotName from "../../components/Logging/logging_get_robot_name";
 import httpFetchLogs from "../../http/fetch_logs";
-import API from "../../API";
+import {api, NEW_LOG_ENTRY} from "../../API";
 
 const Logging = props => {
     const {reduxPlants, reduxRobots, loginToken} = props;
@@ -15,12 +15,12 @@ const Logging = props => {
     const newLogEntryCallback = entry => {
         setLogs([entry, ...logs]);
     };
-    API.subscribe("NEW_LOG_ENTRY", newLogEntryCallback);
+    api.subscribe(NEW_LOG_ENTRY, newLogEntryCallback);
 
     useEffect(() => {
         fetchLogs();
         return () => {
-            API.unsubscribe("NEW_LOG_ENTRY", newLogEntryCallback);
+            api.unsubscribe(NEW_LOG_ENTRY, newLogEntryCallback);
         }
     }, []);
 
