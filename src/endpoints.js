@@ -7,6 +7,13 @@ if (config.API_SECURE) {
     base = `http://${base}`;
 }
 
+let ws_base = config.API_HOST;
+if (config.API_SECURE) {
+    ws_base = `wss://${ws_base}`;
+} else {
+    ws_base = `ws://${ws_base}`;
+}
+
 export default {
     move: `${base}/move`,
     settings: `${base}/settings`,
@@ -31,5 +38,7 @@ export default {
     robot_delete: uuid => `${base}/robot/${uuid}`,
     robot_move: uuid => `${base}/robot/${uuid}/move`,
     robot_settings: uuid => `${base}/robot/${uuid}/settings`,
-    robot_video: (uuid, token) => `${base}/robot/${uuid}/video?token=${token}`
+    robot_video: (uuid, token) => `${base}/robot/${uuid}/video?token=${token}`,
+
+    user_stream: token => `${ws_base}/stream?token=${token}`,
 };

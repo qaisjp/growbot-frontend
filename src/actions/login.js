@@ -1,5 +1,6 @@
 import {setLoginError, setLoginPending, setLoginSuccess, setLoginToken} from "../auth_mutators";
 import callLoginApi from "../http/login";
+import API from "../API";
 
 export default function (email, password) {
     return dispatch => {
@@ -14,6 +15,7 @@ export default function (email, password) {
 
             if (!error) {
                 localStorage.setItem("loginToken", attribute);
+                API.auth_login(attribute);
                 dispatch(setLoginToken(attribute));
                 dispatch(setLoginSuccess(true));
             } else {
