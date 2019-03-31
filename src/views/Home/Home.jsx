@@ -346,47 +346,49 @@ const Home = props => {
                                         {reduxRobots
                                             .filter(robot => robot !== undefined)
                                             .map(robot => (
-                                                <div>
-                                                    <li className="list-group-item">
-                                                        <img
-                                                            src={
-                                                                robot.seen_at !== null
-                                                                    ? green_circle
-                                                                    : red_circle
-                                                            }
-                                                            alt="Status"
-                                                        />{" "}
-                                                        <h5 style={{display: "inline"}}>{robot.title}</h5>
-                                                        <button
-                                                            onClick={() => {
-                                                                setSelectedRobot(robot)
-                                                                removeRobotModalVisible(true)
-                                                            }}
-                                                            type="button"
-                                                            className="btn btn-sm btn-danger pull-right"
-                                                        >
-                                                            <i className="glyphicon glyphicon-trash"/>
-                                                        </button>
-                                                        <button
-                                                            onClick={() => {
-                                                                setSelectedRobot(robot)
-                                                                renameRobotModalVisible(true)
-                                                            }}
-                                                            type="button"
-                                                            className="btn btn-sm btn-danger pull-right"
-                                                        >
-                                                            <i className="glyphicon glyphicon-pencil"/>
-                                                        </button>
-                                                        <div style={{marginBottom: "10px"}}/>
-                                                        <span
-                                                            style={{marginRight: "15px"}}
-                                                            className="label label-primary"
-                                                        >{`Water: ${robot.water_level}ml`}</span>
-                                                        <span
-                                                            className="label label-default">{`Battery: ${
-                                                            robot.battery_level
-                                                            }%`}</span></li>
-                                                </div>
+                                              <li className="list-group-item">
+                                                <img
+                                                  src={
+                                                    robot.seen_at !== null
+                                                      ? green_circle
+                                                      : red_circle
+                                                  }
+                                                  alt="Status"
+                                                />{" "}
+                                                <h5 style={{ display: "inline" }}>{robot.title}</h5>
+                                                <span className="pull-right">
+                                                  <button
+                                                    onClick={() => {
+                                                      setSelectedRobot(robot)
+                                                      renameRobotModalVisible(true)
+                                                    }}
+                                                    type="button"
+                                                    className="btn btn-sm btn-danger"
+                                                    style={{marginRight:"0.5em"}}
+                                                  >
+                                                    <i className="glyphicon glyphicon-pencil" />
+                                                  </button>
+                                                  <button
+                                                    onClick={() => {
+                                                      setSelectedRobot(robot)
+                                                      removeRobotModalVisible(true)
+                                                    }}
+                                                    type="button"
+                                                    className="btn btn-sm btn-danger"
+                                                  >
+                                                    <i className="glyphicon glyphicon-trash" />
+                                                  </button>
+                                                </span>
+                                                <div style={{ marginBottom: "10px" }} />
+                                                <span
+                                                  style={{ marginRight: "15px" }}
+                                                  className="label label-primary"
+                                                >{`Water: ${robot.water_level}ml`}</span>
+                                                <span
+                                                  className="label label-default">{`Battery: ${
+                                                    robot.battery_level
+                                                    }%`}</span>
+                                              </li>
                                             ))}
                                     </ul>
                                 </div>
