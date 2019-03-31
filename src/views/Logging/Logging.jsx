@@ -12,13 +12,16 @@ const Logging = props => {
     const {reduxPlants, reduxRobots, loginToken} = props;
     const [logs, setLogs] = useState([]);
 
-    API.subscribe("NEW_LOG_ENTRY", entry => {
-        console.log([entry, ...logs]);
+    const newLogEntryCallback = entry => {
         setLogs([entry, ...logs]);
-    });
+    };
+    API.subscribe("NEW_LOG_ENTRY", newLogEntryCallback);
 
     useEffect(() => {
         fetchLogs();
+        return () => {
+            API.unsubscribe("NEW_LOG_ENTRY", newLogEntryCallback);
+        }
     }, []);
 
     const fetchLogs = async () => {

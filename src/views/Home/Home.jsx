@@ -25,6 +25,7 @@ import httpRemoveRobot from "../../http/remove_robot";
 
 import PlantsCard from "./PlantsCard";
 import httpFetchLogs from "../../http/fetch_logs";
+import API from "../../API";
 
 const Home = props => {
     const {
@@ -45,10 +46,19 @@ const Home = props => {
     const [alertMessage, setAlertMessage] = useState(false);
     const [qrDelay] = useState(0);
 
+    const newLogEntryCallback = entry => {
+        setLogs([entry, ...logs]);
+    };
+    API.subscribe("NEW_LOG_ENTRY", newLogEntryCallback);
+
+
     useEffect(() => {
         fetchRobots();
         fetchPlants();
         fetchLogs();
+        return () => {
+            API.unsubscribe("NEW_LOG_ENTRY", newLogEntryCallback);
+        }
     }, []);
 
     const fetchLogs = async () => {
