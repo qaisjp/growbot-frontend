@@ -7,10 +7,14 @@ import Gamepad from "../../components/Gamepad/Gamepad";
 import endpoints from "../../endpoints";
 
 const Controller = props => {
-    const {selectedRobot, loginToken} = props;
+    const {loginToken} = props;
+    const selectedRobot = {
+        id: 1,
+        title: "LOL"
+    };
 
     const onMove = async direction => {
-        const {loginToken, selectedRobot} = props;
+        const {loginToken} = props;
         await moveRobot(loginToken, direction, selectedRobot.id);
     };
 
@@ -56,10 +60,8 @@ const Controller = props => {
 };
 
 const mapStateToProps = props => {
-    const {selectedRobot} = props.robotState;
     const {loginToken} = props.auth;
     return {
-        selectedRobot,
         loginToken
     };
 };
