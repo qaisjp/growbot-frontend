@@ -1,7 +1,7 @@
-import { signalRemoveRobot } from "../robot_mutators";
+import {signalRemoveRobot} from "../robot_mutators";
 
-export default function(robot) {
-  return dispatch => {
-    dispatch(signalRemoveRobot(robot));
-  };
+export default function (robot) {
+    return dispatch => {
+        dispatch(signalRemoveRobot(robot));
+    };
 }

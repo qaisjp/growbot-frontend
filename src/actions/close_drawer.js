@@ -1,5 +1,5 @@
 export function closeDrawer() {
-  return {
-    type: "APPBAR_CLOSE"
-  };
+    return {
+        type: "APPBAR_CLOSE"
+    };
 }

@@ -5,6 +5,7 @@ body,
   position: relative;
   background-color: white;
 }
+
 a {
   color: $info-color;
 
@@ -26,6 +27,7 @@ select::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {
   outline: 0;
 }
+
 .ui-slider-handle:focus,
 .navbar-toggle,
 input:focus {
@@ -49,10 +51,12 @@ input:focus {
 .btn {
   @include transition($ultra-fast-transition-time, $transition-ease-in);
 }
+
 .fa {
   width: 18px;
   text-align: center;
 }
+
 .margin-top {
   margin-top: 50px;
 }

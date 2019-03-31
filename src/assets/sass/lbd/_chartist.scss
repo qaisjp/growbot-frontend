@@ -180,35 +180,35 @@
   }
 
   .#{$ct-class-chart-bar}
-    .#{$ct-class-label}.#{$ct-class-horizontal}.#{$ct-class-start} {
+  .#{$ct-class-label}.#{$ct-class-horizontal}.#{$ct-class-start} {
     @include ct-align-justify(flex-end, center);
     // Fallback for browsers that don't support foreignObjects
     text-anchor: start;
   }
 
   .#{$ct-class-chart-bar}
-    .#{$ct-class-label}.#{$ct-class-horizontal}.#{$ct-class-end} {
+  .#{$ct-class-label}.#{$ct-class-horizontal}.#{$ct-class-end} {
     @include ct-align-justify(flex-start, center);
     // Fallback for browsers that don't support foreignObjects
     text-anchor: start;
   }
 
   .#{$ct-class-chart-bar}.#{$ct-class-horizontal-bars}
-    .#{$ct-class-label}.#{$ct-class-horizontal}.#{$ct-class-start} {
+  .#{$ct-class-label}.#{$ct-class-horizontal}.#{$ct-class-start} {
     @include ct-align-justify(flex-end, flex-start);
     // Fallback for browsers that don't support foreignObjects
     text-anchor: start;
   }
 
   .#{$ct-class-chart-bar}.#{$ct-class-horizontal-bars}
-    .#{$ct-class-label}.#{$ct-class-horizontal}.#{$ct-class-end} {
+  .#{$ct-class-label}.#{$ct-class-horizontal}.#{$ct-class-end} {
     @include ct-align-justify(flex-start, flex-start);
     // Fallback for browsers that don't support foreignObjects
     text-anchor: start;
   }
 
   .#{$ct-class-chart-bar}.#{$ct-class-horizontal-bars}
-    .#{$ct-class-label}.#{$ct-class-vertical}.#{$ct-class-start} {
+  .#{$ct-class-label}.#{$ct-class-vertical}.#{$ct-class-start} {
     //@include ct-chart-label($ct-text-color, $ct-text-size, center, $ct-vertical-text-justify);
     @include ct-align-justify(center, flex-end);
     // Fallback for browsers that don't support foreignObjects
@@ -216,7 +216,7 @@
   }
 
   .#{$ct-class-chart-bar}.#{$ct-class-horizontal-bars}
-    .#{$ct-class-label}.#{$ct-class-vertical}.#{$ct-class-end} {
+  .#{$ct-class-label}.#{$ct-class-vertical}.#{$ct-class-end} {
     @include ct-align-justify(center, flex-start);
     // Fallback for browsers that don't support foreignObjects
     text-anchor: end;

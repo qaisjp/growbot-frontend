@@ -1,6 +1,6 @@
 import React from "react";
-import { Provider } from "react-redux";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import {Provider} from "react-redux";
+import {BrowserRouter, Route, Switch} from "react-router-dom";
 
 import store from "./store";
 import authRoutes from "./routes/authentication_routes";
@@ -11,19 +11,19 @@ import "./assets/css/pe-icon-7-stroke.css";
 import "react-datetime/css/react-datetime.css";
 
 const App = () => {
-  return (
-    <Provider store={store}>
-      <BrowserRouter>
-        <Switch>
-          {authRoutes.map((prop, key) => {
-            return (
-              <Route path={prop.path} component={prop.component} key={key} />
-            );
-          })}
-        </Switch>
-      </BrowserRouter>
-    </Provider>
-  );
+    return (
+        <Provider store={store}>
+            <BrowserRouter>
+                <Switch>
+                    {authRoutes.map((prop, key) => {
+                        return (
+                            <Route path={prop.path} component={prop.component} key={key}/>
+                        );
+                    })}
+                </Switch>
+            </BrowserRouter>
+        </Provider>
+    );
 };
 
 export default App;
