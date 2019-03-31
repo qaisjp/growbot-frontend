@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import Modal from "../../components/Modal/Modal.jsx";
 
-const PlantsAdd = ({ visible, onClose, onSubmit }) => {
+const PlantsRename = ({ visible, onClose, onSubmit }) => {
   const [name, setName] = useState("");
 
   return (
     <Modal
       open={visible}
       close={onClose}
-      title={"Add Plant"}
+      title={"Rename Plant"}
       content={
         <div>
           <p>Enter a new name for your plant</p>
@@ -41,4 +41,4 @@ const PlantsAdd = ({ visible, onClose, onSubmit }) => {
   );
 };
 
-export default PlantsAdd;
+export default PlantsRename;
