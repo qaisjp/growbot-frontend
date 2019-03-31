@@ -6,7 +6,7 @@ class API {
         this.subscriptions = {};
     }
 
-    _onmessage(event) {
+    onMessage = event => {
         const subs = this.subscriptions;
         const msg = JSON.parse(event.data);
         const type = msg.type;
@@ -21,7 +21,7 @@ class API {
         });
     }
 
-    auth_login(token) {
+    authLogin(token) {
         API.token = token;
 
         if (this.ws !== null) {
@@ -30,7 +30,7 @@ class API {
         }
 
         this.ws = new WebSocket(endpoints.user_stream(token));
-        this.ws.onmessage = this._onmessage.bind(this);
+        this.ws.onmessage = this.onMessage;
     };
 
     subscribe(type, callback) {

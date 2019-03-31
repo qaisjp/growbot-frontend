@@ -13,7 +13,7 @@ export default function (token) {
 
             if (!error) {
                 localStorage.setItem("loginToken", result);
-                API.auth_login(result);
+                API.authLogin(result);
                 dispatch(setLoginToken(result));
                 dispatch(setLoginSuccess(true));
             } else {
