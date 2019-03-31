@@ -2,10 +2,7 @@ import {ADD_ROBOT, REMOVE_ROBOT, RENAME_ROBOT, SELECT_ROBOT} from "../robot_cons
 
 export default function (
     state = {
-        robots: [],
-        selectedRobot: {
-            id: -1
-        }
+        robots: []
     },
     action
 ) {
