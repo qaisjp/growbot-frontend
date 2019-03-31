@@ -77,9 +77,7 @@ const Scheduler = props => {
             recurrences,
             actions
         );
-
-        console.log({summary, recurrences, actions});
-
+        
         if (response.ok) {
             fetchEvents();
         }
