@@ -3,7 +3,6 @@ import {connect} from "react-redux";
 import QrReader from "react-qr-reader";
 
 import Card from "../../components/Card/Card.jsx";
-import Dropdown from "../../components/Dropdown/Dropdown.jsx";
 import LoggingTable from "../../components/Logging/Logging";
 import Modal from "../../components/Modal/Modal.jsx";
 
@@ -30,14 +29,12 @@ import httpFetchLogs from "../../http/fetch_logs";
 const Home = props => {
     const {
         loginToken,
-        reduxAddPlant,
         reduxRobots,
-        reduxSelectRobot,
-        selectedRobot,
         reduxPlants
     } = props;
 
     const [logs, setLogs] = useState([]);
+    const [selectedRobot, setSelectedRobot] = useState({});
     const [newRobotSerialKey, setNewRobotSerialKey] = useState("");
     const [newRobotTitle, setNewRobotTitle] = useState("");
     const [renameRobotTitle, setRenameRobotTitle] = useState("");
@@ -360,6 +357,24 @@ const Home = props => {
                                                             alt="Status"
                                                         />{" "}
                                                         <h5 style={{display: "inline"}}>{robot.title}</h5>
+                                                        <button
+                                                            onClick={() => {
+                                                                setSelectedRobot(robot)
+                                                                removeRobotModalVisible(true)}}
+                                                            type="button"
+                                                            className="btn btn-sm btn-danger pull-right"
+                                                        >
+                                                            <i className="glyphicon glyphicon-trash"/>
+                                                        </button>
+                                                        <button
+                                                            onClick={() => {
+                                                                setSelectedRobot(robot)
+                                                                renameRobotModalVisible(true)}}
+                                                            type="button"
+                                                            className="btn btn-sm btn-danger pull-right"
+                                                        >
+                                                            <i className="glyphicon glyphicon-pencil"/>
+                                                        </button>
                                                         <div style={{marginBottom: "10px"}}/>
                                                         <span
                                                             style={{marginRight: "15px"}}
@@ -372,26 +387,6 @@ const Home = props => {
                                                 </div>
                                             ))}
                                     </ul>
-                                    <button
-                                        style={{marginRight: "10px"}}
-                                        onClick={() => removeRobotModalVisible(true)}
-                                        className="btn btn-danger"
-                                    >
-                                        Remove Robot
-                                    </button>
-                                    <button
-                                        onClick={() => renameRobotModalVisible(true)}
-                                        className="btn btn-danger"
-                                    >
-                                        Rename Robot
-                                    </button>
-                                    {localStorage.test && (
-                                        <Dropdown
-                                            name="Test"
-                                            items={[1, 2, 3, 4, 5]}
-                                            click={() => console.log("lol")}
-                                        />
-                                    )}
                                 </div>
                             }
                         />
@@ -417,12 +412,11 @@ const Home = props => {
 };
 
 const mapStateToProps = props => {
-    const {robots, selectedRobot} = props.robotState;
+    const {robots} = props.robotState;
     const {plants} = props.plantState;
     const {loginToken} = props.auth;
     return {
         reduxRobots: robots,
-        selectedRobot,
         loginToken,
         reduxPlants: plants
     };
