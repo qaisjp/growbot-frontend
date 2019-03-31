@@ -27,7 +27,7 @@ const Logging = props => {
           const plant = plantName ? <span><strong>Plant: </strong>{plantName}</span> : null;
 
           return (
-            <tr className={severity[entry.severity]}>
+            <tr key={entry.id} className={severity[entry.severity]}>
               <td>
                 {entry.message} <br /> {robot} {(robotName && plantName ? "•" : null)} {plant}
               </td>
