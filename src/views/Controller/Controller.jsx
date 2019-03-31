@@ -1,17 +1,19 @@
-import React from "react";
+import React, {useState} from "react";
 import {connect} from "react-redux";
 
 import moveRobot from "../../http/move_robot";
 import Card from "../../components/Card/Card";
+import Dropdown from "../../components/Dropdown/Dropdown";
 import Gamepad from "../../components/Gamepad/Gamepad";
 import endpoints from "../../endpoints";
 
 const Controller = props => {
-    const {loginToken} = props;
-    const selectedRobot = {
+    const {robots, loginToken} = props;
+    const robotNames = robots.map(robot => robot.title);
+    const [selectedRobot, selectRobot] = useState({
         id: 1,
-        title: "LOL"
-    };
+        title: "Please select a robot!"
+    });
 
     const onMove = async direction => {
         const {loginToken} = props;
@@ -38,7 +40,22 @@ const Controller = props => {
                 <div className="row">
                     <div className="col-md-6">
                         <Card
-                            title={<span>Controller - {selectedRobot.title}</span>}
+                            title={
+                                <span
+                                    style={{
+                                        display: "flex",
+                                        justifyContent: "space-between",
+                                        alignItems: "center"
+                                    }}
+                                >
+                                  <span>Controller - {selectedRobot.title}</span>
+                                    <Dropdown style={{display: "inline"}} name="Robots" items={robotNames}
+                                              click={robotName => {
+                                                  const idx = robotNames.indexOf(robotName);
+                                                  selectRobot(robots[idx]);
+                                              }}/>
+                                </span>
+                            }
                             content={createGamepad()}
                         />
                     </div>
@@ -60,8 +77,10 @@ const Controller = props => {
 };
 
 const mapStateToProps = props => {
+    const {robots} = props.robotState;
     const {loginToken} = props.auth;
     return {
+        robots,
         loginToken
     };
 };

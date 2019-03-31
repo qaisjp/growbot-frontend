@@ -360,7 +360,8 @@ const Home = props => {
                                                         <button
                                                             onClick={() => {
                                                                 setSelectedRobot(robot)
-                                                                removeRobotModalVisible(true)}}
+                                                                removeRobotModalVisible(true)
+                                                            }}
                                                             type="button"
                                                             className="btn btn-sm btn-danger pull-right"
                                                         >
@@ -369,7 +370,8 @@ const Home = props => {
                                                         <button
                                                             onClick={() => {
                                                                 setSelectedRobot(robot)
-                                                                renameRobotModalVisible(true)}}
+                                                                renameRobotModalVisible(true)
+                                                            }}
                                                             type="button"
                                                             className="btn btn-sm btn-danger pull-right"
                                                         >
