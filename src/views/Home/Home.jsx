@@ -359,12 +359,14 @@ const Home = props => {
                                                             }
                                                             alt="Status"
                                                         />{" "}
-                                                        {robot.title}
+                                                        <h5 style={{display: "inline"}}>{robot.title}</h5>
+                                                        <div style={{marginBottom: "10px"}}/>
                                                         <span
                                                             style={{marginRight: "15px"}}
                                                             className="label label-primary"
                                                         >{`Water: ${robot.water_level}ml`}</span>
-                                                        <span className="label label-default">{`Battery: ${
+                                                        <span
+                                                            className="label label-default">{`Battery: ${
                                                             robot.battery_level
                                                             }%`}</span></li>
                                                 </div>
