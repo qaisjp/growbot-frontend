@@ -6,7 +6,6 @@ import Card from "../../components/Card/Card.jsx";
 import Dropdown from "../../components/Dropdown/Dropdown.jsx";
 import LoggingTable from "../../components/Logging/Logging";
 import Modal from "../../components/Modal/Modal.jsx";
-import SelectableList from "../../components/List/SelectableList.jsx";
 
 import getPlantName from "../../components/Logging/logging_get_plant_name";
 import getRobotName from "../../components/Logging/logging_get_robot_name";
@@ -346,13 +345,12 @@ const Home = props => {
                             }
                             content={
                                 <div>
-                                    <SelectableList
-                                        onSelect={idx => reduxSelectRobot(reduxRobots[idx])}
-                                        items={reduxRobots
+                                    <ul className="list-group">
+                                        {reduxRobots
                                             .filter(robot => robot !== undefined)
                                             .map(robot => (
                                                 <div>
-                                                    <h4 className="list-group-item-heading">
+                                                    <li className="list-group-item">
                                                         <img
                                                             src={
                                                                 robot.seen_at !== null
@@ -362,17 +360,16 @@ const Home = props => {
                                                             alt="Status"
                                                         />{" "}
                                                         {robot.title}
-                                                    </h4>
-                                                    <span
-                                                        style={{marginRight: "15px"}}
-                                                        className="label label-primary"
-                                                    >{`Water: ${robot.water_level}ml`}</span>
-                                                    <span className="label label-default">{`Battery: ${
-                                                        robot.battery_level
-                                                        }%`}</span>
+                                                        <span
+                                                            style={{marginRight: "15px"}}
+                                                            className="label label-primary"
+                                                        >{`Water: ${robot.water_level}ml`}</span>
+                                                        <span className="label label-default">{`Battery: ${
+                                                            robot.battery_level
+                                                            }%`}</span></li>
                                                 </div>
                                             ))}
-                                    />
+                                    </ul>
                                     <button
                                         style={{marginRight: "10px"}}
                                         onClick={() => removeRobotModalVisible(true)}

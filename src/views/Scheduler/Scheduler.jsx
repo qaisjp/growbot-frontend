@@ -77,7 +77,7 @@ const Scheduler = props => {
             recurrences,
             actions
         );
-        
+
         if (response.ok) {
             fetchEvents();
         }
