@@ -25,7 +25,7 @@ import httpRemoveRobot from "../../http/remove_robot";
 
 import PlantsCard from "./PlantsCard";
 import httpFetchLogs from "../../http/fetch_logs";
-import {api, NEW_LOG_ENTRY} from "../../API";
+import {api, NEW_LOG_ENTRY, UPDATE_ROBOT_STATE} from "../../API";
 
 const Home = props => {
     const {
@@ -52,13 +52,48 @@ const Home = props => {
     };
     api.subscribe(NEW_LOG_ENTRY, newLogEntryCallback);
 
+    const newRobotStateCallback = state => {
+        const {reduxRemoveRobot, reduxAddRobot} = props;
+
+        const id = state.id;
+        const filteredList = reduxRobots.filter(robot => robot.id === id);
+        const robot = filteredList.length === 1 ? filteredList.pop() : null;
+
+
+        if(robot) {
+            reduxRemoveRobot(robot);
+
+            if("seen_at" in state) {
+                robot.seen_at = state["seen_at"];
+            }
+
+            if("distress" in state) {
+                robot.distress = state["distress"];
+            }
+
+            if("water_level" in state) {
+                robot.water_level = state["water_level"];
+            }
+
+            if("battery_level" in state) {
+                robot.battery_level = state["battery_level"];
+            }
+
+            reduxAddRobot(robot);
+        }
+    };
 
     useEffect(() => {
         fetchRobots();
         fetchPlants();
         fetchLogs();
+
+        api.subscribe(NEW_LOG_ENTRY, newLogEntryCallback);
+        api.subscribe(UPDATE_ROBOT_STATE, newRobotStateCallback);
+
         return () => {
             api.unsubscribe(NEW_LOG_ENTRY, newLogEntryCallback);
+            api.unsubscribe(UPDATE_ROBOT_STATE, newRobotStateCallback);
         }
     }, []);
 
@@ -370,7 +405,8 @@ const Home = props => {
                                                     <span className="pull-right">
                                                         <button
                                                             onClick={() => {
-                                                                setSelectedRobot(robot)
+                                                                console.log(robot);
+                                                                setSelectedRobot(robot);
                                                                 renameRobotModalVisible(true)
                                                             }}
                                                             type="button"

@@ -15,10 +15,12 @@ const Logging = props => {
     const newLogEntryCallback = entry => {
         setLogs([entry, ...logs]);
     };
-    api.subscribe(NEW_LOG_ENTRY, newLogEntryCallback);
 
     useEffect(() => {
         fetchLogs();
+
+        api.subscribe(NEW_LOG_ENTRY, newLogEntryCallback);
+
         return () => {
             api.unsubscribe(NEW_LOG_ENTRY, newLogEntryCallback);
         }
