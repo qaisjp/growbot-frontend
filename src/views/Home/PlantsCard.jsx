@@ -13,6 +13,7 @@ import removePlant from "../../actions/remove_plant";
 import PlantsAdd from "./PlantsAdd";
 import PlantsRemove from "./PlantsRemove";
 import PlantsRename from "./PlantsRename"
+import PlantsPrint from "./PlantsPrint.jsx";
 
 const PlantsCard = props => {
     const [selectedPlant, selectPlant] = useState({});
@@ -123,6 +124,13 @@ const PlantsCard = props => {
                                     <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                         {plant.name}
                                         <span>
+                                            <MiniButton icon="print"
+                                                onClick={() => {
+                                                    const plant = reduxPlants[idx];
+                                                    selectPlant(plant);
+                                                    setModal({ name: "print", plant })
+                                                }}
+                                            />
                                             <MiniButton icon="pencil"
                                                 onClick={() => {
                                                     const plant = reduxPlants[idx];
@@ -150,6 +158,11 @@ const PlantsCard = props => {
                 onSubmit={onAddPlant}
                 visible={modalName() === "add"}
                 onClose={resetModal}
+            />
+            <PlantsPrint
+                visible={modalName() === "print"}
+                onClose={resetModal}
+                {...modalData()}
             />
             <PlantsRename
                 onSubmit={onRenamePlant}
