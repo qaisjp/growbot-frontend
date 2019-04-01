@@ -25,13 +25,14 @@ const Logging = props => {
                 const plantName = getPlantName(entry.plant_id, reduxPlants);
                 const robot = robotName ? <span><strong>Robot: </strong>{robotName}</span> : null;
                 const plant = plantName ? <span><strong>Plant: </strong>{plantName}</span> : null;
+                const time = moment(entry.created_at);
 
                 return (
                     <tr key={entry.id} className={severity[entry.severity]}>
                         <td>
                             {entry.message} <br/> {robot} {(robotName && plantName ? "•" : null)} {plant}
                         </td>
-                        <td>{moment(entry.created_at).fromNow()}</td>
+                        <td title={time.calendar()}>{time.fromNow()}</td>
                     </tr>
                 )
             })}
