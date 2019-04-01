@@ -235,11 +235,11 @@ const Home = props => {
                         setAlertMessage("");
                         renameRobotModalVisible(false);
                     }}
-                    className="btn btn-danger"
+                    className="btn btn-secondary"
                 >
                     Close
                 </button>
-                <button onClick={onRenameRobot} className="btn btn-danger">
+                <button onClick={onRenameRobot} className="btn btn-primary">
                     Rename
                 </button>
             </React.Fragment>
@@ -255,7 +255,7 @@ const Home = props => {
                     onClick={() => {
                         removeRobotModalVisible(false);
                     }}
-                    className="btn btn-danger"
+                    className="btn btn-secondary"
                 >
                     Close
                 </button>
@@ -317,11 +317,11 @@ const Home = props => {
                         setAlertMessage("");
                         addRobotModalVisible(false);
                     }}
-                    className="btn btn-danger"
+                    className="btn btn-secondary"
                 >
                     Close
                 </button>
-                <button onClick={onAddRobot} className="btn btn-danger">
+                <button onClick={onAddRobot} className="btn btn-primary">
                     Add
                 </button>
             </React.Fragment>
@@ -377,10 +377,10 @@ const Home = props => {
                                         alignItems: "center"
                                     }}
                                 >
-                  <span>Your Robots</span>
+                  <span>Robots</span>
                   <button
                       onClick={() => addRobotModalVisible(true)}
-                      className="btn btn-sm btn-danger"
+                      className="btn btn-primary"
                   >
                     Add Robot
                   </button>
@@ -411,7 +411,7 @@ const Home = props => {
                                                                 renameRobotModalVisible(true)
                                                             }}
                                                             type="button"
-                                                            className="btn btn-sm btn-danger"
+                                                            className="btn btn-sm btn-secondary"
                                                             style={{ marginRight: "0.5em" }}
                                                         >
                                                             <i className="glyphicon glyphicon-pencil" />

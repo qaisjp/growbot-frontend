@@ -108,7 +108,7 @@ const PlantsCard = props => {
                             alignItems: "center"
                         }}
                     >
-            <span>Your Plants</span>
+            <span>Plants</span>
             <button
                 onClick={() => setModal({ name: "add" })}
                 className="btn btn-primary"
