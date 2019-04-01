@@ -20,8 +20,10 @@ const Scheduler = props => {
 
     const [actionDropdownVisible, setActionDropdownVisible] = useState(true);
     const [summary, setSummary] = useState("");
+    const [actionToDelete, setActionToDelete] = useState(null);
     const [events, setEvents] = useState([]);
-    const [eventActions,] = useState([]);
+    const [eventActions, setEventActions] = useState([]);
+    const [deleteActionModalOpen, deleteActionModalVisible] = useState(false);
     const [schedulerModalOpen, schedulerModalVisible] = useState(false);
     const [robot, selectRobot] = useState("");
     const [plant, selectPlant] = useState("");
@@ -192,9 +194,24 @@ const Scheduler = props => {
                             className="list-group"
                         >
                             {eventActions.map((action, idx) => (
+
                                 <li className="list-group-item">
                                     {idx + 1 + ". " + action.name}
+
+                                    <button
+                                        onClick={() => {
+                                            const updatedEventActions = eventActions.filter((action, selectedIdx) => selectedIdx !== idx);
+                                            setEventActions(updatedEventActions);
+                                        }}
+                                        style={{marginLeft:"10px"}}
+                                        type="button"
+                                        className="btn btn-sm btn-danger"
+                                    >
+                                        <i className="glyphicon glyphicon-trash" />
+                                    </button>
                                 </li>
+
+
                             ))}
                         </ul>
                     </div>
@@ -271,6 +288,31 @@ const Scheduler = props => {
         );
     };
 
+    const createDeleteActionModalContent = () => {
+        return <React.Fragment />
+    };
+
+    const createDeleteActionModalActions = () => {
+        return (
+            <React.Fragment>
+                <button
+                    onClick={() => {
+                        deleteActionModalVisible(false);
+                    }}
+                    className="btn btn-danger"
+                >
+                    Close
+                </button>
+                <button
+                    onClick={() => setActionDropdownVisible(true)}
+                    className="btn btn-danger"
+                >
+                    Delete
+                </button>
+            </React.Fragment>
+        );
+    };
+
     return (
         <div className="content">
             <Modal
@@ -279,6 +321,13 @@ const Scheduler = props => {
                 title="Scheduler"
                 content={createSchedulerModalContent()}
                 footer={createSchedulerModalActions()}
+            />
+            <Modal
+                open={deleteActionModalOpen}
+                close={() => deleteActionModalVisible(false)}
+                title="Are you sure you want to delete this action?"
+                content={createDeleteActionModalContent()}
+                footer={createDeleteActionModalActions()}
             />
             <Card
                 title={
@@ -305,6 +354,7 @@ const Scheduler = props => {
                             .map((event, idx) => (
                                 <li key={idx} className="list-group-item">
                                     {event.summary}
+
                                 </li>
                             ))}
                     </ul>
