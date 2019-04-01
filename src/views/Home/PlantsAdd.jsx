@@ -26,12 +26,12 @@ const PlantsAdd = ({visible, onClose, onSubmit}) => {
             }
             footer={
                 <>
-                    <button onClick={onClose} className="btn btn-danger">
+                    <button onClick={onClose} className="btn btn-secondary">
                         Close
                     </button>
                     <button
                         onClick={onSubmit.bind(null, newPlantName)}
-                        className="btn btn-danger"
+                        className="btn btn-primary"
                     >
                         Add
                     </button>

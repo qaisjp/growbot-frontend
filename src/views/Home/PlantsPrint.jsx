@@ -40,13 +40,13 @@ const PlantsPrint = ({ visible, onClose, onSubmit, plant }) => {
             }
             footer={
                 <>
-                    <ReactToPrint
-                        trigger={() => <button className="btn btn-info">Print</button>}
-                        content={() => qrCode.current}
-                    />
-                    <button onClick={onClose} className="btn btn-danger">
+                    <button onClick={onClose} className="btn btn-secondary">
                         Close
                     </button>
+                    <ReactToPrint
+                        trigger={() => <button className="btn btn-primary">Print</button>}
+                        content={() => qrCode.current}
+                    />
                 </>
             }
         />
