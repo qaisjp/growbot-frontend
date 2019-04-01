@@ -392,7 +392,7 @@ const Home = props => {
                                         {reduxRobots
                                             .filter(robot => robot !== undefined)
                                             .map(robot => (
-                                                <li className="list-group-item">
+                                                <li key={robot.id} className="list-group-item">
                                                     <img
                                                         src={
                                                             robot.seen_at !== null
@@ -400,7 +400,8 @@ const Home = props => {
                                                                 : red_circle
                                                         }
                                                         alt="Status"
-                                                    />{" "}
+                                                        style={{marginRight: ".5em"}}
+                                                    />
                                                     <h5 style={{ display: "inline" }}>{robot.title}</h5>
                                                     <span className="pull-right">
                                                         <button
