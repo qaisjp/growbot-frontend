@@ -74,6 +74,19 @@ const PlantsCard = props => {
         addPlantModalVisible(false);
     };
 
+    const MiniButton = ({icon, onClick}) => {
+        return (
+            <button
+                onClick={onClick}
+                type="button"
+                className="btn btn-sm btn-danger"
+                style={{marginLeft: "0.5em"}}
+            >
+                <i className={`glyphicon glyphicon-${icon}`}/>
+            </button>
+        );
+    }
+
     return (
         <React.Fragment>
             <Card
@@ -103,31 +116,22 @@ const PlantsCard = props => {
                                     <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignContent: "middle"}}>
                                         {plant.name}{" "}
                                         <span>
-                                            <button
+                                            <MiniButton icon="pencil"
                                                 onClick={() => {
                                                     const plant = reduxPlants[idx];
                                                     selectPlant(plant);
                                                     setRenamePlantText(plant.name);
                                                     renamePlantModalVisible(true);
                                                 }}
-                                                type="button"
-                                                className="btn btn-sm btn-danger"
-                                            >
-                                                <i className="glyphicon glyphicon-pencil"/>
-                                            </button>
+                                            />
                                             {" "}
-                                            <button
+                                            <MiniButton icon="trash"
                                                 onClick={() => {
                                                     const plant = reduxPlants[idx];
                                                     selectPlant(plant);
                                                     removePlantModalVisible(true);
                                                 }}
-                                                type="button"
-                                                style={{marginLeft: "0.5em"}}
-                                                className="btn btn-sm btn-danger"
-                                            >
-                                                <i className="glyphicon glyphicon-trash"/>
-                                            </button>
+                                            />
                                         </span>
                                     </li>
                                 ))}
