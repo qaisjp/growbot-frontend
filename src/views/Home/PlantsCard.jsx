@@ -84,12 +84,12 @@ const PlantsCard = props => {
         setModal({ name: "print", plant: {id: data.id, name} })
     };
 
-    const MiniButton = ({icon, onClick}) => {
+    const MiniButton = ({icon, onClick, color}) => {
         return (
             <button
                 onClick={onClick}
                 type="button"
-                className="btn btn-sm btn-danger"
+                className={`btn btn-sm btn-${color}`}
                 style={{marginLeft: "0.5em"}}
             >
                 <i className={`glyphicon glyphicon-${icon}`}/>
@@ -111,7 +111,7 @@ const PlantsCard = props => {
             <span>Your Plants</span>
             <button
                 onClick={() => setModal({ name: "add" })}
-                className="btn btn-sm btn-danger"
+                className="btn btn-primary"
             >
               Add Plant
             </button>
@@ -126,14 +126,14 @@ const PlantsCard = props => {
                                     <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                         {plant.name}
                                         <span>
-                                            <MiniButton icon="print"
+                                            <MiniButton icon="print" color="secondary"
                                                 onClick={() => {
                                                     const plant = reduxPlants[idx];
                                                     selectPlant(plant);
                                                     setModal({ name: "print", plant })
                                                 }}
                                             />
-                                            <MiniButton icon="pencil"
+                                            <MiniButton icon="pencil" color="secondary"
                                                 onClick={() => {
                                                     const plant = reduxPlants[idx];
                                                     selectPlant(plant);
@@ -141,7 +141,7 @@ const PlantsCard = props => {
                                                     setModal({ name: "rename" });
                                                 }}
                                             />
-                                            <MiniButton icon="trash"
+                                            <MiniButton icon="trash" color="danger"
                                                 onClick={() => {
                                                     const plant = reduxPlants[idx];
                                                     selectPlant(plant);
