@@ -112,8 +112,8 @@ const PlantsCard = props => {
                             {reduxPlants
                                 .filter(plant => plant !== undefined)
                                 .map((plant, idx) => (
-                                    <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignContent: "middle"}}>
-                                        {plant.name}{" "}
+                                    <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                        {plant.name}
                                         <span>
                                             <MiniButton icon="pencil"
                                                 onClick={() => {
