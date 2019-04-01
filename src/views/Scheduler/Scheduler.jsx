@@ -363,9 +363,8 @@ const Scheduler = props => {
                         {events
                             .filter(event => event !== undefined)
                             .map((event, idx) => (
-                                <li key={idx} className="list-group-item">
-                                    {event.summary}
-                                    <span className="pull-right">
+                                <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                    <span>{event.summary}</span>
                                     <button
                                         onClick={() => {
                                             setEventToDelete(event.id);
@@ -375,7 +374,7 @@ const Scheduler = props => {
                                         className="btn btn-sm btn-danger"
                                     >
                                         <i className="glyphicon glyphicon-trash" />
-                                    </button></span>
+                                    </button>
                                 </li>
                             ))}
                     </ul>
