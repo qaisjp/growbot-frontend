@@ -349,12 +349,12 @@ const Scheduler = props => {
                             alignItems: "center"
                         }}
                     >
-            <span>Your Scheduled Actions</span>
+            <span>Events</span>
             <button
                 onClick={() => schedulerModalVisible(true)}
-                className="btn btn-sm btn-danger"
+                className="btn btn-primary"
             >
-              Schedule New Action
+              Create Event
             </button>
           </span>
                 }
