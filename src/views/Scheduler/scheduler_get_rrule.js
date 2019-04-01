@@ -1,6 +1,7 @@
 import {RRule} from "rrule/dist/esm/src/index";
 
 export default function (
+    startDate,
     repetitionQuantity,
     repetitionUnit,
     repetitionEnd,
@@ -63,14 +64,14 @@ export default function (
             freq: freq,
             interval: interval,
             byweekday: byweekdays,
-            dtstart: new Date()
+            dtstart: startDate
         };
     } else if (repetitionEnd === "on") {
         return {
             freq: freq,
             interval: interval,
             byweekday: byweekdays,
-            dtstart: new Date(),
+            dtstart: startDate,
             until: dtend
         };
     }
@@ -79,6 +80,6 @@ export default function (
         interval: interval,
         count: count,
         byweekday: byweekdays,
-        dtstart: new Date()
+        dtstart: startDate
     };
 }

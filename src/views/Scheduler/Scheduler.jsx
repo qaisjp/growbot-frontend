@@ -19,7 +19,8 @@ import units from "./scheduler_time_units";
 const Scheduler = props => {
     const {loginToken, reduxPlants, reduxRobots} = props;
 
-    const [actionDropdownVisible, setActionDropdownVisible] = useState(true);
+    const [actionVisible, setActionVisible] = useState(true);
+    const [startDate, setStartDate] = useState(new Date());
     const [summary, setSummary] = useState("");
     const [eventToDelete, setEventToDelete] = useState(-1);
     const [events, setEvents] = useState([]);
@@ -64,9 +65,10 @@ const Scheduler = props => {
 
     const onSchedule = async () => {
         const rruleObj = getRRule(
+            startDate._d,
             repeatEveryNumber,
             repeatEveryUnit,
-            date,
+            date._d,
             afterOccurances,
             daySelected[MONDAY],
             daySelected[TUESDAY],
@@ -79,10 +81,10 @@ const Scheduler = props => {
 
         const recurrences = [new RRule(rruleObj).toString()];
         const actions = eventActions.map(action => ({
-            name: action.typeStr,
+            name: action.type,
             data: {},
-            robot_id: robot.id,
-            plant_id: plant.id
+            robot_id: action.robot_id,
+            plant_id: action.plant_id
         }));
         const response = await httpScheduleAction(
             loginToken,
@@ -90,6 +92,8 @@ const Scheduler = props => {
             recurrences,
             actions
         );
+
+        console.log({summary, recurrences, actions});
 
         if (response.ok) {
             fetchEvents();
@@ -110,7 +114,11 @@ const Scheduler = props => {
                     style={{marginRight: "10px"}}
                     type="checkbox"
                     checked={daySelected[day]}
-                    onClick={() => setDaySelected({day: !day})}
+                    onClick={() => {
+                        const daysSelectedRef = daySelected;
+                        daysSelectedRef[day] = !daysSelectedRef[day];
+                        setDaySelected(daysSelectedRef)
+                    }}
                 />
             </React.Fragment>
         );
@@ -124,6 +132,17 @@ const Scheduler = props => {
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-6">
+                        <label>Summary</label>
+                        <input
+                            onChange={event => setSummary(event.target.value)}
+                            style={{marginLeft: "10px"}}
+                            type="text"
+                        />
+                        <div style={{marginTop: "10px"}}/>
+                        <label style={{marginRight: "10px"}}>Start date</label>
+                        <Datetime onChange={setStartDate} value={startDate}/>
+                        <div style={{marginTop: "10px"}}/>
+                        <div style={{display: actionVisible ? "inline" : "none"}}>
                         <label>Robots</label>
                         <Dropdown
                             name="Robots"
@@ -147,32 +166,27 @@ const Scheduler = props => {
                             }}
                         />
                         <div style={{marginTop: "10px"}}/>
-                        <label>Summary</label>
-                        <input
-                            onChange={event => setSummary(event.target.value)}
-                            style={{marginLeft: "10px"}}
-                            type="text"
-                        />
-                        <div style={{marginTop: "10px"}}/>
-                        <label
-                            style={{display: actionDropdownVisible ? "inline" : "none"}}
-                        >
+                        <label>
                             Action
                         </label>
                         <Dropdown
                             name="Actions"
                             style={{
-                                display: actionDropdownVisible ? "inline" : "none",
-                                marginLeft: "10px"
+                                display: "inline", marginLeft: "10px"
                             }}
                             items={actionNames}
                             click={actionName => {
-                                const idx = actionNames.indexOf(actionName);
-                                eventActions.push(actions[idx]);
-                                selectAction(actions[idx]);
-                                setActionDropdownVisible(false);
+                                if(plant && robot) {
+                                    const idx = actionNames.indexOf(actionName);
+                                    eventActions.push({
+                                        name: actions[idx].name, type: actions[idx].type, robot_id: robot.id, plant_id: plant.id
+                                    });
+                                    selectAction(actions[idx]);
+                                    setActionVisible(false);
+                                }
                             }}
                         />
+                        </div>
                         <div style={{marginTop: "10px"}}/>
                         <label>Repeat</label>
                         <input
@@ -287,7 +301,8 @@ const Scheduler = props => {
                     Close
                 </button>
                 <button
-                    onClick={() => setActionDropdownVisible(true)}
+                    onClick={() => {
+                        setActionVisible(true)}}
                     className="btn btn-danger"
                 >
                     Add Another Action
