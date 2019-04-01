@@ -79,6 +79,8 @@ const Scheduler = props => {
             daySelected[SUNDAY]
         );
 
+        console.log(rruleObj);
+        
         const recurrences = [new RRule(rruleObj).toString()];
         const actions = eventActions.map(action => ({
             name: action.type,

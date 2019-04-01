@@ -16,19 +16,19 @@ export default function (
     checkedSunday
 ) {
     let freq = null;
-    if (repetitionUnit === "Second") {
+    if (repetitionUnit === "Seconds") {
         freq = RRule.SECONDLY;
-    } else if (repetitionUnit === "Minute") {
+    } else if (repetitionUnit === "Minutes") {
         freq = RRule.MINUTELY;
-    } else if (repetitionUnit === "Hour") {
+    } else if (repetitionUnit === "Hours") {
         freq = RRule.HOURLY;
-    } else if (repetitionUnit === "Day") {
+    } else if (repetitionUnit === "Days") {
         freq = RRule.DAILY;
-    } else if (repetitionUnit === "Week") {
+    } else if (repetitionUnit === "Weeks") {
         freq = RRule.WEEKLY;
-    } else if (repetitionUnit === "Month") {
+    } else if (repetitionUnit === "Months") {
         freq = RRule.MONTHLY;
-    } else if (repetitionUnit === "Year") {
+    } else if (repetitionUnit === "Years") {
         freq = RRule.YEARLY;
     }
 
