@@ -100,33 +100,35 @@ const PlantsCard = props => {
                             {reduxPlants
                                 .filter(plant => plant !== undefined)
                                 .map((plant, idx) => (
-                                    <li key={idx} className="list-group-item">
+                                    <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignContent: "middle"}}>
                                         {plant.name}{" "}
-                                        <button
-                                            onClick={() => {
-                                                const plant = reduxPlants[idx];
-                                                selectPlant(plant);
-                                                removePlantModalVisible(true);
-                                            }}
-                                            type="button"
-                                            style={{marginLeft: "10px"}}
-                                            className="btn btn-sm btn-danger pull-right"
-                                        >
-                                            <i className="glyphicon glyphicon-trash"/>
-                                        </button>
-                                        {" "}
-                                        <button
-                                            onClick={() => {
-                                                const plant = reduxPlants[idx];
-                                                selectPlant(plant);
-                                                setRenamePlantText(plant.name);
-                                                renamePlantModalVisible(true);
-                                            }}
-                                            type="button"
-                                            className="btn btn-sm btn-danger pull-right"
-                                        >
-                                            <i className="glyphicon glyphicon-pencil"/>
-                                        </button>
+                                        <span>
+                                            <button
+                                                onClick={() => {
+                                                    const plant = reduxPlants[idx];
+                                                    selectPlant(plant);
+                                                    setRenamePlantText(plant.name);
+                                                    renamePlantModalVisible(true);
+                                                }}
+                                                type="button"
+                                                className="btn btn-sm btn-danger"
+                                            >
+                                                <i className="glyphicon glyphicon-pencil"/>
+                                            </button>
+                                            {" "}
+                                            <button
+                                                onClick={() => {
+                                                    const plant = reduxPlants[idx];
+                                                    selectPlant(plant);
+                                                    removePlantModalVisible(true);
+                                                }}
+                                                type="button"
+                                                style={{marginLeft: "0.5em"}}
+                                                className="btn btn-sm btn-danger"
+                                            >
+                                                <i className="glyphicon glyphicon-trash"/>
+                                            </button>
+                                        </span>
                                     </li>
                                 ))}
                         </ul>
