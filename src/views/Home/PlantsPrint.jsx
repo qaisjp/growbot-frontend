@@ -12,7 +12,7 @@ const PlantsPrint = ({ visible, onClose, onSubmit, plant }) => {
     // From https://stackoverflow.com/a/18500019/1517394
     const times = function(n, iterator) {
         var accum = Array(Math.max(0, n));
-        for (var i = 0; i < n; i++) accum[i] = iterator.call();
+        for (var i = 0; i < n; i++) accum[i] = iterator.call(null, i);
         return accum;
     };
 
@@ -21,7 +21,7 @@ const PlantsPrint = ({ visible, onClose, onSubmit, plant }) => {
         <div ref={qrCode}>
             {
                 times(6,
-                    () => <QRCode value={`gbpl:${plant.id}`} level="H" size={925} includeMargin={true} style={{borderRight: "dashed black 20px"}} />
+                    i => <QRCode key={i} value={`gbpl:${plant.id}`} level="H" size={925} includeMargin={true} style={{borderRight: "dashed black 20px"}} />
                 )
             }
         </div>
