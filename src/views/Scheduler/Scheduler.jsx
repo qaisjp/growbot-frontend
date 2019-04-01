@@ -58,6 +58,8 @@ const Scheduler = props => {
         if(removeEventResult.status === 200) {
             fetchEvents();
         }
+
+        deleteEventModalVisible(false);
     };
 
     const onSchedule = async () => {
@@ -298,7 +300,7 @@ const Scheduler = props => {
     };
 
     const createDeleteEventModalContent = () => {
-        return <React.Fragment />
+        return <p>Are you sure you want to remove this event?</p>;
     };
 
     const createDeleteEventModalActions = () => {
@@ -334,7 +336,7 @@ const Scheduler = props => {
             <Modal
                 open={deleteEventModalOpen}
                 close={() => deleteEventModalVisible(false)}
-                title="Are you sure you want to delete this event?"
+                title="Delete Event"
                 content={createDeleteEventModalContent()}
                 footer={createDeleteEventModalActions()}
             />
