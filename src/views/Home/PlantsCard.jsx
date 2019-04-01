@@ -16,13 +16,21 @@ import PlantsRename from "./PlantsRename"
 
 const PlantsCard = props => {
     const [selectedPlant, selectPlant] = useState({});
-    const [currentModal, setModal] = useState({});
+    const [modal, setModal] = useState({});
     const [renamePlantText, setRenamePlantText] = useState("");
 
     const {loginToken, plants, onPlantAdded} = props;
 
     const reduxPlants = plants;
     const resetModal = () => setModal({});
+    const modalData = () => {
+        const {name, ...data} = modal;
+        return data;
+    }
+    const modalName = () => {
+        const {name, ...data} = modal;
+        return name;
+    }
 
     const onRenamePlant = async (renamePlantName) => {
         console.log(reduxPlants);
@@ -140,18 +148,18 @@ const PlantsCard = props => {
 
             <PlantsAdd
                 onSubmit={onAddPlant}
-                visible={currentModal.name === "add"}
+                visible={modalName() === "add"}
                 onClose={resetModal}
             />
             <PlantsRename
                 onSubmit={onRenamePlant}
-                visible={currentModal.name === "rename"}
+                visible={modalName() === "rename"}
                 onClose={resetModal}
                 defaultText={renamePlantText}
             />
             <PlantsRemove
                 onSubmit={onRemovePlant}
-                visible={currentModal.name === "remove"}
+                visible={modalName() === "remove"}
                 onClose={resetModal}
             />
         </React.Fragment>
