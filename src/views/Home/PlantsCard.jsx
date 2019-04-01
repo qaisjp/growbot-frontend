@@ -16,10 +16,8 @@ import PlantsRename from "./PlantsRename"
 
 const PlantsCard = props => {
     const [selectedPlant, selectPlant] = useState({});
-    const [addPlantModalOpen, addPlantModalVisible] = useState(false);
-    const [renamePlantModalOpen, renamePlantModalVisible] = useState(false);
+    const [currentModal, setModal] = useState(null);
     const [renamePlantText, setRenamePlantText] = useState("");
-    const [removePlantModalOpen, removePlantModalVisible] = useState(false);
 
     const {loginToken, plants, onPlantAdded} = props;
 
@@ -45,7 +43,7 @@ const PlantsCard = props => {
             reduxRenamePlant(selectedPlant, renamePlantName);
         }
 
-        renamePlantModalVisible(false);
+        setModal(null);
     };
     const onRemovePlant = async () => {
         const {reduxRemovePlant} = props;
@@ -56,7 +54,7 @@ const PlantsCard = props => {
             reduxRemovePlant(selectedPlant);
         }
 
-        removePlantModalVisible(false);
+        setModal(null);
     };
     const onAddPlant = async newPlantName => {
         if (newPlantName === "") {
@@ -71,7 +69,7 @@ const PlantsCard = props => {
             onPlantAdded();
         }
 
-        addPlantModalVisible(false);
+        setModal(null);
     };
 
     const MiniButton = ({icon, onClick}) => {
@@ -100,7 +98,7 @@ const PlantsCard = props => {
                     >
             <span>Your Plants</span>
             <button
-                onClick={() => addPlantModalVisible(true)}
+                onClick={() => setModal("add")}
                 className="btn btn-sm btn-danger"
             >
               Add Plant
@@ -121,15 +119,14 @@ const PlantsCard = props => {
                                                     const plant = reduxPlants[idx];
                                                     selectPlant(plant);
                                                     setRenamePlantText(plant.name);
-                                                    renamePlantModalVisible(true);
+                                                    setModal("rename");
                                                 }}
                                             />
-                                            {" "}
                                             <MiniButton icon="trash"
                                                 onClick={() => {
                                                     const plant = reduxPlants[idx];
                                                     selectPlant(plant);
-                                                    removePlantModalVisible(true);
+                                                    setModal("remove");
                                                 }}
                                             />
                                         </span>
@@ -142,19 +139,19 @@ const PlantsCard = props => {
 
             <PlantsAdd
                 onSubmit={onAddPlant}
-                visible={addPlantModalOpen}
-                onClose={() => addPlantModalVisible(false)}
+                visible={currentModal === "open"}
+                onClose={() => setModal(null)}
             />
             <PlantsRename
                 onSubmit={onRenamePlant}
-                visible={renamePlantModalOpen}
-                onClose={() => renamePlantModalVisible(false)}
+                visible={currentModal === "rename"}
+                onClose={() => setModal(null)}
                 defaultText={renamePlantText}
             />
             <PlantsRemove
                 onSubmit={onRemovePlant}
-                visible={removePlantModalOpen}
-                onClose={() => removePlantModalVisible(false)}
+                visible={currentModal === "remove"}
+                onClose={() => setModal(null)}
             />
         </React.Fragment>
     );
