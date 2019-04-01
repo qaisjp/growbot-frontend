@@ -66,20 +66,22 @@ const PlantsCard = props => {
 
         resetModal();
     };
-    const onAddPlant = async newPlantName => {
-        if (newPlantName === "") {
+
+    const onAddPlant = async name => {
+        if (name === "") {
             // todo: improve alert
             alert("Please make sure you've entered a name for your new plant!");
             return;
         }
 
-        const response = await httpAddPlant(loginToken, newPlantName);
+        const response = await httpAddPlant(loginToken, name);
 
         if (response.status === 200) {
             onPlantAdded();
         }
 
-        resetModal();
+        const data = await response.json();
+        setModal({ name: "print", plant: {id: data.id, name} })
     };
 
     const MiniButton = ({icon, onClick}) => {
