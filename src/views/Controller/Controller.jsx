@@ -36,7 +36,14 @@ const Controller = props => {
     };
 
     return <>
-        <Header location={props.location} />
+        <Header location={props.location}>
+            <Dropdown style={{display: "inline"}} name="Robots" items={robotNames}
+                click={robotName => {
+                    const idx = robotNames.indexOf(robotName);
+                    selectRobot(robots[idx]);
+                }}
+            />
+        </Header>
         <div className="content">
             <div className="container-fluid">
                 <div className="row">
@@ -51,11 +58,6 @@ const Controller = props => {
                                     }}
                                 >
                                   <span>Controller - {selectedRobot.title}</span>
-                                    <Dropdown style={{display: "inline"}} name="Robots" items={robotNames}
-                                              click={robotName => {
-                                                  const idx = robotNames.indexOf(robotName);
-                                                  selectRobot(robots[idx]);
-                                              }}/>
                                 </span>
                             }
                             content={createGamepad()}
