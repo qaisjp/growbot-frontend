@@ -1,13 +1,16 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 
-const Dropdown = props => {
-    const {items, name, click} = props;
+const Dropdown = ({items, name, click, ...props}) => {
     const [expanded, setExpanded] = useState(false);
-    const [selectedItem, selectItem] = useState(name);
+    const [selectedItem, setSelectedItem] = useState(name);
+
+    useEffect(() => {
+      setSelectedItem(name)
+    }, [name]);
 
     const onItemClick = (item, click) => {
         click(item);
-        selectItem(item);
+        setSelectedItem(item);
         setExpanded(false);
     };
 

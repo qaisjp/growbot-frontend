@@ -13,7 +13,6 @@ const Controller = props => {
     const robotNames = robots.map(robot => robot.title);
     const [selectedRobot, selectRobot] = useState({
         id: 1,
-        title: "Please select a robot!"
     });
 
     const onMove = async direction => {
@@ -43,7 +42,8 @@ const Controller = props => {
 
     return <>
         <Header location={props.location}>
-            <Dropdown style={{display: "inline"}} name="Robots" items={robotNames}
+            <Dropdown style={{display: "inline"}} items={robotNames}
+                name={selectedRobot.title || "Robots"}
                 click={robotName => {
                     const idx = robotNames.indexOf(robotName);
                     selectRobot(robots[idx]);
@@ -63,7 +63,7 @@ const Controller = props => {
                                         alignItems: "center"
                                     }}
                                 >
-                                  <span>Controller - {selectedRobot.title}</span>
+                                  <span>Controller</span>
                                 </span>
                             }
                             content={createGamepad()}
@@ -71,7 +71,7 @@ const Controller = props => {
                     </div>
                     <div className="col-md-6">
                         <Card
-                            title={<span>Live Stream - {selectedRobot.title}</span>}
+                            title={<span>Live Stream</span>}
                             content={
                                 <img
                                     alt="Video stream"
