@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-const Dropdown = ({items, name, click, ...props}) => {
+const Dropdown = ({items, name, click, color="default", ...props}) => {
     const [expanded, setExpanded] = useState(false);
     const [selectedItem, setSelectedItem] = useState(name);
 
@@ -17,7 +17,7 @@ const Dropdown = ({items, name, click, ...props}) => {
     return (
         <div className="dropdown" {...props}>
             <button
-                className="btn btn-default dropdown-toggle"
+                className={`btn btn-${color} dropdown-toggle`}
                 onClick={() => setExpanded(!expanded)}
                 type="button"
             >

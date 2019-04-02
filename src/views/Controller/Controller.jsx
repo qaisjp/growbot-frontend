@@ -44,6 +44,7 @@ const Controller = props => {
         <Header location={props.location}>
             <Dropdown style={{display: "inline"}} items={robotNames}
                 name={selectedRobot.title || "Robots"}
+                color="primary"
                 click={robotName => {
                     const idx = robotNames.indexOf(robotName);
                     selectRobot(robots[idx]);
