@@ -92,7 +92,11 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
 
         console.log({ summary, recurrences, actions });
 
-        onSubmit();
+        if (response.ok) {
+            onSubmit();
+        } else {
+            onClose();
+        }
     }
 
 
