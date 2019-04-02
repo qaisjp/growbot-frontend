@@ -17,7 +17,7 @@ const Dashboard = props => {
                 <Switch>
                     {dashboardRoutes.map((prop, key) => {
                         if (!loggedIn)
-                            return <Redirect from={prop.path} to={"/login"} key={key}/>;
+                            return <Redirect from={prop.path} to={`/login?next=${encodeURIComponent(prop.path)}`} key={key}/>;
                         else if (prop.redirect)
                             return <Redirect from={prop.path} to={prop.to} key={key}/>;
                         return (

@@ -11,12 +11,13 @@ import login from "../../actions/login";
 
 const Login = props => {
     const {loggedIn} = props;
-    const redirectLogin = loggedIn ? <Redirect to="/"/> : <div/>;
 
     const [alertVisible, showAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [target, setTarget] = useState("/");
+    const redirectLogin = loggedIn ? <Redirect to={target}/> : <div/>;
 
     const handleSubmit = event => {
         const {login} = props;
@@ -34,6 +35,10 @@ const Login = props => {
             showAlert(true);
             setAlertMessage(loginError);
         }
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const next = urlParams.get('next');
+        setTarget(next || "/");
     });
 
     return (
