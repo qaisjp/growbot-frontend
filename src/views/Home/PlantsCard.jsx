@@ -15,6 +15,8 @@ import PlantsRemove from "./PlantsRemove";
 import PlantsRename from "./PlantsRename"
 import PlantsPrint from "./PlantsPrint.jsx";
 
+import WaterImg from "../../assets/img/water.svg";
+
 const PlantsCard = props => {
     const [selectedPlant, selectPlant] = useState({});
     const [modal, setModal] = useState({});
@@ -126,6 +128,12 @@ const PlantsCard = props => {
                                     <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
                                         {plant.name}
                                         <span>
+                                            {
+                                                plant.soil_moisture && <span style={{ marginRight: "0.5em" }}>
+                                                    <img src={WaterImg} alt="Water by abdul karim from the Noun Project" width="10"></img>
+                                                    {" "}{plant.soil_moisture}%
+                                                </span>
+                                            }
                                             <MiniButton icon="print" color="secondary"
                                                 onClick={() => {
                                                     const plant = reduxPlants[idx];
