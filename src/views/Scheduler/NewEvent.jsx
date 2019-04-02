@@ -1,20 +1,20 @@
-import React, {useState, useEffect} from "react";
-import {connect} from "react-redux";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
 
 import Modal from "../../components/Modal/Modal";
 
 import Datetime from "react-datetime";
-import {RRule} from "rrule/dist/esm/src/index";
+import { RRule } from "rrule/dist/esm/src/index";
 
 import actions from "./scheduler_actions";
-import {FRIDAY, MONDAY, SATURDAY, SUNDAY, THURSDAY, TUESDAY, WEDNESDAY} from "./scheduler_days";
-import {AFTER, NEVER, ON} from "./scheduler_ends";
+import { FRIDAY, MONDAY, SATURDAY, SUNDAY, THURSDAY, TUESDAY, WEDNESDAY } from "./scheduler_days";
+import { AFTER, NEVER, ON } from "./scheduler_ends";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import httpScheduleAction from "../../http/schedule_action";
 import getRRule from "./scheduler_get_rrule";
 import units from "./scheduler_time_units";
 
-const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
+const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) => {
     const actionNames = actions.map(action => action.name);
     const plantNames = plants.map(plant => plant.name);
     const reduxRobotNames = robots.map(robot => robot.title);
@@ -43,9 +43,9 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
     const createRepeatOnCheckbox = day => {
         return (
             <React.Fragment>
-                <label style={{marginRight: "5px"}}>{day}</label>
+                <label style={{ marginRight: "5px" }}>{day}</label>
                 <input
-                    style={{marginRight: "10px"}}
+                    style={{ marginRight: "10px" }}
                     type="checkbox"
                     checked={daySelected[day]}
                     onClick={() => {
@@ -90,7 +90,7 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
             actions
         );
 
-        console.log({summary, recurrences, actions});
+        console.log({ summary, recurrences, actions });
 
         onSubmit();
     }
@@ -104,58 +104,58 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
                         <label>Summary</label>
                         <input
                             onChange={event => setSummary(event.target.value)}
-                            style={{marginLeft: "10px"}}
+                            style={{ marginLeft: "10px" }}
                             type="text"
                         />
-                        <div style={{marginTop: "10px"}}/>
-                        <label style={{marginRight: "10px"}}>Start date</label>
-                        <Datetime onChange={setStartDate} value={startDate}/>
-                        <div style={{marginTop: "10px"}}/>
-                        <div style={{display: "inline"}}>
-                        <label>Robots</label>
-                        <Dropdown
-                            name="Robots"
-                            style={{display: "inline", marginLeft: "10px"}}
-                            items={reduxRobotNames}
-                            click={robotName => {
-                                const idx = reduxRobotNames.indexOf(robotName);
-                                selectRobot(robots[idx]);
-                            }}
-                        />
-                        <div style={{marginTop: "10px"}}/>
+                        <div style={{ marginTop: "10px" }} />
+                        <label style={{ marginRight: "10px" }}>Start date</label>
+                        <Datetime onChange={setStartDate} value={startDate} />
+                        <div style={{ marginTop: "10px" }} />
+                        <div style={{ display: "inline" }}>
+                            <label>Robots</label>
+                            <Dropdown
+                                name="Robots"
+                                style={{ display: "inline", marginLeft: "10px" }}
+                                items={reduxRobotNames}
+                                click={robotName => {
+                                    const idx = reduxRobotNames.indexOf(robotName);
+                                    selectRobot(robots[idx]);
+                                }}
+                            />
+                            <div style={{ marginTop: "10px" }} />
 
-                        <label>Plant</label>
-                        <Dropdown
-                            name="Plants"
-                            style={{display: "inline", marginLeft: "10px"}}
-                            items={plantNames}
-                            click={plantName => {
-                                const idx = plantNames.indexOf(plantName);
-                                selectPlant(plants[idx]);
-                            }}
-                        />
-                        <div style={{marginTop: "10px"}}/>
-                        <label>
-                            Action
+                            <label>Plant</label>
+                            <Dropdown
+                                name="Plants"
+                                style={{ display: "inline", marginLeft: "10px" }}
+                                items={plantNames}
+                                click={plantName => {
+                                    const idx = plantNames.indexOf(plantName);
+                                    selectPlant(plants[idx]);
+                                }}
+                            />
+                            <div style={{ marginTop: "10px" }} />
+                            <label>
+                                Action
                         </label>
-                        <Dropdown
-                            name="Actions"
-                            style={{
-                                display: "inline", marginLeft: "10px"
-                            }}
-                            items={actionNames}
-                            click={actionName => {
-                                if(plant && robot) {
-                                    const idx = actionNames.indexOf(actionName);
-                                    eventActions.push({
-                                        name: actions[idx].name, type: actions[idx].type, robot_id: robot.id, plant_id: plant.id
-                                    });
-                                    selectAction(actions[idx]);
-                                }
-                            }}
-                        />
+                            <Dropdown
+                                name="Actions"
+                                style={{
+                                    display: "inline", marginLeft: "10px"
+                                }}
+                                items={actionNames}
+                                click={actionName => {
+                                    if (plant && robot) {
+                                        const idx = actionNames.indexOf(actionName);
+                                        eventActions.push({
+                                            name: actions[idx].name, type: actions[idx].type, robot_id: robot.id, plant_id: plant.id
+                                        });
+                                        selectAction(actions[idx]);
+                                    }
+                                }}
+                            />
                         </div>
-                        <div style={{marginTop: "10px"}}/>
+                        <div style={{ marginTop: "10px" }} />
                         <label>Repeat</label>
                         <input
                             style={{
@@ -170,20 +170,20 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
                         />
                         <Dropdown
                             name="Time"
-                            style={{display: "inline", marginLeft: "10px"}}
+                            style={{ display: "inline", marginLeft: "10px" }}
                             items={units}
                             click={unit => {
                                 const idx = units.indexOf(unit);
                                 setRepeatEveryUnit(units[idx]);
                             }}
                         />
-                        <div style={{marginTop: "10px"}}/>
-                        <label style={{display: eventActions.length ? "block" : "none"}}>
+                        <div style={{ marginTop: "10px" }} />
+                        <label style={{ display: eventActions.length ? "block" : "none" }}>
                             Actions
                         </label>
-                        <div style={{marginTop: "10px"}}/>
+                        <div style={{ marginTop: "10px" }} />
                         <ul
-                            style={{display: eventActions.length ? "inline" : "none"}}
+                            style={{ display: eventActions.length ? "inline" : "none" }}
                             className="list-group"
                         >
                             {eventActions.map((action, idx) => (
@@ -196,7 +196,7 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
                                             const updatedEventActions = eventActions.filter((action, selectedIdx) => selectedIdx !== idx);
                                             setEventActions(updatedEventActions);
                                         }}
-                                        style={{marginLeft:"10px"}}
+                                        style={{ marginLeft: "10px" }}
                                         type="button"
                                         className="btn btn-sm btn-danger"
                                     >
@@ -209,8 +209,8 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
                         </ul>
                     </div>
                     <div className="col-md-6">
-                        <label style={{display: "block"}}>Repeat on</label>
-                        <div style={{marginTop: "10px"}}/>
+                        <label style={{ display: "block" }}>Repeat on</label>
+                        <div style={{ marginTop: "10px" }} />
                         {createRepeatOnCheckbox(MONDAY)}
                         {createRepeatOnCheckbox(TUESDAY)}
                         {createRepeatOnCheckbox(WEDNESDAY)}
@@ -218,35 +218,35 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
                         {createRepeatOnCheckbox(FRIDAY)}
                         {createRepeatOnCheckbox(SATURDAY)}
                         {createRepeatOnCheckbox(SUNDAY)}
-                        <div style={{marginTop: "10px"}}/>
-                        <label style={{display: "block"}}>Ends</label>
-                        <div style={{marginTop: "10px"}}/>
-                        <label style={{marginRight: "10px"}}>Never</label>
+                        <div style={{ marginTop: "10px" }} />
+                        <label style={{ display: "block" }}>Ends</label>
+                        <div style={{ marginTop: "10px" }} />
+                        <label style={{ marginRight: "10px" }}>Never</label>
                         <input
                             type="radio"
                             checked={ends === NEVER}
                             onClick={() => setEnds(NEVER)}
                         />
-                        <div style={{marginTop: "10px"}}/>
+                        <div style={{ marginTop: "10px" }} />
 
-                        <label style={{marginRight: "10px"}}>On</label>
+                        <label style={{ marginRight: "10px" }}>On</label>
                         <input
                             type="radio"
-                            style={{marginRight: "10px"}}
+                            style={{ marginRight: "10px" }}
                             checked={ends === ON}
                             onClick={() => setEnds(ON)}
                         />
-                        <Datetime onChange={setDate} value={date}/>
-                        <div style={{marginTop: "10px"}}/>
-                        <label style={{marginRight: "10px"}}>After</label>
+                        <Datetime onChange={setDate} value={date} />
+                        <div style={{ marginTop: "10px" }} />
+                        <label style={{ marginRight: "10px" }}>After</label>
                         <input
                             type="radio"
-                            style={{marginRight: "10px"}}
+                            style={{ marginRight: "10px" }}
                             checked={ends === AFTER}
                             onClick={() => setEnds(AFTER)}
                         />
                         <input
-                            style={{width: "30%", height: "29px", display: "inline-block"}}
+                            style={{ width: "30%", height: "29px", display: "inline-block" }}
                             type="number"
                             className="form-control"
                             onChange={event => setAfterOccurances(event.target.value)}
@@ -268,24 +268,24 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
     </>);
 }
 
-const NewEvent = ({visible, onClose, onSubmit, ...props}) => {
+const NewEvent = ({ visible, onClose, onSubmit, ...props }) => {
     return (
         <Modal
-                open={visible}
-                close={onClose}
-                title="Scheduler"
-                full={true}
-                content={<Content onClose={onClose} onSubmit={onSubmit} {...props} />}
-                footer={null}
-            />
+            open={visible}
+            close={onClose}
+            title="Scheduler"
+            full={true}
+            content={<Content onClose={onClose} onSubmit={onSubmit} {...props} />}
+            footer={null}
+        />
     )
 }
 
 
 const mapStateToProps = props => {
-    const {plants} = props.plantState;
-    const {robots} = props.robotState;
-    const {loginToken} = props.auth;
+    const { plants } = props.plantState;
+    const { robots } = props.robotState;
+    const { loginToken } = props.auth;
     return {
         loginToken, robots, plants
     };

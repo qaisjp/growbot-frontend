@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from "react";
-import {connect} from "react-redux";
+import React, { useEffect, useState } from "react";
+import { connect } from "react-redux";
 
 import Card from "../../components/Card/Card";
 import Header from "../../components/Header/Header";
@@ -9,7 +9,7 @@ import httpFetchEvents from "../../http/fetch_events";
 import NewEvent from "./NewEvent";
 
 const Scheduler = props => {
-    const {loginToken} = props;
+    const { loginToken } = props;
 
     const [eventToDelete, setEventToDelete] = useState(-1);
     const [events, setEvents] = useState([]);
@@ -19,7 +19,7 @@ const Scheduler = props => {
     const fetchEvents = async () => {
         const fetchEventResult = await httpFetchEvents(loginToken);
         if (!(fetchEventResult instanceof Error)) {
-            const {events} = fetchEventResult;
+            const { events } = fetchEventResult;
             setEvents(events);
         }
     };
@@ -27,7 +27,7 @@ const Scheduler = props => {
     const onRemoveEvent = async () => {
         const removeEventResult = await httpRemoveEvent(loginToken, eventToDelete);
 
-        if(removeEventResult.status === 200) {
+        if (removeEventResult.status === 200) {
             fetchEvents();
         }
 
@@ -72,21 +72,21 @@ const Scheduler = props => {
                             alignItems: "center"
                         }}
                     >
-            <span>Events</span>
-            <button
-                onClick={() => schedulerModalVisible(true)}
-                className="btn btn-primary"
-            >
-              Create Event
+                        <span>Events</span>
+                        <button
+                            onClick={() => schedulerModalVisible(true)}
+                            className="btn btn-primary"
+                        >
+                            Create Event
             </button>
-          </span>
+                    </span>
                 }
                 content={
                     <ul className="list-group">
                         {events
                             .filter(event => event !== undefined)
                             .map((event, idx) => (
-                                <li key={idx} className="list-group-item" style={{display: "flex", justifyContent: "space-between", alignItems: "center"}}>
+                                <li key={idx} className="list-group-item" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                     <span>{event.summary}</span>
                                     <button
                                         onClick={() => {
@@ -108,9 +108,9 @@ const Scheduler = props => {
 };
 
 const mapStateToProps = props => {
-    const {plants} = props.plantState;
-    const {robots} = props.robotState;
-    const {loginToken} = props.auth;
+    const { plants } = props.plantState;
+    const { robots } = props.robotState;
+    const { loginToken } = props.auth;
     return {
         loginToken,
         reduxRobots: robots,
