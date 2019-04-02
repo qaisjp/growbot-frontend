@@ -21,7 +21,6 @@ import NewEvent from "./NewEvent";
 const Scheduler = props => {
     const {loginToken, reduxPlants, reduxRobots} = props;
 
-    const [actionVisible, setActionVisible] = useState(true);
     const [startDate, setStartDate] = useState(new Date());
     const [summary, setSummary] = useState("");
     const [eventToDelete, setEventToDelete] = useState(-1);
@@ -146,7 +145,7 @@ const Scheduler = props => {
                         <label style={{marginRight: "10px"}}>Start date</label>
                         <Datetime onChange={setStartDate} value={startDate}/>
                         <div style={{marginTop: "10px"}}/>
-                        <div style={{display: actionVisible ? "inline" : "none"}}>
+                        <div style={{display: "inline"}}>
                         <label>Robots</label>
                         <Dropdown
                             name="Robots"
@@ -186,7 +185,6 @@ const Scheduler = props => {
                                         name: actions[idx].name, type: actions[idx].type, robot_id: robot.id, plant_id: plant.id
                                     });
                                     selectAction(actions[idx]);
-                                    setActionVisible(false);
                                 }
                             }}
                         />
@@ -303,13 +301,6 @@ const Scheduler = props => {
                     className="btn btn-danger"
                 >
                     Close
-                </button>
-                <button
-                    onClick={() => {
-                        setActionVisible(true)}}
-                    className="btn btn-danger"
-                >
-                    Add Another Action
                 </button>
                 <button onClick={onSchedule} className="btn btn-danger">
                     Schedule
