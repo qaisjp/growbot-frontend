@@ -5,7 +5,7 @@ import dashboardRoutes from "../../routes/dashboard_routes";
 import logout from "../../actions/logout";
 import store from "../../store";
 
-const Header = ({ location }) => {
+const Header = ({ location, children }) => {
     const [sidebarExists, setSidebarExists] = useState(false);
 
     const mobileSidebarToggle = event => {
@@ -46,8 +46,9 @@ const Header = ({ location }) => {
                         <span className="sr-only">Toggle navigation</span>
                         <i className="fa fa-bars"/>
                     </button>
-                    <a className="navbar-brand" href="#todo">
-                        {brand.name}
+                    <a className="navbar-brand" href="#todo" style={{display: "flex", alignItems: "center"}}>
+                        <span style={{marginRight: "0.5em"}}>{brand.name}</span>
+                        {children}
                     </a>
                 </div>
                 <div
