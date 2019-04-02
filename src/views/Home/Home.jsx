@@ -5,6 +5,7 @@ import QrReader from "react-qr-reader";
 import Card from "../../components/Card/Card.jsx";
 import LoggingTable from "../../components/Logging/Logging";
 import Modal from "../../components/Modal/Modal.jsx";
+import Header from "../../components/Header/Header";
 
 import getPlantName from "../../components/Logging/logging_get_plant_name";
 import getRobotName from "../../components/Logging/logging_get_robot_name";
@@ -342,7 +343,8 @@ const Home = props => {
         alert(error);
     };
 
-    return (
+    return <>
+        <Header location={props.location} />
         <div className="content">
             <Modal
                 open={addRobotModalOpen}
@@ -460,7 +462,7 @@ const Home = props => {
                 </div>
             </div>
         </div>
-    );
+    </>;
 };
 
 const mapStateToProps = props => {

@@ -5,8 +5,7 @@ import dashboardRoutes from "../../routes/dashboard_routes";
 import logout from "../../actions/logout";
 import store from "../../store";
 
-const Header = props => {
-    const {location} = props;
+const Header = ({ location }) => {
     const [sidebarExists, setSidebarExists] = useState(false);
 
     const mobileSidebarToggle = event => {

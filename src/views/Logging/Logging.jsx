@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 
 import Card from "../../components/Card/Card";
+import Header from "../../components/Header/Header";
 import LoggingTable from "../../components/Logging/Logging";
 import getPlantName from "../../components/Logging/logging_get_plant_name";
 import getRobotName from "../../components/Logging/logging_get_robot_name";
@@ -34,7 +35,8 @@ const Logging = props => {
         }
     };
 
-    return (
+    return <>
+        <Header location={props.location} />
         <div className="content">
             <Card
                 title={"Robot Logs"}
@@ -49,7 +51,7 @@ const Logging = props => {
                 }
             />
         </div>
-    );
+    </>;
 };
 
 const mapStateToProps = props => {

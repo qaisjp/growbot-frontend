@@ -8,6 +8,7 @@ import actions from "./scheduler_actions";
 import {FRIDAY, MONDAY, SATURDAY, SUNDAY, THURSDAY, TUESDAY, WEDNESDAY} from "./scheduler_days";
 import {AFTER, NEVER, ON} from "./scheduler_ends";
 import Card from "../../components/Card/Card";
+import Header from "../../components/Header/Header";
 import Dropdown from "../../components/Dropdown/Dropdown";
 import Modal from "../../components/Modal/Modal";
 import httpRemoveEvent from "../../http/remove_event";
@@ -80,7 +81,7 @@ const Scheduler = props => {
         );
 
         console.log(rruleObj);
-        
+
         const recurrences = [new RRule(rruleObj).toString()];
         const actions = eventActions.map(action => ({
             name: action.type,
@@ -341,7 +342,8 @@ const Scheduler = props => {
         );
     };
 
-    return (
+    return <>
+        <Header location={props.location} />
         <div className="content">
             <Modal
                 open={schedulerModalOpen}
@@ -398,7 +400,7 @@ const Scheduler = props => {
                 }
             />
         </div>
-    );
+    </>;
 };
 
 const mapStateToProps = props => {

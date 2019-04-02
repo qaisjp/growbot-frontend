@@ -5,7 +5,6 @@ import {Redirect, Route, Switch} from "react-router-dom";
 
 import Footer from "../../components/Footer/Footer.jsx";
 import Sidebar from "../../components/Sidebar/Sidebar.jsx";
-import Header from "../../components/Header/Header.jsx";
 
 import dashboardRoutes from "../../routes/dashboard_routes";
 
@@ -15,7 +14,6 @@ const Dashboard = props => {
         <div className="wrapper">
             <Sidebar {...props} />
             <div id="main-panel" className="main-panel">
-                <Header {...props} />
                 <Switch>
                     {dashboardRoutes.map((prop, key) => {
                         if (!loggedIn)

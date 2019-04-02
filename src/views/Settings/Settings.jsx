@@ -2,6 +2,7 @@ import React, {useState} from "react";
 import {connect} from "react-redux";
 
 import Card from "../../components/Card/Card";
+import Header from "../../components/Header/Header";
 import changePassword from "../../http/change_password";
 
 const Settings = props => {
@@ -42,7 +43,8 @@ const Settings = props => {
         }
     };
 
-    return (
+    return <>
+        <Header location={props.location} />
         <div className="content">
             <Card
                 title="Change Password"
@@ -103,7 +105,7 @@ const Settings = props => {
                 }
             />
         </div>
-    );
+    </>;
 };
 
 const mapStateToProps = state => {

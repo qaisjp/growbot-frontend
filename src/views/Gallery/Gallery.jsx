@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
 import Card from "../../components/Card/Card";
 import Modal from "../../components/Modal/Modal";
+import Header from "../../components/Header/Header";
 import endpoints from "../../endpoints";
 import httpDeletePhoto from "../../http/remove_photo";
 import httpFetchPhotos from "../../http/fetch_photos";
@@ -78,7 +79,8 @@ const Gallery = props => {
         fetchPhotos();
     }, []);
 
-    return (
+    return <>
+        <Header location={props.location} />
         <div className="content">
             <Modal
                 open={viewPhotoModalOpen}
@@ -116,7 +118,7 @@ const Gallery = props => {
                 }
             />
         </div>
-    );
+    </>;
 };
 
 const mapStateToProps = state => {

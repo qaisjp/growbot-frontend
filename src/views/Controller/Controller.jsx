@@ -4,6 +4,7 @@ import {connect} from "react-redux";
 import moveRobot from "../../http/move_robot";
 import Card from "../../components/Card/Card";
 import Dropdown from "../../components/Dropdown/Dropdown";
+import Header from "../../components/Header/Header";
 import Gamepad from "../../components/Gamepad/Gamepad";
 import endpoints from "../../endpoints";
 
@@ -34,7 +35,8 @@ const Controller = props => {
         );
     };
 
-    return (
+    return <>
+        <Header location={props.location} />
         <div className="content">
             <div className="container-fluid">
                 <div className="row">
@@ -73,7 +75,7 @@ const Controller = props => {
                 </div>
             </div>
         </div>
-    );
+    </>;
 };
 
 const mapStateToProps = props => {
