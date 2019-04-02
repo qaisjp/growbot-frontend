@@ -46,10 +46,10 @@ const Header = ({ location, children }) => {
                         <span className="sr-only">Toggle navigation</span>
                         <i className="fa fa-bars"/>
                     </button>
-                    <a className="navbar-brand" href="#todo" style={{display: "flex", alignItems: "center"}}>
+                    <span className="navbar-brand" href="#todo" style={{display: "flex", alignItems: "center"}}>
                         <span style={{marginRight: "0.5em"}}>{brand.name}</span>
                         {children}
-                    </a>
+                    </span>
                 </div>
                 <div
                     className="navbar-collapse collapse"
