@@ -7,6 +7,7 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import Header from "../../components/Header/Header";
 import Gamepad from "../../components/Gamepad/Gamepad";
 import endpoints from "../../endpoints";
+import { api } from "../../API";
 
 const Controller = props => {
     const {robots, loginToken} = props;
@@ -14,6 +15,7 @@ const Controller = props => {
     const [selectedRobot, selectRobot] = useState({
         id: 1,
     });
+    const [standby, setStandby] = useState(true);
 
     const onMove = async direction => {
         const {loginToken} = props;
@@ -23,6 +25,7 @@ const Controller = props => {
     useEffect(() => {
         if (robots.length > 0) {
             selectRobot(robots[0])
+            setStandby(robots[0].standby)
         }
     }, [robots])
 
@@ -40,6 +43,12 @@ const Controller = props => {
         );
     };
 
+    const toggleStandby = () => {
+        const s = !standby;
+        setStandby(s);
+        api.toggleStandby(loginToken, selectedRobot.id, s);
+    }
+
     return <>
         <Header location={props.location}>
             <Dropdown style={{display: "inline"}} items={robotNames}
@@ -50,6 +59,7 @@ const Controller = props => {
                     selectRobot(robots[idx]);
                 }}
             />
+            <button type="button" onClick={toggleStandby} class={`btn btn-${standby ? "secondary" : "success"}`}>Standby {standby ? "On" : "Off"}</button>
         </Header>
         <div className="content">
             <div className="container-fluid">

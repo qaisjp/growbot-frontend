@@ -39,6 +39,7 @@ export default {
     robot_move: uuid => `${base}/robot/${uuid}/move`,
     robot_settings: uuid => `${base}/robot/${uuid}/settings`,
     robot_video: (uuid, token) => `${base}/robot/${uuid}/video?token=${token}`,
+    robot_standby: (uuid) => `${base}/robot/${uuid}/standby`,
 
     user_stream: token => `${ws_base}/stream?token=${token}`,
 };

@@ -6,6 +6,16 @@ class API {
         this.subscriptions = {};
     }
 
+    toggleStandby(token, id, state) {
+        fetch(endpoints.robot_standby(id), {
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + token
+            },
+            body: JSON.stringify({"standby": state}),
+        });
+    }
+
     onMessage = event => {
         const subs = this.subscriptions;
         const msg = JSON.parse(event.data);
