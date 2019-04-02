@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {connect} from "react-redux";
 
 import moveRobot from "../../http/move_robot";
@@ -20,6 +20,12 @@ const Controller = props => {
         const {loginToken} = props;
         await moveRobot(loginToken, direction, selectedRobot.id);
     };
+
+    useEffect(() => {
+        if (robots.length > 0) {
+            selectRobot(robots[0])
+        }
+    }, [robots])
 
     const createGamepad = () => {
         return (
