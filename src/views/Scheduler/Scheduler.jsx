@@ -291,24 +291,6 @@ const Scheduler = props => {
         );
     };
 
-    const createSchedulerModalActions = () => {
-        return (
-            <React.Fragment>
-                <button
-                    onClick={() => {
-                        schedulerModalVisible(false);
-                    }}
-                    className="btn btn-danger"
-                >
-                    Close
-                </button>
-                <button onClick={onSchedule} className="btn btn-danger">
-                    Schedule
-                </button>
-            </React.Fragment>
-        );
-    };
-
     const createDeleteEventModalContent = () => {
         return <p>Are you sure you want to remove this event?</p>;
     };
@@ -341,7 +323,7 @@ const Scheduler = props => {
                 visible={schedulerModalOpen}
                 onClose={() => schedulerModalVisible(false)}
                 content={createSchedulerModalContent()}
-                footer={createSchedulerModalActions()}
+                onSubmit={onSchedule}
             />
             <Modal
                 open={deleteEventModalOpen}
