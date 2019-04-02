@@ -1,4 +1,5 @@
 import React, {useState} from "react";
+import {Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 
 import "../../assets/css/register.css";
@@ -8,7 +9,8 @@ import login from "../../actions/login";
 import register from "../../http/register";
 
 const Register = props => {
-    const {login} = props;
+    const {loggedIn, login} = props;
+    const redirectLogin = loggedIn ? <Redirect to="/"/> : <div/>;
 
     const [alertVisible, showAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState(false);
@@ -46,6 +48,7 @@ const Register = props => {
         <div className="background">
             <img className="background-img" src={backgroundImage} alt="background"/>
             <div className="register-div">
+                {redirectLogin}
                 <Card
                     className="register-card"
                     title="Register"
@@ -126,8 +129,11 @@ const Register = props => {
     );
 };
 
-const mapStateToProps = () => {
-    return {};
+const mapStateToProps = state => {
+    const {isLoginSuccess} = state.auth;
+    return {
+        loggedIn: isLoginSuccess
+    };
 };
 
 const mapDispatchToProps = dispatch => {
