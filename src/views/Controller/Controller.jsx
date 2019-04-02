@@ -59,7 +59,7 @@ const Controller = props => {
                     selectRobot(robots[idx]);
                 }}
             />
-            <button type="button" onClick={toggleStandby} class={`btn btn-${standby ? "secondary" : "success"}`}>Standby {standby ? "On" : "Off"}</button>
+            <button type="button" onClick={toggleStandby} className={`btn btn-${standby ? "secondary" : "success"}`}>Standby {standby ? "On" : "Off"}</button>
         </Header>
         <div className="content">
             <div className="container-fluid">

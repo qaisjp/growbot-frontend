@@ -260,7 +260,7 @@ const Content = ({loginToken, plants, robots, onClose, onSubmit, ...props}) => {
             <button onClick={onClose} className="btn btn-secondary">
                 Close
             </button>
-            <button onClick={onSchedule()} className="btn btn-primary">
+            <button onClick={onSchedule} className="btn btn-primary">
                 Schedule
             </button>
         </div>
