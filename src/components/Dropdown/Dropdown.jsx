@@ -21,7 +21,7 @@ const Dropdown = ({items, name, click, ...props}) => {
                 onClick={() => setExpanded(!expanded)}
                 type="button"
             >
-                {selectedItem}
+                {selectedItem}{" "}
                 <span className="caret"/>
             </button>
             <ul
