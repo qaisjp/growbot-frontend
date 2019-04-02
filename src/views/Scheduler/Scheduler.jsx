@@ -291,31 +291,6 @@ const Scheduler = props => {
         );
     };
 
-    const createDeleteEventModalContent = () => {
-        return <p>Are you sure you want to remove this event?</p>;
-    };
-
-    const createDeleteEventModalActions = () => {
-        return (
-            <React.Fragment>
-                <button
-                    onClick={() => {
-                        deleteEventModalVisible(false);
-                    }}
-                    className="btn btn-danger"
-                >
-                    Close
-                </button>
-                <button
-                    onClick={onRemoveEvent}
-                    className="btn btn-danger"
-                >
-                    Remove
-                </button>
-            </React.Fragment>
-        );
-    };
-
     return <>
         <Header location={props.location} />
         <div className="content">
@@ -329,8 +304,13 @@ const Scheduler = props => {
                 open={deleteEventModalOpen}
                 close={() => deleteEventModalVisible(false)}
                 title="Delete Event"
-                content={createDeleteEventModalContent()}
-                footer={createDeleteEventModalActions()}
+                content={<p>Are you sure you want to remove this event?</p>}
+                footer={
+                    <>
+                        <button onClick={() => deleteEventModalVisible(false)} className="btn btn-danger">Close</button>
+                        <button onClick={onRemoveEvent} className="btn btn-danger">Remove</button>
+                    </>
+                }
             />
             <Card
                 title={
