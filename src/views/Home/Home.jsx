@@ -18,7 +18,6 @@ import selectRobot from "../../actions/select_robot";
 import addPlant from "../../actions/add_plant";
 import addRobot from "../../actions/add_robot";
 import renameRobot from "../../actions/rename_robot";
-import httpFetchRobots from "../../http/fetch_robots";
 import httpFetchPlants from "../../http/fetch_plants";
 import httpAddRobot from "../../http/add_robot";
 import httpRenameRobot from "../../http/rename_robot";
@@ -32,7 +31,8 @@ const Home = props => {
     const {
         loginToken,
         reduxRobots,
-        reduxPlants
+        reduxPlants,
+        fetchRobots,
     } = props;
 
     const [logs, setLogs] = useState([]);
@@ -85,7 +85,6 @@ const Home = props => {
     };
 
     useEffect(() => {
-        fetchRobots();
         fetchPlants();
         fetchLogs();
 
@@ -108,20 +107,6 @@ const Home = props => {
         }
     };
 
-    const fetchRobots = async () => {
-        const {reduxAddRobot} = props;
-        const fetchRobotsResult = await httpFetchRobots(loginToken);
-
-        if (!(fetchRobotsResult instanceof Error)) {
-            const {robots} = fetchRobotsResult;
-            const reduxRobotIds = reduxRobots.map(robot => robot.id);
-            robots
-                .filter(robot => reduxRobotIds.indexOf(robot.id) < 0)
-                .forEach(robot => {
-                    reduxAddRobot(robot);
-                });
-        }
-    };
     const fetchPlants = async () => {
         const {reduxAddPlant} = props;
         const fetchPlantsResult = await httpFetchPlants(loginToken);

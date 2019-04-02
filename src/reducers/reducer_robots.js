@@ -1,4 +1,4 @@
-import {ADD_ROBOT, REMOVE_ROBOT, RENAME_ROBOT, SELECT_ROBOT} from "../robot_constants";
+import {SET_ROBOTS, ADD_ROBOT, REMOVE_ROBOT, RENAME_ROBOT, SELECT_ROBOT} from "../robot_constants";
 
 export default function (
     state = {
@@ -12,6 +12,10 @@ export default function (
     let robotArray = null;
 
     switch (action.type) {
+        case SET_ROBOTS:
+            return Object.assign({}, state, {
+                robots: action.robots,
+            });
         case ADD_ROBOT:
             robot = action.robot;
             robotArray = robots.slice();
