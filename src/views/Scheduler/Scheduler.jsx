@@ -16,6 +16,7 @@ import httpFetchEvents from "../../http/fetch_events";
 import httpScheduleAction from "../../http/schedule_action";
 import getRRule from "./scheduler_get_rrule";
 import units from "./scheduler_time_units";
+import NewEvent from "./NewEvent";
 
 const Scheduler = props => {
     const {loginToken, reduxPlants, reduxRobots} = props;
@@ -345,10 +346,9 @@ const Scheduler = props => {
     return <>
         <Header location={props.location} />
         <div className="content">
-            <Modal
-                open={schedulerModalOpen}
-                close={() => schedulerModalVisible(false)}
-                title="Scheduler"
+            <NewEvent
+                visible={schedulerModalOpen}
+                onClose={() => schedulerModalVisible(false)}
                 content={createSchedulerModalContent()}
                 footer={createSchedulerModalActions()}
             />
