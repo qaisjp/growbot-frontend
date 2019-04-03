@@ -13,13 +13,14 @@ import Dropdown from "../../components/Dropdown/Dropdown";
 import httpScheduleAction from "../../http/schedule_action";
 import getRRule from "./scheduler_get_rrule";
 import units from "./scheduler_time_units";
+import moment from "moment";
 
 const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) => {
     const actionNames = actions.map(action => action.name);
     const plantNames = plants.map(plant => plant.name);
     const reduxRobotNames = robots.map(robot => robot.title);
 
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(moment());
     const [summary, setSummary] = useState("");
     const [eventActions, setEventActions] = useState([]);
     const [robot, selectRobot] = useState("");
@@ -29,7 +30,7 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
     const [repeatEveryUnit, setRepeatEveryUnit] = useState(units[0]);
     const [ends, setEnds] = useState(NEVER);
     const [afterOccurances, setAfterOccurances] = useState("");
-    const [date, setDate] = useState(new Date());
+    const [date, setDate] = useState(moment());
     const [daySelected, setDaySelected] = useState({
         MONDAY: false,
         TUESDAY: false,
