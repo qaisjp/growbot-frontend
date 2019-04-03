@@ -58,7 +58,7 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
         );
     };
 
-    const onSchedule = async () => {
+    const onSchedule = async (ephemeral) => {
         const rruleObj = getRRule(
             startDate._d,
             repeatEveryNumber,
@@ -87,7 +87,8 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
             loginToken,
             summary,
             recurrences,
-            actions
+            actions,
+            ephemeral || false,
         );
 
         console.log({ summary, recurrences, actions });
@@ -264,7 +265,10 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
             <button onClick={onClose} className="btn btn-secondary">
                 Close
             </button>
-            <button onClick={onSchedule} className="btn btn-primary">
+            <button onClick={onSchedule.bind(null,true)} className="btn btn-secondary">
+                Run Now
+            </button>
+            <button onClick={onSchedule.bind(null,false)} className="btn btn-primary">
                 Schedule
             </button>
         </div>

@@ -20,6 +20,7 @@ const Scheduler = props => {
         const fetchEventResult = await httpFetchEvents(loginToken);
         if (!(fetchEventResult instanceof Error)) {
             const { events } = fetchEventResult;
+            console.log(events)
             setEvents(events);
         }
     };
@@ -85,6 +86,7 @@ const Scheduler = props => {
                     <ul className="list-group">
                         {events
                             .filter(event => event !== undefined)
+                            .filter(event => !event.ephemeral)
                             .map((event, idx) => (
                                 <li key={idx} className="list-group-item" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                                     <span>{event.summary}</span>

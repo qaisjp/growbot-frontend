@@ -1,10 +1,11 @@
 import endpoints from "../endpoints";
 
-export default async function (token, summary, recurrences, actions) {
+export default async function (token, summary, recurrences, actions, ephemeral) {
     const scheduleRequest = {
         summary,
         recurrences,
-        actions
+        actions,
+        ephemeral,
     };
 
     return await fetch(endpoints.events, {
