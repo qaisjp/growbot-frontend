@@ -17,7 +17,6 @@ const Dashboard = props => {
         console.log("fetchRobots called")
         const fetchRobotsResult = await httpFetchRobots(loginToken);
         if (!(fetchRobotsResult instanceof Error)) {
-            const reduxRobotIds = robots.map(robot => robot.id);
             setRobots(fetchRobotsResult.robots);
         }
     };

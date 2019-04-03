@@ -17,13 +17,13 @@ const PlantsPrint = ({ visible, onClose, onSubmit, plant }) => {
     };
 
     const qrCode = useRef();
+    const codes = times(3,
+        i => <QRCode key={i} value={`gbpl:${plant.id}`} level="H" size={830} style={{marginBottom: "25px"}} />
+    )
     const printed = (
-        <div ref={qrCode}>
-            {
-                times(6,
-                    i => <QRCode key={i} value={`gbpl:${plant.id}`} level="H" size={925} includeMargin={true} style={{borderRight: "dashed black 20px"}} />
-                )
-            }
+        <div ref={qrCode} style={{display:"flex"}}>
+            <div style={{ display:"flex", flexDirection:"column", marginTop: "120px", paddingLeft: "130px", paddingRight: "60px", borderRight: "dashed black 30px"}}>{codes}</div>
+            <div style={{ marginTop: "120px", paddingLeft: "60px"}}>{codes}</div>
         </div>
     )
 
