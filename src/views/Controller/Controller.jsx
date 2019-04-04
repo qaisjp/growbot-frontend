@@ -29,6 +29,10 @@ const Controller = props => {
         }
     }, [robots])
 
+    useEffect(() => {
+      setStandby(selectedRobot.standby)
+    }, [selectedRobot])
+
     const gamepad = (
         <Gamepad
             forward={onMove.bind(this, "forward")}
