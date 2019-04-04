@@ -59,8 +59,8 @@ const Scheduler = props => {
                 content={<p>Are you sure you want to remove this event?</p>}
                 footer={
                     <>
-                        <button onClick={() => deleteEventModalVisible(false)} className="btn btn-danger">Close</button>
-                        <button onClick={onRemoveEvent} className="btn btn-danger">Remove</button>
+                        <button onClick={() => deleteEventModalVisible(false)} className="btn btn-secondary">Close</button>
+                        <button onClick={onRemoveEvent} className="btn btn-danger" autoFocus={true}>Remove</button>
                     </>
                 }
             />
