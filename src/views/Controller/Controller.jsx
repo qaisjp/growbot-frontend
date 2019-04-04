@@ -81,7 +81,7 @@ const Controller = props => {
                                         alignItems: "center"
                                     }}
                                 >
-                                  <span>Controller</span>
+                                  <span>Gamepad</span>
                                 </span>
                             }
                             content={standby ? gamepad : gamepadOff}
