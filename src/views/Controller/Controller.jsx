@@ -29,19 +29,21 @@ const Controller = props => {
         }
     }, [robots])
 
-    const createGamepad = () => {
-        return (
-            <Gamepad
-                forward={onMove.bind(this, "forward")}
-                backward={onMove.bind(this, "backward")}
-                armdown={onMove.bind(this, "armdown")}
-                armup={onMove.bind(this, "armup")}
-                left={onMove.bind(this, "left")}
-                right={onMove.bind(this, "right")}
-                brake={onMove.bind(this, "brake")}
-            />
-        );
-    };
+    const gamepad = (
+        <Gamepad
+            forward={onMove.bind(this, "forward")}
+            backward={onMove.bind(this, "backward")}
+            armdown={onMove.bind(this, "armdown")}
+            armup={onMove.bind(this, "armup")}
+            left={onMove.bind(this, "left")}
+            right={onMove.bind(this, "right")}
+            brake={onMove.bind(this, "brake")}
+        />
+    );
+
+    const gamepadOff = (
+        <span>Please turn off Demo Mode to access the gamepad.</span>
+    )
 
     const toggleStandby = () => {
         const s = !standby;
@@ -78,7 +80,7 @@ const Controller = props => {
                                   <span>Controller</span>
                                 </span>
                             }
-                            content={createGamepad()}
+                            content={standby ? gamepad : gamepadOff}
                         />
                     </div>
                     <div className="col-md-6">
