@@ -1,7 +1,7 @@
-export const MONDAY = "Monday";
-export const TUESDAY = "Tuesday";
-export const WEDNESDAY = "Wednesday";
-export const THURSDAY = "Thursday";
-export const FRIDAY = "Friday";
-export const SATURDAY = "Saturday";
-export const SUNDAY = "Sunday";
+export const MONDAY = "Mon";
+export const TUESDAY = "Tue";
+export const WEDNESDAY = "Wed";
+export const THURSDAY = "Thu";
+export const FRIDAY = "Fri";
+export const SATURDAY = "Sat";
+export const SUNDAY = "Sun";

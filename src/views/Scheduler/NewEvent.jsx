@@ -42,19 +42,23 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
     });
 
     const createRepeatOnCheckbox = day => {
+        const clickaroo = () => {
+            const daysSelectedRef = daySelected;
+            daysSelectedRef[day] = !daysSelectedRef[day];
+            setDaySelected(daysSelectedRef)
+        };
+
         return (
             <React.Fragment>
-                <label style={{ marginRight: "5px" }}>{day}</label>
-                <input
-                    style={{ marginRight: "10px" }}
-                    type="checkbox"
-                    checked={daySelected[day]}
-                    onClick={() => {
-                        const daysSelectedRef = daySelected;
-                        daysSelectedRef[day] = !daysSelectedRef[day];
-                        setDaySelected(daysSelectedRef)
-                    }}
-                />
+                <label style={{ marginRight: "10px" }}>
+                    <input
+                        style={{ marginRight: "5px" }}
+                        type="checkbox"
+                        checked={daySelected[day]}
+                        onClick={clickaroo}
+                    />
+                    {day}
+                </label>
             </React.Fragment>
         );
     };
@@ -108,15 +112,78 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
                 <div className="row">
                     <div className="col-md-6">
                         <label>Summary</label>
+                        {/* <br/> */}
                         <input
                             onChange={event => setSummary(event.target.value)}
-                            style={{ marginLeft: "10px" }}
                             type="text"
+                            style={{ display: "block" }}
+                            className="form-control"
                         />
-                        <div style={{ marginTop: "10px" }} />
-                        <label style={{ marginRight: "10px" }}>Start date</label>
+                    </div>
+                    <div className="col-md-6">
+                        <label>Start date</label>
                         <Datetime onChange={setStartDate} value={startDate} />
-                        <div style={{ marginTop: "10px" }} />
+                    </div>
+                </div>
+                <div className="row" style={{marginTop: "1em"}}>
+                    <div className="col-md-12">
+                        <label style={{ display: "block" }}>Repeat on</label>
+                        {createRepeatOnCheckbox(MONDAY)}
+                        {createRepeatOnCheckbox(TUESDAY)}
+                        {createRepeatOnCheckbox(WEDNESDAY)}
+                        {createRepeatOnCheckbox(THURSDAY)}
+                        {createRepeatOnCheckbox(FRIDAY)}
+                        {createRepeatOnCheckbox(SATURDAY)}
+                        {createRepeatOnCheckbox(SUNDAY)}
+                    </div>
+                </div>
+                <div className="row" style={{marginTop: "1em"}}>
+                    <div className="col-md-12">
+                        <label style={{ display: "block" }}>Ends</label>
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-12" style={{marginTop: "-10px", display: "flex", alignItems: "center"}}>
+                        <label style={{ marginRight: "10px" }}>
+                            <input
+                                type="radio"
+                                name="ends"
+                                style={{ marginRight: "0.5em" }}
+                                onChange={() => setEnds(NEVER)}
+                            />
+                            Never
+                        </label>
+
+                        <label style={{ marginRight: "10px" }}>
+                            <input
+                                type="radio"
+                                name="ends"
+                                style={{ marginRight: "0.5em" }}
+                                onChange={() => setEnds(AFTER)}
+                            />
+                            After
+                        </label>
+                        <input
+                            style={{ width: "4em", display: "inline-block" }}
+                            type="number"
+                            className="form-control"
+                            onChange={event => setAfterOccurances(event.target.value)}
+                        />
+
+                        <label style={{ marginLeft: "10px", marginRight: "10px" }}>
+                            <input
+                                type="radio"
+                                style={{ marginRight: "0.5em" }}
+                                name="ends"
+                                onChange={() => setEnds(ON)}
+                            />
+                            On
+                        </label>
+                        <Datetime onChange={setDate} value={date} />
+                    </div>
+                </div>
+                <div className="row" style={{marginTop: "1em"}}>
+                    <div className="col-md-12">
                         <div style={{ display: "inline" }}>
                             <label>Robots</label>
                             <Dropdown
@@ -128,9 +195,8 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
                                     selectRobot(robots[idx]);
                                 }}
                             />
-                            <div style={{ marginTop: "10px" }} />
 
-                            <label>Plant</label>
+                            <label style={{marginLeft: "0.5em"}}>Plant</label>
                             <Dropdown
                                 name="Plants"
                                 style={{ display: "inline", marginLeft: "10px" }}
@@ -140,14 +206,14 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
                                     selectPlant(plants[idx]);
                                 }}
                             />
-                            <div style={{ marginTop: "10px" }} />
-                            <label>
+
+                            <label style={{display: "block"}}>
                                 Action
-                        </label>
+                            </label>
                             <Dropdown
                                 name="Actions"
                                 style={{
-                                    display: "inline", marginLeft: "10px"
+                                    display: "inline"
                                 }}
                                 items={actionNames}
                                 click={actionName => {
@@ -213,50 +279,6 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
 
                             ))}
                         </ul>
-                    </div>
-                    <div className="col-md-6">
-                        <label style={{ display: "block" }}>Repeat on</label>
-                        <div style={{ marginTop: "10px" }} />
-                        {createRepeatOnCheckbox(MONDAY)}
-                        {createRepeatOnCheckbox(TUESDAY)}
-                        {createRepeatOnCheckbox(WEDNESDAY)}
-                        {createRepeatOnCheckbox(THURSDAY)}
-                        {createRepeatOnCheckbox(FRIDAY)}
-                        {createRepeatOnCheckbox(SATURDAY)}
-                        {createRepeatOnCheckbox(SUNDAY)}
-                        <div style={{ marginTop: "10px" }} />
-                        <label style={{ display: "block" }}>Ends</label>
-                        <div style={{ marginTop: "10px" }} />
-                        <label style={{ marginRight: "10px" }}>Never</label>
-                        <input
-                            type="radio"
-                            checked={ends === NEVER}
-                            onClick={() => setEnds(NEVER)}
-                        />
-                        <div style={{ marginTop: "10px" }} />
-
-                        <label style={{ marginRight: "10px" }}>On</label>
-                        <input
-                            type="radio"
-                            style={{ marginRight: "10px" }}
-                            checked={ends === ON}
-                            onClick={() => setEnds(ON)}
-                        />
-                        <Datetime onChange={setDate} value={date} />
-                        <div style={{ marginTop: "10px" }} />
-                        <label style={{ marginRight: "10px" }}>After</label>
-                        <input
-                            type="radio"
-                            style={{ marginRight: "10px" }}
-                            checked={ends === AFTER}
-                            onClick={() => setEnds(AFTER)}
-                        />
-                        <input
-                            style={{ width: "30%", height: "29px", display: "inline-block" }}
-                            type="number"
-                            className="form-control"
-                            onChange={event => setAfterOccurances(event.target.value)}
-                        />
                     </div>
                 </div>
             </div>
