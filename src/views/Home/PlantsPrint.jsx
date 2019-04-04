@@ -12,18 +12,21 @@ const PlantsPrint = ({ visible, onClose, onSubmit, plant }) => {
     // From https://stackoverflow.com/a/18500019/1517394
     const times = function(n, iterator) {
         var accum = Array(Math.max(0, n));
-        for (var i = 0; i < n; i++) accum[i] = iterator.call(null, i);
+        for (var i = 0; i < n; i++) accum[i] = iterator.call(null, i+1);
         return accum;
     };
 
     const qrCode = useRef();
-    const codes = times(3,
-        i => <QRCode key={i} value={`gbpl:${plant.id}`} level="H" size={830} style={{marginBottom: "25px"}} />
+    const count = 3;
+    const codes = times(count,
+        i => <QRCode key={i} value={`gbpl:${plant.id}`} level="H" size={630} style={{marginBottom: (i===count) ? "0px" : "60px"}} />
     )
+    const top = "45px";
+    const middle = "40px";
     const printed = (
         <div ref={qrCode} style={{display:"flex"}}>
-            <div style={{ display:"flex", flexDirection:"column", marginTop: "120px", paddingLeft: "130px", paddingRight: "60px", borderRight: "dashed black 30px"}}>{codes}</div>
-            <div style={{ marginTop: "120px", paddingLeft: "60px"}}>{codes}</div>
+            <div style={{ display:"flex", flexDirection:"column", marginTop: top, paddingLeft: "60px", paddingRight: middle, borderRight: "dashed black 30px"}}>{codes}</div>
+            <div style={{ marginTop: top, paddingLeft: middle}}>{codes}</div>
         </div>
     )
 
