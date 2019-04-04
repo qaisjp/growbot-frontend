@@ -3,7 +3,7 @@ import React from "react";
 const Footer = () => (
     <footer className="footer">
         <p className="copyright pull-right">
-            <a href="http://www.raeesapps.com">Developed by Raees.</a>
+            Brought to you by <a href="https://github.com/teamxiv/">Team xiv</a>
         </p>
     </footer>
 );
