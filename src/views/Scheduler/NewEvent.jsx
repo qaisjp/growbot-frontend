@@ -31,6 +31,7 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
     const [ends, setEnds] = useState(NEVER);
     const [afterOccurances, setAfterOccurances] = useState("");
     const [date, setDate] = useState(moment());
+    const [textError, setTextError] = useState("");
     const [daySelected, setDaySelected] = useState({
         MONDAY: false,
         TUESDAY: false,
@@ -64,6 +65,14 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
     };
 
     const onSchedule = async (ephemeral) => {
+        if (moment().add(moment.duration(1, "hour")).isAfter(startDate)) {
+            setTextError("Date is scheduled to run too soon. Please select a time at least 1hr from now.");
+            return;
+        } else if (summary === "") {
+            setTextError("Please enter an event summary.");
+            return;
+        }
+
         const rruleObj = getRRule(
             startDate._d,
             repeatEveryNumber,
@@ -109,6 +118,7 @@ const Content = ({ loginToken, plants, robots, onClose, onSubmit, ...props }) =>
     return (<>
         <div className="modal-body">
             <div className="container-fluid">
+                {textError === "" ? null : <div className="alert alert-danger">{textError} </div>}
                 <div className="row">
                     <div className="col-md-6">
                         <label>Summary</label>
